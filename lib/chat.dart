@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:dart_openai/dart_openai.dart';
+import 'package:flutter/widgets.dart';
 import 'package:localize_sl/secrets.dart';
 
 class ChatBotPage extends StatefulWidget {
@@ -101,14 +103,17 @@ class _ChatBotPageState extends State<ChatBotPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chat Bot'),
+        title: const Text('AI Travel Assistant'),
       ),
       body: Center(
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.6,
           child: Column(
             children: [
-              Expanded(
+              if (_chatMessages.length == 1) Expanded(
+                child: _conversationStartSection(),
+              )
+              else Expanded(
                 child: ListView.separated(
                   controller: _scrollController,
                   itemCount: _chatMessages.length + 1,
@@ -129,10 +134,8 @@ class _ChatBotPageState extends State<ChatBotPage> {
                               );
                             }
                             final messageText = value.content!.first.text!;
-                            return BubbleSpecialOne(
-                              text: messageText,
-                              color: const Color(0xFFE8E8EE),
-                              isSender: false,
+                            return _assistantChatBubble(
+                              messageText,
                             );
                           },
                         );
@@ -150,18 +153,11 @@ class _ChatBotPageState extends State<ChatBotPage> {
                     }
                     final message = _chatMessages[index];
                     return switch (message.role) {
-                      OpenAIChatMessageRole.user => BubbleSpecialThree(
-                        text: message.content!.first.text!,
-                        color: const Color(0xFF1B97F3),
-                        textStyle: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16
-                        ),
+                      OpenAIChatMessageRole.user => _userChatBubble(
+                        message.content!.first.text!,
                       ),
-                      OpenAIChatMessageRole.assistant => BubbleSpecialOne(
-                        text: message.content!.first.text!,
-                        color: const Color(0xFFE8E8EE),
-                        isSender: false,
+                      OpenAIChatMessageRole.assistant => _assistantChatBubble(
+                        message.content!.first.text!,
                       ),
                       _ => const SizedBox()
                     };
@@ -206,6 +202,129 @@ class _ChatBotPageState extends State<ChatBotPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _assistantChatBubble(String text) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const CircleAvatar(
+          backgroundColor: Color(0xFFE8E8EE),
+          child: Icon(
+            Icons.support_agent,
+            color: Colors.black,
+          ),
+        ),
+        Expanded(
+          child: BubbleSpecialOne(
+            text: text,
+            color: const Color(0xFFE8E8EE),
+            isSender: false,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _userChatBubble(String text) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Expanded(
+          child: BubbleSpecialThree(
+            text: text,
+            color: Theme.of(context).colorScheme.primary,
+            textStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 16
+            ),
+          ),
+        ),
+        CircleAvatar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          child: const Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _conversationStartSection() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Welcome to the AI Travel Assistant!',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        const SizedBox(height: 10),
+        const Text(
+          'Ask me anything about your travel plans and I will help you out!',
+          style: TextStyle(
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            _textController.text = 'What are the best experiences nearby me?';
+            _onSubmitted();
+          },
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+          ),
+          child: const Text(
+            'What are the best experiences nearby me?',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            _textController.text = 'I need to vlog my trip, how can I get help?';
+            _onSubmitted();
+          },
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+          ),
+          child: const Text(
+            'I need to vlog my trip, how can I get help?',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            _textController.text = 'Help me find the best place to visit nearby and have a nice meal.';
+            _onSubmitted();
+          },
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+          ),
+          child: const Text(
+            'Help me find the best place to visit nearby and have a nice meal.',
+            style: TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

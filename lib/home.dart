@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/experience/experience_details.dart';
+import 'package:localize_sl/get_started.dart';
 
 
 class HomePage extends StatelessWidget {
@@ -9,6 +10,28 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Localize Sri Lanka',
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (context) => const GetStartedPage(),
+                ),
+                (route) => false,
+              );
+            }, 
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
@@ -24,7 +47,7 @@ class HomePage extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Column(
                 children: [
                   Container(

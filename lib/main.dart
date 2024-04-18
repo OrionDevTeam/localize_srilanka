@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:localize_sl/home.dart';
+import 'package:localize_sl/get_started.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:localize_sl/secrets.dart';
 
@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
+      home: const GetStartedPage(),
     );
   }
 }

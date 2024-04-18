@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localize_sl/get_started.dart';
 
 class GuideProfilePage extends StatefulWidget {
   const GuideProfilePage({super.key});
@@ -14,7 +15,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Guide Profile Settings',
+          'My Profile',
           style: TextStyle(
             fontFamily: 'Times New Roman',
             fontSize: 18,
@@ -267,234 +268,227 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         centerTitle: true,
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Colors.white, Colors.black],
-            // Adjust stops if you want to control color transitions more precisely
-            stops: [0.0, 0.7], // 70% of the way to the bottom, start turning black
-          ),
-        ),
-        child: ListView(
-          children: [
-            const SizedBox(height: 40),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: 20, height: 20,),
-                      const CircleAvatar(
-                        radius: 50,
-                        backgroundImage:
-                            AssetImage('assets/biru/profile.jpg'),
-                      ),
-                      const SizedBox(width: 20),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Vimosh Vasanthakumar',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
+      body: ListView(
+        children: [
+          const SizedBox(height: 40),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(width: 20, height: 20,),
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundImage:
+                          AssetImage('assets/biru/profile.jpg'),
+                    ),
+                    const SizedBox(width: 20),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Vimosh Vasanthakumar',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
-                          const Text(
-                            "Guide",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w100,
-                              color: Colors.black,
-                            ),
+                        ),
+                        const Text(
+                          "Guide",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w100,
+                            color: Colors.black,
                           ),
-                          const Text(
-                            'vimosh02@gmail.com',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey,
-                            ),
+                        ),
+                        const Text(
+                          'vimosh02@gmail.com',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
                           ),
-                          const SizedBox(height: 15),
-                          Row(
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  // Implement logout functionality
-                                },
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(const Color(0xFF2A966C)),
-                                ),
-                                child: const Text(
-                                  'Log Out',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                        ),
+                        const SizedBox(height: 15),
+                        Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                    builder: (context) => const GetStartedPage(),
                                   ),
+                                  (route) => false,
+                                );
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(const Color(0xFF2A966C)),
+                              ),
+                              child: const Text(
+                                'Log Out',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              
+              const SizedBox(height: 60),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          // Navigate to account settings page
+                          // You can use Navigator.push to navigate to the respective page
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          onHover: (_) {
+                            // Handle hover effect
+                          },
+                          child: const ProfileBlock(
+                            title: 'Account Settings',
+                            subtext: 'Change Name, Email, Password',
+                            icon: Icons.man,
+                            // Set text color to white
                           ),
-                        ],
+                        ),
+                      ),
+                      const SizedBox(width: 120),
+                      InkWell(
+                        onTap: () {
+                          // Navigate to notification settings page
+                          // You can use Navigator.push to navigate to the respective page
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          onHover: (_) {
+                            // Handle hover effect
+                          },
+                          child: const ProfileBlock(
+                            title: 'Notification Settings',
+                            subtext: 'Enable / Disable notifications',
+                            icon: Icons.notifications,
+                            // Set text color to white
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                
-                const SizedBox(height: 60),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            // Navigate to account settings page
-                            // You can use Navigator.push to navigate to the respective page
-                          },
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            onHover: (_) {
-                              // Handle hover effect
-                            },
-                            child: const ProfileBlock(
-                              title: 'Account Settings',
-                              subtext: 'Change Name, Email, Password',
-                              icon: Icons.man,
-                              // Set text color to white
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 120),
-                        InkWell(
-                          onTap: () {
-                            // Navigate to notification settings page
-                            // You can use Navigator.push to navigate to the respective page
-                          },
-                          child: MouseRegion(
-                            cursor: SystemMouseCursors.click,
-                            onHover: (_) {
-                              // Handle hover effect
-                            },
-                            child: const ProfileBlock(
-                              title: 'Notification Settings',
-                              subtext: 'Enable / Disable notifications',
-                              icon: Icons.notifications,
-                              // Set text color to white
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 60),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Outer code
-                InkWell(
-                  onTap: () {
-                    // Navigate to account settings page
-                    // You can use Navigator.push to navigate to the respective page
+                  const SizedBox(height: 60),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Outer code
+              InkWell(
+                onTap: () {
+                  // Navigate to account settings page
+                  // You can use Navigator.push to navigate to the respective page
+                },
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  onHover: (_) {
+                    // Handle hover effect
                   },
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    onHover: (_) {
-                      // Handle hover effect
-                    },
-                    child: const ProfileBlock(
-                      title: 'Account Settings',
-                      subtext: 'Change Name, Email, Password',
-                      icon: Icons.man,
-                    ),
+                  child: const ProfileBlock(
+                    title: 'Account Settings',
+                    subtext: 'Change Name, Email, Password',
+                    icon: Icons.man,
                   ),
                 ),
-
-        const SizedBox(width: 120),
-        InkWell(
-          onTap: () {
-            // Navigate to account settings page
-            // You can use Navigator.push to navigate to the respective page
+              ),
+      
+      const SizedBox(width: 120),
+      InkWell(
+        onTap: () {
+          // Navigate to account settings page
+          // You can use Navigator.push to navigate to the respective page
+        },
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onHover: (_) {
+            // Handle hover effect
           },
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            onHover: (_) {
-              // Handle hover effect
-            },
-            child: const ProfileBlock(
-              title: 'Change Interests',
-              subtext: 'Edit your experience interests',
-              icon: Icons.interests,
-               // Set text color to white
-            ),
+          child: const ProfileBlock(
+            title: 'Change Interests',
+            subtext: 'Edit your experience interests',
+            icon: Icons.interests,
+             // Set text color to white
           ),
         ),
-      ],
-    ),
-    const SizedBox(height: 60),
-    Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SizedBox(width: 5),
-        InkWell(
-          onTap: () {
-            // Navigate to account settings page
-            // You can use Navigator.push to navigate to the respective page
+      ),
+            ],
+          ),
+          const SizedBox(height: 60),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+      const SizedBox(width: 5),
+      InkWell(
+        onTap: () {
+          // Navigate to account settings page
+          // You can use Navigator.push to navigate to the respective page
+        },
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onHover: (_) {
+            // Handle hover effect
           },
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            onHover: (_) {
-              // Handle hover effect
-            },
-            child: const ProfileBlock(
-              title: 'Face ID',
-              subtext: "   Manage your device's security   ",
-              icon: Icons.face,
-               // Set text color to white
-            ),
+          child: const ProfileBlock(
+            title: 'Face ID',
+            subtext: "   Manage your device's security   ",
+            icon: Icons.face,
+             // Set text color to white
           ),
         ),
-        const SizedBox(width: 120),
-        InkWell(
-          onTap: () {
-            // Navigate to account settings page
-            // You can use Navigator.push to navigate to the respective page
+      ),
+      const SizedBox(width: 120),
+      InkWell(
+        onTap: () {
+          // Navigate to account settings page
+          // You can use Navigator.push to navigate to the respective page
+        },
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onHover: (_) {
+            // Handle hover effect
           },
-          child: MouseRegion(
-            cursor: SystemMouseCursors.click,
-            onHover: (_) {
-              // Handle hover effect
-            },
-            child: const ProfileBlock(
-              title: 'Need Help ?',
-              subtext: 'Chat with a customer care agent',
-              icon: Icons.help,
-               // Set text color to white
-            ),
+          child: const ProfileBlock(
+            title: 'Need Help ?',
+            subtext: 'Chat with a customer care agent',
+            icon: Icons.help,
+             // Set text color to white
           ),
         ),
-      ],
-    ),
-  ],
-),
-const SizedBox(height: 40,),
-
-                      ],
-                    ),
+      ),
+            ],
           ),
         ],
-              
-            ),
-    
-      )
+      ),
+      const SizedBox(height: 40,),
+      
+                    ],
+                  ),
+        ),
+      ],
+            
+          )
 
         
       

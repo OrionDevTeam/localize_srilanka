@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:localize_sl/home.dart';
+import 'package:dart_openai/dart_openai.dart';
+import 'package:localize_sl/secrets.dart';
 
 void main() {
+  OpenAI.apiKey = openaiApiKey;
   runApp(const MyApp());
 }
 

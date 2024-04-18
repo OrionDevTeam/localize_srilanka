@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/experience/experience_details.dart';
 
 
@@ -8,6 +9,16 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const ChatBotPage(),
+            ),
+          );
+        },
+        child: const Icon(Icons.support_agent),
+      ),
       body: Row(
         children: [
           Expanded(

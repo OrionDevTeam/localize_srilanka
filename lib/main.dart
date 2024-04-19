@@ -5,6 +5,8 @@ import 'package:localize_sl/secrets.dart';
 
 void main() {
   OpenAI.apiKey = openaiApiKey;
+  OpenAI.showLogs = false;
+  OpenAI.showResponsesLogs = false;
   runApp(const MyApp());
 }
 

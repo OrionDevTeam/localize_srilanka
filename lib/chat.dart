@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:dart_openai/dart_openai.dart';
-import 'package:flutter/widgets.dart';
 import 'package:localize_sl/secrets.dart';
 
 class ChatBotPage extends StatefulWidget {
@@ -17,6 +15,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
   Stream<OpenAIStreamChatCompletionModel>? _stream;
   final _lastResponse = ValueNotifier<OpenAIChatCompletionChoiceMessageModel?>(null);
   late final TextEditingController _textController;
+  late final FocusNode _focusNode;
   late final ScrollController _scrollController;
   bool _isLoading = false;
 
@@ -24,6 +23,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
   void initState() {
     _textController = TextEditingController();
     _scrollController = ScrollController();
+    _focusNode = FocusNode();
     _chatMessages.add(
       OpenAIChatCompletionChoiceMessageModel(
         content: [
@@ -41,6 +41,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
   void dispose() {
     _textController.dispose();
     _scrollController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -67,6 +68,13 @@ class _ChatBotPageState extends State<ChatBotPage> {
       _chatMessages.add(_choiceModelFromText(text, OpenAIChatMessageRole.user));
       _isLoading = true;
     });
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
     _textController.clear();
     setState(() {
       _stream = OpenAI.instance.chat.createStream(
@@ -95,6 +103,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
         setState(() {
           _isLoading = false;
         });
+        _focusNode.requestFocus();
       });
     });
   }
@@ -172,6 +181,8 @@ class _ChatBotPageState extends State<ChatBotPage> {
                       Expanded(
                         child: TextField(
                           controller: _textController,
+                          focusNode: _focusNode,
+                          autofocus: true,
                           readOnly: _isLoading,
                           decoration: const InputDecoration(
                             hintText: 'What are the best experiences nearby me?',

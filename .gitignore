@@ -1,3 +1,7 @@
+# Expose only web build for GitHub Pages
+/build/*
+!/build/web/
+
 # Open AI API Key
 lib/secrets.dart
 lib/secrets-*.dart
@@ -33,7 +37,6 @@ migrate_working_dir/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
 
 # Symbolication related
 app.*.symbols

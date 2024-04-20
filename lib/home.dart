@@ -3,9 +3,33 @@ import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/experience/experience_details.dart';
 import 'package:localize_sl/get_started.dart';
 
+const chatFeatureEnabled = false;
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  void _showDisabledFeatureDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('AI Travel Guide Chat Feature Disabled'),
+          content: const Text(
+            'Since the site is currently hosted in GitHub Pages, and due to the danger of exposing the OpenAI API key, the chat feature is disabled. Please run the app locally to enable the chat feature.',
+            style: TextStyle(fontSize: 20),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +58,10 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          if (!chatFeatureEnabled) {
+            _showDisabledFeatureDialog(context);
+            return;
+          }
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const ChatBotPage(),

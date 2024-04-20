@@ -9,16 +9,21 @@ Developed by Team `Phantom Orion` for `Devthon 1.0 - 2024` hackathon.
 
 1. Clone the repository
 2. Run `flutter pub get`
-3. Create a new dart file under lib/ directory. Name it `secrets.dart`.
-4. Add the following code to `secrets.dart`:
+3. Open the file `lib/secrets.dart`
 ```dart
+// lib/secrets.dart
 const openaiApiKey = "YOUR_OPENAI_API_KEY";
 const systemPrompt = """
 You are a friendly, helpful chatbot that is here to assist you with your questions.
 """;
 ```
-5. Change the value of `openaiApiKey` to your OpenAI API key.
-6. Change the value of `systemPrompt` to your desired system prompt.
+4. Change the value of `openaiApiKey` to your OpenAI API key.
+5. Change the value of `systemPrompt` to your desired system prompt.
+6. Change the `chatFeatureEnabled` to `true` in `lib/home.dart` to enable the AI chat feature.
+```dart
+// lib/home.dart
+const chatFeatureEnabled = true;
+```
 7. Run the app using `flutter run`
 
 ## Technologies Used

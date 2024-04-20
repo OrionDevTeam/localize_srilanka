@@ -1,5 +1,6 @@
 # Open AI API Key
 lib/secrets.dart
+lib/secrets-*.dart
 
 # Miscellaneous
 *.class

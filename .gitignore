@@ -1,3 +1,6 @@
+# Open AI API Key
+lib/secrets.dart
+
 # Miscellaneous
 *.class
 *.log

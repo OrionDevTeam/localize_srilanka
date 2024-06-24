@@ -1,4 +1,4 @@
-package com.example.localize_sl
+package com.example.localize_srilanka
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -27,7 +27,7 @@ class _UserPageState extends State<UserPage> {
               ? userProfilePage()
               : _selectedIndex == 2
                   ? userProfilePage()
-                  : userProfilePage(), // Add SettingsPage as the third option
+                  : userProfilePage(),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,

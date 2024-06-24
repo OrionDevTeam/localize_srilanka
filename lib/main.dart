@@ -1,12 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:localize_sl/get_started.dart';
-import 'package:dart_openai/dart_openai.dart';
-import 'package:localize_sl/secrets.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  OpenAI.apiKey = openaiApiKey;
-  OpenAI.showLogs = false;
-  OpenAI.showResponsesLogs = false;
+import 'screens/getStarted.dart';
+import 'services/auth.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -15,17 +20,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Localize Sri Lanka',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF2A966C),
-        ),
-        useMaterial3: true,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const GetStartedPage(),
-    );
+    return StreamProvider<User?>.value(
+        value: AuthService().user,
+        initialData: null,
+        child: MaterialApp(
+          home: WelcomeScreen(),
+          debugShowCheckedModeBanner: false,
+        ));
   }
 }
-

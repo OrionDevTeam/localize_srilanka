@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "93648632910",
+    "project_id": "localize-sri-lanka",
+    "storage_bucket": "localize-sri-lanka.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93648632910:android:c0092230fcbd3b2622171f",
+        "android_client_info": {
+          "package_name": "com.example.localize_srilanka"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZ8IXzXg3lwdP_9gaMsLqLoxrPQAmPRD4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

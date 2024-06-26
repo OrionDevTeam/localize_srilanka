@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class UserSettingsPage extends StatefulWidget {
   @override
@@ -10,12 +13,15 @@ class UserSettingsPage extends StatefulWidget {
 class _UserSettingsPageState extends State<UserSettingsPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
   final TextEditingController _bioController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
 
   String _username = '';
   String _newEmail = '';
   String _newPassword = '';
   String _newBio = '';
+  String _profileImageUrl = '';
 
   @override
   void initState() {
@@ -33,6 +39,8 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
         _username = snapshot.get('username');
         _newEmail = user.email ?? '';
         _newBio = snapshot.get('bio') ?? ''; // Fetch bio from Firestore
+        _profileImageUrl =
+            snapshot.get('image_src') ?? ''; // Fetch profile image URL
         _bioController.text = _newBio; // Set bio in TextEditingController
       });
     } catch (e) {
@@ -128,6 +136,41 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
     }
   }
 
+  Future<void> _updateProfilePicture() async {
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedFile != null) {
+        File file = File(pickedFile.path);
+        User? user = _auth.currentUser;
+
+        // Upload to Firebase Storage
+        TaskSnapshot snapshot =
+            await _storage.ref('Profile pictures/${user!.uid}').putFile(file);
+
+        String downloadUrl = await snapshot.ref.getDownloadURL();
+
+        // Update Firestore with the new image URL
+        await _firestore.collection('users').doc(user.uid).update({
+          'profileImageUrl': downloadUrl,
+        });
+
+        setState(() {
+          _profileImageUrl = downloadUrl;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Profile picture updated successfully')),
+        );
+      }
+    } catch (e) {
+      print('Error updating profile picture: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile picture')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -139,6 +182,18 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: _profileImageUrl.isNotEmpty
+                  ? NetworkImage(_profileImageUrl) as ImageProvider
+                  : AssetImage('assets/placeholder.jpg'),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: _updateProfilePicture,
+              child: Text('Change Profile Picture'),
+            ),
+            SizedBox(height: 32.0),
             Text('Current username: $_username'),
             SizedBox(height: 16.0),
             TextFormField(

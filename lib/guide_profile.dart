@@ -20,6 +20,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
   String userName = '';
   String userEmail = '';
   String userBio = '';
+  String profileImageUrl = '';
 
   Future<void> _fetchUserRole() async {
     try {
@@ -36,6 +37,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
           userName = data['username'];
           userEmail = data['email'];
           userBio = data['bio'];
+          profileImageUrl = data['profileImageUrl'] ?? '';
         });
       } else {
         print('User role not found in snapshot data');
@@ -89,9 +91,11 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const SizedBox(height: 30),
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('assets/biru/profile.jpg'),
+                      backgroundImage: profileImageUrl.isNotEmpty
+                          ? NetworkImage(profileImageUrl) as ImageProvider
+                          : const AssetImage('assets/placeholder.jpg'),
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -112,7 +116,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                     const SizedBox(height: 10),
                     Text(
                       userBio,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 16,
                       ),
@@ -297,6 +301,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
       );
     } else {
       return const Scaffold(
+        //if the user role is = user
         body: Center(child: CircularProgressIndicator()),
       );
     }
@@ -315,6 +320,7 @@ class _SettingsPageState extends State<SettingsPage> {
   String userRole = '';
   String userName = '';
   String userEmail = '';
+  String profileImageUrl = '';
 
   Future<void> _fetchUserRole() async {
     try {
@@ -323,32 +329,29 @@ class _SettingsPageState extends State<SettingsPage> {
           .doc(user!.uid)
           .get();
 
-      // Cast snapshot.data() to Map<String, dynamic>?
       Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
 
-      if (data != null && data.containsKey('user_role')) {
+      if (data != null) {
         setState(() {
-          userRole = data['user_role'];
-          userName = data['username'];
-          userEmail = data['email'];
+          userRole = data['user_role'] ?? '';
+          userName = data['username'] ?? '';
+          userEmail = data['email'] ?? '';
+          profileImageUrl = data['profileImageUrl'] ?? '';
         });
       } else {
         print('User role not found in snapshot data');
-        // Handle the case where user role is not found
       }
     } catch (e) {
       print('Error fetching user role: $e');
-      // Handle error fetching user role
     }
   }
 
   @override
   void initState() {
     super.initState();
-    _fetchUserRole(); // Call _fetchUserRole in initState to fetch user data
+    _fetchUserRole();
   }
 
-  // Build method remains the same
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -373,9 +376,11 @@ class _SettingsPageState extends State<SettingsPage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('assets/biru/profile.jpg'),
+                      backgroundImage: profileImageUrl.isNotEmpty
+                          ? NetworkImage(profileImageUrl) as ImageProvider
+                          : const AssetImage('assets/placeholder.jpg'),
                     ),
                     const SizedBox(width: 20),
                     Column(
@@ -408,7 +413,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         TextButton(
                           onPressed: () {
                             // Implement logout functionality
-                            // For example:
                             FirebaseAuth.instance.signOut();
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
@@ -450,7 +454,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           subtext: 'Change Name, Email, Password',
                           icon: Icons.man,
                           onTap: () {
-                            // Navigate to account settings page
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -465,7 +468,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           subtext: 'Chat with a customer care agent',
                           icon: Icons.help,
                           onTap: () {
-                            // Navigate to help page
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -483,6 +485,59 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProfileBlock(
+    BuildContext context, {
+    required String title,
+    required String subtext,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 150,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 4,
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 40, color: Colors.black),
+            const SizedBox(height: 16),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              subtext,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

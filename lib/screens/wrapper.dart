@@ -70,7 +70,10 @@ class Wrapper extends StatelessWidget {
             // user
             case 'user':
               return UserPage();
-
+            
+            case 'Guide':
+              return UserPage();
+            
             default:
               return Scaffold(body: Center(child: Text('Unknown user role')));
           }

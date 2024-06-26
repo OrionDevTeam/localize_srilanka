@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/guide_profile.dart';
 
 import 'userProfile.dart';
+
 
 class UserPage extends StatefulWidget {
   @override
@@ -27,7 +29,7 @@ class _UserPageState extends State<UserPage> {
               ? userProfilePage()
               : _selectedIndex == 2
                   ? userProfilePage()
-                  : userProfilePage(), // Add SettingsPage as the third option
+                  : GuideProfilePage(), // Add SettingsPage as the third option
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,

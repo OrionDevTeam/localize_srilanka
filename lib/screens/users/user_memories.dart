@@ -20,6 +20,78 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final ImagePicker _picker = ImagePicker();
 
+  Future<Map<String, dynamic>?> _getMemoryDetails() async {
+    String? caption;
+    List<String> hashtags = [];
+    String location = 'not mentioned';
+
+    await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController captionController = TextEditingController();
+        TextEditingController hashtagsController = TextEditingController();
+        TextEditingController locationController = TextEditingController();
+
+        return AlertDialog(
+          title: const Text('Add Memory Details'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: captionController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter caption here',
+                ),
+              ),
+              TextField(
+                controller: hashtagsController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter hashtags (comma-separated)',
+                ),
+              ),
+              TextField(
+                controller: locationController,
+                decoration: const InputDecoration(
+                  hintText: 'Enter location',
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                caption = captionController.text;
+                hashtags = hashtagsController.text
+                    .split(',')
+                    .map((e) => e.trim())
+                    .toList();
+                location = locationController.text;
+                Navigator.of(context).pop({
+                  'caption': caption,
+                  'hashtags': hashtags,
+                  'location': location,
+                });
+              },
+              child: const Text('Submit'),
+            ),
+          ],
+        );
+      },
+    );
+    if (caption == null) return null;
+    return {
+      'caption': caption,
+      'hashtags': hashtags,
+      'location': location,
+    };
+  }
+
   Future<void> _pickAndUploadImage() async {
     try {
       final XFile? pickedFile = await _picker.pickImage(
@@ -33,10 +105,10 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
         return;
       }
 
-      String? caption = await _getCaption();
-      if (caption == null) return;
+      Map<String, dynamic>? memoryDetails = await _getMemoryDetails();
+      if (memoryDetails == null) return;
 
-      await _uploadFile(pickedFile, 'image', caption);
+      await _uploadFile(pickedFile, 'image', memoryDetails);
     } catch (e) {
       print('Error picking or uploading image: $e');
     }
@@ -55,17 +127,17 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
         return;
       }
 
-      String? caption = await _getCaption();
-      if (caption == null) return;
+      Map<String, dynamic>? memoryDetails = await _getMemoryDetails();
+      if (memoryDetails == null) return;
 
-      await _uploadFile(pickedVideo, 'video', caption);
+      await _uploadFile(pickedVideo, 'video', memoryDetails);
     } catch (e) {
       print('Error picking or uploading video: $e');
     }
   }
 
-  Future<void> _uploadFile(
-      XFile pickedFile, String mediaType, String caption) async {
+  Future<void> _uploadFile(XFile pickedFile, String mediaType,
+      Map<String, dynamic> memoryDetails) async {
     try {
       File file = File(pickedFile.path);
       User? user = _auth.currentUser;
@@ -81,17 +153,17 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
       await _storage.ref(filePath).putFile(file);
       String downloadURL = await _storage.ref(filePath).getDownloadURL();
 
-      await _firestore
-          .collection('users')
-          .doc(userId)
-          .collection('memories')
-          .add({
+      await _firestore.collection('memories').add({
         'fileName': fileName,
         'filePath': filePath,
         'downloadURL': downloadURL,
         'mediaType': mediaType,
         'uploadedAt': FieldValue.serverTimestamp(),
-        'caption': caption,
+        'caption': memoryDetails['caption'],
+        'hashtags': memoryDetails['hashtags'],
+        'location': memoryDetails['location'],
+        'userId': userId,
+        'like_count': 0,
       });
 
       print('Memory uploaded successfully');
@@ -108,41 +180,6 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
         ),
       );
     }
-  }
-
-  Future<String?> _getCaption() async {
-    String? caption;
-    await showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        TextEditingController captionController = TextEditingController();
-        return AlertDialog(
-          title: const Text('Add Caption'),
-          content: TextField(
-            controller: captionController,
-            decoration: const InputDecoration(
-              hintText: 'Enter caption here',
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                caption = captionController.text;
-                Navigator.of(context).pop(caption);
-              },
-              child: const Text('Submit'),
-            ),
-          ],
-        );
-      },
-    );
-    return caption;
   }
 
   @override
@@ -206,14 +243,19 @@ class MemoriesDisplay extends StatelessWidget {
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
             .collection('memories')
+            .where('userId', isEqualTo: user.uid)
             .orderBy('uploadedAt', descending: true)
             .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('No memories found'));
           }
 
           var memories = snapshot.data!.docs;
@@ -232,11 +274,14 @@ class MemoriesDisplay extends StatelessWidget {
               Timestamp uploadedAt = memory['uploadedAt'];
               String memoryId = memory.id;
               String caption = memory['caption'] ?? '';
+              List<dynamic> hashtagsDynamic = memory['hashtags'] ?? [];
+              List<String> hashtags = hashtagsDynamic.cast<String>();
+              String location = memory['location'] ?? '';
 
               return GestureDetector(
                 onTap: () {
                   _showMediaDialog(context, mediaType, downloadURL, uploadedAt,
-                      memoryId, caption);
+                      memoryId, caption, hashtags, location);
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -273,8 +318,6 @@ class MemoriesDisplay extends StatelessWidget {
             onPressed: () async {
               try {
                 await FirebaseFirestore.instance
-                    .collection('users')
-                    .doc(FirebaseAuth.instance.currentUser!.uid)
                     .collection('memories')
                     .doc(memoryId)
                     .delete();
@@ -294,161 +337,253 @@ class MemoriesDisplay extends StatelessWidget {
                 );
               }
             },
-            child: Text("Delete", style: TextStyle(color: Colors.red)),
+            child: Text("Delete"),
+            style: TextButton.styleFrom(
+              backgroundColor: Colors.white,
+            ),
           ),
         ],
       ),
     );
   }
 
-  void _showMediaDialog(BuildContext context, String mediaType, String url,
-      Timestamp uploadedAt, String memoryId, String caption) {
+  void _showMediaDialog(
+      BuildContext context,
+      String mediaType,
+      String url,
+      Timestamp uploadedAt,
+      String memoryId,
+      String caption,
+      List<String> hashtags,
+      String location) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Dialog(
-          child: Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
+        if (mediaType == 'image') {
+          return AlertDialog(
+            content: Column(
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  "Your Memory",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                ),
-                SizedBox(height: 15),
-                Text(
-                  'Uploaded at: ${_formatTimestamp(uploadedAt)}',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-                SizedBox(height: 15),
-                mediaType == 'image'
-                    ? Image.network(url)
-                    : VideoPlayerDialog(url: url),
-                SizedBox(height: 15),
-                Text(
-                  'Caption: $caption',
-                  style: TextStyle(fontSize: 16),
-                ),
-                SizedBox(height: 15),
+                Text("Your memory"),
+                SizedBox(height: 20),
+                Text('Location: $location'),
+                SizedBox(height: 20),
+                Text('Hashtags: ${hashtags.join(', ')}'),
+                SizedBox(height: 20),
+                Image.network(url),
+                SizedBox(height: 20),
+                Text('Uploaded at: ${_formatTimestamp(uploadedAt)}'),
+                SizedBox(height: 20),
+                Text('Caption: $caption'),
+                SizedBox(height: 20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton(
+                    ElevatedButton(
                       onPressed: () {
-                        _editCaption(context, memoryId, caption);
+                        _editMemoryDetails(context, memoryId);
                       },
-                      child: Text('Edit Caption'),
-                      style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all(Colors.blue),
-                      ),
+                      child: Text('Edit'),
                     ),
                     SizedBox(width: 10),
-                    TextButton(
+                    ElevatedButton(
                       onPressed: () {
                         _confirmDelete(context, memoryId);
                       },
                       child: Text('Delete'),
-                      style: TextButton.styleFrom(
-                        textStyle: TextStyle(color: Colors.red),
-                      ),
                     ),
                   ],
                 ),
               ],
             ),
-          ),
-        );
+          );
+        } else {
+          return VideoPlayerDialog(
+            url: url,
+            uploadedAt: uploadedAt,
+            caption: caption,
+            memoryId: memoryId,
+            hashtags: hashtags,
+            location: location,
+            editCallback: () => _editMemoryDetails(context, memoryId),
+            deleteCallback: () => _confirmDelete(context, memoryId),
+          );
+        }
       },
     );
   }
 
-  void _editCaption(
-      BuildContext context, String memoryId, String currentCaption) {
-    String newCaption = currentCaption;
+  void _editMemoryDetails(BuildContext context, String memoryId) async {
+    try {
+      var memoryRef =
+          FirebaseFirestore.instance.collection('memories').doc(memoryId);
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Edit Caption'),
-          content: TextField(
-            onChanged: (value) {
-              newCaption = value;
-            },
-            decoration: InputDecoration(
-              hintText: 'Enter new caption',
-            ),
+      var snapshot = await memoryRef.get();
+      if (!snapshot.exists) {
+        print('Document does not exist');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Memory not found'),
           ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () async {
-                try {
-                  await FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .collection('memories')
-                      .doc(memoryId)
-                      .update({
-                    'caption': newCaption,
-                  });
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Caption updated successfully'),
-                    ),
-                  );
-                  Navigator.of(context).pop();
-                } catch (e) {
-                  print('Error updating caption: $e');
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Failed to update caption'),
-                    ),
-                  );
-                }
-              },
-              child: Text('Submit'),
-            ),
-          ],
         );
-      },
-    );
+        return;
+      }
+
+      Map<String, dynamic> currentData =
+          snapshot.data() as Map<String, dynamic>;
+
+      TextEditingController captionController =
+          TextEditingController(text: currentData['caption']);
+      TextEditingController hashtagsController =
+          TextEditingController(text: currentData['hashtags'].join(', '));
+      TextEditingController locationController =
+          TextEditingController(text: currentData['location']);
+
+      showDialog<Map<String, dynamic>>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Edit Memory Details'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: captionController,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter caption here',
+                  ),
+                ),
+                TextField(
+                  controller: hashtagsController,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter hashtags (comma-separated)',
+                  ),
+                ),
+                TextField(
+                  controller: locationController,
+                  decoration: const InputDecoration(
+                    hintText: 'Enter location',
+                  ),
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  String caption = captionController.text;
+                  List<String> hashtags = hashtagsController.text
+                      .split(',')
+                      .map((e) => e.trim())
+                      .toList();
+                  String location = locationController.text;
+
+                  try {
+                    await memoryRef.update({
+                      'caption': caption,
+                      'hashtags': hashtags,
+                      'location': location,
+                    });
+
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Memory updated successfully'),
+                      ),
+                    );
+                    Navigator.of(context).pop(); // Close the dialog
+                  } catch (e) {
+                    print("Error updating memory: $e");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Failed to update memory'),
+                      ),
+                    );
+                  }
+                },
+                child: const Text('Submit'),
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      print('Error editing memory details: $e');
+    }
   }
 }
 
-class VideoThumbnail extends StatelessWidget {
+class VideoThumbnail extends StatefulWidget {
   final String url;
 
-  const VideoThumbnail({required this.url});
+  const VideoThumbnail({Key? key, required this.url}) : super(key: key);
+
+  @override
+  _VideoThumbnailState createState() => _VideoThumbnailState();
+}
+
+class _VideoThumbnailState extends State<VideoThumbnail> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(widget.url);
+    _initializeVideoPlayerFuture = _controller.initialize();
+    _controller.setLooping(true);
+    _controller.play();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        VideoPlayerWidget(url: url),
-        Icon(Icons.play_circle_outline, size: 50, color: Colors.white),
-      ],
+    return FutureBuilder(
+      future: _initializeVideoPlayerFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return AspectRatio(
+            aspectRatio: _controller.value.aspectRatio,
+            child: VideoPlayer(_controller),
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }
 
 class VideoPlayerDialog extends StatefulWidget {
   final String url;
+  final Timestamp uploadedAt;
+  final String caption;
+  final String memoryId;
+  final List<String> hashtags;
+  final String location;
+  final VoidCallback editCallback;
+  final VoidCallback deleteCallback;
 
-  const VideoPlayerDialog({required this.url});
+  const VideoPlayerDialog({
+    Key? key,
+    required this.url,
+    required this.uploadedAt,
+    required this.caption,
+    required this.memoryId,
+    required this.hashtags,
+    required this.location,
+    required this.editCallback,
+    required this.deleteCallback,
+  }) : super(key: key);
 
   @override
   _VideoPlayerDialogState createState() => _VideoPlayerDialogState();
@@ -456,15 +591,15 @@ class VideoPlayerDialog extends StatefulWidget {
 
 class _VideoPlayerDialogState extends State<VideoPlayerDialog> {
   late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.url)
-      ..initialize().then((_) {
-        setState(() {});
-        _controller.play();
-      });
+    _controller = VideoPlayerController.network(widget.url);
+    _initializeVideoPlayerFuture = _controller.initialize();
+    _controller.setLooping(true);
+    _controller.play();
   }
 
   @override
@@ -475,49 +610,62 @@ class _VideoPlayerDialogState extends State<VideoPlayerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return _controller.value.isInitialized
-        ? AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: VideoPlayer(_controller),
-          )
-        : Center(child: CircularProgressIndicator());
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Your memory'),
+          SizedBox(height: 20),
+          Text('Location: ${widget.location}'),
+          SizedBox(height: 20),
+          Text('Hashtags: ${widget.hashtags.join(', ')}'),
+          SizedBox(height: 20),
+          FutureBuilder(
+            future: _initializeVideoPlayerFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: VideoPlayer(_controller),
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+          SizedBox(height: 20),
+          Text('Caption: ${widget.caption}'),
+          SizedBox(height: 20),
+          Text(
+              'Uploaded at: ${DateFormat('yyyy-MM-dd HH:mm').format(widget.uploadedAt.toDate())}'),
+          SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: widget.editCallback,
+                child: Text('Edit'),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: widget.deleteCallback,
+                child: Text('Delete'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
-class VideoPlayerWidget extends StatefulWidget {
-  final String url;
-
-  const VideoPlayerWidget({required this.url});
-
-  @override
-  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
-}
-
-class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.network(widget.url)
-      ..initialize().then((_) {
-        setState(() {});
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return _controller.value.isInitialized
-        ? AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: VideoPlayer(_controller),
-          )
-        : Center(child: CircularProgressIndicator());
-  }
+void main() {
+  runApp(MaterialApp(
+    title: 'Memory App',
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+    ),
+    home: MemoriesDisplay(),
+  ));
 }

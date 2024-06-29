@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:intl/intl.dart';
 
 class MemoriesUploader extends StatefulWidget {
@@ -277,20 +278,12 @@ class MemoriesDisplay extends StatelessWidget {
               List<dynamic> hashtagsDynamic = memory['hashtags'] ?? [];
               List<String> hashtags = hashtagsDynamic.cast<String>();
               String location = memory['location'] ?? '';
-              int likeCount = memory['like_count'] ?? 0; // Fetch like_count
+              int likeCount = memory['like_count'] ?? 0;
 
               return GestureDetector(
                 onTap: () {
-                  _showMediaDialog(
-                      context,
-                      mediaType,
-                      downloadURL,
-                      uploadedAt,
-                      memoryId,
-                      caption,
-                      hashtags,
-                      location,
-                      likeCount); // Pass likeCount
+                  _showMediaDialog(context, mediaType, downloadURL, uploadedAt,
+                      memoryId, caption, hashtags, location, likeCount);
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -298,7 +291,9 @@ class MemoriesDisplay extends StatelessWidget {
                     Expanded(
                       child: mediaType == 'image'
                           ? Image.network(downloadURL, fit: BoxFit.cover)
-                          : VideoThumbnail(url: downloadURL),
+                          : VideoThumbnail(
+                              url:
+                                  downloadURL), // Use VideoThumbnail for videos
                     ),
                   ],
                 ),
@@ -566,15 +561,31 @@ class VideoThumbnail extends StatefulWidget {
 
 class _VideoThumbnailState extends State<VideoThumbnail> {
   late VideoPlayerController _controller;
-  late Future<void> _initializeVideoPlayerFuture;
+  bool _initialized = false;
 
   @override
   void initState() {
     super.initState();
     _controller = VideoPlayerController.network(widget.url);
-    _initializeVideoPlayerFuture = _controller.initialize();
-    _controller.setLooping(true);
-    _controller.play();
+    _initializeVideoPlayer();
+  }
+
+  Future<void> _initializeVideoPlayer() async {
+    await _controller.initialize();
+    setState(() {
+      _initialized = true;
+    });
+  }
+
+  Future<ImageProvider> _getVideoThumbnail() async {
+    final cacheManager = DefaultCacheManager();
+    File? file = await cacheManager.getSingleFile(widget.url);
+    if (file != null && file.existsSync()) {
+      // Load video file and extract thumbnail
+      return FileImage(file);
+    } else {
+      throw Exception('Video file not found');
+    }
   }
 
   @override
@@ -585,19 +596,38 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initializeVideoPlayerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: VideoPlayer(_controller),
-          );
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-    );
+    if (!_initialized) {
+      return Center(child: CircularProgressIndicator());
+    } else {
+      return FutureBuilder(
+        future: _getVideoThumbnail(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done &&
+              snapshot.hasData) {
+            return GestureDetector(
+              onTap: () {
+                // Implement onTap action for video
+              },
+              child: AspectRatio(
+                aspectRatio: _controller.value.aspectRatio,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Image(
+                        image: snapshot.data as ImageProvider,
+                        fit: BoxFit.cover),
+                    Icon(Icons.play_circle_outline,
+                        size: 50, color: Colors.white),
+                  ],
+                ),
+              ),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      );
+    }
   }
 }
 

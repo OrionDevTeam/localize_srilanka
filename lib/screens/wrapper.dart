@@ -22,7 +22,9 @@ class Wrapper extends StatelessWidget {
             FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(body: Center(child: CircularProgressIndicator()));
+            return Scaffold(
+                body: Center(
+                    child: CircularProgressIndicator(color: Colors.green)));
           }
 
           if (snapshot.hasError) {
@@ -70,10 +72,10 @@ class Wrapper extends StatelessWidget {
             // user
             case 'user':
               return UserPage();
-            
+
             case 'Guide':
               return UserPage();
-            
+
             default:
               return Scaffold(body: Center(child: Text('Unknown user role')));
           }

@@ -29,7 +29,8 @@ class _WalletPageState extends State<WalletPage> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator(color: Colors.green));
           }
 
           final List<DocumentSnapshot> users = snapshot.data!.docs;
@@ -52,7 +53,8 @@ class _WalletPageState extends State<WalletPage> {
 
                   if (accountsSnapshot.connectionState ==
                       ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(
+                        child: CircularProgressIndicator(color: Colors.green));
                   }
 
                   final List<DocumentSnapshot> accounts =

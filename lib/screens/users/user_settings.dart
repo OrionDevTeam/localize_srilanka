@@ -15,12 +15,11 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
   final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
 
-  String _username = '';
-  String _newEmail = '';
-  String _newPassword = '';
-  String _newBio = '';
   String _profileImageUrl = '';
 
   @override
@@ -32,106 +31,69 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
   Future<void> _fetchUserDetails() async {
     try {
       User? user = _auth.currentUser;
-      DocumentSnapshot snapshot =
-          await _firestore.collection('users').doc(user!.uid).get();
+      if (user != null) {
+        DocumentSnapshot snapshot =
+            await _firestore.collection('users').doc(user.uid).get();
 
-      setState(() {
-        _username = snapshot.get('username');
-        _newEmail = user.email ?? '';
-        _newBio = snapshot.get('bio') ?? ''; // Fetch bio from Firestore
-        _profileImageUrl =
-            snapshot.get('image_src') ?? ''; // Fetch profile image URL
-        _bioController.text = _newBio; // Set bio in TextEditingController
-      });
+        setState(() {
+          _usernameController.text = snapshot.get('username') ?? '';
+          _emailController.text = user.email ?? '';
+          _bioController.text = snapshot.get('bio') ?? '';
+          _profileImageUrl = snapshot.get('profileImageUrl') ?? '';
+
+          // Debugging statements
+          print('Username: ${_usernameController.text}');
+          print('Email: ${_emailController.text}');
+          print('Bio: ${_bioController.text}');
+          print('Profile Image URL: $_profileImageUrl');
+        });
+      }
     } catch (e) {
       print('Error fetching user details: $e');
     }
   }
 
-  Future<void> _updateUsername(String newUsername) async {
+  Future<void> _updateUserDetails() async {
     try {
       User? user = _auth.currentUser;
 
-      await _firestore.collection('users').doc(user!.uid).update({
-        'username': newUsername,
-      });
+      if (user != null) {
+        String newUsername = _usernameController.text.trim();
+        String newEmail = _emailController.text.trim();
+        String newPassword = _passwordController.text.trim();
+        String newBio = _bioController.text.trim();
 
-      setState(() {
-        _username = newUsername;
-      });
+        if (newUsername.isNotEmpty) {
+          await _firestore.collection('users').doc(user.uid).update({
+            'username': newUsername,
+          });
+        }
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Username updated successfully')),
-      );
+        if (newEmail.isNotEmpty && newEmail != user.email) {
+          await user.updateEmail(newEmail);
+          await _firestore.collection('users').doc(user.uid).update({
+            'email': newEmail,
+          });
+        }
+
+        if (newPassword.isNotEmpty) {
+          await user.updatePassword(newPassword);
+        }
+
+        if (newBio.isNotEmpty) {
+          await _firestore.collection('users').doc(user.uid).update({
+            'bio': newBio,
+          });
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('User details updated successfully')),
+        );
+      }
     } catch (e) {
-      print('Error updating username: $e');
+      print('Error updating user details: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update username')),
-      );
-    }
-  }
-
-  Future<void> _updateEmail(String newEmail) async {
-    try {
-      User? user = _auth.currentUser;
-
-      await user!.updateEmail(newEmail);
-
-      await _firestore.collection('users').doc(user.uid).update({
-        'email': newEmail,
-      });
-
-      setState(() {
-        _newEmail = newEmail;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Email updated successfully')),
-      );
-    } catch (e) {
-      print('Error updating email: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update email')),
-      );
-    }
-  }
-
-  Future<void> _updatePassword(String newPassword) async {
-    try {
-      User? user = _auth.currentUser;
-
-      await user!.updatePassword(newPassword);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Password updated successfully')),
-      );
-    } catch (e) {
-      print('Error updating password: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update password')),
-      );
-    }
-  }
-
-  Future<void> _updateBio(String newBio) async {
-    try {
-      User? user = _auth.currentUser;
-
-      await _firestore.collection('users').doc(user!.uid).update({
-        'bio': newBio,
-      });
-
-      setState(() {
-        _newBio = newBio;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Bio updated successfully')),
-      );
-    } catch (e) {
-      print('Error updating bio: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update bio')),
+        SnackBar(content: Text('Failed to update user details')),
       );
     }
   }
@@ -186,7 +148,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
               radius: 50,
               backgroundImage: _profileImageUrl.isNotEmpty
                   ? NetworkImage(_profileImageUrl) as ImageProvider
-                  : AssetImage('assets/placeholder.jpg'),
+                  : const AssetImage('assets/placeholder.jpg'),
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
@@ -194,50 +156,42 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
               child: Text('Change Profile Picture'),
             ),
             SizedBox(height: 32.0),
-            Text('Current username: $_username'),
-            SizedBox(height: 16.0),
+            Text('Username:'),
             TextFormField(
-              decoration: InputDecoration(labelText: 'New Username'),
-              onChanged: (value) => _username = value.trim(),
+              controller: _usernameController,
+              decoration: InputDecoration(
+                hintText: 'Enter your new username',
+              ),
             ),
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () => _updateUsername(_username),
-              child: Text('Update username'),
-            ),
-            SizedBox(height: 32.0),
-            Text('Current Email: $_newEmail'),
-            SizedBox(height: 16.0),
+            Text('Email:'),
             TextFormField(
-              decoration: InputDecoration(labelText: 'New Email'),
-              onChanged: (value) => _newEmail = value.trim(),
+              controller: _emailController,
+              decoration: InputDecoration(
+                hintText: 'Enter your new email',
+              ),
             ),
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () => _updateEmail(_newEmail),
-              child: Text('Update Email'),
-            ),
-            SizedBox(height: 32.0),
+            Text('Bio:'),
             TextFormField(
               controller: _bioController,
-              decoration: InputDecoration(labelText: 'Bio:'),
-              onChanged: (value) => _newBio = value.trim(),
+              decoration: InputDecoration(
+                hintText: 'Enter your bio',
+              ),
             ),
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () => _updateBio(_newBio),
-              child: Text('Update Bio'),
+            Text('Password:'),
+            TextFormField(
+              controller: _passwordController,
+              decoration: InputDecoration(
+                hintText: 'Enter your new password',
+              ),
+              obscureText: true,
             ),
             SizedBox(height: 32.0),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'New Password'),
-              obscureText: true,
-              onChanged: (value) => _newPassword = value.trim(),
-            ),
-            SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () => _updatePassword(_newPassword),
-              child: Text('Update Password'),
+              onPressed: _updateUserDetails,
+              child: Text('Update All'),
             ),
           ],
         ),

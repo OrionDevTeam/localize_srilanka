@@ -31,12 +31,12 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
 
       Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
 
-      if (data != null && data.containsKey('user_role')) {
+      if (data != null) {
         setState(() {
-          userRole = data['user_role'];
-          userName = data['username'];
-          userEmail = data['email'];
-          userBio = data['bio'];
+          userRole = data['user_role'] ?? '';
+          userName = data['username'] ?? '';
+          userEmail = data['email'] ?? '';
+          userBio = data['bio'] ?? '';
           profileImageUrl = data['profileImageUrl'] ?? '';
         });
       } else {
@@ -55,6 +55,15 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    if (userRole == null) {
+      // Show a loading indicator while fetching data
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(color: Colors.green),
+        ),
+      );
+    }
+
     if (userRole == 'Guide') {
       return Scaffold(
         appBar: AppBar(
@@ -287,7 +296,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                 child: Column(
                   children: [
                     const SizedBox(height: 20),
-                    Container(
+                    SizedBox(
                       height: 400, // Specify a fixed height for the GridView
                       child: MemoriesDisplay(),
                     ),
@@ -300,9 +309,198 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
         ),
       );
     } else {
-      return const Scaffold(
-        //if the user role is = user
-        body: Center(child: CircularProgressIndicator()),
+      return Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text(
+            'My Profile',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SettingsPage()),
+                );
+              },
+            ),
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                padding: const EdgeInsets.all(4.0),
+                margin: const EdgeInsets.only(right: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 30),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: profileImageUrl.isNotEmpty
+                          ? NetworkImage(profileImageUrl) as ImageProvider
+                          : const AssetImage('assets/placeholder.jpg'),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      userName,
+                      style: const TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 1),
+                    Text(
+                      userEmail,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      userBio,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(width: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ActivityPage()),
+                            );
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            padding:
+                                MaterialStateProperty.all<EdgeInsetsGeometry>(
+                              const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.hovered)) {
+                                  return Colors.white;
+                                }
+                                return const Color.fromARGB(255, 42, 150, 108);
+                              },
+                            ),
+                            foregroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.hovered)) {
+                                  return const Color.fromARGB(
+                                      255, 42, 150, 108);
+                                }
+                                return Colors.white;
+                              },
+                            ),
+                          ),
+                          child: const Column(
+                            children: [
+                              Icon(Icons.history),
+                              Text('Portfolio',
+                                  style:
+                                      TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HelpPage()),
+                            );
+                          },
+                          style: ButtonStyle(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            padding:
+                                MaterialStateProperty.all<EdgeInsetsGeometry>(
+                              const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                            ),
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.hovered)) {
+                                  return Colors.white;
+                                }
+                                return const Color.fromARGB(255, 42, 150, 108);
+                              },
+                            ),
+                            foregroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.hovered)) {
+                                  return const Color.fromARGB(
+                                      255, 42, 150, 108);
+                                }
+                                return Colors.white;
+                              },
+                            ),
+                          ),
+                          child: const Column(
+                            children: [
+                              Icon(Icons.help),
+                              Text(
+                                'Help',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              // const SizedBox(height: 20),
+              // Padding(
+              //   padding: const EdgeInsets.all(4.0),
+              //   child: Column(
+              //     children: [
+              //       const SizedBox(height: 20),
+              //       SizedBox(
+              //         height: 400, // Specify a fixed height for the GridView
+              //         child: MemoriesDisplay(),
+              //       ),
+              //       const SizedBox(height: 20),
+              //     ],
+              //   ),
+              // ),
+            ],
+          ),
+        ),
       );
     }
   }
@@ -464,7 +662,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         ),
                         _buildProfileBlock(
                           context,
-                          title: 'Need Help?',
+                          title: 'Contact us!',
                           subtext: 'Chat with a customer care agent',
                           icon: Icons.help,
                           onTap: () {

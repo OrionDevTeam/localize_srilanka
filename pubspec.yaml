@@ -45,6 +45,7 @@ dependencies:
   firebase_core: ^3.1.1
   file_picker: ^5.2.3
   image_picker: ^0.8.4+8
+  video_player: ^2.2.11
 
   
   
@@ -79,6 +80,7 @@ flutter:
     - assets/aadi/
     - assets/vimosh/
     - assets/varun/
+    - assets/placeholder.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

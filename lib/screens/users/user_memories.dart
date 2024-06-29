@@ -277,11 +277,20 @@ class MemoriesDisplay extends StatelessWidget {
               List<dynamic> hashtagsDynamic = memory['hashtags'] ?? [];
               List<String> hashtags = hashtagsDynamic.cast<String>();
               String location = memory['location'] ?? '';
+              int likeCount = memory['like_count'] ?? 0; // Fetch like_count
 
               return GestureDetector(
                 onTap: () {
-                  _showMediaDialog(context, mediaType, downloadURL, uploadedAt,
-                      memoryId, caption, hashtags, location);
+                  _showMediaDialog(
+                      context,
+                      mediaType,
+                      downloadURL,
+                      uploadedAt,
+                      memoryId,
+                      caption,
+                      hashtags,
+                      location,
+                      likeCount); // Pass likeCount
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -355,7 +364,8 @@ class MemoriesDisplay extends StatelessWidget {
       String memoryId,
       String caption,
       List<String> hashtags,
-      String location) {
+      String location,
+      int likeCount) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -374,11 +384,11 @@ class MemoriesDisplay extends StatelessWidget {
                 SizedBox(height: 20),
                 Text('Uploaded at: ${_formatTimestamp(uploadedAt)}'),
                 SizedBox(height: 20),
-                Text('Caption: $caption'),
-                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Text('Likes: $likeCount'), // Display like count for image
+                    SizedBox(width: 20),
                     ElevatedButton(
                       onPressed: () {
                         _editMemoryDetails(context, memoryId);
@@ -405,6 +415,7 @@ class MemoriesDisplay extends StatelessWidget {
             memoryId: memoryId,
             hashtags: hashtags,
             location: location,
+            likeCount: likeCount, // Pass likeCount to VideoPlayerDialog
             editCallback: () => _editMemoryDetails(context, memoryId),
             deleteCallback: () => _confirmDelete(context, memoryId),
           );
@@ -417,8 +428,8 @@ class MemoriesDisplay extends StatelessWidget {
     try {
       var memoryRef =
           FirebaseFirestore.instance.collection('memories').doc(memoryId);
-
       var snapshot = await memoryRef.get();
+
       if (!snapshot.exists) {
         print('Document does not exist');
         ScaffoldMessenger.of(context).showSnackBar(
@@ -446,24 +457,51 @@ class MemoriesDisplay extends StatelessWidget {
             title: const Text('Edit Memory Details'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextField(
-                  controller: captionController,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter caption here',
-                  ),
+                Row(
+                  children: [
+                    Text('Caption: ',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Expanded(
+                      child: TextField(
+                        controller: captionController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter caption here',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                TextField(
-                  controller: hashtagsController,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter hashtags (comma-separated)',
-                  ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Text('Hashtags: ',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Expanded(
+                      child: TextField(
+                        controller: hashtagsController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter hashtags (comma-separated)',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                TextField(
-                  controller: locationController,
-                  decoration: const InputDecoration(
-                    hintText: 'Enter location',
-                  ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Text('Location: ',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    Expanded(
+                      child: TextField(
+                        controller: locationController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter location',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -570,6 +608,7 @@ class VideoPlayerDialog extends StatefulWidget {
   final String memoryId;
   final List<String> hashtags;
   final String location;
+  final int likeCount; // Added parameter
   final VoidCallback editCallback;
   final VoidCallback deleteCallback;
 
@@ -581,6 +620,7 @@ class VideoPlayerDialog extends StatefulWidget {
     required this.memoryId,
     required this.hashtags,
     required this.location,
+    required this.likeCount, // Updated constructor
     required this.editCallback,
     required this.deleteCallback,
   }) : super(key: key);
@@ -611,49 +651,53 @@ class _VideoPlayerDialogState extends State<VideoPlayerDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text('Your memory'),
-          SizedBox(height: 20),
-          Text('Location: ${widget.location}'),
-          SizedBox(height: 20),
-          Text('Hashtags: ${widget.hashtags.join(', ')}'),
-          SizedBox(height: 20),
-          FutureBuilder(
-            future: _initializeVideoPlayerFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  child: VideoPlayer(_controller),
-                );
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
-          ),
-          SizedBox(height: 20),
-          Text('Caption: ${widget.caption}'),
-          SizedBox(height: 20),
-          Text(
-              'Uploaded at: ${DateFormat('yyyy-MM-dd HH:mm').format(widget.uploadedAt.toDate())}'),
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: widget.editCallback,
-                child: Text('Edit'),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: widget.deleteCallback,
-                child: Text('Delete'),
-              ),
-            ],
-          ),
-        ],
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Your memory'),
+            SizedBox(height: 20),
+            Text('Location: ${widget.location}'),
+            SizedBox(height: 20),
+            Text('Hashtags: ${widget.hashtags.join(', ')}'),
+            SizedBox(height: 20),
+            FutureBuilder(
+              future: _initializeVideoPlayerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: VideoPlayer(_controller),
+                  );
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
+            SizedBox(height: 20),
+            Text('Caption: ${widget.caption}'),
+            SizedBox(height: 20),
+            Text(
+                'Uploaded at: ${DateFormat('yyyy-MM-dd HH:mm').format(widget.uploadedAt.toDate())}'),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Likes: ${widget.likeCount}'), // Display like count
+                SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: widget.editCallback,
+                  child: Text('Edit'),
+                ),
+                SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: widget.deleteCallback,
+                  child: Text('Delete'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

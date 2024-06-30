@@ -6,24 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> fetchApiKey() {
-  return FirebaseFirestore.instance
-      .collection('API keys')
-      .doc('google_map')
-      .get()
-      .then((doc) {
-    if (doc.exists) {
-      return doc.data()?['google']; // Adjust 'google' to match your field name
-    } else {
-      return '';
-    }
-  });
-}
+import 'location.dart';
 
-class MyApp extends StatelessWidget {
-  final String apiKey;
-
-  MyApp({required this.apiKey});
+class MapS extends StatelessWidget {
+  final String apiKey = "AIzaSyA3FOuDQdJiRFn8c_9UEkTc3DeMyECjMB0";
+  MapS();
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +36,13 @@ class _MapScreenState extends State<MapScreen> {
       Completer<GoogleMapController>();
   final TextEditingController _searchController = TextEditingController();
 
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(5.937675, 80.465649),
+    zoom: 14.58,
+  );
+
   Set<Marker> _markers = {};
-  final LatLng _center = const LatLng(5.937675, 80.465649);
+  final LatLng _center = const LatLng(5.958809599999999, 80.40584129999999);
 
   @override
   void initState() {
@@ -176,7 +168,7 @@ class _MapScreenState extends State<MapScreen> {
     final GoogleMapController controller = await _controller.future;
     final CameraPosition cameraPosition = CameraPosition(
       target: latLng,
-      zoom: 17,
+      zoom: 14,
     );
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
@@ -191,16 +183,12 @@ class _MapScreenState extends State<MapScreen> {
     if (documentSnapshot.exists) {
       var data = documentSnapshot.data() as Map<String, dynamic>;
       String imageUrl = data['imageUrl'];
+      String place = data['place'];
+      String description = data['description'];
       String location = data['location'];
       String rating = data['rating'];
       String n = data['n'];
       List<String> experiencesL = List<String>.from(data['experiences']);
-      print("-------------------------------------------");
-      print(experiencesL);
-      print(rating);
-      print(n);
-      print(location);
-      print("-------------------------------------------");
 
       showModalBottomSheet(
         context: context,
@@ -208,9 +196,6 @@ class _MapScreenState extends State<MapScreen> {
         builder: (BuildContext context) {
           return Container(
             height: 350,
-            // width to be determined based on the content
-            // screens 80%
-
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.only(
@@ -224,13 +209,32 @@ class _MapScreenState extends State<MapScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(18.0),
-                  child: LocationCard(
-                    imageUrl: imageUrl,
-                    title: documentId.replaceAll('_', ' '), // Display the title
-                    location: location,
-                    rating: rating,
-                    n: n,
-                    tags: experiencesL,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Location(
+                            imageUrl: imageUrl,
+                            description: description,
+                            title: documentId.replaceAll('_', ' '),
+                            location: location,
+                            rating: rating,
+                            tags: experiencesL,
+                            n: n,
+                            place: place,
+                          ),
+                        ),
+                      );
+                    },
+                    child: LocationCard(
+                      imageUrl: imageUrl,
+                      title: documentId.replaceAll('_', ' '),
+                      location: location,
+                      rating: rating,
+                      n: n,
+                      tags: experiencesL,
+                    ),
                   ),
                 ),
               ],
@@ -422,9 +426,7 @@ class LocationCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 8,
-                ),
+                SizedBox(height: 8),
                 Row(
                   children: [
                     SizedBox(width: 18),
@@ -437,24 +439,24 @@ class LocationCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 4,
-                ),
-                // Tags
+                SizedBox(height: 4),
                 Row(
                   children: [
-                    SizedBox(width: 18),
+                    SizedBox(width: 10),
                     for (var tag in tags) ...{
                       Chip(
                         label: Text(tag),
                         backgroundColor: Color(0xFFE4E7E9),
                         labelStyle: TextStyle(color: Color(0xFF169C8C)),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                            side: BorderSide(color: Color(0xFF169C8C))),
+                          borderRadius: BorderRadius.circular(16),
+                          side: BorderSide(
+                            color: Color(0xFF169C8C),
+                          ),
+                        ),
                       ),
-                      SizedBox(width: 8),
-                    }
+                      SizedBox(width: 4),
+                    },
                   ],
                 )
               ],

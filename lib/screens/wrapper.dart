@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:localize_sl/screens/getStarted.dart';
 
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'authentication/authenticate.dart';
+import 'admin/adminPage.dart';
 import 'authentication/register.dart';
 import 'authentication/signin.dart';
 import 'users/user_main.dart';
@@ -15,7 +16,7 @@ class Wrapper extends StatelessWidget {
     final user = Provider.of<User?>(context);
 
     if (user == null) {
-      return Authenticate();
+      return WelcomeScreen();
     } else {
       return FutureBuilder<DocumentSnapshot>(
         future:
@@ -67,10 +68,11 @@ class Wrapper extends StatelessWidget {
           String role = snapshot.data!['user_role'];
 
           switch (role) {
-            // user
             case 'user':
               return UserPage();
-
+            // admin
+            case 'admin':
+              return AdminPage();
             default:
               return Scaffold(body: Center(child: Text('Unknown user role')));
           }

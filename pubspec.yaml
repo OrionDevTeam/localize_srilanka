@@ -49,12 +49,10 @@ dependencies:
   video_thumbnail: ^0.5.3
   path_provider: ^2.0.9
   flutter_cache_manager: ^3.3.0
-  
-
-  
-  
-  
-  
+ 
+  google_maps_flutter: ^2.7.0
+  google_places_flutter: ^2.0.8
+  http: ^1.2.1
 
 dev_dependencies:
   flutter_test:

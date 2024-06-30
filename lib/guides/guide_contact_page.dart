@@ -136,9 +136,14 @@ class _ContactPageState extends State<ContactPage> {
                               onPressed: () {
                                 // Handle form submission
                               },
-                              child: Text('Submit'),
+                              child: Text('Submit',
+                              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight:FontWeight.bold,
+                color: Colors.white,
+              )),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.deepPurple,
+                                backgroundColor: Color.fromARGB(255, 22, 156, 140)
                               ),
                             ),
                           ],
@@ -154,6 +159,19 @@ class _ContactPageState extends State<ContactPage> {
                               : Icons.expand_more,
                         ),
                       ),
+              ),
+            ),
+          ),
+          SizedBox(height: 16.0),
+          GestureDetector(
+            onTap: () async {
+              
+            },
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.chat),
+                title: Text('Chat'),
+                subtitle: Text(widget.guide.contactNumber),
               ),
             ),
           ),

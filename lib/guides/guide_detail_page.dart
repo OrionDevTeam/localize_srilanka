@@ -160,7 +160,13 @@ class GuideDetailPage extends StatelessWidget {
                 SizedBox(height: 16.0),
                 ActionChip(
                   avatar: Icon(Icons.phone, color: Colors.white),
-                  label: Text('Contact me'),
+                  label: Text('Contact me',
+                  style: TextStyle(
+                fontSize: 20.0,
+                fontWeight:FontWeight.bold,
+                color: Colors.white,
+              )),
+              backgroundColor: Color.fromARGB(255,22, 156, 140),
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -169,7 +175,6 @@ class GuideDetailPage extends StatelessWidget {
                       ),
                     );
                   },
-                  backgroundColor: Colors.blue,
                   labelStyle: TextStyle(color: Colors.white),
                 ),
                 SizedBox(height: 16.0),
@@ -293,6 +298,48 @@ class GuideDetailPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 8.0),
+                // Fetch and display images from Firebase
+                StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  stream: FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(guideId)
+                      .collection('memories')
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+
+                    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                      return Center(child: Text('No memories available'));
+                    }
+
+                    var memories = snapshot.data!.docs;
+
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 8.0,
+                        mainAxisSpacing: 8.0,
+                      ),
+                      itemCount: memories.length,
+                      itemBuilder: (context, index) {
+                        var memory = memories[index].data();
+                        var imageUrl = memory['imageUrl'];
+
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.network(
+                            imageUrl,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
                 // Add additional memories here similar to the above experiences
               ],
             ),
@@ -344,7 +391,7 @@ class VacationDetailPage extends StatelessWidget {
             ),
             SizedBox(height: 16.0),
             Text(
-              'Winter Vacation Trips',
+              'Camping',
               style: TextStyle(
                 fontSize: 28.0,
                 fontWeight: FontWeight.bold,
@@ -366,7 +413,7 @@ class VacationDetailPage extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
             Text(
-              'Enjoy your winter vacations with warmth and amazing sightseeing on the mountains. Enjoy the best experience with us!',
+              'Enjoy your camping with warmth and amazing sightseeing on the mountains. Enjoy the best experience with us!',
               style: TextStyle(
                 fontSize: 16.0,
                 color: Colors.grey[600],
@@ -407,8 +454,14 @@ class VacationDetailPage extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Text("Let's Go!"),
+                  child: Text("Reserve",
+                  style: TextStyle(
+                fontSize: 20.0,
+                fontWeight:FontWeight.bold,
+                color: Colors.white,
+              )),
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: Color.fromARGB(255, 22, 156, 140),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),

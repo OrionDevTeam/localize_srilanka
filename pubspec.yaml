@@ -41,11 +41,18 @@ dependencies:
   firebase_auth: ^5.1.0
   cloud_firestore: ^5.0.1
   google_sign_in: ^6.2.1
+  firebase_storage: ^12.0.1
+  firebase_core: ^3.1.1
+  file_picker: ^5.2.3
+  image_picker: ^0.8.4+8
+  video_player: ^2.2.11
+  video_thumbnail: ^0.5.3
+  path_provider: ^2.0.9
+  flutter_cache_manager: ^3.3.0
+ 
   google_maps_flutter: ^2.7.0
   google_places_flutter: ^2.0.8
   http: ^1.2.1
-  firebase_storage: ^12.0.1
-  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +82,7 @@ flutter:
     - assets/aadi/
     - assets/vimosh/
     - assets/varun/
+    - assets/placeholder.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

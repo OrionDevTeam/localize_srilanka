@@ -103,25 +103,25 @@ class GuideDetailsPage extends StatelessWidget {
                           },
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .green; // Set the background color to green when hovered
                               }
                               return Colors.white; // Default background color
                             }),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .white; // Set the text color to white when hovered
                               }
                               return const Color.fromRGBO(
                                   42, 150, 108, 1); // Default text color
                             }),
-                            side: MaterialStateProperty.resolveWith<BorderSide>(
+                            side: WidgetStateProperty.resolveWith<BorderSide>(
                                 (states) {
                               return const BorderSide(
                                 color: Color.fromRGBO(
@@ -137,25 +137,25 @@ class GuideDetailsPage extends StatelessWidget {
                           onPressed: () {},
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .green; // Set the background color to green when hovered
                               }
                               return Colors.white; // Default background color
                             }),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .white; // Set the text color to white when hovered
                               }
                               return const Color.fromRGBO(
                                   42, 150, 108, 1); // Default text color
                             }),
-                            side: MaterialStateProperty.resolveWith<BorderSide>(
+                            side: WidgetStateProperty.resolveWith<BorderSide>(
                                 (states) {
                               return const BorderSide(
                                 color: Color.fromRGBO(
@@ -171,25 +171,25 @@ class GuideDetailsPage extends StatelessWidget {
                           onPressed: () {},
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .green; // Set the background color to green when hovered
                               }
                               return Colors.white; // Default background color
                             }),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .white; // Set the text color to white when hovered
                               }
                               return const Color.fromRGBO(
                                   42, 150, 108, 1); // Default text color
                             }),
-                            side: MaterialStateProperty.resolveWith<BorderSide>(
+                            side: WidgetStateProperty.resolveWith<BorderSide>(
                                 (states) {
                               return const BorderSide(
                                 color: Color.fromRGBO(
@@ -266,25 +266,25 @@ class GuideDetailsPage extends StatelessWidget {
                           },
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .green; // Set the background color to green when hovered
                               }
                               return Colors.white; // Default background color
                             }),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .white; // Set the text color to white when hovered
                               }
                               return const Color.fromRGBO(
                                   42, 150, 108, 1); // Default text color
                             }),
-                            side: MaterialStateProperty.resolveWith<BorderSide>(
+                            side: WidgetStateProperty.resolveWith<BorderSide>(
                                 (states) {
                               return const BorderSide(
                                 color: Color.fromRGBO(
@@ -305,25 +305,25 @@ class GuideDetailsPage extends StatelessWidget {
                           },
                           style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .green; // Set the background color to green when hovered
                               }
                               return Colors.white; // Default background color
                             }),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                                WidgetStateProperty.resolveWith<Color>(
                                     (states) {
-                              if (states.contains(MaterialState.hovered)) {
+                              if (states.contains(WidgetState.hovered)) {
                                 return Colors
                                     .white; // Set the text color to white when hovered
                               }
                               return const Color.fromRGBO(
                                   42, 150, 108, 1); // Default text color
                             }),
-                            side: MaterialStateProperty.resolveWith<BorderSide>(
+                            side: WidgetStateProperty.resolveWith<BorderSide>(
                                 (states) {
                               return const BorderSide(
                                 color: Color.fromRGBO(
@@ -1122,38 +1122,38 @@ class _HiringPageState extends State<HiringPage> {
                     }
                   : null,
               style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(
                       vertical: 16, horizontal: 24), // Adjust padding as needed
                 ),
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
                   (states) {
-                    if (states.contains(MaterialState.disabled)) {
+                    if (states.contains(WidgetState.disabled)) {
                       return Colors
                           .white; // Default background color when disabled
                     }
                     return Colors.blue; // Brighten to green when enabled
                   },
                 ),
-                foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                foregroundColor: WidgetStateProperty.resolveWith<Color>(
                   (states) {
-                    if (states.contains(MaterialState.disabled)) {
+                    if (states.contains(WidgetState.disabled)) {
                       return const Color.fromRGBO(
                           42, 150, 108, 1); // Default text color when disabled
                     }
                     return Colors.white; // Brighten to white when enabled
                   },
                 ),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(10), // Adjust the border radius
                     side: const BorderSide(width: 3), // Set initial border width
                   ),
                 ),
-                side: MaterialStateProperty.resolveWith<BorderSide>(
+                side: WidgetStateProperty.resolveWith<BorderSide>(
                   (states) {
-                    if (states.contains(MaterialState.disabled)) {
+                    if (states.contains(WidgetState.disabled)) {
                       return const BorderSide(
                           color: Color.fromRGBO(42, 150, 108, 1),
                           width: 3); // Border color when disabled
@@ -1675,22 +1675,22 @@ class ConfirmationPage extends StatelessWidget {
               },
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(MaterialState.hovered)) {
+                    WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.hovered)) {
                     return const Color.fromRGBO(
                         42, 150, 108, 1); // Green background color when hovered
                   }
                   return Colors.white; // White background color by default
                 }),
                 foregroundColor:
-                    MaterialStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(MaterialState.hovered)) {
+                    WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.white; // Green background color when hovered
                   }
                   return const Color.fromRGBO(
                       42, 150, 108, 1); // White background color by default
                 }), // Green text color
-                side: MaterialStateProperty.resolveWith<BorderSide>((states) {
+                side: WidgetStateProperty.resolveWith<BorderSide>((states) {
                   return const BorderSide(
                       color: Colors.green, width: 2); // Green border
                 }),
@@ -1704,22 +1704,22 @@ class ConfirmationPage extends StatelessWidget {
               },
               style: ButtonStyle(
                 backgroundColor:
-                    MaterialStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(MaterialState.hovered)) {
+                    WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.hovered)) {
                     return const Color.fromRGBO(
                         42, 150, 108, 1); // Green background color when hovered
                   }
                   return Colors.white; // White background color by default
                 }),
                 foregroundColor:
-                    MaterialStateProperty.resolveWith<Color>((states) {
-                  if (states.contains(MaterialState.hovered)) {
+                    WidgetStateProperty.resolveWith<Color>((states) {
+                  if (states.contains(WidgetState.hovered)) {
                     return Colors.white; // Green background color when hovered
                   }
                   return const Color.fromRGBO(
                       42, 150, 108, 1); // White background color by default
                 }), // Green text color
-                side: MaterialStateProperty.resolveWith<BorderSide>((states) {
+                side: WidgetStateProperty.resolveWith<BorderSide>((states) {
                   return const BorderSide(
                       color: Colors.green, width: 2); // Green border
                 }),

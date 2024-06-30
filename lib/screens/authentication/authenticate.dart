@@ -4,6 +4,8 @@ import 'register.dart';
 import 'signin.dart';
 
 class Authenticate extends StatefulWidget {
+  const Authenticate({super.key});
+
   @override
   _AuthenticateState createState() => _AuthenticateState();
 }

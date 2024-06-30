@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/guide_profile.dart';
 
 import 'userProfile.dart';
 
 class UserPage extends StatefulWidget {
+  const UserPage({super.key});
+
   @override
   _UserPageState createState() => _UserPageState();
 }
@@ -27,9 +30,9 @@ class _UserPageState extends State<UserPage> {
               ? userProfilePage()
               : _selectedIndex == 2
                   ? userProfilePage()
-                  : userProfilePage(),
+                  : const GuideProfilePage(), // Add SettingsPage as the third option
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.0),
@@ -44,7 +47,7 @@ class _UserPageState extends State<UserPage> {
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
@@ -71,10 +74,11 @@ class _UserPageState extends State<UserPage> {
             selectedItemColor: Colors.black,
             unselectedItemColor: Colors.grey[400],
             backgroundColor: Colors.white,
-            selectedIconTheme: IconThemeData(size: 32),
-            unselectedIconTheme: IconThemeData(size: 28),
-            selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
+            selectedIconTheme: const IconThemeData(size: 32),
+            unselectedIconTheme: const IconThemeData(size: 28),
+            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+            unselectedLabelStyle:
+                const TextStyle(fontWeight: FontWeight.normal),
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
             showSelectedLabels: false,

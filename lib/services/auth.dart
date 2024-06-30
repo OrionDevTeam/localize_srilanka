@@ -61,7 +61,7 @@ class AuthService {
         });
 
         // Show verification message
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
               'Verification email has been sent. Please verify your email.'),
         ));
@@ -114,7 +114,7 @@ class AuthService {
       _navigateBasedOnRole(context, role);
     } else {
       // Email not verified, show resend option
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
             'Email not verified. Please check your email for verification link or resend verification email.'),
       ));
@@ -126,7 +126,7 @@ class AuthService {
     User? user = _auth.currentUser;
     if (user != null) {
       await user.sendEmailVerification();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Verification email resent. Please check your email.'),
       ));
     }
@@ -176,11 +176,11 @@ class AuthService {
     switch (role) {
       case 'user':
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => UserPage()));
+            context, MaterialPageRoute(builder: (context) => const UserPage()));
         break;
       default:
         ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Signed in as normal user')));
+            .showSnackBar(const SnackBar(content: Text('Signed in as normal user')));
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,10 +7,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
+import 'dart:typed_data';
 import 'package:intl/intl.dart';
 
 class MemoriesUploader extends StatefulWidget {
-  const MemoriesUploader({Key? key}) : super(key: key);
+  const MemoriesUploader({super.key});
 
   @override
   _MemoriesUploaderState createState() => _MemoriesUploaderState();
@@ -197,7 +200,7 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
               onPressed: _pickAndUploadImage,
               child: const Text('Upload Image'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _pickAndUploadVideo,
               child: const Text('Upload Video'),
@@ -210,6 +213,8 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
 }
 
 class MemoriesDisplay extends StatelessWidget {
+  const MemoriesDisplay({super.key});
+
   String _formatTimestamp(Timestamp timestamp) {
     return DateFormat('yyyy-MM-dd HH:mm').format(timestamp.toDate());
   }
@@ -219,7 +224,7 @@ class MemoriesDisplay extends StatelessWidget {
     final User? user = FirebaseAuth.instance.currentUser;
 
     if (user == null) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: Text('No user logged in'),
         ),
@@ -229,14 +234,15 @@ class MemoriesDisplay extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Your Memories'),
+        title: const Text('Your Memories'),
         actions: [
           IconButton(
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MemoriesUploader()),
+                MaterialPageRoute(
+                    builder: (context) => const MemoriesUploader()),
               );
             },
           ),
@@ -250,19 +256,19 @@ class MemoriesDisplay extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No memories found'));
+            return const Center(child: Text('No memories found'));
           }
 
           var memories = snapshot.data!.docs;
 
           return GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 4.0,
               mainAxisSpacing: 4.0,
@@ -291,9 +297,7 @@ class MemoriesDisplay extends StatelessWidget {
                     Expanded(
                       child: mediaType == 'image'
                           ? Image.network(downloadURL, fit: BoxFit.cover)
-                          : VideoThumbnail(
-                              url:
-                                  downloadURL), // Use VideoThumbnail for videos
+                          : VideoThumbnailWidget(url: downloadURL),
                     ),
                   ],
                 ),
@@ -309,14 +313,14 @@ class MemoriesDisplay extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: Text("Confirm Delete"),
-        content: Text("Are you sure you want to delete this memory?"),
+        title: const Text("Confirm Delete"),
+        content: const Text("Are you sure you want to delete this memory?"),
         actions: <Widget>[
           TextButton(
             onPressed: () {
               Navigator.of(context).pop(); // Close the dialog
             },
-            child: Text("Cancel"),
+            child: const Text("Cancel"),
           ),
           TextButton(
             onPressed: () async {
@@ -327,7 +331,7 @@ class MemoriesDisplay extends StatelessWidget {
                     .delete();
 
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text("Memory deleted successfully"),
                   ),
                 );
@@ -335,16 +339,16 @@ class MemoriesDisplay extends StatelessWidget {
               } catch (e) {
                 print("Error deleting memory: $e");
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text("Failed to delete memory"),
                   ),
                 );
               }
             },
-            child: Text("Delete"),
             style: TextButton.styleFrom(
               backgroundColor: Colors.white,
             ),
+            child: const Text("Delete"),
           ),
         ],
       ),
@@ -369,33 +373,33 @@ class MemoriesDisplay extends StatelessWidget {
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Your memory"),
-                SizedBox(height: 20),
+                const Text("Your memory"),
+                const SizedBox(height: 20),
                 Text('Location: $location'),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text('Hashtags: ${hashtags.join(', ')}'),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Image.network(url),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Text('Uploaded at: ${_formatTimestamp(uploadedAt)}'),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('Likes: $likeCount'), // Display like count for image
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     ElevatedButton(
                       onPressed: () {
                         _editMemoryDetails(context, memoryId);
                       },
-                      child: Text('Edit'),
+                      child: const Text('Edit'),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     ElevatedButton(
                       onPressed: () {
                         _confirmDelete(context, memoryId);
                       },
-                      child: Text('Delete'),
+                      child: const Text('Delete'),
                     ),
                   ],
                 ),
@@ -428,7 +432,7 @@ class MemoriesDisplay extends StatelessWidget {
       if (!snapshot.exists) {
         print('Document does not exist');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text('Memory not found'),
           ),
         );
@@ -456,7 +460,7 @@ class MemoriesDisplay extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text('Caption: ',
+                    const Text('Caption: ',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     Expanded(
                       child: TextField(
@@ -468,10 +472,10 @@ class MemoriesDisplay extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   children: [
-                    Text('Hashtags: ',
+                    const Text('Hashtags: ',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     Expanded(
                       child: TextField(
@@ -483,10 +487,10 @@ class MemoriesDisplay extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   children: [
-                    Text('Location: ',
+                    const Text('Location: ',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                     Expanded(
                       child: TextField(
@@ -550,84 +554,53 @@ class MemoriesDisplay extends StatelessWidget {
   }
 }
 
-class VideoThumbnail extends StatefulWidget {
+class VideoThumbnailWidget extends StatefulWidget {
   final String url;
 
-  const VideoThumbnail({Key? key, required this.url}) : super(key: key);
+  VideoThumbnailWidget({required this.url});
 
   @override
-  _VideoThumbnailState createState() => _VideoThumbnailState();
+  _VideoThumbnailWidgetState createState() => _VideoThumbnailWidgetState();
 }
 
-class _VideoThumbnailState extends State<VideoThumbnail> {
-  late VideoPlayerController _controller;
-  bool _initialized = false;
+class _VideoThumbnailWidgetState extends State<VideoThumbnailWidget> {
+  Uint8List? _thumbnailBytes;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.url);
-    _initializeVideoPlayer();
+    _generateThumbnail();
   }
 
-  Future<void> _initializeVideoPlayer() async {
-    await _controller.initialize();
-    setState(() {
-      _initialized = true;
-    });
-  }
+  Future<void> _generateThumbnail() async {
+    try {
+      final cacheManager = DefaultCacheManager();
+      final file = await cacheManager.getSingleFile(widget.url);
 
-  Future<ImageProvider> _getVideoThumbnail() async {
-    final cacheManager = DefaultCacheManager();
-    File? file = await cacheManager.getSingleFile(widget.url);
-    if (file != null && file.existsSync()) {
-      // Load video file and extract thumbnail
-      return FileImage(file);
-    } else {
-      throw Exception('Video file not found');
+      final uint8list = await VideoThumbnail.thumbnailData(
+        video: file.path,
+        imageFormat: ImageFormat.JPEG,
+        maxWidth: 128, // specify the width of the thumbnail, higher quality
+        quality: 75,
+      );
+
+      if (uint8list != null) {
+        setState(() {
+          _thumbnailBytes = uint8list;
+        });
+      }
+    } catch (e) {
+      print('Error generating thumbnail: $e');
     }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!_initialized) {
+    if (_thumbnailBytes == null) {
       return Center(child: CircularProgressIndicator());
-    } else {
-      return FutureBuilder(
-        future: _getVideoThumbnail(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done &&
-              snapshot.hasData) {
-            return GestureDetector(
-              onTap: () {
-                // Implement onTap action for video
-              },
-              child: AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Image(
-                        image: snapshot.data as ImageProvider,
-                        fit: BoxFit.cover),
-                    Icon(Icons.play_circle_outline,
-                        size: 50, color: Colors.white),
-                  ],
-                ),
-              ),
-            );
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      );
     }
+
+    return Image.memory(_thumbnailBytes!, fit: BoxFit.cover);
   }
 }
 
@@ -643,7 +616,7 @@ class VideoPlayerDialog extends StatefulWidget {
   final VoidCallback deleteCallback;
 
   const VideoPlayerDialog({
-    Key? key,
+    super.key,
     required this.url,
     required this.uploadedAt,
     required this.caption,
@@ -653,7 +626,7 @@ class VideoPlayerDialog extends StatefulWidget {
     required this.likeCount, // Updated constructor
     required this.editCallback,
     required this.deleteCallback,
-  }) : super(key: key);
+  });
 
   @override
   _VideoPlayerDialogState createState() => _VideoPlayerDialogState();
@@ -685,12 +658,12 @@ class _VideoPlayerDialogState extends State<VideoPlayerDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Your memory'),
-            SizedBox(height: 20),
+            const Text('Your memory'),
+            const SizedBox(height: 20),
             Text('Location: ${widget.location}'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text('Hashtags: ${widget.hashtags.join(', ')}'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             FutureBuilder(
               future: _initializeVideoPlayerFuture,
               builder: (context, snapshot) {
@@ -700,29 +673,29 @@ class _VideoPlayerDialogState extends State<VideoPlayerDialog> {
                     child: VideoPlayer(_controller),
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text('Caption: ${widget.caption}'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
                 'Uploaded at: ${DateFormat('yyyy-MM-dd HH:mm').format(widget.uploadedAt.toDate())}'),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text('Likes: ${widget.likeCount}'), // Display like count
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 ElevatedButton(
                   onPressed: widget.editCallback,
-                  child: Text('Edit'),
+                  child: const Text('Edit'),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: widget.deleteCallback,
-                  child: Text('Delete'),
+                  child: const Text('Delete'),
                 ),
               ],
             ),
@@ -740,6 +713,6 @@ void main() {
       primarySwatch: Colors.blue,
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
-    home: MemoriesDisplay(),
+    home: const MemoriesDisplay(),
   ));
 }

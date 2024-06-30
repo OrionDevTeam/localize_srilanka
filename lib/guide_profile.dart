@@ -143,30 +143,30 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
+                            shape: WidgetStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
                             padding:
-                                MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                WidgetStateProperty.all<EdgeInsetsGeometry>(
                               const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 20),
                             ),
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return Colors.white;
                                 }
                                 return const Color.fromARGB(255, 42, 150, 108);
                               },
                             ),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return const Color.fromARGB(
                                       255, 42, 150, 108);
                                 }
@@ -194,30 +194,30 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
+                            shape: WidgetStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
                             padding:
-                                MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                WidgetStateProperty.all<EdgeInsetsGeometry>(
                               const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 20),
                             ),
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return Colors.white;
                                 }
                                 return const Color.fromARGB(255, 42, 150, 108);
                               },
                             ),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return const Color.fromARGB(
                                       255, 42, 150, 108);
                                 }
@@ -244,30 +244,30 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
+                            shape: WidgetStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
                             padding:
-                                MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                WidgetStateProperty.all<EdgeInsetsGeometry>(
                               const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 20),
                             ),
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return Colors.white;
                                 }
                                 return const Color.fromARGB(255, 42, 150, 108);
                               },
                             ),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return const Color.fromARGB(
                                       255, 42, 150, 108);
                                 }
@@ -291,16 +291,16 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                 ),
               ),
               const SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
+              const Padding(
+                padding: EdgeInsets.all(4.0),
                 child: Column(
                   children: [
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     SizedBox(
                       height: 400, // Specify a fixed height for the GridView
                       child: MemoriesDisplay(),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -388,30 +388,30 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
+                            shape: WidgetStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
                             padding:
-                                MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                WidgetStateProperty.all<EdgeInsetsGeometry>(
                               const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 20),
                             ),
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return Colors.white;
                                 }
                                 return const Color.fromARGB(255, 42, 150, 108);
                               },
                             ),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return const Color.fromARGB(
                                       255, 42, 150, 108);
                                 }
@@ -438,30 +438,30 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: MaterialStateProperty.all<
+                            shape: WidgetStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
                             padding:
-                                MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                WidgetStateProperty.all<EdgeInsetsGeometry>(
                               const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 20),
                             ),
                             backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return Colors.white;
                                 }
                                 return const Color.fromARGB(255, 42, 150, 108);
                               },
                             ),
                             foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return const Color.fromARGB(
                                       255, 42, 150, 108);
                                 }
@@ -614,13 +614,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             FirebaseAuth.instance.signOut();
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                builder: (context) => WelcomeScreen(),
+                                builder: (context) => const WelcomeScreen(),
                               ),
                               (route) => false,
                             );
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                                 const Color(0xFF2A966C)),
                           ),
                           child: const Text(
@@ -655,7 +655,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => UserSettingsPage(),
+                                builder: (context) => const UserSettingsPage(),
                               ),
                             );
                           },
@@ -669,7 +669,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => NeedHelpPage(),
+                                builder: (context) => const NeedHelpPage(),
                               ),
                             );
                           },
@@ -828,7 +828,7 @@ class _ProfileBlockState extends State<ProfileBlock> {
 }
 
 class ActivityPage extends StatelessWidget {
-  const ActivityPage({Key? key}) : super(key: key);
+  const ActivityPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -888,7 +888,7 @@ class ActivityPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 8),
-              Row(
+              const Row(
                 children: [
                   CircleAvatar(
                     radius: 20,
@@ -945,32 +945,32 @@ class ActivityPage extends StatelessWidget {
                 // Add your rebook functionality here
               },
               style: ButtonStyle(
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 ),
-                backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed)) {
+                backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.pressed)) {
                       return const Color.fromARGB(255, 42, 150,
                           108); // Change button color when pressed
-                    } else if (states.contains(MaterialState.hovered)) {
+                    } else if (states.contains(WidgetState.hovered)) {
                       return Colors.white; // Change button color when hovered
                     }
                     return const Color.fromARGB(
                         255, 42, 150, 108); // Use default color
                   },
                 ),
-                foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed)) {
+                foregroundColor: WidgetStateProperty.resolveWith<Color>(
+                  (Set<WidgetState> states) {
+                    if (states.contains(WidgetState.pressed)) {
                       return const Color.fromARGB(255, 42, 150,
                           108); // Change button color when pressed
-                    } else if (states.contains(MaterialState.hovered)) {
+                    } else if (states.contains(WidgetState.hovered)) {
                       return const Color.fromARGB(255, 42, 150,
                           108); // Change button color when hovered
                     }
@@ -995,9 +995,9 @@ class HelpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = TextEditingController();
+    final TextEditingController controller = TextEditingController();
 
-    void _handleSubmit() {
+    void handleSubmit() {
       // Display the SnackBar message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -1007,7 +1007,7 @@ class HelpPage extends StatelessWidget {
       );
 
       // Clear the text input field
-      _controller.clear();
+      controller.clear();
     }
 
     return Scaffold(
@@ -1072,7 +1072,7 @@ class HelpPage extends StatelessWidget {
             children: [
               Expanded(
                 child: TextField(
-                  controller: _controller,
+                  controller: controller,
                   decoration: const InputDecoration(
                     hintText: 'Ask me anything',
                   ),
@@ -1080,22 +1080,22 @@ class HelpPage extends StatelessWidget {
               ),
               const SizedBox(width: 20),
               ElevatedButton.icon(
-                onPressed: _handleSubmit,
+                onPressed: handleSubmit,
                 icon: const Icon(Icons.send),
                 label: const Text('Submit'),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.hovered)) {
+                  backgroundColor: WidgetStateProperty.resolveWith<Color>(
+                    (Set<WidgetState> states) {
+                      if (states.contains(WidgetState.hovered)) {
                         return const Color.fromARGB(
                             255, 42, 150, 108); // Green background when hovered
                       }
                       return Colors.white; // Default background color
                     },
                   ),
-                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.hovered)) {
+                  foregroundColor: WidgetStateProperty.resolveWith<Color>(
+                    (Set<WidgetState> states) {
+                      if (states.contains(WidgetState.hovered)) {
                         return Colors.white; // White text color when hovered
                       }
                       return const Color.fromARGB(

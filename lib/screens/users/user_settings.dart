@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class UserSettingsPage extends StatefulWidget {
+  const UserSettingsPage({super.key});
+
   @override
   _UserSettingsPageState createState() => _UserSettingsPageState();
 }
@@ -87,13 +89,13 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
         }
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('User details updated successfully')),
+          const SnackBar(content: Text('User details updated successfully')),
         );
       }
     } catch (e) {
       print('Error updating user details: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update user details')),
+        const SnackBar(content: Text('Failed to update user details')),
       );
     }
   }
@@ -122,13 +124,13 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Profile picture updated successfully')),
+          const SnackBar(content: Text('Profile picture updated successfully')),
         );
       }
     } catch (e) {
       print('Error updating profile picture: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update profile picture')),
+        const SnackBar(content: Text('Failed to update profile picture')),
       );
     }
   }
@@ -137,10 +139,10 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Account Settings'),
+        title: const Text('Account Settings'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -150,48 +152,48 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                   ? NetworkImage(_profileImageUrl) as ImageProvider
                   : const AssetImage('assets/placeholder.jpg'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _updateProfilePicture,
-              child: Text('Change Profile Picture'),
+              child: const Text('Change Profile Picture'),
             ),
-            SizedBox(height: 32.0),
-            Text('Username:'),
+            const SizedBox(height: 32.0),
+            const Text('Username:'),
             TextFormField(
               controller: _usernameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Enter your new username',
               ),
             ),
-            SizedBox(height: 16.0),
-            Text('Email:'),
+            const SizedBox(height: 16.0),
+            const Text('Email:'),
             TextFormField(
               controller: _emailController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Enter your new email',
               ),
             ),
-            SizedBox(height: 16.0),
-            Text('Bio:'),
+            const SizedBox(height: 16.0),
+            const Text('Bio:'),
             TextFormField(
               controller: _bioController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Enter your bio',
               ),
             ),
-            SizedBox(height: 16.0),
-            Text('Password:'),
+            const SizedBox(height: 16.0),
+            const Text('Password:'),
             TextFormField(
               controller: _passwordController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Enter your new password',
               ),
               obscureText: true,
             ),
-            SizedBox(height: 32.0),
+            const SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: _updateUserDetails,
-              child: Text('Update All'),
+              child: const Text('Update All'),
             ),
           ],
         ),

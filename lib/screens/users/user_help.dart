@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 
 class NeedHelpPage extends StatelessWidget {
+  const NeedHelpPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Need Help'),
+        title: const Text('Need Help'),
       ),
-      body: HelpContent(),
+      body: const HelpContent(),
     );
   }
 }
 
 class HelpContent extends StatelessWidget {
+  const HelpContent({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return const SingleChildScrollView(
       padding: EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

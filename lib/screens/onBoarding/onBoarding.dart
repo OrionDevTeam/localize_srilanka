@@ -6,7 +6,7 @@ class OnboardingScreen extends StatelessWidget {
   final String buttonText;
   final int currentIndex;
 
-  OnboardingScreen({
+  const OnboardingScreen({super.key, 
     required this.imagePath,
     required this.destinationName,
     required this.buttonText,
@@ -34,7 +34,7 @@ class OnboardingScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Pick Your Destination',
                     style: TextStyle(
                       color: Colors.white,
@@ -42,9 +42,9 @@ class OnboardingScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Container(
-                    padding: EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12.0),
@@ -56,26 +56,26 @@ class OnboardingScreen extends StatelessWidget {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     destinationName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ProgressIndicatorWidget(
                       currentIndex: currentIndex, totalDots: 3),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {},
-                    child: Text(buttonText),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
                     ),
+                    child: Text(buttonText),
                   ),
                 ],
               ),
@@ -91,8 +91,8 @@ class ProgressIndicatorWidget extends StatelessWidget {
   final int currentIndex;
   final int totalDots;
 
-  ProgressIndicatorWidget(
-      {required this.currentIndex, required this.totalDots});
+  const ProgressIndicatorWidget(
+      {super.key, required this.currentIndex, required this.totalDots});
 
   @override
   Widget build(BuildContext context) {
@@ -100,8 +100,8 @@ class ProgressIndicatorWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(totalDots, (index) {
         return AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          margin: EdgeInsets.symmetric(horizontal: 4.0),
+          duration: const Duration(milliseconds: 300),
+          margin: const EdgeInsets.symmetric(horizontal: 4.0),
           width: currentIndex == index ? 12.0 : 8.0,
           height: 8.0,
           decoration: BoxDecoration(

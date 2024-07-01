@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/guide_profile.dart';
 
 import '../map/map_home.dart';
 import '../reels/reels.dart';
 import 'userProfile.dart';
 
 class UserPage extends StatefulWidget {
+  const UserPage({super.key});
+
   @override
   _UserPageState createState() => _UserPageState();
 }
@@ -36,7 +39,7 @@ class _UserPageState extends State<UserPage> {
                 MapS(),
                 SocialMediaFeed(),
                 userProfilePage(),
-                userProfilePage(),
+                const GuideProfilePage(),
               ],
             ),
           ),

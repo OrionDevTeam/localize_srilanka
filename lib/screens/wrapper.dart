@@ -11,6 +11,8 @@ import 'authentication/signin.dart';
 import 'users/user_main.dart';
 
 class Wrapper extends StatelessWidget {
+  const Wrapper({super.key});
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);
@@ -23,7 +25,9 @@ class Wrapper extends StatelessWidget {
             FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(body: Center(child: CircularProgressIndicator()));
+            return const Scaffold(
+                body: Center(
+                    child: CircularProgressIndicator(color: Colors.green)));
           }
 
           if (snapshot.hasError) {
@@ -73,8 +77,10 @@ class Wrapper extends StatelessWidget {
             // admin
             case 'admin':
               return AdminPage();
+            case 'Guide':
+              return const UserPage();
             default:
-              return Scaffold(body: Center(child: Text('Unknown user role')));
+              return const Scaffold(body: Center(child: Text('Unknown user role')));
           }
         },
       );

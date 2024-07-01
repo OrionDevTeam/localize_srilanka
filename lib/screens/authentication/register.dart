@@ -4,7 +4,7 @@ import '../../../services/auth.dart';
 
 class Register extends StatefulWidget {
   final Function toggleView;
-  Register({required this.toggleView});
+  const Register({super.key, required this.toggleView});
 
   @override
   _RegisterState createState() => _RegisterState();
@@ -51,11 +51,11 @@ class _RegisterState extends State<Register> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -70,11 +70,11 @@ class _RegisterState extends State<Register> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -90,29 +90,29 @@ class _RegisterState extends State<Register> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   Container(
                     padding: const EdgeInsets.only(left: 18.0),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Color.fromARGB(255, 220, 220, 220),
+                          color: const Color.fromARGB(255, 220, 220, 220),
                           width: 1.0),
                       borderRadius: BorderRadius.circular(48.0),
                     ),
                     child: Row(
                       children: [
-                        SizedBox(width: 4),
-                        Icon(
+                        const SizedBox(width: 4),
+                        const Icon(
                           Icons.person,
                           color: Color.fromARGB(255, 159, 159, 159),
                         ),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: TextFormField(
                             controller: _usernameController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Username',
                               border: InputBorder.none,
                             ),
@@ -129,27 +129,27 @@ class _RegisterState extends State<Register> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   Container(
                     padding: const EdgeInsets.only(left: 18.0),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Color.fromARGB(255, 220, 220, 220),
+                          color: const Color.fromARGB(255, 220, 220, 220),
                           width: 1.0),
                       borderRadius: BorderRadius.circular(48.0),
                     ),
                     child: Row(
                       children: [
-                        SizedBox(width: 4),
-                        Icon(
+                        const SizedBox(width: 4),
+                        const Icon(
                           Icons.email,
                           color: Color.fromARGB(255, 159, 159, 159),
                         ),
-                        SizedBox(width: 12),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: TextFormField(
                             controller: _emailController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Email',
                               border: InputBorder.none,
                             ),
@@ -167,27 +167,27 @@ class _RegisterState extends State<Register> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   Container(
                     padding: const EdgeInsets.only(left: 18.0),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Color.fromARGB(255, 220, 220, 220),
+                          color: const Color.fromARGB(255, 220, 220, 220),
                           width: 1.0),
                       borderRadius: BorderRadius.circular(48.0),
                     ),
                     child: Row(
                       children: [
-                        SizedBox(width: 4),
-                        Icon(
+                        const SizedBox(width: 4),
+                        const Icon(
                           Icons.lock,
                           color: Color.fromARGB(255, 159, 159, 159),
                         ),
-                        SizedBox(width: 12.0),
+                        const SizedBox(width: 12.0),
                         Expanded(
                           child: TextFormField(
                             controller: _passwordController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Password',
                               border: InputBorder.none,
                             ),
@@ -207,7 +207,7 @@ class _RegisterState extends State<Register> {
                             _obscureText
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Color.fromARGB(255, 159, 159, 159),
+                            color: const Color.fromARGB(255, 159, 159, 159),
                           ),
                           onPressed: () {
                             setState(() {
@@ -215,31 +215,31 @@ class _RegisterState extends State<Register> {
                             });
                           },
                         ),
-                        SizedBox(width: 12.0),
+                        const SizedBox(width: 12.0),
                       ],
                     ),
                   ),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   Container(
                     padding: const EdgeInsets.only(left: 18.0),
                     decoration: BoxDecoration(
                       border: Border.all(
-                          color: Color.fromARGB(255, 220, 220, 220),
+                          color: const Color.fromARGB(255, 220, 220, 220),
                           width: 1.0),
                       borderRadius: BorderRadius.circular(48.0),
                     ),
                     child: Row(
                       children: [
-                        SizedBox(width: 4.0),
-                        Icon(
+                        const SizedBox(width: 4.0),
+                        const Icon(
                           Icons.lock,
                           color: Color.fromARGB(255, 159, 159, 159),
                         ),
-                        SizedBox(width: 12.0),
+                        const SizedBox(width: 12.0),
                         Expanded(
                           child: TextFormField(
                             controller: _confirmPasswordController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Confirm Password',
                               border: InputBorder.none,
                             ),
@@ -259,7 +259,7 @@ class _RegisterState extends State<Register> {
                             _obscureText
                                 ? Icons.visibility
                                 : Icons.visibility_off,
-                            color: Color.fromARGB(255, 159, 159, 159),
+                            color: const Color.fromARGB(255, 159, 159, 159),
                           ),
                           onPressed: () {
                             setState(() {
@@ -267,17 +267,15 @@ class _RegisterState extends State<Register> {
                             });
                           },
                         ),
-                        SizedBox(width: 12.0),
+                        const SizedBox(width: 12.0),
                       ],
                     ),
                   ),
-                  SizedBox(height: 40.0),
+                  const SizedBox(height: 40.0),
                   SizedBox(
                     width: double.infinity,
                     height: 52,
                     child: ElevatedButton(
-                      child: Text('Create new account',
-                          style: TextStyle(fontSize: 16.0)),
                       onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           final String username =
@@ -303,28 +301,30 @@ class _RegisterState extends State<Register> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF2A966C),
+                        backgroundColor: const Color(0xFF2A966C),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(48.0),
                         ),
                       ),
+                      child: const Text('Create new account',
+                          style: TextStyle(fontSize: 16.0)),
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   TextButton(
                     onPressed: () {
                       widget.toggleView();
                     },
-                    child: Text(
+                    child: const Text(
                       "Already have an account? Sign In",
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),
-                  SizedBox(height: 12.0),
+                  const SizedBox(height: 12.0),
                   Text(
                     error,
-                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    style: const TextStyle(color: Colors.red, fontSize: 14.0),
                   ),
                 ],
               ),

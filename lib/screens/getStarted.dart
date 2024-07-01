@@ -4,6 +4,8 @@ import 'package:localize_sl/screens/authentication/authenticate.dart';
 import 'wrapper.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,8 +19,8 @@ class WelcomeScreen extends StatelessWidget {
                 Image.asset('assets/varun/get.jpg',
                     height:
                         280), // Replace with your image asset and desired height
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Plan Your Perfect \nSriLanka Trip',
                   style: TextStyle(
                       fontSize: 28,
@@ -26,8 +28,8 @@ class WelcomeScreen extends StatelessWidget {
                       fontFamily: 'Poppins'),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 15),
-                Text(
+                const SizedBox(height: 15),
+                const Text(
                   'Immerse yourself in the vibrant culture and warm hospitality of Sri Lanka, where every corner reveals a new adventure.',
                   style: TextStyle(
                     fontSize: 14,
@@ -36,23 +38,23 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      MaterialPageRoute(builder: (context) => const HomeScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(220, 50),
-                    backgroundColor: Color(0xFF2A966C),
+                    minimumSize: const Size(220, 50),
+                    backgroundColor: const Color(0xFF2A966C),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(48.0),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Get Started',
                     style: TextStyle(
                       fontSize: 16,
@@ -71,6 +73,8 @@ class WelcomeScreen extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,8 +89,8 @@ class HomeScreen extends StatelessWidget {
                   'assets/varun/middle.jpg',
                   height: 300,
                 ), // Replace with your image asset
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Localize SriLanka',
                   style: TextStyle(
                     fontSize: 24,
@@ -94,8 +98,8 @@ class HomeScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 10),
-                Text(
+                const SizedBox(height: 10),
+                const Text(
                   'A Sustainable Tourism Platform for Authentic Experiences',
                   style: TextStyle(
                     fontSize: 14,
@@ -104,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 18.0),
                   child: ElevatedButton(
@@ -115,17 +119,17 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 50),
-                      backgroundColor: Color(0xFF2A966C),
+                      minimumSize: const Size(double.infinity, 50),
+                      backgroundColor: const Color(0xFF2A966C),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(48.0),
                       ),
                     ),
-                    child: Text('Login'),
+                    child: const Text('Login'),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 18.0),
                   child: TextButton(
@@ -136,16 +140,16 @@ class HomeScreen extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 50),
+                      minimumSize: const Size(double.infinity, 50),
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(48.0),
-                          side: BorderSide(
+                          side: const BorderSide(
                             color: Color(0xFF50555C),
                           )),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Sign up',
                       style: TextStyle(
                         fontSize: 16,

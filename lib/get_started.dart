@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:localize_sl/home.dart';
 import 'auth/second_page.dart';
 

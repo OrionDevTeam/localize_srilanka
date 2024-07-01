@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/guide_profile.dart';
+import 'chats/chatselection.dart';
 
 import 'userProfile.dart';
 
@@ -29,7 +30,7 @@ class _UserPageState extends State<UserPage> {
           : _selectedIndex == 1
               ? userProfilePage()
               : _selectedIndex == 2
-                  ? userProfilePage()
+                  ? ChatSelectionPage()
                   : const GuideProfilePage(), // Add SettingsPage as the third option
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(

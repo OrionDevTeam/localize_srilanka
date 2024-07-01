@@ -64,7 +64,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
       );
     }
 
-    if (userRole == 'Guide') {
+    if (userRole == 'Guide' || userRole == 'Business') {
       return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -143,8 +143,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -194,8 +194,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -244,8 +244,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -388,8 +388,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -438,8 +438,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),

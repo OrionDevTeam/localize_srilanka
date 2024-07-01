@@ -53,6 +53,9 @@ dependencies:
   google_maps_flutter: ^2.7.0
   google_places_flutter: ^2.0.8
   http: ^1.2.1
+  flutter_chat_types: ^3.6.2
+  flutter_chat_ui: ^1.6.14
+  open_filex: ^4.4.0
 
 dev_dependencies:
   flutter_test:

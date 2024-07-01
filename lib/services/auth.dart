@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../screens/users/user_main.dart';
+import '../screens/admin/adminPage.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -177,6 +178,10 @@ class AuthService {
       case 'user':
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const UserPage()));
+        break;
+      case 'admin':
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => AdminPage()));
         break;
       default:
         ScaffoldMessenger.of(context)

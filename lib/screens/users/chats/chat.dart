@@ -152,7 +152,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat with ${widget.guideData['username']}'),
+        title: Text('${widget.guideData['username']}'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

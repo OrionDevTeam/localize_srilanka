@@ -144,7 +144,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select a Chat"),
+        title: const Text("Chats"),
         automaticallyImplyLeading: false,
       ),
       body: _chats.isEmpty

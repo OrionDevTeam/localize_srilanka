@@ -41,17 +41,14 @@ class _ChatPageState extends State<ChatPage> {
       id: FirebaseAuth.instance.currentUser!.uid,
     );
 
-    // Add null and type checks for guideData['id']
     final guideId = widget.guideData['id'];
     if (guideId != null && guideId is String) {
       _otherUser = types.User(
         id: guideId,
       );
     } else {
-      // Handle the case where guideData['id'] is null or not a string
-      // For example, assign a default ID or handle gracefully
       _otherUser = types.User(
-        id: 'default_user_id', // Replace with a default value or handle accordingly
+        id: 'default_user_id',
       );
     }
   }
@@ -81,33 +78,43 @@ class _ChatPageState extends State<ChatPage> {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) => SafeArea(
-        child: SizedBox(
-          height: 144,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _handleImageSelection();
-                },
-                child: const Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Text('Photo'),
-                ),
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.photo_library),
+              title: Text('Photo'),
+              onTap: () {
+                Navigator.pop(context);
+                _handleImageSelection(ImageSource.gallery);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.videocam),
+              title: Text('Video'),
+              onTap: () {
+                Navigator.pop(context);
+                _handleVideoSelection();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.cancel),
+              title: Text('Cancel'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
         ),
       ),
     );
   }
 
-  void _handleImageSelection() async {
+  void _handleImageSelection(ImageSource source) async {
     final result = await ImagePicker().pickImage(
+      source: source,
       imageQuality: 70,
       maxWidth: 1440,
-      source: ImageSource.gallery,
     );
 
     if (result != null) {
@@ -123,6 +130,27 @@ class _ChatPageState extends State<ChatPage> {
         uri: result.path,
         height: image.height.toDouble(),
         width: image.width.toDouble(),
+      );
+
+      _addMessage(message);
+    }
+  }
+
+  void _handleVideoSelection() async {
+    final result = await ImagePicker().pickVideo(
+      source: ImageSource.gallery,
+    );
+
+    if (result != null) {
+      final videoFile = File(result.path!);
+
+      final message = types.VideoMessage(
+        author: _currentUser,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: path.basename(result.path!),
+        size: videoFile.lengthSync(),
+        uri: result.path!,
       );
 
       _addMessage(message);
@@ -211,6 +239,19 @@ extension on types.Message {
         'width': imageMessage.width,
         'type': 'image',
       };
+    } else if (this is types.VideoMessage) {
+      final videoMessage = this as types.VideoMessage;
+      return {
+        'id': videoMessage.id,
+        'author': {
+          'id': videoMessage.author.id,
+        },
+        'createdAt': videoMessage.createdAt,
+        'name': videoMessage.name,
+        'size': videoMessage.size,
+        'uri': videoMessage.uri,
+        'type': 'video',
+      };
     }
     return {};
   }
@@ -233,6 +274,15 @@ extension on types.Message {
         uri: json['uri'],
         height: json['height'],
         width: json['width'],
+      );
+    } else if (json['type'] == 'video') {
+      return types.VideoMessage(
+        id: json['id'],
+        author: types.User(id: json['author']['id']),
+        createdAt: json['createdAt'],
+        name: json['name'],
+        size: json['size'],
+        uri: json['uri'],
       );
     }
     throw UnsupportedError('Unsupported message type');

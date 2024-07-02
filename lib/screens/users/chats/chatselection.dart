@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'chat.dart'; // Import the ChatPage
+import 'chat.dart';
 
 class ChatSelectionPage extends StatefulWidget {
   @override
@@ -11,7 +11,7 @@ class ChatSelectionPage extends StatefulWidget {
 class _ChatSelectionPageState extends State<ChatSelectionPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late User _currentUser;
-  late String _userRole;
+  String _currentUserRole = '';
   List<Map<String, dynamic>> _chats = [];
 
   @override
@@ -23,63 +23,121 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
   void _getCurrentUser() async {
     User? user = _auth.currentUser;
     if (user != null) {
-      setState(() {
-        _currentUser = user;
-      });
-      await _fetchUserRole();
-      _fetchChats();
-    }
-  }
+      try {
+        DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .get();
 
-  Future<void> _fetchUserRole() async {
-    final userDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(_currentUser.uid)
-        .get();
-    if (userDoc.exists) {
-      setState(() {
-        _userRole = userDoc.data()?['user_role'];
-      });
+        setState(() {
+          _currentUser = user;
+          _currentUserRole = userSnapshot.get('user_role');
+        });
+
+        _fetchChats();
+        await printAllUserDocumentIds(); // Call the method here
+      } catch (e) {
+        print('Error fetching current user: $e');
+      }
     }
   }
 
   void _fetchChats() async {
-    final query = _userRole == 'Guide'
-        ? FirebaseFirestore.instance
-            .collection('chats')
-            .where('GuideID', isEqualTo: _currentUser.uid)
-        : FirebaseFirestore.instance
-            .collection('chats')
-            .where('UserID', isEqualTo: _currentUser.uid);
+    try {
+      final chatsSnapshot =
+          await FirebaseFirestore.instance.collection('chats').get();
+      final List<Map<String, dynamic>> chats = [];
 
-    final chatsSnapshot = await query.get();
-    final List<Map<String, dynamic>> chats = [];
+      print('Chats snapshot size: ${chatsSnapshot.size}');
 
-    for (var chatDoc in chatsSnapshot.docs) {
-      final chatData = chatDoc.data();
-      final userID =
-          _userRole == 'Guide' ? chatData['UserID'] : chatData['GuideID'];
-      final userData = await fetchUserData(userID);
-      if (userData != null) {
-        chats.add({
-          'chatID': chatDoc.id,
-          'userData': userData,
-        });
+      for (var chatDoc in chatsSnapshot.docs) {
+        final chatData = chatDoc.data();
+        if (chatData != null) {
+          String? otherUserId;
+          String? userRole;
+
+          print('_currentUserRole: $_currentUserRole');
+
+          if (_currentUserRole == 'Guide') {
+            if (chatData['GuideID'] == _currentUser.uid) {
+              otherUserId = chatData['UserID'];
+              userRole = 'User';
+            }
+          } else if (_currentUserRole == 'user') {
+            if (chatData['UserID'] == _currentUser.uid) {
+              otherUserId = chatData['GuideID'];
+              userRole = 'Guide';
+            }
+          }
+
+          if (otherUserId != null && userRole != null) {
+            print('Fetching user data for userID: $otherUserId');
+            final otherUserData = await fetchUserData(otherUserId);
+            if (otherUserData != null) {
+              print("Adding chat");
+              chats.add({
+                'chatID': chatDoc.id,
+                'otherUserData': otherUserData,
+                'userRole': userRole,
+              });
+            }
+          }
+        }
       }
-    }
 
-    setState(() {
-      _chats = chats;
-    });
+      setState(() {
+        _chats = chats;
+      });
+
+      print('Fetched ${_chats.length} chats');
+    } catch (e) {
+      print('Error fetching chats: $e');
+    }
   }
 
-  Future<Map<String, dynamic>?> fetchUserData(String userID) async {
-    final userSnapshot =
-        await FirebaseFirestore.instance.collection('users').doc(userID).get();
-    if (userSnapshot.exists) {
-      return userSnapshot.data();
+  Future<Map<String, dynamic>?> fetchUserData(String userId) async {
+    try {
+      print("userid: $userId");
+      final userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+
+      print('Attempting to fetch user data for userID: $userId');
+      print('Document exists: ${userSnapshot.exists}');
+      print('Fetched document ID: ${userSnapshot.id}'); // Debug statement
+
+      if (userSnapshot.exists) {
+        // Exclude 'bio' and 'email' fields from the data
+        print("hi");
+        Map<String, dynamic> userData = userSnapshot.data()!;
+        userData.remove('bio');
+        userData.remove('email');
+
+        print('User data: $userData');
+        return userData;
+      } else {
+        print('User document does not exist for userID: $userId');
+      }
+    } catch (e) {
+      print('Error fetching user data for userID: $userId, error: $e');
     }
+
     return null;
+  }
+
+  Future<void> printAllUserDocumentIds() async {
+    try {
+      final usersSnapshot =
+          await FirebaseFirestore.instance.collection('users').get();
+
+      print('All document IDs in the users collection:');
+      for (var doc in usersSnapshot.docs) {
+        print(doc.id);
+      }
+    } catch (e) {
+      print('Error fetching user document IDs: $e');
+    }
   }
 
   @override
@@ -90,17 +148,19 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
         automaticallyImplyLeading: false,
       ),
       body: _chats.isEmpty
-          ? Center(child: Text("You have made no chats"))
+          ? Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: _chats.length,
               itemBuilder: (context, index) {
                 final chat = _chats[index];
-                final userData = chat['userData'];
+                final otherUserData =
+                    chat['otherUserData'] as Map<String, dynamic>;
                 return ListTile(
-                  title: Text(userData['username']),
-                  subtitle: Text(userData['user_role']),
+                  title: Text(otherUserData['username'] ?? ''),
+                  subtitle: Text(chat['userRole'] ?? ''),
                   leading: CircleAvatar(
-                    backgroundImage: NetworkImage(userData['profileImageUrl']),
+                    backgroundImage:
+                        NetworkImage(otherUserData['profileImageUrl'] ?? ''),
                   ),
                   onTap: () {
                     Navigator.push(
@@ -108,7 +168,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                       MaterialPageRoute(
                         builder: (context) => ChatPage(
                           chatId: chat['chatID'],
-                          userData: userData,
+                          guideData: otherUserData,
                         ),
                       ),
                     );

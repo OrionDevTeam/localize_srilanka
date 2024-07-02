@@ -1,36 +1,32 @@
-import 'dart:convert';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_chat_ui/flutter_chat_ui.dart' as chat_ui;
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:mime/mime.dart';
-import 'package:open_filex/open_filex.dart';
+import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
-import 'package:uuid/uuid.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatPage extends StatefulWidget {
   final String chatId;
-  final Map<String, dynamic> userData;
+  final Map<String, dynamic> guideData;
 
-  const ChatPage({super.key, required this.chatId, required this.userData});
+  const ChatPage({
+    Key? key,
+    required this.chatId,
+    required this.guideData,
+  }) : super(key: key);
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
-  final _user = const types.User(
-    id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
+  final _otherUser = types.User(
+    id: '',
   );
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -38,11 +34,18 @@ class _ChatPageState extends State<ChatPage> {
     _loadMessages();
   }
 
-  void _addMessage(types.Message message) async {
+  void _addMessage(types.Message message) {
     setState(() {
       _messages.insert(0, message);
     });
-    await _saveMessageToFirestore(message);
+  }
+
+  Future<File> _saveImageToFilesystem(String name, Uint8List bytes) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final image = File('${directory.path}/$name');
+
+    await image.writeAsBytes(bytes);
+    return image;
   }
 
   void _handleAttachmentPressed() {
@@ -64,48 +67,11 @@ class _ChatPageState extends State<ChatPage> {
                   child: Text('Photo'),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _handleFileSelection();
-                },
-                child: const Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Text('File'),
-                ),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Align(
-                  alignment: AlignmentDirectional.centerStart,
-                  child: Text('Cancel'),
-                ),
-              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  void _handleFileSelection() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-    );
-
-    if (result != null && result.files.single.path != null) {
-      final message = types.FileMessage(
-        author: _user,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: const Uuid().v4(),
-        mimeType: lookupMimeType(result.files.single.path!),
-        name: result.files.single.name,
-        size: result.files.single.size,
-        uri: result.files.single.path!,
-      );
-
-      _addMessage(message);
-    }
   }
 
   void _handleImageSelection() async {
@@ -120,13 +86,13 @@ class _ChatPageState extends State<ChatPage> {
       final image = await decodeImageFromList(bytes);
 
       final message = types.ImageMessage(
-        author: _user,
+        author: _otherUser,
         createdAt: DateTime.now().millisecondsSinceEpoch,
-        height: image.height.toDouble(),
-        id: const Uuid().v4(),
-        name: result.name,
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: path.basename(result.path),
         size: bytes.length,
         uri: result.path,
+        height: image.height.toDouble(),
         width: image.width.toDouble(),
       );
 
@@ -134,130 +100,57 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void _handleMessageTap(BuildContext _, types.Message message) async {
-    if (message is types.FileMessage) {
-      var localPath = message.uri;
-
-      if (message.uri.startsWith('http')) {
-        try {
-          final index =
-              _messages.indexWhere((element) => element.id == message.id);
-          final updatedMessage =
-              (_messages[index] as types.FileMessage).copyWith(
-            isLoading: true,
-          );
-
-          setState(() {
-            _messages[index] = updatedMessage;
-          });
-
-          final client = http.Client();
-          final request = await client.get(Uri.parse(message.uri));
-          final bytes = request.bodyBytes;
-          final documentsDir = (await getApplicationDocumentsDirectory()).path;
-          localPath = '$documentsDir/${message.name}';
-
-          if (!File(localPath).existsSync()) {
-            final file = File(localPath);
-            await file.writeAsBytes(bytes);
-          }
-        } finally {
-          final index =
-              _messages.indexWhere((element) => element.id == message.id);
-          final updatedMessage =
-              (_messages[index] as types.FileMessage).copyWith(
-            isLoading: null,
-          );
-
-          setState(() {
-            _messages[index] = updatedMessage;
-          });
-        }
-      }
-
-      await OpenFilex.open(localPath);
-    }
-  }
-
-  void _handlePreviewDataFetched(
-    types.TextMessage message,
-    types.PreviewData previewData,
-  ) {
-    final index = _messages.indexWhere((element) => element.id == message.id);
-    final updatedMessage = (_messages[index] as types.TextMessage).copyWith(
-      previewData: previewData,
-    );
-
+  void _loadMessages() {
+    // Simulating loading messages from a database or other source
     setState(() {
-      _messages[index] = updatedMessage;
+      // Replace with your actual messages loading logic
+      _messages = [
+        types.TextMessage(
+          author: _otherUser,
+          createdAt: DateTime.now().millisecondsSinceEpoch - 100000,
+          id: '1',
+          text: 'Hello!',
+        ),
+        types.TextMessage(
+          author: _otherUser,
+          createdAt: DateTime.now().millisecondsSinceEpoch - 200000,
+          id: '2',
+          text: 'How are you?',
+        ),
+      ];
     });
   }
 
-  void _handleSendPressed(types.PartialText message) {
-    final textMessage = types.TextMessage(
-      author: _user,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: const Uuid().v4(),
-      text: message.text,
-    );
-
-    _addMessage(textMessage);
-  }
-
-  void _loadMessages() async {
-    final chatDoc = await FirebaseFirestore.instance
-        .collection('chats')
-        .doc(widget.chatId)
-        .get();
-
-    if (chatDoc.exists) {
-      final messagesData = chatDoc.data()?['messages'] as List<dynamic>?;
-      if (messagesData != null) {
-        final messages =
-            messagesData.map((e) => types.Message.fromJson(e)).toList();
-
-        setState(() {
-          _messages = messages;
-        });
-      }
-    }
-  }
-
-  Future<void> _saveMessageToFirestore(types.Message message) async {
-    final chatDocRef =
-        FirebaseFirestore.instance.collection('chats').doc(widget.chatId);
-
-    final chatDoc = await chatDocRef.get();
-    if (chatDoc.exists) {
-      final messagesData = chatDoc.data()?['messages'] as List<dynamic>?;
-      if (messagesData != null) {
-        messagesData.add(message.toJson());
-        await chatDocRef.update({'messages': messagesData});
-      } else {
-        await chatDocRef.update({
-          'messages': [message.toJson()]
-        });
-      }
-    } else {
-      await chatDocRef.set({
-        'messages': [message.toJson()]
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.userData['username']),
+        title: Text('Chat with ${widget.guideData['user_name']}'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body: Chat(
+      body: chat_ui.Chat(
         messages: _messages,
         onAttachmentPressed: _handleAttachmentPressed,
-        onMessageTap: _handleMessageTap,
-        onPreviewDataFetched: _handlePreviewDataFetched,
-        onSendPressed: _handleSendPressed,
-        user: _user,
+        onMessageTap: (context, message) {
+          // Handle tap on the message here
+          print('Message tapped: ${message.id}');
+        },
+        onSendPressed: (message) {
+          if (message is types.PartialText) {
+            final textMessage = types.TextMessage(
+              author: _otherUser,
+              createdAt: DateTime.now().millisecondsSinceEpoch,
+              id: DateTime.now().millisecondsSinceEpoch.toString(),
+              text: message.text,
+            );
+            _addMessage(textMessage);
+          }
+        },
+        user: _otherUser,
       ),
     );
   }

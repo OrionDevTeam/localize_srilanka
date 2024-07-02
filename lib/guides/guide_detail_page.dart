@@ -157,25 +157,56 @@ class GuideDetailPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 16.0),
-                ActionChip(
-                  avatar: Icon(Icons.phone, color: Colors.white),
-                  label: Text('Contact me',
-                  style: TextStyle(
-                fontSize: 20.0,
-                fontWeight:FontWeight.bold,
-                color: Colors.white,
-              )),
-              backgroundColor: Color.fromARGB(255,22, 156, 140),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ContactPage(guide: guide),
-                      ),
-                    );
-                  },
-                  labelStyle: TextStyle(color: Colors.white),
+                SizedBox(height: 6.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ToggleButtons(
+                      borderRadius: BorderRadius.circular(8.0),
+                      selectedColor: Colors.white,
+                      fillColor: Color.fromARGB(255, 22, 156, 140),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+                          child: Text(
+                            'Contact me',
+                            style: TextStyle(
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                          child: Text(
+                            'Chat',
+                            style: TextStyle(
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                      isSelected: [false, false],
+                      onPressed: (int index) {
+                        if (index == 0) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ContactPage(guide: guide),
+                            ),
+                          );
+                        } else if (index == 1) {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => ChatPage(guide: guide),
+                          //   ),
+                          // );
+                        }
+                      },
+                    ),
+                  ],
                 ),
                 SizedBox(height: 16.0),
                 Text(

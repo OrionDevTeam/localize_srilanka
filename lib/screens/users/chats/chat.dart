@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart' as chat_ui;
@@ -24,19 +26,46 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
-  final _otherUser = types.User(
-    id: '',
-  );
+  late types.User _currentUser;
+  late types.User _otherUser;
 
   @override
   void initState() {
     super.initState();
+    _initializeUsers();
     _loadMessages();
   }
 
-  void _addMessage(types.Message message) {
+  void _initializeUsers() {
+    _currentUser = types.User(
+      id: FirebaseAuth.instance.currentUser!.uid,
+    );
+
+    // Add null and type checks for guideData['id']
+    final guideId = widget.guideData['id'];
+    if (guideId != null && guideId is String) {
+      _otherUser = types.User(
+        id: guideId,
+      );
+    } else {
+      // Handle the case where guideData['id'] is null or not a string
+      // For example, assign a default ID or handle gracefully
+      _otherUser = types.User(
+        id: 'default_user_id', // Replace with a default value or handle accordingly
+      );
+    }
+  }
+
+  void _addMessage(types.Message message) async {
     setState(() {
       _messages.insert(0, message);
+    });
+
+    await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(widget.chatId)
+        .update({
+      'messages': FieldValue.arrayUnion([message.toJson()])
     });
   }
 
@@ -86,7 +115,7 @@ class _ChatPageState extends State<ChatPage> {
       final image = await decodeImageFromList(bytes);
 
       final message = types.ImageMessage(
-        author: _otherUser,
+        author: _currentUser,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         name: path.basename(result.path),
@@ -100,31 +129,30 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void _loadMessages() {
-    // Simulating loading messages from a database or other source
-    setState(() {
-      // Replace with your actual messages loading logic
-      _messages = [
-        types.TextMessage(
-          author: _otherUser,
-          createdAt: DateTime.now().millisecondsSinceEpoch - 100000,
-          id: '1',
-          text: 'Hello!',
-        ),
-        types.TextMessage(
-          author: _otherUser,
-          createdAt: DateTime.now().millisecondsSinceEpoch - 200000,
-          id: '2',
-          text: 'How are you?',
-        ),
-      ];
-    });
+  void _loadMessages() async {
+    final chatDoc = await FirebaseFirestore.instance
+        .collection('chats')
+        .doc(widget.chatId)
+        .get();
+
+    if (chatDoc.exists && chatDoc.data()!.containsKey('messages')) {
+      final messagesData = chatDoc['messages'] as List<dynamic>;
+      final messages = messagesData.map((messageData) {
+        final messageMap = Map<String, dynamic>.from(messageData);
+        return types.Message.fromJson(messageMap);
+      }).toList();
+
+      setState(() {
+        _messages = messages.reversed.toList();
+      });
+    }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat with ${widget.guideData['user_name']}'),
+        title: Text('Chat with ${widget.guideData['username']}'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -136,13 +164,12 @@ class _ChatPageState extends State<ChatPage> {
         messages: _messages,
         onAttachmentPressed: _handleAttachmentPressed,
         onMessageTap: (context, message) {
-          // Handle tap on the message here
           print('Message tapped: ${message.id}');
         },
         onSendPressed: (message) {
           if (message is types.PartialText) {
             final textMessage = types.TextMessage(
-              author: _otherUser,
+              author: _currentUser,
               createdAt: DateTime.now().millisecondsSinceEpoch,
               id: DateTime.now().millisecondsSinceEpoch.toString(),
               text: message.text,
@@ -150,8 +177,64 @@ class _ChatPageState extends State<ChatPage> {
             _addMessage(textMessage);
           }
         },
-        user: _otherUser,
+        user: _currentUser,
       ),
     );
+  }
+}
+
+extension on types.Message {
+  Map<String, dynamic> toJson() {
+    if (this is types.TextMessage) {
+      final textMessage = this as types.TextMessage;
+      return {
+        'id': textMessage.id,
+        'author': {
+          'id': textMessage.author.id,
+        },
+        'createdAt': textMessage.createdAt,
+        'text': textMessage.text,
+        'type': 'text',
+      };
+    } else if (this is types.ImageMessage) {
+      final imageMessage = this as types.ImageMessage;
+      return {
+        'id': imageMessage.id,
+        'author': {
+          'id': imageMessage.author.id,
+        },
+        'createdAt': imageMessage.createdAt,
+        'name': imageMessage.name,
+        'size': imageMessage.size,
+        'uri': imageMessage.uri,
+        'height': imageMessage.height,
+        'width': imageMessage.width,
+        'type': 'image',
+      };
+    }
+    return {};
+  }
+
+  static types.Message fromJson(Map<String, dynamic> json) {
+    if (json['type'] == 'text') {
+      return types.TextMessage(
+        id: json['id'],
+        author: types.User(id: json['author']['id']),
+        createdAt: json['createdAt'],
+        text: json['text'],
+      );
+    } else if (json['type'] == 'image') {
+      return types.ImageMessage(
+        id: json['id'],
+        author: types.User(id: json['author']['id']),
+        createdAt: json['createdAt'],
+        name: json['name'],
+        size: json['size'],
+        uri: json['uri'],
+        height: json['height'],
+        width: json['width'],
+      );
+    }
+    throw UnsupportedError('Unsupported message type');
   }
 }

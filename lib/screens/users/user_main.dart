@@ -5,7 +5,6 @@ import 'chats/chatselection.dart';
 import 'package:localize_sl/screens/users/userProfile.dart';
 import 'package:localize_sl/user_profile.dart';
 
-
 import '../map/map_home.dart';
 import '../reels/reels.dart';
 

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/guide_pages/guide_detail_page.dart';
+import 'package:localize_sl/screens/users/chats/chat.dart';
+import 'package:localize_sl/screens/users/chats/chatselection.dart';
 
 import 'guidereel.dart';
 
@@ -50,6 +52,77 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
       }
     } catch (e) {
       print('Error fetching user role: $e');
+    }
+  }
+
+  void _handleChat() async {
+    // Fetch the current user's ID
+    String? currentUserID = FirebaseAuth.instance.currentUser?.uid;
+
+    if (currentUserID != null) {
+      // Check if the logged-in user is a guide or business
+      if (userRole == 'Guide' || userRole == 'Business') {
+        // Show a pop-up message
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Cannot Start Chat'),
+              content: Text('A guide or business cannot chat with a user.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // Check if a chat already exists between currentUserID and widget.userId (GuideID)
+        QuerySnapshot<Map<String, dynamic>> chatSnapshot =
+            await FirebaseFirestore.instance
+                .collection('chats')
+                .where('UserID', isEqualTo: currentUserID)
+                .where('GuideID', isEqualTo: widget.userId)
+                .get();
+
+        if (chatSnapshot.docs.isNotEmpty) {
+          // Chat already exists, navigate to chat selection page
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatSelectionPage(
+                showBackButton: true, // Show back button on ChatSelectionPage
+              ),
+            ),
+          );
+        } else {
+          // Chat does not exist, create a new chat document
+          try {
+            await FirebaseFirestore.instance.collection('chats').add({
+              'UserID': currentUserID,
+              'GuideID': widget.userId,
+              // You can add more fields as needed
+            });
+
+            // Navigate to chat selection page after creating chat
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatSelectionPage(
+                  showBackButton: true, // Show back button on ChatSelectionPage
+                ),
+              ),
+            );
+          } catch (e) {
+            print('Error creating chat: $e');
+            // Handle error creating chat
+          }
+        }
+      }
     }
   }
 
@@ -163,7 +236,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                     );
                   },
                   child: Text(
-                    'View Full Profile',
+                    'View Full profile',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,
@@ -179,14 +252,11 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                   ),
                 ),
               ),
+              SizedBox(height: 10),
               SizedBox(
                 width: double.infinity, // Full width
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Implement your chat logic here
-                    // Example: Navigate to chat page or open a chat window
-                    // Replace with your actual chat implementation
-                  },
+                  onPressed: _handleChat,
                   child: Text(
                     'Chat',
                     style: TextStyle(

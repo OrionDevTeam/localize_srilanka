@@ -1,7 +1,10 @@
-// profile_page.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:localize_sl/screens/users/user_help.dart';
+import 'package:localize_sl/screens/users/user_settings.dart';
+import 'package:localize_sl/screens/users/user_wallet.dart';
 
+import '../../get_started.dart';
 import '../getStarted.dart';
 
 class userProfilePage extends StatelessWidget {
@@ -114,42 +117,83 @@ class userProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return SingleChildScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Card(
-            margin: const EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(8.0), // Reduced margin
             child: ListTile(
               leading: const Icon(Icons.person),
-              title: const Text('Username'),
-              subtitle: Text(user?.email ?? 'No email'),
+              title: const Text('Account Settings'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserSettingsPage()),
+                );
+              },
             ),
           ),
           Card(
-            margin: const EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(8.0), // Reduced margin
             child: ListTile(
-              leading: const Icon(Icons.lock),
-              title: const Text('Change Password'),
+              leading: const Icon(Icons.notifications_active_outlined),
+              title: const Text('Notification Settings'),
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () => _reAuthenticateAndChangePassword(context),
             ),
           ),
           Card(
-            margin: const EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(8.0), // Reduced margin
             child: ListTile(
-                leading: const Icon(Icons.lock),
-                title: const Text('Logout'),
-                trailing: const Icon(Icons.logout),
-                onTap: () {
-                  signOut();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WelcomeScreen(),
-                    ),
-                  );
-                }),
+              leading: const Icon(Icons.payment_rounded),
+              title: const Text('Payment Methods'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WalletPage()),
+                );
+              },
+            ),
+          ),
+          Card(
+            margin: const EdgeInsets.all(8.0), // Reduced margin
+            child: ListTile(
+              leading: const Icon(Icons.language),
+              title: const Text('Language Settings'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                signOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                );
+              },
+            ),
+          ),
+          Card(
+            margin: const EdgeInsets.all(8.0), // Reduced margin
+            child: ListTile(
+              leading: const Icon(Icons.lock),
+              title: const Text('Face ID & Passcode'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+            ),
+          ),
+          Card(
+            margin: const EdgeInsets.all(8.0), // Reduced margin
+            child: ListTile(
+              leading: const Icon(Icons.chat_outlined),
+              title: const Text('Help'),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NeedHelpPage()),
+                );
+              },
+            ),
           ),
         ],
       ),

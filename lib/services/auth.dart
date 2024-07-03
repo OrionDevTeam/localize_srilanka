@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../screens/users/user_main.dart';
+import '../screens/admin/adminPage.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -178,9 +179,17 @@ class AuthService {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const UserPage()));
         break;
+      case 'Guide':
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => UserPage()));
+        break;
+      case 'admin':
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => AdminPage()));
+        break;
       default:
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Signed in as normal user')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Signed in as normal user')));
     }
   }
 }

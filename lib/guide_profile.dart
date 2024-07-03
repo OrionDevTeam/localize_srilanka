@@ -7,6 +7,8 @@ import 'package:localize_sl/screens/users/user_help.dart';
 import 'package:localize_sl/screens/users/user_memories.dart';
 import 'package:localize_sl/screens/users/user_wallet.dart';
 
+import 'screens/guideProfileDisplay.dart/guideProfileReel.dart';
+
 class GuideProfilePage extends StatefulWidget {
   const GuideProfilePage({super.key});
 
@@ -21,6 +23,9 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
   String userEmail = '';
   String userBio = '';
   String profileImageUrl = '';
+  String rating = '0';
+  String reviews = '10';
+  String location = "";
 
   Future<void> _fetchUserRole() async {
     try {
@@ -38,6 +43,9 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
           userEmail = data['email'] ?? '';
           userBio = data['bio'] ?? '';
           profileImageUrl = data['profileImageUrl'] ?? '';
+          rating = data['rating'].toString() ?? '0';
+          reviews = data['reviews'].toString() ?? '10';
+          location = data['location'] ?? '';
         });
       } else {
         print('User role not found in snapshot data');
@@ -51,6 +59,29 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
   void initState() {
     super.initState();
     _fetchUserRole();
+  }
+
+  void navigateToWallet(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const WalletPage()),
+    );
+  }
+
+  // Method to navigate to ActivityScreen
+  void navigateToActivity(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ActivityPage()),
+    );
+  }
+
+  // Method to navigate to HelpScreen
+  void navigateToHelp(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HelpPage()),
+    );
   }
 
   @override
@@ -174,15 +205,63 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                               },
                             ),
                           ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.account_balance_wallet),
-                              Text('Wallet',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
+                          SizedBox(width: 16),
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Mr.${userName}' ?? "",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 2),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      '${location}',
+                                      style: TextStyle(color: Colors.grey),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 2),
+                                Row(
+                                  children: [
+                                    Icon(Icons.star, color: Colors.orange),
+                                    Text('$rating ($reviews Reviews)',
+                                        style: TextStyle(color: Colors.black)),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        height: 0.5,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(122, 0, 0, 0)),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        userBio,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
                         ),
                         const SizedBox(width: 20),
                         ElevatedButton(
@@ -225,13 +304,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                               },
                             ),
                           ),
-                          child: const Column(
-                            children: [
-                              Icon(Icons.history),
-                              Text('Portfolio',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
+                          SizedBox(
+                            width: 20,
                           ),
                         ),
                         const SizedBox(width: 20),
@@ -275,36 +349,47 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                               },
                             ),
                           ),
-                          child: const Column(
-                            children: [
-                              Icon(Icons.help),
-                              Text(
-                                'Help',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                          // ProfileButton for Help
+                          SizedBox(
+                            width: 20,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+
+                          ProfileButton(
+                            icon: Icons.help_outline,
+                            label: 'Help',
+                            onPressed: () => navigateToHelp(context),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Column(
-                  children: [
-                    SizedBox(height: 20),
-                    SizedBox(
-                      height: 400, // Specify a fixed height for the GridView
-                      child: MemoriesDisplay(),
-                    ),
-                    SizedBox(height: 20),
-                  ],
+                // const Padding(
+                //   padding: EdgeInsets.all(4.0),
+                //   child: Column(
+                //     children: [
+                //       SizedBox(height: 20),
+                //       SizedBox(
+                //         height: 400, // Specify a fixed height for the GridView
+                //         child: MemoriesDisplay(),
+                //       ),
+                //       SizedBox(height: 20),
+                //     ],
+                //   ),
+                // ),
+                Container(
+                  height: 1200,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: ProfileFeed(
+                    userId: user!.uid,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -484,20 +569,6 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                   ],
                 ),
               ),
-              // const SizedBox(height: 20),
-              // Padding(
-              //   padding: const EdgeInsets.all(4.0),
-              //   child: Column(
-              //     children: [
-              //       const SizedBox(height: 20),
-              //       SizedBox(
-              //         height: 400, // Specify a fixed height for the GridView
-              //         child: MemoriesDisplay(),
-              //       ),
-              //       const SizedBox(height: 20),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -1165,6 +1236,48 @@ class _FAQContainerState extends State<FAQContainer> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ProfileButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  ProfileButton(
+      {required this.icon, required this.label, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: onPressed,
+          child: Container(
+            constraints:
+                BoxConstraints(minWidth: 80), // Add min width constraint
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Color(0xFF2A966C),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                SizedBox(height: 3),
+                Text(label,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

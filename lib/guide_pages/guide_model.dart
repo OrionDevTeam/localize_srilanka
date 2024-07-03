@@ -1,0 +1,70 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class Guide {
+  final String name;
+  final List<String> languages;
+  final double rating;
+  final int reviews;
+  final String description;
+  final String bio;
+  final List<String> tags;
+  final String profilePictureUrl;
+  final List<Map<String, dynamic>> packages;
+  final List<Map<String, dynamic>> experiences;
+  final List<Map<String, dynamic>> services;
+  final String documentId;
+  final String contactNumber; 
+  final String contactEmail; 
+  final String facebookUrl; 
+  final String instagramUrl; 
+  final String youtubeUrl;
+  final String telegramUrl;
+  final String whatsappUrl; 
+
+  Guide({
+    required this.name,
+    required this.languages,
+    required this.rating,
+    required this.reviews,
+    required this.description,
+    required this.bio,
+    required this.tags,
+    required this.profilePictureUrl,
+    required this.packages,
+    required this.experiences,
+    required this.services,
+    required this.documentId,
+    required this.contactNumber,
+    required this.contactEmail,
+    required this.facebookUrl,
+    required this.instagramUrl,
+    required this.youtubeUrl, 
+    required this.telegramUrl,
+    required this.whatsappUrl,
+  });
+
+  factory Guide.fromFirestore(DocumentSnapshot doc) {
+    Map data = doc.data() as Map;
+    return Guide(
+      name: data['name'] ?? '',
+      languages: List<String>.from(data['languages'] ?? []),
+      rating: data['rating'] ?? 0.0,
+      reviews: data['reviews'] ?? 0,
+      description: data['description'] ?? '',
+      bio: data['bio'] ?? '',
+      tags: List<String>.from(data['tags'] ?? []),
+      profilePictureUrl: data['profilePictureUrl'] ?? '',
+      packages: data['packages'] != null ? List<Map<String, dynamic>>.from(data['packages']) : [],
+      experiences: data['experiences'] != null ? List<Map<String, dynamic>>.from(data['experiences']) : [],
+      services: data['services'] != null ? List<Map<String, dynamic>>.from(data['services']) : [],
+      documentId: data['documentId'] ?? '',
+      contactNumber: data['contactNumber'] ?? '',
+      contactEmail: data['contactEmail'] ?? '',
+      facebookUrl: data['facebookUrl'] ?? '',
+      instagramUrl : data['instagramUrl'] ?? '',
+      youtubeUrl: data['youtubeUrl'] ?? '',
+      telegramUrl: data['telegramUrl'] ?? '',
+      whatsappUrl: data['whatsappUrl'] ?? '',
+    );
+  }
+}

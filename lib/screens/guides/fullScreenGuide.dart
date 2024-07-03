@@ -1,20 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:localize_sl/screens/reels/reels.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'dart:ui';
 
-class FullScreenPostDialog extends StatefulWidget {
-  final Post post;
+import 'guidereel.dart';
 
-  FullScreenPostDialog({required this.post});
+class FullScreenPostDialogx extends StatefulWidget {
+  final Postx ost;
+
+  FullScreenPostDialogx({required this.ost});
 
   @override
   _FullScreenPostDialogState createState() => _FullScreenPostDialogState();
 }
 
-class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
+class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
   bool _isDisposed = false;
@@ -22,7 +23,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.post.downloadURL);
+    _controller = VideoPlayerController.network(widget.ost.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
     _controller.setVolume(1.0);
@@ -47,13 +48,14 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
 
   void _toggleLike() async {
     setState(() {
-      widget.post.isLiked = !widget.post.isLiked;
-      widget.post.like_count += widget.post.isLiked ? 1 : -1;
+      widget.ost.isLiked = !widget.ost.isLiked;
+      widget.ost.like_count += widget.ost.isLiked ? 1 : -1;
     });
 
     // Reference to the Firestore document
-    var postDocRef = FirebaseFirestore.instance.collection('reelsDemo').doc(
-        widget.post.username); // Adjust this line based on your document ID
+    var postDocRef = FirebaseFirestore.instance
+        .collection('reelsDemo')
+        .doc(widget.ost.username); // Adjust this line based on your document ID
 
     // Check if the document exists before updating
     var docSnapshot = await postDocRef.get();
@@ -61,8 +63,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
     if (docSnapshot.exists) {
       // Document exists, update it
       postDocRef.update({
-        'isLiked': widget.post.isLiked,
-        'like': widget.post.like_count,
+        'isLiked': widget.ost.isLiked,
+        'like': widget.ost.like_count,
       });
     } else {
       // Document does not exist, handle accordingly
@@ -78,7 +80,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
       insetPadding: EdgeInsets.all(0),
       backgroundColor: Colors.black,
       child: VisibilityDetector(
-        key: Key(widget.post.downloadURL),
+        key: Key(widget.ost.downloadURL),
         onVisibilityChanged: (visibilityInfo) {
           var visiblePercentage = visibilityInfo.visibleFraction * 100;
           if (visiblePercentage > 50) {
@@ -307,7 +309,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
                               return GuideMemoriesPage(
-                                  username: widget.post.username);
+                                  username: widget.ost.username);
                             },
                             transitionDuration: Duration(milliseconds: 500),
                             transitionsBuilder: (context, animation,
@@ -328,7 +330,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                         );
                       },
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(widget.post.profileUrl),
+                        backgroundImage: NetworkImage(widget.ost.profileUrl),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -343,7 +345,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
                                   return GuideMemoriesPage(
-                                      username: widget.post.username);
+                                      username: widget.ost.username);
                                 },
                                 transitionDuration: Duration(milliseconds: 500),
                                 transitionsBuilder: (context, animation,
@@ -364,7 +366,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                             );
                           },
                           child: Text(
-                            widget.post.username,
+                            widget.ost.username,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -372,7 +374,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                           ),
                         ),
                         Text(
-                          widget.post.type,
+                          widget.ost.type,
                           style: TextStyle(
                             color: Colors.white70,
                           ),
@@ -390,15 +392,15 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                     GestureDetector(
                       onTap: _toggleLike, // Toggle like on tap
                       child: Icon(
-                        widget.post.isLiked
+                        widget.ost.isLiked
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: widget.post.isLiked ? Colors.red : Colors.white,
+                        color: widget.ost.isLiked ? Colors.red : Colors.white,
                       ),
                     ),
                     SizedBox(width: 4),
                     Text(
-                      '${widget.post.like_count}',
+                      '${widget.ost.like_count}',
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
@@ -410,7 +412,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                 left: 10,
                 right: 10,
                 child: Text(
-                  widget.post.caption,
+                  widget.ost.caption,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

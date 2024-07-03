@@ -158,8 +158,8 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
       String downloadURL = await _storage.ref(filePath).getDownloadURL();
 
       await _firestore.collection('memories').add({
-        'fileName': fileName,
-        'filePath': filePath,
+        // 'fileName': fileName,
+        // 'filePath': filePath,
         'downloadURL': downloadURL,
         'mediaType': mediaType,
         'uploadedAt': FieldValue.serverTimestamp(),
@@ -167,7 +167,8 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
         'hashtags': memoryDetails['hashtags'],
         'location': memoryDetails['location'],
         'userId': userId,
-        'like_count': 0,
+        'like_count': 10,
+        'isLiked': false
       });
 
       print('Memory uploaded successfully');
@@ -278,7 +279,7 @@ class MemoriesDisplay extends StatelessWidget {
               var memory = memories[index];
               String mediaType = memory['mediaType'];
               String downloadURL = memory['downloadURL'];
-              Timestamp uploadedAt = memory['uploadedAt'];
+              Timestamp uploadedAt = memory['uploadedAt'] ?? Timestamp.now();
               String memoryId = memory.id;
               String caption = memory['caption'] ?? '';
               List<dynamic> hashtagsDynamic = memory['hashtags'] ?? [];
@@ -291,21 +292,28 @@ class MemoriesDisplay extends StatelessWidget {
                   _showMediaDialog(context, mediaType, downloadURL, uploadedAt,
                       memoryId, caption, hashtags, location, likeCount);
                 },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      child: mediaType == 'image'
-                          ? Image.network(downloadURL, fit: BoxFit.cover)
-                          : VideoThumbnailWidget(url: downloadURL),
-                    ),
-                  ],
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                  ),
+                  elevation: 4.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: mediaType == 'image'
+                            ? Image.network(downloadURL, fit: BoxFit.cover)
+                            : VideoThumbnailWidget(url: downloadURL),
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
           );
         },
       ),
+      backgroundColor: Colors.white,
     );
   }
 
@@ -704,15 +712,4 @@ class _VideoPlayerDialogState extends State<VideoPlayerDialog> {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    title: 'Memory App',
-    theme: ThemeData(
-      primarySwatch: Colors.blue,
-      visualDensity: VisualDensity.adaptivePlatformDensity,
-    ),
-    home: const MemoriesDisplay(),
-  ));
 }

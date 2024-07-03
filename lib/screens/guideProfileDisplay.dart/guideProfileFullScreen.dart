@@ -1,20 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:localize_sl/screens/reels/reels.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'dart:ui';
 
-class FullScreenPostDialog extends StatefulWidget {
-  final Post post;
+import 'guideProfileReel.dart';
 
-  FullScreenPostDialog({required this.post});
+class FullScreenPostDialogReel extends StatefulWidget {
+  final Postreel postreel;
+
+  FullScreenPostDialogReel({required this.postreel});
 
   @override
   _FullScreenPostDialogState createState() => _FullScreenPostDialogState();
 }
 
-class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
+class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
   late VideoPlayerController _controller;
   late Future<void> _initializeVideoPlayerFuture;
   bool _isDisposed = false;
@@ -22,7 +23,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.post.downloadURL);
+    _controller = VideoPlayerController.network(widget.postreel.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
     _controller.setVolume(1.0);
@@ -47,13 +48,13 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
 
   void _toggleLike() async {
     setState(() {
-      widget.post.isLiked = !widget.post.isLiked;
-      widget.post.like_count += widget.post.isLiked ? 1 : -1;
+      widget.postreel.isLiked = !widget.postreel.isLiked;
+      widget.postreel.like_count += widget.postreel.isLiked ? 1 : -1;
     });
 
     // Reference to the Firestore document
     var postDocRef = FirebaseFirestore.instance.collection('reelsDemo').doc(
-        widget.post.username); // Adjust this line based on your document ID
+        widget.postreel.username); // Adjust this line based on your document ID
 
     // Check if the document exists before updating
     var docSnapshot = await postDocRef.get();
@@ -61,8 +62,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
     if (docSnapshot.exists) {
       // Document exists, update it
       postDocRef.update({
-        'isLiked': widget.post.isLiked,
-        'like': widget.post.like_count,
+        'isLiked': widget.postreel.isLiked,
+        'like': widget.postreel.like_count,
       });
     } else {
       // Document does not exist, handle accordingly
@@ -78,7 +79,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
       insetPadding: EdgeInsets.all(0),
       backgroundColor: Colors.black,
       child: VisibilityDetector(
-        key: Key(widget.post.downloadURL),
+        key: Key(widget.postreel.downloadURL),
         onVisibilityChanged: (visibilityInfo) {
           var visiblePercentage = visibilityInfo.visibleFraction * 100;
           if (visiblePercentage > 50) {
@@ -174,48 +175,9 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                   ),
                 ),
               ),
-              // Positioned(
-              //   top: 20,
-              //   left: 10,
-              //   child: Container(
-              //     height: 40,
-              //     padding: EdgeInsets.all(8),
-              //     decoration: BoxDecoration(
-              //       color: Colors.white70,
-              //       borderRadius: BorderRadius.circular(32),
-              //     ),
-              //     child: Center(
-              //       child: Row(
-              //         children: [
-              //           SizedBox(
-              //             width: 8,
-              //           ),
-              //           Icon(
-              //             Icons.location_on,
-              //             size: 16,
-              //             color: Colors.black,
-              //           ),
-              //           SizedBox(width: 4),
-              //           Text(
-              //             widget.post.location,
-              //             style: TextStyle(
-              //               fontFamily: 'Poppins',
-              //               fontWeight: FontWeight.w500,
-              //               fontSize: 14,
-              //             ),
-              //           ),
-              //           SizedBox(
-              //             width: 8,
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-
               Positioned(
                 top: 30,
-                left: 0,
+                left: 5,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -242,55 +204,52 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
               // ),
               // ),
               Positioned(
-                top: 60,
-                right: 0,
+                top: 30,
+                right: 5,
                 child: Container(
-                  height: 40,
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
-                    color: Colors.white70,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(32),
-                      bottomLeft: Radius.circular(32),
-                    ),
+                    borderRadius:
+                        BorderRadius.vertical(bottom: Radius.circular(10.0)),
                   ),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navigate to guide page
-                        Navigator.of(context).push(
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) {
-                              return GuidePage();
-                            },
-                            transitionDuration: Duration(milliseconds: 500),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              const begin =
-                                  Offset(0.0, 1.0); // Slide from bottom to top
-                              const end = Offset.zero;
-                              const curve = Curves.easeInOut;
-
-                              var tween = Tween(begin: begin, end: end)
-                                  .chain(CurveTween(curve: curve));
-                              var offsetAnimation = animation.drive(tween);
-
-                              return SlideTransition(
-                                  position: offsetAnimation, child: child);
-                            },
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Book Now",
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
+                  child: IconButton(
+                    icon: Icon(Icons.more_vert),
+                    color: Colors.white,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ListTile(
+                                  leading: Icon(Icons.edit),
+                                  title: Text('Edit'),
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                    // Navigate to the edit page
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => EditPage()));
+                                  },
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.delete),
+                                  title: Text('Delete'),
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                    // Call the delete function
+                                    // deleteFunction();
+                                  },
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
               ),
@@ -307,7 +266,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
                               return GuideMemoriesPage(
-                                  username: widget.post.username);
+                                  username: widget.postreel.username);
                             },
                             transitionDuration: Duration(milliseconds: 500),
                             transitionsBuilder: (context, animation,
@@ -328,7 +287,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                         );
                       },
                       child: CircleAvatar(
-                        backgroundImage: NetworkImage(widget.post.profileUrl),
+                        backgroundImage:
+                            NetworkImage(widget.postreel.profileUrl),
                       ),
                     ),
                     SizedBox(width: 8),
@@ -343,7 +303,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
                                   return GuideMemoriesPage(
-                                      username: widget.post.username);
+                                      username: widget.postreel.username);
                                 },
                                 transitionDuration: Duration(milliseconds: 500),
                                 transitionsBuilder: (context, animation,
@@ -364,7 +324,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                             );
                           },
                           child: Text(
-                            widget.post.username,
+                            widget.postreel.username,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -372,7 +332,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                           ),
                         ),
                         Text(
-                          widget.post.type,
+                          widget.postreel.type,
                           style: TextStyle(
                             color: Colors.white70,
                           ),
@@ -390,15 +350,16 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                     GestureDetector(
                       onTap: _toggleLike, // Toggle like on tap
                       child: Icon(
-                        widget.post.isLiked
+                        widget.postreel.isLiked
                             ? Icons.favorite
                             : Icons.favorite_border,
-                        color: widget.post.isLiked ? Colors.red : Colors.white,
+                        color:
+                            widget.postreel.isLiked ? Colors.red : Colors.white,
                       ),
                     ),
                     SizedBox(width: 4),
                     Text(
-                      '${widget.post.like_count}',
+                      '${widget.postreel.like_count}',
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
@@ -410,7 +371,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                 left: 10,
                 right: 10,
                 child: Text(
-                  widget.post.caption,
+                  widget.postreel.caption,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

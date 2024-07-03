@@ -35,6 +35,7 @@ class _LocationState extends State<Location>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late Future<List<Map<String, dynamic>>> _hotelDetails;
+  late Future<List<Map<String, dynamic>>> _adventureDetails;
 
   @override
   void initState() {
@@ -74,8 +75,6 @@ class _LocationState extends State<Location>
     super.dispose();
   }
 
-  Offset _fabPosition = Offset(0, 180); // Initial position
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,174 +85,109 @@ class _LocationState extends State<Location>
         ),
         centerTitle: true,
       ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(18)),
+                child: Image.network(
+                  widget.imageUrl,
+                  height: 300,
+                  width: 400,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(18)),
-                    child: Image.network(
-                      widget.imageUrl,
-                      height: 300,
-                      width: 400,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  SizedBox(height: 16),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Icon(Icons.location_on_outlined, color: Colors.green),
-                          SizedBox(width: 4),
-                          Text(
-                            widget.location,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.star, color: Colors.orange),
-                          SizedBox(width: 4),
-                          Text(
-                            widget.rating,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    widget.description,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  TabBar(
-                    controller: _tabController,
-                    tabs: [
-                      Tab(
-                        text: 'Guides',
-                        icon: Icon(Icons.person_outline_rounded),
-                      ),
-                      Tab(
-                        text: 'Hotels',
-                        icon: Icon(Icons.hotel_outlined),
-                      ),
-                      Tab(
-                        text: 'Adventure',
-                        icon: Icon(Icons.surfing_outlined),
-                      ),
-                      Tab(
-                        text: 'Food',
-                        icon: Icon(Icons.fastfood_outlined),
-                      ),
-                    ],
-                    dividerColor: Colors.transparent,
-                    indicatorColor: Color(0xFF2A966C),
-                    labelColor: Color(0xFF2A966C),
-                    unselectedLabelColor: Colors.grey[600],
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
-                  ),
-                  SizedBox(
-                    height: 300, // Set a fixed height for the TabBarView
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        Center(child: Text('Explore with Guides')),
-                        HotelList(hotelDetails: _hotelDetails),
-                        // Adventure(
-                        //   title: widget.title,
-                        // ),
-                        Adventures(
-                          place: widget.title,
+                      Icon(Icons.location_on_outlined, color: Colors.green),
+                      SizedBox(width: 4),
+                      Text(
+                        widget.location,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
-                        Center(child: Text('Explore Groceries')),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.orange),
+                      SizedBox(width: 4),
+                      Text(
+                        widget.rating,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ),
-          ),
-          Positioned(
-            left: _fabPosition.dx,
-            top: _fabPosition.dy,
-            child: MouseRegion(
-              child: Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  onTap: () {
-                    // Add your onPressed functionality here
-                    print('Widget pressed!');
-                  },
-                  child: Draggable(
-                    feedback: Material(
-                      color: Colors.transparent,
-                      child: Tooltip(
-                        message: 'Chat with Mochi',
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18.0),
-                          child: Image.asset(
-                            'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                            width: 56.0,
-                            height: 56.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: Tooltip(
-                      message: 'Chat with Mochi',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18.0),
-                        child: Image.asset(
-                          'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                          width: 56.0,
-                          height: 56.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    onDragEnd: (details) {
-                      setState(() {
-                        // Get the screen width
-                        final screenWidth = MediaQuery.of(context).size.width;
-
-                        // Snap to the nearest side (left or right)
-                        final newOffsetX = details.offset.dx < screenWidth / 2
-                            ? 0.0
-                            : screenWidth - 56.0; // 56.0 is the image's width
-                        _fabPosition = Offset(newOffsetX, details.offset.dy);
-                      });
-                    },
-                    childWhenDragging:
-                        Container(), // Empty container when dragging
-                  ),
+              SizedBox(height: 16),
+              Text(
+                widget.description,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey[600],
                 ),
               ),
-            ),
+              SizedBox(height: 12),
+              TabBar(
+                controller: _tabController,
+                tabs: [
+                  Tab(
+                    text: 'Guides',
+                    icon: Icon(Icons.person_outline_rounded),
+                  ),
+                  Tab(
+                    text: 'Hotels',
+                    icon: Icon(Icons.hotel_outlined),
+                  ),
+                  Tab(
+                    text: 'Adventure',
+                    icon: Icon(Icons.surfing_outlined),
+                  ),
+                  Tab(
+                    text: 'Groceries',
+                    icon: Icon(Icons.shopping_cart_outlined),
+                  ),
+                ],
+                dividerColor: Colors.transparent,
+                indicatorColor: Color(0xFF2A966C),
+                labelColor: Color(0xFF2A966C),
+                unselectedLabelColor: Colors.grey[600],
+                labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+              ),
+              SizedBox(
+                height: 300, // Set a fixed height for the TabBarView
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    Center(child: Text('Explore with Guides')),
+                    HotelList(hotelDetails: _hotelDetails),
+                    Adventures(
+                      place: widget.place,
+                    ),
+                    Center(child: Text('Explore Groceries')),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -413,93 +347,88 @@ class Adventures extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('place: $place');
-
     return Scaffold(
-      body: Center(
-        child: FutureBuilder<List<String>>(
-          future: fetchAdventureDetails(place),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
-            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No adventures available'));
-            } else {
-              final adventures = snapshot.data!;
-              return SingleChildScrollView(
-                child: Column(
-                  children: adventures.map((adventure) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: GestureDetector(
-                        onTap: () => _navigateTo(
-                          context,
-                          AdventurePage(
-                            place: place,
-                            adventure: adventure,
-                          ),
-                        ),
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(18)),
-                              child: Image.asset(
-                                'assets/vimosh/${adventure.toLowerCase().replaceAll(' ', '_')}.jpg', // Assuming images are named like 'snorkelling.jpg' and 'surfing.jpg'
-                                height: 160,
-                                width: 320,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.black.withOpacity(0.7),
-                                      Colors.black.withOpacity(0.3),
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                  ),
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(18),
-                                    bottomRight: Radius.circular(18),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 15,
-                              left: 0,
-                              right: 0,
-                              child: Center(
-                                child: Text(
-                                  adventure,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+      body: FutureBuilder<List<String>>(
+        future: fetchAdventureDetails(place),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No adventures available'));
+          } else {
+            final adventures = snapshot.data!;
+            return SingleChildScrollView(
+              child: Column(
+                children: adventures.map((adventure) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6),
+                    child: GestureDetector(
+                      onTap: () => _navigateTo(
+                        context,
+                        AdventurePage(
+                          place: place,
+                          adventure: adventure,
                         ),
                       ),
-                    );
-                  }).toList(),
-                ),
-              );
-            }
-          },
-        ),
+                      child: Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(18)),
+                            child: Image.asset(
+                              'assets/vimosh/${adventure.toLowerCase().replaceAll(' ', '_')}.jpg', // Assuming images are named like 'snorkelling.jpg' and 'surfing.jpg'
+                              height: 160,
+                              width: 320,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              height: 60,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.black.withOpacity(0.7),
+                                    Colors.black.withOpacity(0.3),
+                                  ],
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                ),
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(18),
+                                  bottomRight: Radius.circular(18),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 15,
+                            left: 0,
+                            right: 0,
+                            child: Center(
+                              child: Text(
+                                adventure,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            );
+          }
+        },
       ),
     );
   }
@@ -524,9 +453,9 @@ class Adventures extends StatelessWidget {
         adventureTypes.add('Surfing');
       }
 
-      placeCollectionRef = placeRef.collection('Elephant Ride');
+      placeCollectionRef = placeRef.collection('Elephant Safari');
       if ((await placeCollectionRef.get()).docs.isNotEmpty) {
-        adventureTypes.add('Elephant Ride');
+        adventureTypes.add('Elephant Safari');
       }
 
       placeCollectionRef = placeRef.collection('Whale Watching');
@@ -589,15 +518,9 @@ class Adventures extends StatelessWidget {
       }
 
       // water sports
-      placeCollectionRef = placeRef.collection('Parasailing');
+      placeCollectionRef = placeRef.collection('Water Sports');
       if ((await placeCollectionRef.get()).docs.isNotEmpty) {
         adventureTypes.add('Water Sports');
-      }
-
-      // jet ski
-      placeCollectionRef = placeRef.collection('Jet Ski');
-      if ((await placeCollectionRef.get()).docs.isNotEmpty) {
-        adventureTypes.add('Jet Ski');
       }
 
       // rock climbing

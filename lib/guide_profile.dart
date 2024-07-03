@@ -7,6 +7,8 @@ import 'package:localize_sl/screens/users/user_help.dart';
 import 'package:localize_sl/screens/users/user_memories.dart';
 import 'package:localize_sl/screens/users/user_wallet.dart';
 
+import 'screens/guideProfileDisplay.dart/guideProfileReel.dart';
+
 class GuideProfilePage extends StatefulWidget {
   const GuideProfilePage({super.key});
 
@@ -21,6 +23,9 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
   String userEmail = '';
   String userBio = '';
   String profileImageUrl = '';
+  String rating = '0';
+  String reviews = '10';
+  String location = "";
 
   Future<void> _fetchUserRole() async {
     try {
@@ -38,6 +43,9 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
           userEmail = data['email'] ?? '';
           userBio = data['bio'] ?? '';
           profileImageUrl = data['profileImageUrl'] ?? '';
+          rating = data['rating'].toString() ?? '0';
+          reviews = data['reviews'].toString() ?? '10';
+          location = data['location'] ?? '';
         });
       } else {
         print('User role not found in snapshot data');
@@ -51,6 +59,29 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
   void initState() {
     super.initState();
     _fetchUserRole();
+  }
+
+  void navigateToWallet(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const WalletPage()),
+    );
+  }
+
+  // Method to navigate to ActivityScreen
+  void navigateToActivity(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const ActivityPage()),
+    );
+  }
+
+  // Method to navigate to HelpScreen
+  void navigateToHelp(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HelpPage()),
+    );
   }
 
   @override
@@ -89,222 +120,151 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
           ],
         ),
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                padding: const EdgeInsets.all(4.0),
-                margin: const EdgeInsets.only(right: 10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 30),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: profileImageUrl.isNotEmpty
-                          ? NetworkImage(profileImageUrl) as ImageProvider
-                          : const AssetImage('assets/placeholder.jpg'),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      userName,
-                      style: const TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  padding: const EdgeInsets.all(4.0),
+                  margin: const EdgeInsets.only(right: 10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 2,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.grey.withOpacity(0.2),
+                              radius: 50,
+                              backgroundImage: profileImageUrl.isNotEmpty
+                                  ? NetworkImage(profileImageUrl)
+                                      as ImageProvider
+                                  : const AssetImage('assets/placeholder.jpg'),
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            flex: 3,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Mr.${userName}' ?? "",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(height: 2),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.location_on,
+                                      color: Colors.grey,
+                                    ),
+                                    SizedBox(
+                                      width: 4,
+                                    ),
+                                    Text(
+                                      '${location}',
+                                      style: TextStyle(color: Colors.grey),
+                                      textAlign: TextAlign.start,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 2),
+                                Row(
+                                  children: [
+                                    Icon(Icons.star, color: Colors.orange),
+                                    Text('$rating ($reviews Reviews)',
+                                        style: TextStyle(color: Colors.black)),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      userEmail,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300,
+                      const SizedBox(height: 10),
+                      Container(
+                        height: 0.5,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                            color: const Color.fromARGB(122, 0, 0, 0)),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      userBio,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 16,
+                      const SizedBox(height: 10),
+                      Text(
+                        userBio,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const WalletPage()),
-                            );
-                          },
-                          style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            padding:
-                                WidgetStateProperty.all<EdgeInsetsGeometry>(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                            ),
-                            backgroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return Colors.white;
-                                }
-                                return const Color.fromARGB(255, 42, 150, 108);
-                              },
-                            ),
-                            foregroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return const Color.fromARGB(
-                                      255, 42, 150, 108);
-                                }
-                                return Colors.white;
-                              },
-                            ),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // ProfileButton for Wallet
+                          ProfileButton(
+                            icon: Icons.account_balance_wallet,
+                            label: 'Wallet',
+                            onPressed: () => navigateToWallet(context),
                           ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.account_balance_wallet),
-                              Text('Wallet',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
+                          SizedBox(
+                            width: 20,
                           ),
-                        ),
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ActivityPage()),
-                            );
-                          },
-                          style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            padding:
-                                WidgetStateProperty.all<EdgeInsetsGeometry>(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                            ),
-                            backgroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return Colors.white;
-                                }
-                                return const Color.fromARGB(255, 42, 150, 108);
-                              },
-                            ),
-                            foregroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return const Color.fromARGB(
-                                      255, 42, 150, 108);
-                                }
-                                return Colors.white;
-                              },
-                            ),
+                          // ProfileButton for Activity
+                          ProfileButton(
+                            icon: Icons.timeline,
+                            label: 'Activity',
+                            onPressed: () => navigateToActivity(context),
                           ),
-                          child: const Column(
-                            children: [
-                              Icon(Icons.history),
-                              Text('Portfolio',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
+                          // ProfileButton for Help
+                          SizedBox(
+                            width: 20,
                           ),
-                        ),
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HelpPage()),
-                            );
-                          },
-                          style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            padding:
-                                WidgetStateProperty.all<EdgeInsetsGeometry>(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                            ),
-                            backgroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return Colors.white;
-                                }
-                                return const Color.fromARGB(255, 42, 150, 108);
-                              },
-                            ),
-                            foregroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return const Color.fromARGB(
-                                      255, 42, 150, 108);
-                                }
-                                return Colors.white;
-                              },
-                            ),
+
+                          ProfileButton(
+                            icon: Icons.help_outline,
+                            label: 'Help',
+                            onPressed: () => navigateToHelp(context),
                           ),
-                          child: const Column(
-                            children: [
-                              Icon(Icons.help),
-                              Text(
-                                'Help',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Padding(
-                padding: EdgeInsets.all(4.0),
-                child: Column(
-                  children: [
-                    SizedBox(height: 20),
-                    SizedBox(
-                      height: 400, // Specify a fixed height for the GridView
-                      child: MemoriesDisplay(),
-                    ),
-                    SizedBox(height: 20),
-                  ],
+                // const Padding(
+                //   padding: EdgeInsets.all(4.0),
+                //   child: Column(
+                //     children: [
+                //       SizedBox(height: 20),
+                //       SizedBox(
+                //         height: 400, // Specify a fixed height for the GridView
+                //         child: MemoriesDisplay(),
+                //       ),
+                //       SizedBox(height: 20),
+                //     ],
+                //   ),
+                // ),
+                Container(
+                  height: 1200,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: ProfileFeed(
+                    userId: user!.uid,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       );
@@ -388,8 +348,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -438,8 +398,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             );
                           },
                           style: ButtonStyle(
-                            shape: WidgetStateProperty.all<
-                                RoundedRectangleBorder>(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
@@ -484,20 +444,6 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                   ],
                 ),
               ),
-              // const SizedBox(height: 20),
-              // Padding(
-              //   padding: const EdgeInsets.all(4.0),
-              //   child: Column(
-              //     children: [
-              //       const SizedBox(height: 20),
-              //       SizedBox(
-              //         height: 400, // Specify a fixed height for the GridView
-              //         child: MemoriesDisplay(),
-              //       ),
-              //       const SizedBox(height: 20),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -1165,6 +1111,48 @@ class _FAQContainerState extends State<FAQContainer> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ProfileButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  ProfileButton(
+      {required this.icon, required this.label, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: onPressed,
+          child: Container(
+            constraints:
+                BoxConstraints(minWidth: 80), // Add min width constraint
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Color(0xFF2A966C),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                SizedBox(height: 3),
+                Text(label,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -179,13 +179,17 @@ class AuthService {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const UserPage()));
         break;
+      case 'Guide':
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => UserPage()));
+        break;
       case 'admin':
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => AdminPage()));
         break;
       default:
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Signed in as normal user')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Signed in as normal user')));
     }
   }
 }

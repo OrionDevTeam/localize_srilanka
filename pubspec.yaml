@@ -46,7 +46,6 @@ dependencies:
   file_picker: ^5.2.3
   image_picker: ^0.8.4+8
   video_player: ^2.2.11
-  video_thumbnail: ^0.5.3
   path_provider: ^2.0.9
   flutter_cache_manager: ^3.3.0
  
@@ -57,6 +56,9 @@ dependencies:
   visibility_detector: ^0.4.0+2
   url_launcher: ^6.3.0
   carousel_slider: ^4.2.1
+  ffi: ^2.1.2
+  video_thumbnail: ^0.5.3
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +88,7 @@ flutter:
     - assets/aadi/
     - assets/vimosh/
     - assets/varun/
+    - assets/icon/
     - assets/placeholder.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -113,3 +116,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/logo.png"

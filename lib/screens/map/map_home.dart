@@ -10,7 +10,8 @@ import 'location.dart';
 
 class MapS extends StatelessWidget {
   final String apiKey = "AIzaSyA3FOuDQdJiRFn8c_9UEkTc3DeMyECjMB0";
-  MapS();
+
+  const MapS({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class MapS extends StatelessWidget {
 class MapScreen extends StatefulWidget {
   final String apiKey;
 
-  MapScreen({required this.apiKey});
+  const MapScreen({required this.apiKey, Key? key}) : super(key: key);
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -36,13 +37,15 @@ class _MapScreenState extends State<MapScreen> {
       Completer<GoogleMapController>();
   final TextEditingController _searchController = TextEditingController();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(5.937675, 80.465649),
-    zoom: 14.58,
+  static const LatLng _center =
+      const LatLng(5.958809599999999, 80.40584129999999);
+  static const CameraPosition _initialCameraPosition = CameraPosition(
+    target: _center,
+    zoom: 13.0,
   );
 
   Set<Marker> _markers = {};
-  final LatLng _center = const LatLng(5.958809599999999, 80.40584129999999);
+  Offset _fabPosition = Offset(0, 180); // Initial position
 
   @override
   void initState() {
@@ -66,12 +69,9 @@ class _MapScreenState extends State<MapScreen> {
         children: [
           GoogleMap(
             onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 13.0,
-            ),
+            initialCameraPosition: _initialCameraPosition,
             myLocationEnabled: true,
-            markers: Set<Marker>.of(_markers),
+            markers: _markers,
           ),
           Positioned(
             top: 60,
@@ -108,6 +108,64 @@ class _MapScreenState extends State<MapScreen> {
                     onPressed: _searchPlace,
                   ),
                 ],
+              ),
+            ),
+          ),
+          Positioned(
+            left: _fabPosition.dx,
+            top: _fabPosition.dy,
+            child: MouseRegion(
+              child: Material(
+                color: Colors.transparent,
+                child: GestureDetector(
+                  onTap: () {
+                    // Add your onPressed functionality here
+                    print('Widget pressed!');
+                  },
+                  child: Draggable(
+                    feedback: Material(
+                      color: Colors.transparent,
+                      child: Tooltip(
+                        message: 'Chat with Mochi',
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(18.0),
+                          child: Image.asset(
+                            'assets/vimosh/chatBot.jpg', // Replace with your image asset path
+                            width: 56.0,
+                            height: 56.0,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                    child: Tooltip(
+                      message: 'Chat with Mochi',
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(18.0),
+                        child: Image.asset(
+                          'assets/vimosh/chatBot.jpg', // Replace with your image asset path
+                          width: 56.0,
+                          height: 56.0,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    onDragEnd: (details) {
+                      setState(() {
+                        // Get the screen width
+                        final screenWidth = MediaQuery.of(context).size.width;
+
+                        // Snap to the nearest side (left or right)
+                        final newOffsetX = details.offset.dx < screenWidth / 2
+                            ? 0.0
+                            : screenWidth - 56.0; // 56.0 is the image's width
+                        _fabPosition = Offset(newOffsetX, details.offset.dy);
+                      });
+                    },
+                    childWhenDragging:
+                        Container(), // Empty container when dragging
+                  ),
+                ),
               ),
             ),
           ),

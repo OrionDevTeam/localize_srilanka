@@ -9,6 +9,7 @@ import 'package:flutter_chat_ui/flutter_chat_ui.dart' as chat_ui;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class ChatPage extends StatefulWidget {
   final String chatId;
@@ -28,12 +29,15 @@ class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
   late types.User _currentUser;
   late types.User _otherUser;
+  String _guideProfileImageUrl = '';
+  String _guideUserRole = '';
 
   @override
   void initState() {
     super.initState();
     _initializeUsers();
     _loadMessages();
+    _fetchGuideData();
   }
 
   void _initializeUsers() {
@@ -53,16 +57,70 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
+  void _fetchGuideData() {
+    setState(() {
+      _guideProfileImageUrl = widget.guideData['profileImageUrl'] ?? '';
+      _guideUserRole = widget.guideData['user_role'] ?? '';
+    });
+    print('Profile Image URL: $_guideProfileImageUrl');
+    print('User Role: $_guideUserRole');
+  }
+
   void _addMessage(types.Message message) async {
     setState(() {
       _messages.insert(0, message);
     });
 
+    // Convert message to JSON
+    final messageJson = message.toJson();
+
+    // Upload image or video to Firebase Storage
+    if (message is types.ImageMessage) {
+      final imageMessage = message as types.ImageMessage;
+      final file = File(imageMessage.uri);
+
+      // Create reference to storage path
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('chats')
+          .child('images')
+          .child('${imageMessage.id}.jpg');
+
+      // Upload file to storage
+      final uploadTask = storageRef.putFile(file);
+
+      // Get download URL
+      final downloadUrl = await (await uploadTask).ref.getDownloadURL();
+
+      // Update message JSON with download URL
+      messageJson['uri'] = downloadUrl.toString();
+    } else if (message is types.VideoMessage) {
+      final videoMessage = message as types.VideoMessage;
+      final file = File(videoMessage.uri);
+
+      // Create reference to storage path
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('chats')
+          .child('videos')
+          .child('${videoMessage.id}.mp4');
+
+      // Upload file to storage
+      final uploadTask = storageRef.putFile(file);
+
+      // Get download URL
+      final downloadUrl = await (await uploadTask).ref.getDownloadURL();
+
+      // Update message JSON with download URL
+      messageJson['uri'] = downloadUrl.toString();
+    }
+
+    // Update Firestore with message details including URI
     await FirebaseFirestore.instance
         .collection('chats')
         .doc(widget.chatId)
         .update({
-      'messages': FieldValue.arrayUnion([message.toJson()])
+      'messages': FieldValue.arrayUnion([messageJson])
     });
   }
 
@@ -180,7 +238,43 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${widget.guideData['username']}'),
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: _guideProfileImageUrl.isNotEmpty
+                  ? NetworkImage(_guideProfileImageUrl)
+                  : AssetImage('assets/default_profile_image.jpg')
+                      as ImageProvider,
+              radius: 20,
+            ),
+            SizedBox(width: 14),
+            GestureDetector(
+              onTap: () {
+                // Navigate to profile page
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     // builder: (context) => UserProfilePage(
+                //     //   userId: widget.guideData['id'],
+                //     // ),
+                //   ),
+                // );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('${widget.guideData['username']}'),
+                  Text(
+                    _guideUserRole,
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: const Color.fromARGB(137, 22, 1, 1)),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

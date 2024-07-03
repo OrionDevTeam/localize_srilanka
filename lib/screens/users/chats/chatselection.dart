@@ -148,7 +148,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
         automaticallyImplyLeading: false,
       ),
       body: _chats.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator(color: Colors.green))
           : ListView.builder(
               itemCount: _chats.length,
               itemBuilder: (context, index) {
@@ -168,7 +168,16 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                       MaterialPageRoute(
                         builder: (context) => ChatPage(
                           chatId: chat['chatID'],
-                          guideData: otherUserData,
+                          guideData: {
+                            'id': otherUserData[
+                                'id'], // Assuming 'id' is the key for guide's ID
+                            'username': otherUserData[
+                                'username'], // Assuming 'username' is the key for guide's username
+                            'profileImageUrl': otherUserData[
+                                'profileImageUrl'], // Key for guide's profile image URL
+                            'user_role': otherUserData[
+                                'user_role'], // Key for guide's user role
+                          },
                         ),
                       ),
                     );

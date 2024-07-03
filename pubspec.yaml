@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
 
 
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
@@ -52,6 +53,9 @@ dependencies:
   google_maps_flutter: ^2.7.0
   google_places_flutter: ^2.0.8
   http: ^1.2.1
+  flutter_chat_types: ^3.6.2
+  flutter_chat_ui: ^1.6.14
+  open_filex: ^4.4.0
   youtube_player_flutter: ^9.0.1
   visibility_detector: ^0.4.0+2
   url_launcher: ^6.3.0
@@ -88,9 +92,9 @@ flutter:
     - assets/aadi/
     - assets/vimosh/
     - assets/varun/
+    - assets/biru/image_13.jpg
     - assets/icon/
     - assets/placeholder.jpg
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

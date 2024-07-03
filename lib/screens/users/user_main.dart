@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/guide_profile.dart';
+import 'chats/chatselection.dart';
 import 'package:localize_sl/screens/users/userProfile.dart';
 import 'package:localize_sl/user_profile.dart';
+
 
 import '../map/map_home.dart';
 import '../reels/reels.dart';
@@ -39,7 +41,7 @@ class _UserPageState extends State<UserPage> {
               children: [
                 MapS(),
                 SocialMediaFeed(),
-                userProfilePage(),
+                ChatSelectionPage(),
                 UserProfilePage(),
               ],
             ),

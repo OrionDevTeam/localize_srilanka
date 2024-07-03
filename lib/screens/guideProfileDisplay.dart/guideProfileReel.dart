@@ -4,6 +4,8 @@ import 'package:localize_sl/screens/guideProfileDisplay.dart/guideProfileFullScr
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
+import 'editMemory.dart';
+
 // Data model for a Post
 class Postreel {
   final String caption;
@@ -15,6 +17,7 @@ class Postreel {
   final String username;
   final String userId;
   bool isLiked; // Add this field
+  final String memoryId;
 
   Postreel({
     required this.caption,
@@ -26,10 +29,12 @@ class Postreel {
     required this.username,
     required this.userId,
     this.isLiked = false, // Initialize it
+    required this.memoryId,
   });
 
   factory Postreel.fromDocument(DocumentSnapshot doc) {
     return Postreel(
+        memoryId: doc.id,
         caption: doc['caption'] ?? '',
         like_count: doc['like_count'] ?? 0,
         location: doc['location'] ?? '',
@@ -86,7 +91,6 @@ class ProfileFeed extends StatefulWidget {
 
 class _SocialMediaFeedState extends State<ProfileFeed> {
   final TextEditingController _searchController = TextEditingController();
-  Offset _fabPosition = Offset(0, 140); // Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -129,6 +133,7 @@ class _SocialMediaFeedState extends State<ProfileFeed> {
                           username: userDetails['username'] ?? 'x',
                           userId: userId,
                           isLiked: doc['isLiked'] ?? false,
+                          memoryId: doc.id,
                         );
                       }).toList();
 
@@ -162,62 +167,6 @@ class _SocialMediaFeedState extends State<ProfileFeed> {
                   ),
                 ),
               ],
-            ),
-          ),
-          Positioned(
-            left: _fabPosition.dx,
-            top: _fabPosition.dy,
-            child: Material(
-              elevation: 8.0, // Default shadow depth
-              color: Colors.transparent,
-              child: GestureDetector(
-                onTap: () {
-                  // Add your onPressed functionality here
-                  print('Widget pressed!');
-                },
-                child: Draggable(
-                  feedback: Material(
-                    color: Colors.transparent,
-                    child: Tooltip(
-                      message: 'Chat with Mochi',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18.0),
-                        child: Image.asset(
-                          'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                          width: 56.0,
-                          height: 56.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                  child: Tooltip(
-                    message: 'Chat with Mochi',
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18.0),
-                      child: Image.asset(
-                        'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                        width: 56.0,
-                        height: 56.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  onDragEnd: (details) {
-                    final screenWidth = MediaQuery.of(context).size.width;
-
-                    final newOffsetX = details.offset.dx < screenWidth / 2
-                        ? 0.0
-                        : screenWidth - 56.0; // 56.0 is the image's width
-
-                    setState(() {
-                      _fabPosition = Offset(newOffsetX, details.offset.dy);
-                    });
-                  },
-                  childWhenDragging:
-                      Container(), // Empty container when dragging
-                ),
-              ),
             ),
           ),
         ],
@@ -347,7 +296,6 @@ class _PostWidgetState extends State<PostWidget> {
                         top: 5,
                         right: 5,
                         child: Container(
-                          padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.vertical(
                                 bottom: Radius.circular(10.0)),
@@ -371,8 +319,9 @@ class _PostWidgetState extends State<PostWidget> {
                                           title: Text('Edit'),
                                           onTap: () {
                                             Navigator.of(context).pop();
-                                            // Navigate to the edit page
-                                            // Navigator.push(context, MaterialPageRoute(builder: (context) => EditPage()));
+
+                                            _editMemory(
+                                                context, widget.post.memoryId);
                                           },
                                         ),
                                         ListTile(
@@ -380,8 +329,9 @@ class _PostWidgetState extends State<PostWidget> {
                                           title: Text('Delete'),
                                           onTap: () {
                                             Navigator.of(context).pop();
-                                            // Call the delete function
-                                            // deleteFunction();
+                                            _confirmDelete(
+                                                context, widget.post.memoryId);
+                                            print(widget.post.memoryId);
                                           },
                                         ),
                                       ],
@@ -504,4 +454,63 @@ class GuideMemoriesPage extends StatelessWidget {
       body: Center(child: Text('Guide Memories Page Content for $username')),
     );
   }
+}
+
+void _confirmDelete(BuildContext context, String memoryId) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: const Text("Confirm Delete"),
+      content: const Text("Are you sure you want to delete this memory?"),
+      actions: <Widget>[
+        TextButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(0xFF2A966C)),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: const Text("Cancel"),
+        ),
+        TextButton(
+          onPressed: () async {
+            try {
+              await FirebaseFirestore.instance
+                  .collection('memories')
+                  .doc(memoryId)
+                  .delete();
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Memory deleted successfully"),
+                ),
+              );
+              Navigator.of(context).pop(); // Close the dialog
+            } catch (e) {
+              print("Error deleting memory: $e");
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Failed to delete memory"),
+                ),
+              );
+            }
+          },
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Color(0xFF2A966C)),
+          child: const Text("Delete"),
+        ),
+      ],
+    ),
+  );
+}
+
+void _editMemory(BuildContext context, String memoryId) async {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => EditMemoryPage(memoryId: memoryId),
+    ),
+  );
 }

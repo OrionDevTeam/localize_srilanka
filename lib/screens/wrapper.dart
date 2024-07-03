@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:localize_sl/screens/getStarted.dart';
+import 'package:localize_sl/screens/users/guideUsermain.dart';
 
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -78,9 +79,10 @@ class Wrapper extends StatelessWidget {
             case 'admin':
               return AdminPage();
             case 'Guide':
-              return const UserPage();
+              return const GuidePage();
             default:
-              return const Scaffold(body: Center(child: Text('Unknown user role')));
+              return const Scaffold(
+                  body: Center(child: Text('Unknown user role')));
           }
         },
       );

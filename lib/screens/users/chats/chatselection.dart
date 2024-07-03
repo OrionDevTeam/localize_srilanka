@@ -4,6 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'chat.dart';
 
 class ChatSelectionPage extends StatefulWidget {
+  final bool showBackButton;
+
+  const ChatSelectionPage({Key? key, this.showBackButton = false})
+      : super(key: key);
+
   @override
   _ChatSelectionPageState createState() => _ChatSelectionPageState();
 }
@@ -145,7 +150,8 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Chats"),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading:
+            widget.showBackButton, // Show back button based on the parameter
       ),
       body: _chats.isEmpty
           ? Center(child: CircularProgressIndicator(color: Colors.green))

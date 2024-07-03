@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:localize_sl/screens/reels/fullscreen.dart';
 import 'package:video_player/video_player.dart';
@@ -470,7 +471,7 @@ class _PostWidgetState extends State<PostWidget> {
                               PageRouteBuilder(
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
-                                  return GuideProfilePage(
+                                  return GuideDetailPage(
                                     userId: widget.post.userId,
                                   );
                                 },
@@ -715,32 +716,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           return Center(child: CircularProgressIndicator());
         }
       },
-    );
-  }
-}
-
-// Placeholder for the guide page
-class GuidePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Page')),
-      body: Center(),
-    );
-  }
-}
-
-// Placeholder for the guide memories page
-class GuideMemoriesPage extends StatelessWidget {
-  final String username;
-
-  GuideMemoriesPage({required this.username});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Memories of $username')),
-      body: Center(child: Text('Guide Memories Page Content for $username')),
     );
   }
 }

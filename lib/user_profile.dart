@@ -74,12 +74,18 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'User Profile',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+        title: GestureDetector(
+          onTap: () {
+            setState(() {
+              _fetchUserRole();
+            });
+          },
+          child: const Text(
+            'Profile',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 20,
+            ),
           ),
         ),
         actions: [
@@ -132,7 +138,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Mr.${userName}' ?? "",
+                                    '${userName}' ?? "Unknown",
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold),
@@ -147,14 +153,24 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 2),
+                                  SizedBox(height: 4),
                                   ElevatedButton(
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
                                               Color(0xFF2A966C)),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      signOut();
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const WelcomeScreen()),
+                                        (route) =>
+                                            false, // This line ensures you cannot go back to the profile page after signing out
+                                      );
+                                    },
                                     child: SizedBox(
                                       width: 80,
                                       height: 40,

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/guide_pages/guide_detail_page.dart';
+import 'package:localize_sl/screens/users/chats/chat.dart';
+import 'package:localize_sl/screens/users/chats/chatselection.dart';
 
 import 'guidereel.dart';
 
@@ -15,7 +18,7 @@ class GuideProfilePage extends StatefulWidget {
 
 class _GuideProfilePageState extends State<GuideProfilePage> {
   final User? user = FirebaseAuth.instance.currentUser;
-  String? userRole;
+  String? guideUserRole;
   String userName = '';
   String userEmail = '';
   String userBio = '';
@@ -23,6 +26,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
   String rating = '0';
   String reviews = '10';
   String location = "";
+  String? currentUserRole;
 
   Future<void> _fetchUserRole() async {
     try {
@@ -35,7 +39,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
 
       if (data != null) {
         setState(() {
-          userRole = data['user_role'] ?? '';
+          guideUserRole = data['user_role'] ?? '';
           userName = data['username'] ?? '';
           userEmail = data['email'] ?? '';
           userBio = data['bio'] ?? '';
@@ -52,10 +56,104 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
     }
   }
 
+  Future<void> _fetchCurrentUserRole() async {
+    try {
+      if (user != null) {
+        DocumentSnapshot snapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .get();
+
+        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+
+        if (data != null) {
+          setState(() {
+            currentUserRole = data['user_role'] ?? '';
+          });
+        } else {
+          print('Current user role not found in snapshot data');
+        }
+      }
+    } catch (e) {
+      print('Error fetching current user role: $e');
+    }
+  }
+
+  void _handleChat() async {
+    // Fetch the current user's ID
+    String? currentUserID = FirebaseAuth.instance.currentUser?.uid;
+
+    if (currentUserRole == 'Guide' || currentUserRole == 'Business') {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Chat Not Allowed'),
+            content: Text('A Guide or Business cannot initiate a chat.'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    if (currentUserID != null) {
+      // Check if a chat already exists between currentUserID and widget.userId (GuideID)
+      QuerySnapshot<Map<String, dynamic>> chatSnapshot = await FirebaseFirestore
+          .instance
+          .collection('chats')
+          .where('UserID', isEqualTo: currentUserID)
+          .where('GuideID', isEqualTo: widget.userId)
+          .get();
+
+      if (chatSnapshot.docs.isNotEmpty) {
+        // Chat already exists, navigate to chat selection page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatSelectionPage(
+              showBackButton: true, // Show back button on ChatSelectionPage
+            ),
+          ),
+        );
+      } else {
+        // Chat does not exist, create a new chat document
+        try {
+          await FirebaseFirestore.instance.collection('chats').add({
+            'UserID': currentUserID,
+            'GuideID': widget.userId,
+            // You can add more fields as needed
+          });
+
+          // Navigate to chat selection page after creating chat
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatSelectionPage(
+                showBackButton: true, // Show back button on ChatSelectionPage
+              ),
+            ),
+          );
+        } catch (e) {
+          print('Error creating chat: $e');
+          // Handle error creating chat
+        }
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _fetchUserRole();
+    _fetchCurrentUserRole();
   }
 
   @override
@@ -94,7 +192,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Mr.${userName}' ?? "",
+                                '${userName}' ?? "Unknown",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -152,9 +250,17 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
               SizedBox(
                 width: double.infinity, // Full width
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            GuideDetailPage(userId: widget.userId),
+                      ),
+                    );
+                  },
                   child: Text(
-                    'View Packages',
+                    'View Full profile',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,
@@ -163,6 +269,29 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF2A966C),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12), // Set border radius
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity, // Full width
+                child: ElevatedButton(
+                  onPressed: _handleChat,
+                  child: Text(
+                    'Chat',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Color(0xFF2A966C), // Customize button color as needed
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(12), // Set border radius

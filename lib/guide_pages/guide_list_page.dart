@@ -1,21 +1,14 @@
-import 'guide_model.dart';
-import 'guide_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'guide_model.dart';
+import 'guide_detail_page.dart';
 
-
-class GuideListPage extends StatefulWidget {
-  @override
-  _GuideListPageState createState() => _GuideListPageState();
-}
-
-class _GuideListPageState extends State<GuideListPage> {
+class GuideListPage extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         backgroundColor: Colors.white,
         forceMaterialTransparency: true,
@@ -27,13 +20,13 @@ class _GuideListPageState extends State<GuideListPage> {
           },
         ),
         centerTitle: true,
-
         title: Text(
           'Search Guides',
           style: TextStyle(
             fontWeight: FontWeight.bold,
-          ),),
-              bottom: PreferredSize(
+          ),
+        ),
+        bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
@@ -65,16 +58,24 @@ class _GuideListPageState extends State<GuideListPage> {
             ),
           ),
         ),
-        ),
-      
+      ),
       body: StreamBuilder(
-        stream: _firestore.collection('users').where('user_role', isEqualTo: "Guide").snapshots(),
+        stream: _firestore
+            .collection('users')
+            .where('user_role', isEqualTo: "Guide")
+            .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+              color: Colors.green,
+            ));
           }
 
-          var guides = snapshot.data!.docs.map((doc) => Guide.fromFirestore(doc)).toList();
+          var guides = snapshot.data!.docs
+              .map((doc) => Guide.fromFirestore(
+                  doc as DocumentSnapshot<Map<String, dynamic>>))
+              .toList();
 
           return ListView.builder(
             itemCount: guides.length,
@@ -88,8 +89,6 @@ class _GuideListPageState extends State<GuideListPage> {
   }
 }
 
-
-
 class GuideCard extends StatelessWidget {
   final Guide guide;
 
@@ -97,7 +96,6 @@ class GuideCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: InkWell(
@@ -105,7 +103,7 @@ class GuideCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GuideDetailPage(guide: guide),
+              builder: (context) => GuideDetailPage(),
             ),
           );
         },
@@ -124,7 +122,7 @@ class GuideCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 30.0,
-                      backgroundImage: NetworkImage(guide.profilePictureUrl), // Assuming you have a profilePictureUrl in Guide model
+                      backgroundImage: NetworkImage(guide.profileImageURL),
                     ),
                     SizedBox(width: 20.0),
                     Expanded(

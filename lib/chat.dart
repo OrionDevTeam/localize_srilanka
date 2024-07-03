@@ -13,7 +13,8 @@ class ChatBotPage extends StatefulWidget {
 class _ChatBotPageState extends State<ChatBotPage> {
   final List<OpenAIChatCompletionChoiceMessageModel> _chatMessages = [];
   Stream<OpenAIStreamChatCompletionModel>? _stream;
-  final _lastResponse = ValueNotifier<OpenAIChatCompletionChoiceMessageModel?>(null);
+  final _lastResponse =
+      ValueNotifier<OpenAIChatCompletionChoiceMessageModel?>(null);
   late final TextEditingController _textController;
   late final FocusNode _focusNode;
   late final ScrollController _scrollController;
@@ -45,7 +46,8 @@ class _ChatBotPageState extends State<ChatBotPage> {
     super.dispose();
   }
 
-  OpenAIChatCompletionChoiceMessageModel _choiceModelFromText(String text, OpenAIChatMessageRole role) {
+  OpenAIChatCompletionChoiceMessageModel _choiceModelFromText(
+      String text, OpenAIChatMessageRole role) {
     return OpenAIChatCompletionChoiceMessageModel(
       content: [
         OpenAIChatCompletionChoiceMessageContentItemModel.text(text),
@@ -85,21 +87,21 @@ class _ChatBotPageState extends State<ChatBotPage> {
         if (data.choices.first.delta.content != null) {
           if (_lastResponse.value == null) {
             _lastResponse.value = _choiceModelFromText(
-              data.choices.first.delta.content!.first!.text!, 
+              data.choices.first.delta.content!.first!.text!,
               OpenAIChatMessageRole.assistant,
             );
           } else {
             final message = _lastResponse.value!.content!.first.text! +
-              data.choices.first.delta.content!.first!.text!;
+                data.choices.first.delta.content!.first!.text!;
             _lastResponse.value = _choiceModelFromText(
               message,
               OpenAIChatMessageRole.assistant,
             );
-            _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
           }
         }
-      },
-      onDone: () {
+      }, onDone: () {
         setState(() {
           _isLoading = false;
         });
@@ -119,60 +121,68 @@ class _ChatBotPageState extends State<ChatBotPage> {
           width: MediaQuery.of(context).size.width * 0.6,
           child: Column(
             children: [
-              if (_chatMessages.length == 1) Expanded(
-                child: _conversationStartSection(),
-              )
-              else Expanded(
-                child: ListView.separated(
-                  controller: _scrollController,
-                  itemCount: _chatMessages.length + 1,
-                  separatorBuilder: (context, index) => const SizedBox(height: 10),
-                  itemBuilder: (context, index) {
-                    if (index == _chatMessages.length) {
-                      if (_stream != null) {
-                        return ValueListenableBuilder<OpenAIChatCompletionChoiceMessageModel?>(
-                          valueListenable: _lastResponse,
-                          builder: (context, value, _) {
-                            if (value == null) {
-                              return BubbleNormal(
-                                leading: const CircularProgressIndicator(),
-                                text: '',
-                                color: const Color(0xFFE8E8EE),
-                                tail: false,
-                                isSender: false,
+              if (_chatMessages.length == 1)
+                Expanded(
+                  child: _conversationStartSection(),
+                )
+              else
+                Expanded(
+                  child: ListView.separated(
+                    controller: _scrollController,
+                    itemCount: _chatMessages.length + 1,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      if (index == _chatMessages.length) {
+                        if (_stream != null) {
+                          return ValueListenableBuilder<
+                              OpenAIChatCompletionChoiceMessageModel?>(
+                            valueListenable: _lastResponse,
+                            builder: (context, value, _) {
+                              if (value == null) {
+                                return BubbleNormal(
+                                  leading: const CircularProgressIndicator(
+                                    color: Colors.green,
+                                  ),
+                                  text: '',
+                                  color: const Color(0xFFE8E8EE),
+                                  tail: false,
+                                  isSender: false,
+                                );
+                              }
+                              final messageText = value.content!.first.text!;
+                              return _assistantChatBubble(
+                                messageText,
                               );
-                            }
-                            final messageText = value.content!.first.text!;
-                            return _assistantChatBubble(
-                              messageText,
-                            );
-                          },
-                        );
-                      } else if (_isLoading) {
-                        return BubbleNormal(
-                          leading: const CircularProgressIndicator(),
-                          text: '',
-                          color: const Color(0xFFE8E8EE),
-                          tail: false,
-                          isSender: false,
-                        );
-                      } else {
-                        return const SizedBox();
+                            },
+                          );
+                        } else if (_isLoading) {
+                          return BubbleNormal(
+                            leading: const CircularProgressIndicator(
+                              color: Colors.green,
+                            ),
+                            text: '',
+                            color: const Color(0xFFE8E8EE),
+                            tail: false,
+                            isSender: false,
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
                       }
-                    }
-                    final message = _chatMessages[index];
-                    return switch (message.role) {
-                      OpenAIChatMessageRole.user => _userChatBubble(
-                        message.content!.first.text!,
-                      ),
-                      OpenAIChatMessageRole.assistant => _assistantChatBubble(
-                        message.content!.first.text!,
-                      ),
-                      _ => const SizedBox()
-                    };
-                  },
+                      final message = _chatMessages[index];
+                      return switch (message.role) {
+                        OpenAIChatMessageRole.user => _userChatBubble(
+                            message.content!.first.text!,
+                          ),
+                        OpenAIChatMessageRole.assistant => _assistantChatBubble(
+                            message.content!.first.text!,
+                          ),
+                        _ => const SizedBox()
+                      };
+                    },
+                  ),
                 ),
-              ),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(15),
@@ -185,9 +195,11 @@ class _ChatBotPageState extends State<ChatBotPage> {
                           autofocus: true,
                           readOnly: _isLoading,
                           decoration: const InputDecoration(
-                            hintText: 'What are the best experiences nearby me?',
+                            hintText:
+                                'What are the best experiences nearby me?',
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(20)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
                             ),
                           ),
                           onSubmitted: (_) => _onSubmitted(),
@@ -248,10 +260,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
           child: BubbleSpecialThree(
             text: text,
             color: Theme.of(context).colorScheme.primary,
-            textStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 16
-            ),
+            textStyle: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
         CircleAvatar(
@@ -304,7 +313,8 @@ class _ChatBotPageState extends State<ChatBotPage> {
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
-            _textController.text = 'I need to vlog my trip, how can I get help?';
+            _textController.text =
+                'I need to vlog my trip, how can I get help?';
             _onSubmitted();
           },
           style: ElevatedButton.styleFrom(
@@ -321,7 +331,8 @@ class _ChatBotPageState extends State<ChatBotPage> {
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
-            _textController.text = 'Help me find the best place to visit nearby and have a nice meal.';
+            _textController.text =
+                'Help me find the best place to visit nearby and have a nice meal.';
             _onSubmitted();
           },
           style: ElevatedButton.styleFrom(

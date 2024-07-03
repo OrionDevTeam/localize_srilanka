@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'dart:ui';
@@ -284,8 +285,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return GuideMemoriesPage(
-                                  username: widget.postreel.username);
+                              return GuideProfilePage(
+                                  userId: widget.postreel.userId);
                             },
                             transitionDuration: Duration(milliseconds: 500),
                             transitionsBuilder: (context, animation,
@@ -321,8 +322,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                               PageRouteBuilder(
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
-                                  return GuideMemoriesPage(
-                                      username: widget.postreel.username);
+                                  return GuideProfilePage(
+                                      userId: widget.postreel.userId);
                                 },
                                 transitionDuration: Duration(milliseconds: 500),
                                 transitionsBuilder: (context, animation,
@@ -466,31 +467,6 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class GuidePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Page')),
-      body: Center(child: Text('Guide Page Content')),
-    );
-  }
-}
-
-// Placeholder for the guide memories page
-class GuideMemoriesPage extends StatelessWidget {
-  final String username;
-
-  GuideMemoriesPage({required this.username});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Memories of $username')),
-      body: Center(child: Text('Guide Memories Page Content for $username')),
     );
   }
 }

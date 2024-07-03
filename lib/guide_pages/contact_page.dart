@@ -57,7 +57,7 @@ class _ContactPageState extends State<ContactPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text('Chat Not Allowed'),
-            content: Text('A Guide or Business cannot chat with a user.'),
+            content: Text('A Guide or Business cannot initiate a chat.'),
             actions: [
               TextButton(
                 child: Text('OK'),

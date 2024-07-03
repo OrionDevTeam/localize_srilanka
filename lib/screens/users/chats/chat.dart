@@ -250,15 +250,17 @@ class _ChatPageState extends State<ChatPage> {
             SizedBox(width: 14),
             GestureDetector(
               onTap: () {
-                // Navigate to profile page
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     // builder: (context) => UserProfilePage(
-                //     //   userId: widget.guideData['id'],
-                //     // ),
-                //   ),
-                // );
+                if (_guideUserRole == "Guide") {
+                  // Navigate to profile page
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => UserProfilePage(
+                  //       userId: widget.guideData['id'],
+                  //     ),
+                  //   ),
+                  // );
+                }
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

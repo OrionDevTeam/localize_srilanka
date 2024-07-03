@@ -18,7 +18,7 @@ class GuideProfilePage extends StatefulWidget {
 
 class _GuideProfilePageState extends State<GuideProfilePage> {
   final User? user = FirebaseAuth.instance.currentUser;
-  String? userRole;
+  String? guideUserRole;
   String userName = '';
   String userEmail = '';
   String userBio = '';
@@ -26,6 +26,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
   String rating = '0';
   String reviews = '10';
   String location = "";
+  String? currentUserRole;
 
   Future<void> _fetchUserRole() async {
     try {
@@ -38,7 +39,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
 
       if (data != null) {
         setState(() {
-          userRole = data['user_role'] ?? '';
+          guideUserRole = data['user_role'] ?? '';
           userName = data['username'] ?? '';
           userEmail = data['email'] ?? '';
           userBio = data['bio'] ?? '';
@@ -55,42 +56,83 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
     }
   }
 
+  Future<void> _fetchCurrentUserRole() async {
+    try {
+      if (user != null) {
+        DocumentSnapshot snapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user!.uid)
+            .get();
+
+        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+
+        if (data != null) {
+          setState(() {
+            currentUserRole = data['user_role'] ?? '';
+          });
+        } else {
+          print('Current user role not found in snapshot data');
+        }
+      }
+    } catch (e) {
+      print('Error fetching current user role: $e');
+    }
+  }
+
   void _handleChat() async {
     // Fetch the current user's ID
     String? currentUserID = FirebaseAuth.instance.currentUser?.uid;
 
+    if (currentUserRole == 'Guide' || currentUserRole == 'Business') {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Chat Not Allowed'),
+            content: Text('A Guide or Business cannot initiate a chat.'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
     if (currentUserID != null) {
-      // Check if the logged-in user is a guide or business
-      if (userRole == 'Guide' || userRole == 'Business') {
-        // Show a pop-up message
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Cannot Start Chat'),
-              content: Text('A guide or business cannot chat with a user.'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
+      // Check if a chat already exists between currentUserID and widget.userId (GuideID)
+      QuerySnapshot<Map<String, dynamic>> chatSnapshot = await FirebaseFirestore
+          .instance
+          .collection('chats')
+          .where('UserID', isEqualTo: currentUserID)
+          .where('GuideID', isEqualTo: widget.userId)
+          .get();
+
+      if (chatSnapshot.docs.isNotEmpty) {
+        // Chat already exists, navigate to chat selection page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatSelectionPage(
+              showBackButton: true, // Show back button on ChatSelectionPage
+            ),
+          ),
         );
       } else {
-        // Check if a chat already exists between currentUserID and widget.userId (GuideID)
-        QuerySnapshot<Map<String, dynamic>> chatSnapshot =
-            await FirebaseFirestore.instance
-                .collection('chats')
-                .where('UserID', isEqualTo: currentUserID)
-                .where('GuideID', isEqualTo: widget.userId)
-                .get();
+        // Chat does not exist, create a new chat document
+        try {
+          await FirebaseFirestore.instance.collection('chats').add({
+            'UserID': currentUserID,
+            'GuideID': widget.userId,
+            // You can add more fields as needed
+          });
 
-        if (chatSnapshot.docs.isNotEmpty) {
-          // Chat already exists, navigate to chat selection page
+          // Navigate to chat selection page after creating chat
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -99,28 +141,9 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
               ),
             ),
           );
-        } else {
-          // Chat does not exist, create a new chat document
-          try {
-            await FirebaseFirestore.instance.collection('chats').add({
-              'UserID': currentUserID,
-              'GuideID': widget.userId,
-              // You can add more fields as needed
-            });
-
-            // Navigate to chat selection page after creating chat
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatSelectionPage(
-                  showBackButton: true, // Show back button on ChatSelectionPage
-                ),
-              ),
-            );
-          } catch (e) {
-            print('Error creating chat: $e');
-            // Handle error creating chat
-          }
+        } catch (e) {
+          print('Error creating chat: $e');
+          // Handle error creating chat
         }
       }
     }
@@ -130,6 +153,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
   void initState() {
     super.initState();
     _fetchUserRole();
+    _fetchCurrentUserRole();
   }
 
   @override

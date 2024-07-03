@@ -4,6 +4,7 @@ import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'dart:ui';
 
+import 'editMemory.dart';
 import 'guideProfileReel.dart';
 
 class FullScreenPostDialogReel extends StatefulWidget {
@@ -227,21 +228,39 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 ListTile(
-                                  leading: Icon(Icons.edit),
-                                  title: Text('Edit'),
+                                  leading: Icon(
+                                    Icons.edit,
+                                    color: Color(0xFF2A966C),
+                                  ),
+                                  title: Text(
+                                    'Edit',
+                                    style: TextStyle(
+                                      color: Color(0xFF2A966C),
+                                    ),
+                                  ),
                                   onTap: () {
                                     Navigator.of(context).pop();
-                                    // Navigate to the edit page
-                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => EditPage()));
+                                    _editMemory(
+                                        context, widget.postreel.memoryId);
+                                    print("Edit memory details");
                                   },
                                 ),
                                 ListTile(
-                                  leading: Icon(Icons.delete),
-                                  title: Text('Delete'),
+                                  leading: Icon(
+                                    Icons.delete,
+                                    color: Color(0xFF2A966C),
+                                  ),
+                                  title: Text(
+                                    'Delete',
+                                    style: TextStyle(
+                                      color: Color(0xFF2A966C),
+                                    ),
+                                  ),
                                   onTap: () {
                                     Navigator.of(context).pop();
-                                    // Call the delete function
-                                    // deleteFunction();
+                                    _confirmDelete(
+                                        context, widget.postreel.memoryId);
+                                    print(widget.postreel.memoryId);
                                   },
                                 ),
                               ],
@@ -474,4 +493,63 @@ class GuideMemoriesPage extends StatelessWidget {
       body: Center(child: Text('Guide Memories Page Content for $username')),
     );
   }
+}
+
+void _confirmDelete(BuildContext context, String memoryId) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: const Text("Confirm Delete"),
+      content: const Text("Are you sure you want to delete this memory?"),
+      actions: <Widget>[
+        TextButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Color(0xFF2A966C)),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop(); // Close the dialog
+          },
+          child: const Text("Cancel"),
+        ),
+        TextButton(
+          onPressed: () async {
+            try {
+              await FirebaseFirestore.instance
+                  .collection('memories')
+                  .doc(memoryId)
+                  .delete();
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Memory deleted successfully"),
+                ),
+              );
+              Navigator.of(context).pop(); // Close the dialog
+            } catch (e) {
+              print("Error deleting memory: $e");
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Failed to delete memory"),
+                ),
+              );
+            }
+          },
+          style: TextButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Color(0xFF2A966C)),
+          child: const Text("Delete"),
+        ),
+      ],
+    ),
+  );
+}
+
+void _editMemory(BuildContext context, String memoryId) async {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => EditMemoryPage(memoryId: memoryId),
+    ),
+  );
 }

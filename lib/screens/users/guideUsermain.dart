@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/guide_profile.dart';
-import 'chats/chatselection.dart';
 import 'package:localize_sl/screens/users/userProfile.dart';
-import 'package:localize_sl/user_profile.dart';
-
 
 import '../map/map_home.dart';
 import '../reels/reels.dart';
 
-class UserPage extends StatefulWidget {
-  const UserPage({super.key});
+class GuidePage extends StatefulWidget {
+  const GuidePage({super.key});
 
   @override
   _UserPageState createState() => _UserPageState();
 }
 
-class _UserPageState extends State<UserPage> {
+class _UserPageState extends State<GuidePage> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   int _selectedIndex = 0; // Add selected index for navigation
 
@@ -41,8 +38,8 @@ class _UserPageState extends State<UserPage> {
               children: [
                 MapS(),
                 SocialMediaFeed(),
-                ChatSelectionPage(),
-                UserProfilePage(),
+                userProfilePage(),
+                GuideProfilePage(),
               ],
             ),
           ),

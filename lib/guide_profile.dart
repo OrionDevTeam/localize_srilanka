@@ -95,7 +95,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
       );
     }
 
-    if (userRole == 'Guide') {
+    if (userRole == 'Guide' || userRole == 'Business') {
       return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -120,30 +120,89 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
           ],
         ),
         body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  color: const Color.fromARGB(255, 255, 255, 255),
-                  padding: const EdgeInsets.all(4.0),
-                  margin: const EdgeInsets.only(right: 10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.grey.withOpacity(0.2),
-                              radius: 50,
-                              backgroundImage: profileImageUrl.isNotEmpty
-                                  ? NetworkImage(profileImageUrl)
-                                      as ImageProvider
-                                  : const AssetImage('assets/placeholder.jpg'),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                color: const Color.fromARGB(255, 255, 255, 255),
+                padding: const EdgeInsets.all(4.0),
+                margin: const EdgeInsets.only(right: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(height: 30),
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundImage: profileImageUrl.isNotEmpty
+                          ? NetworkImage(profileImageUrl) as ImageProvider
+                          : const AssetImage('assets/placeholder.jpg'),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      userName,
+                      style: const TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 1),
+                    Text(
+                      userEmail,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      userBio,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const WalletPage()),
+                            );
+                          },
+                          style: ButtonStyle(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            padding:
+                                WidgetStateProperty.all<EdgeInsetsGeometry>(
+                              const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                            ),
+                            backgroundColor:
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
+                                  return Colors.white;
+                                }
+                                return const Color.fromARGB(255, 42, 150, 108);
+                              },
+                            ),
+                            foregroundColor:
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
+                                  return const Color.fromARGB(
+                                      255, 42, 150, 108);
+                                }
+                                return Colors.white;
+                              },
                             ),
                           ),
                           SizedBox(width: 16),
@@ -204,25 +263,91 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                           color: Colors.grey,
                           fontSize: 16,
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // ProfileButton for Wallet
-                          ProfileButton(
-                            icon: Icons.account_balance_wallet,
-                            label: 'Wallet',
-                            onPressed: () => navigateToWallet(context),
+                        const SizedBox(width: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ActivityPage()),
+                            );
+                          },
+                          style: ButtonStyle(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            padding:
+                                WidgetStateProperty.all<EdgeInsetsGeometry>(
+                              const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                            ),
+                            backgroundColor:
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
+                                  return Colors.white;
+                                }
+                                return const Color.fromARGB(255, 42, 150, 108);
+                              },
+                            ),
+                            foregroundColor:
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
+                                  return const Color.fromARGB(
+                                      255, 42, 150, 108);
+                                }
+                                return Colors.white;
+                              },
+                            ),
                           ),
                           SizedBox(
                             width: 20,
                           ),
-                          // ProfileButton for Activity
-                          ProfileButton(
-                            icon: Icons.timeline,
-                            label: 'Activity',
-                            onPressed: () => navigateToActivity(context),
+                        ),
+                        const SizedBox(width: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const HelpPage()),
+                            );
+                          },
+                          style: ButtonStyle(
+                            shape:
+                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                            ),
+                            padding:
+                                WidgetStateProperty.all<EdgeInsetsGeometry>(
+                              const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 20),
+                            ),
+                            backgroundColor:
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
+                                  return Colors.white;
+                                }
+                                return const Color.fromARGB(255, 42, 150, 108);
+                              },
+                            ),
+                            foregroundColor:
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
+                                  return const Color.fromARGB(
+                                      255, 42, 150, 108);
+                                }
+                                return Colors.white;
+                              },
+                            ),
                           ),
                           // ProfileButton for Help
                           SizedBox(

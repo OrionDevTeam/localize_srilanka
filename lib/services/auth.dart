@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../screens/users/user_main.dart';
+import '../screens/admin/adminPage.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -61,7 +62,7 @@ class AuthService {
         });
 
         // Show verification message
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text(
               'Verification email has been sent. Please verify your email.'),
         ));
@@ -114,7 +115,7 @@ class AuthService {
       _navigateBasedOnRole(context, role);
     } else {
       // Email not verified, show resend option
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(
             'Email not verified. Please check your email for verification link or resend verification email.'),
       ));
@@ -126,7 +127,7 @@ class AuthService {
     User? user = _auth.currentUser;
     if (user != null) {
       await user.sendEmailVerification();
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Verification email resent. Please check your email.'),
       ));
     }
@@ -176,11 +177,19 @@ class AuthService {
     switch (role) {
       case 'user':
         Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const UserPage()));
+        break;
+      case 'Guide':
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => UserPage()));
         break;
+      case 'admin':
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => AdminPage()));
+        break;
       default:
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('Signed in as normal user')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Signed in as normal user')));
     }
   }
 }

@@ -4,7 +4,7 @@ import '../../../services/auth.dart';
 
 class SignIn extends StatefulWidget {
   final Function toggleView;
-  SignIn({required this.toggleView});
+  const SignIn({super.key, required this.toggleView});
 
   @override
   _SignInState createState() => _SignInState();
@@ -35,11 +35,11 @@ class _SignInState extends State<SignIn> {
               key: _formKey,
               child: Column(
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 80,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -54,11 +54,11 @@ class _SignInState extends State<SignIn> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -74,7 +74,7 @@ class _SignInState extends State<SignIn> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 24,
                   ),
                   Container(
@@ -86,22 +86,22 @@ class _SignInState extends State<SignIn> {
                           padding: const EdgeInsets.only(left: 18.0),
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: Color.fromARGB(255, 220, 220, 220),
+                                color: const Color.fromARGB(255, 220, 220, 220),
                                 width: 1.0),
                             borderRadius: BorderRadius.circular(48.0),
                           ),
                           child: Row(
                             children: [
-                              SizedBox(width: 4),
-                              Icon(
+                              const SizedBox(width: 4),
+                              const Icon(
                                 Icons.email,
                                 color: Color.fromARGB(255, 159, 159, 159),
                               ),
-                              SizedBox(width: 12),
+                              const SizedBox(width: 12),
                               Expanded(
                                 child: TextFormField(
                                   controller: _emailController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     labelText: 'Email',
                                     border: InputBorder.none,
                                   ),
@@ -119,28 +119,28 @@ class _SignInState extends State<SignIn> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 18.0),
+                        const SizedBox(height: 18.0),
 
                         Container(
                           padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                           decoration: BoxDecoration(
                             border: Border.all(
-                                color: Color.fromARGB(255, 220, 220, 220),
+                                color: const Color.fromARGB(255, 220, 220, 220),
                                 width: 1.0),
                             borderRadius: BorderRadius.circular(48.0),
                           ),
                           child: Row(
                             children: [
-                              SizedBox(width: 8.0),
-                              Icon(
+                              const SizedBox(width: 8.0),
+                              const Icon(
                                 Icons.lock,
                                 color: Color.fromARGB(255, 159, 159, 159),
                               ),
-                              SizedBox(width: 12.0),
+                              const SizedBox(width: 12.0),
                               Expanded(
                                 child: TextFormField(
                                   controller: _passwordController,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                     labelText: 'Password',
                                     border: InputBorder.none,
                                   ),
@@ -158,7 +158,7 @@ class _SignInState extends State<SignIn> {
                                   _obscureText
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: Color.fromARGB(255, 159, 159, 159),
+                                  color: const Color.fromARGB(255, 159, 159, 159),
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -170,15 +170,11 @@ class _SignInState extends State<SignIn> {
                           ),
                         ),
 
-                        SizedBox(height: 40.0),
+                        const SizedBox(height: 40.0),
                         SizedBox(
                           width: double.infinity,
                           height: 52.0,
                           child: ElevatedButton(
-                            child: Text('Sign In',
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontWeight: FontWeight.w500)),
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 final String email =
@@ -203,15 +199,19 @@ class _SignInState extends State<SignIn> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF2A966C),
+                              backgroundColor: const Color(0xFF2A966C),
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(48.0),
                               ),
                             ),
+                            child: const Text('Sign In',
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w500)),
                           ),
                         ),
-                        SizedBox(height: 18.0),
+                        const SizedBox(height: 18.0),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Row(
@@ -220,9 +220,9 @@ class _SignInState extends State<SignIn> {
                               Container(
                                 height: 1.0,
                                 width: 120,
-                                color: Color.fromARGB(255, 220, 220, 220),
+                                color: const Color.fromARGB(255, 220, 220, 220),
                               ),
-                              Text("or",
+                              const Text("or",
                                   style: TextStyle(
                                       color: Color(0xFF828F9C),
                                       fontSize: 14.0,
@@ -231,33 +231,17 @@ class _SignInState extends State<SignIn> {
                               Container(
                                 height: 1.0,
                                 width: 120.0,
-                                color: Color.fromARGB(255, 220, 220, 220),
+                                color: const Color.fromARGB(255, 220, 220, 220),
                               ),
                             ],
                           ),
                         ),
-                        SizedBox(height: 18.0),
+                        const SizedBox(height: 18.0),
 
                         SizedBox(
                           width: double.infinity,
                           height: 52.0,
                           child: ElevatedButton(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'assets/varun/google_logo.png',
-                                  height: 24.0,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("Login with Google",
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w500))
-                              ],
-                            ),
                             onPressed: () async {
                               _auth.signInWithGoogle(context);
                             },
@@ -267,11 +251,27 @@ class _SignInState extends State<SignIn> {
                               shadowColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(48.0),
-                                side: BorderSide(
+                                side: const BorderSide(
                                   color: Color.fromARGB(255, 220, 220, 220),
                                   width: 0.5,
                                 ),
                               ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/varun/google_logo.png',
+                                  height: 24.0,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Text("Login with Google",
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w500))
+                              ],
                             ),
                           ),
                         ),
@@ -280,15 +280,15 @@ class _SignInState extends State<SignIn> {
                           onPressed: () {
                             widget.toggleView(); // Navigate to Sign Up screen
                           },
-                          child: Text(
+                          child: const Text(
                             "Don't have an account ? ",
                             style: TextStyle(color: Colors.blue),
                           ),
                         ),
-                        SizedBox(height: 12.0),
+                        const SizedBox(height: 12.0),
                         Text(
                           error,
-                          style: TextStyle(color: Colors.red, fontSize: 14.0),
+                          style: const TextStyle(color: Colors.red, fontSize: 14.0),
                         ), // Add some space
                       ],
                     ),

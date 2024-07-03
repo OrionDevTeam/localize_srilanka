@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:localize_sl/screens/wrapper.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 
-import 'screens/getStarted.dart';
 import 'services/auth.dart';
 
 Future<void> main() async {
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         value: AuthService().user,
         initialData: null,
         child: MaterialApp(
-          home: WelcomeScreen(),
+          home: Wrapper(),
           debugShowCheckedModeBanner: false,
         ));
   }

@@ -7,6 +7,8 @@ import '../getStarted.dart';
 class userProfilePage extends StatelessWidget {
   final User? user = FirebaseAuth.instance.currentUser;
 
+  userProfilePage({super.key});
+
   void _reAuthenticateAndChangePassword(BuildContext context) async {
     TextEditingController currentPasswordController = TextEditingController();
     TextEditingController newPasswordController = TextEditingController();
@@ -16,7 +18,7 @@ class userProfilePage extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Center(
+          title: const Center(
               child: Text(
             'Change Password',
             style: TextStyle(fontSize: 18),
@@ -27,25 +29,25 @@ class userProfilePage extends StatelessWidget {
               TextField(
                 controller: currentPasswordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Current Password',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: newPasswordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'New Password',
                   border: OutlineInputBorder(),
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               TextField(
                 controller: confirmPasswordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Confirm New Password',
                   border: OutlineInputBorder(),
                 ),
@@ -57,7 +59,7 @@ class userProfilePage extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 'Cancel',
                 style: TextStyle(color: Colors.black),
               ),
@@ -77,7 +79,7 @@ class userProfilePage extends StatelessWidget {
                     // Change the password
                     await user!.updatePassword(newPasswordController.text);
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text('Password changed successfully!'),
                     ));
                   } catch (e) {
@@ -86,7 +88,7 @@ class userProfilePage extends StatelessWidget {
                     ));
                   }
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Passwords do not match'),
                   ));
                 }
@@ -96,8 +98,9 @@ class userProfilePage extends StatelessWidget {
                   color: Colors.black,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: const Text(
                   'Change Password',
                   style: TextStyle(color: Colors.white),
                 ),
@@ -116,34 +119,34 @@ class userProfilePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Card(
-            margin: EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(16.0),
             child: ListTile(
-              leading: Icon(Icons.person),
-              title: Text('Username'),
+              leading: const Icon(Icons.person),
+              title: const Text('Username'),
               subtitle: Text(user?.email ?? 'No email'),
             ),
           ),
           Card(
-            margin: EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(16.0),
             child: ListTile(
-              leading: Icon(Icons.lock),
-              title: Text('Change Password'),
-              trailing: Icon(Icons.arrow_forward_ios),
+              leading: const Icon(Icons.lock),
+              title: const Text('Change Password'),
+              trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () => _reAuthenticateAndChangePassword(context),
             ),
           ),
           Card(
-            margin: EdgeInsets.all(16.0),
+            margin: const EdgeInsets.all(16.0),
             child: ListTile(
-                leading: Icon(Icons.lock),
-                title: Text('Logout'),
-                trailing: Icon(Icons.logout),
+                leading: const Icon(Icons.lock),
+                title: const Text('Logout'),
+                trailing: const Icon(Icons.logout),
                 onTap: () {
                   signOut();
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WelcomeScreen(),
+                      builder: (context) => const WelcomeScreen(),
                     ),
                   );
                 }),

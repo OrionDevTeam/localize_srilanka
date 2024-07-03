@@ -99,8 +99,8 @@ class LoginScreen extends StatelessWidget {
               ),
               label: const Text('Login with Google', style: TextStyle(color: Colors.black)),
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // Background color
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                backgroundColor: WidgetStateProperty.all<Color>(Colors.white), // Background color
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                   const EdgeInsets.symmetric(horizontal: 60.0,vertical: 20.0),
                 ),
          ),

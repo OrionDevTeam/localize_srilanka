@@ -141,36 +141,36 @@ class userProfilePage extends StatelessWidget {
               leading: const Icon(Icons.notifications_active_outlined),
               title: const Text('Notification Settings'),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () => _reAuthenticateAndChangePassword(context),
+              // onTap: () => _reAuthenticateAndChangePassword(context),
             ),
           ),
-          Card(
-            margin: const EdgeInsets.all(8.0), // Reduced margin
-            child: ListTile(
-              leading: const Icon(Icons.payment_rounded),
-              title: const Text('Payment Methods'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WalletPage()),
-                );
-              },
-            ),
-          ),
+          // Card(
+          //   margin: const EdgeInsets.all(8.0), // Reduced margin
+          //   child: ListTile(
+          //     leading: const Icon(Icons.payment_rounded),
+          //     title: const Text('Payment Methods'),
+          //     trailing: const Icon(Icons.arrow_forward_ios),
+          //     onTap: () {
+          //       Navigator.push(
+          //         context,
+          //         MaterialPageRoute(builder: (context) => WalletPage()),
+          //       );
+          //     },
+          //   ),
+          // ),
           Card(
             margin: const EdgeInsets.all(8.0), // Reduced margin
             child: ListTile(
               leading: const Icon(Icons.language),
               title: const Text('Language Settings'),
               trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                signOut();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WelcomeScreen()),
-                );
-              },
+              // onTap: () {
+              //   signOut();
+              //   Navigator.push(
+              //     context,
+              //     MaterialPageRoute(builder: (context) => WelcomeScreen()),
+              //   );
+              // },
             ),
           ),
           Card(

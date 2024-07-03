@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/guide_profile.dart';
+import 'package:localize_sl/screens/users/chats/chatselection.dart';
 import 'package:localize_sl/screens/users/userProfile.dart';
 
 import '../map/map_home.dart';
@@ -38,7 +39,7 @@ class _UserPageState extends State<GuidePage> {
               children: [
                 MapS(),
                 SocialMediaFeed(),
-                userProfilePage(),
+                ChatSelectionPage(),
                 GuideProfilePage(),
               ],
             ),

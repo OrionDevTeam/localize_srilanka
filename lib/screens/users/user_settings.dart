@@ -155,6 +155,13 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
             const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _updateProfilePicture,
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: const Color(0xFF2A966C), // White text color
+                textStyle: const TextStyle(
+                  fontSize: 14, // Optional: Change the font size if needed
+                ),
+              ),
               child: const Text('Change Profile Picture'),
             ),
             const SizedBox(height: 32.0),
@@ -173,14 +180,14 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                 hintText: 'Enter your new email',
               ),
             ),
-            const SizedBox(height: 16.0),
-            const Text('Bio:'),
-            TextFormField(
-              controller: _bioController,
-              decoration: const InputDecoration(
-                hintText: 'Enter your bio',
-              ),
-            ),
+            // const SizedBox(height: 16.0),
+            // const Text('Bio:'),
+            // TextFormField(
+            //   controller: _bioController,
+            //   decoration: const InputDecoration(
+            //     hintText: 'Enter your bio',
+            //   ),
+            // ),
             const SizedBox(height: 16.0),
             const Text('Password:'),
             TextFormField(
@@ -193,7 +200,15 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
             const SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: _updateUserDetails,
-              child: const Text('Update All'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white, // White text color
+                backgroundColor:
+                    const Color(0xFF2A966C), // Green background color
+                textStyle: const TextStyle(
+                  fontSize: 14, // Optional: Change the font size if needed
+                ),
+              ),
+              child: const Text('Update'),
             ),
           ],
         ),

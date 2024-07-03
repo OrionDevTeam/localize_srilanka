@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 
 import 'guidereel.dart';
 
@@ -94,7 +95,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Mr.${userName}' ?? "",
+                                '${userName}' ?? "Unknown",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -152,9 +153,17 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
               SizedBox(
                 width: double.infinity, // Full width
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            GuideDetailPage(userId: widget.userId),
+                      ),
+                    );
+                  },
                   child: Text(
-                    'View Packages',
+                    'View Full Profile',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 14,
@@ -163,6 +172,32 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF2A966C),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12), // Set border radius
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                width: double.infinity, // Full width
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Implement your chat logic here
+                    // Example: Navigate to chat page or open a chat window
+                    // Replace with your actual chat implementation
+                  },
+                  child: Text(
+                    'Chat',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Color(0xFF2A966C), // Customize button color as needed
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(12), // Set border radius

@@ -7,7 +7,7 @@ class NeedHelpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Need Help'),
+        title: const Text('Need Help ?'),
       ),
       body: const HelpContent(),
     );
@@ -46,5 +46,3 @@ class HelpContent extends StatelessWidget {
     );
   }
 }
-
-

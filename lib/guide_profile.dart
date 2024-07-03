@@ -166,38 +166,32 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const WalletPage()),
-                            );
-                          },
+                          onPressed: navigateToWallet(context),
                           style: ButtonStyle(
-                            shape:
-                                WidgetStateProperty.all<RoundedRectangleBorder>(
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                             ),
                             padding:
-                                WidgetStateProperty.all<EdgeInsetsGeometry>(
+                                MaterialStateProperty.all<EdgeInsetsGeometry>(
                               const EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 20),
                             ),
                             backgroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.hovered)) {
                                   return Colors.white;
                                 }
                                 return const Color.fromARGB(255, 42, 150, 108);
                               },
                             ),
                             foregroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.hovered)) {
                                   return const Color.fromARGB(
                                       255, 42, 150, 108);
                                 }
@@ -205,366 +199,107 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                               },
                             ),
                           ),
-                          SizedBox(width: 16),
-                          Expanded(
-                            flex: 3,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Mr.${userName}' ?? "",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                SizedBox(height: 2),
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.location_on,
-                                      color: Colors.grey,
-                                    ),
-                                    SizedBox(
-                                      width: 4,
-                                    ),
-                                    Text(
-                                      '${location}',
-                                      style: TextStyle(color: Colors.grey),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 2),
-                                Row(
-                                  children: [
-                                    Icon(Icons.star, color: Colors.orange),
-                                    Text('$rating ($reviews Reviews)',
-                                        style: TextStyle(color: Colors.black)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        height: 0.5,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            color: const Color.fromARGB(122, 0, 0, 0)),
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        userBio,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 16,
+                          child: const Text('Wallet'),
                         ),
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ActivityPage()),
-                            );
-                          },
-                          style: ButtonStyle(
-                            shape:
-                                WidgetStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            padding:
-                                WidgetStateProperty.all<EdgeInsetsGeometry>(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                            ),
-                            backgroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return Colors.white;
-                                }
-                                return const Color.fromARGB(255, 42, 150, 108);
-                              },
-                            ),
-                            foregroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return const Color.fromARGB(
-                                      255, 42, 150, 108);
-                                }
-                                return Colors.white;
-                              },
-                            ),
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HelpPage()),
-                            );
-                          },
-                          style: ButtonStyle(
-                            shape:
-                                WidgetStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            padding:
-                                WidgetStateProperty.all<EdgeInsetsGeometry>(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                            ),
-                            backgroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return Colors.white;
-                                }
-                                return const Color.fromARGB(255, 42, 150, 108);
-                              },
-                            ),
-                            foregroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return const Color.fromARGB(
-                                      255, 42, 150, 108);
-                                }
-                                return Colors.white;
-                              },
-                            ),
-                          ),
-                          // ProfileButton for Help
-                          SizedBox(
-                            width: 20,
-                          ),
-
-                          ProfileButton(
-                            icon: Icons.help_outline,
-                            label: 'Help',
-                            onPressed: () => navigateToHelp(context),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                ),
-                // const Padding(
-                //   padding: EdgeInsets.all(4.0),
-                //   child: Column(
-                //     children: [
-                //       SizedBox(height: 20),
-                //       SizedBox(
-                //         height: 400, // Specify a fixed height for the GridView
-                //         child: MemoriesDisplay(),
-                //       ),
-                //       SizedBox(height: 20),
-                //     ],
-                //   ),
-                // ),
-                Container(
-                  height: 1200,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: ProfileFeed(
-                    userId: user!.uid,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      );
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: const Text(
-            'My Profile',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SettingsPage()),
-                );
-              },
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                color: const Color.fromARGB(255, 255, 255, 255),
-                padding: const EdgeInsets.all(4.0),
-                margin: const EdgeInsets.only(right: 10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 30),
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundImage: profileImageUrl.isNotEmpty
-                          ? NetworkImage(profileImageUrl) as ImageProvider
-                          : const AssetImage('assets/placeholder.jpg'),
+                      ],
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      userName,
-                      style: const TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      userEmail,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w300,
-                      ),
+                    Container(
+                      height: 0.5,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: const Color.fromARGB(122, 0, 0, 0)),
                     ),
                     const SizedBox(height: 10),
                     Text(
                       userBio,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: Colors.grey,
                         fontSize: 16,
                       ),
                     ),
+                    const SizedBox(width: 20),
+                    ElevatedButton(
+                      onPressed: () => navigateToActivity(context),
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                          const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return Colors.white;
+                            }
+                            return const Color.fromARGB(255, 42, 150, 108);
+                          },
+                        ),
+                        foregroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return const Color.fromARGB(255, 42, 150, 108);
+                            }
+                            return Colors.white;
+                          },
+                        ),
+                      ),
+                      child: const Text('Activity'),
+                    ),
+                    const SizedBox(width: 20),
+                    ElevatedButton(
+                      onPressed: () => navigateToHelp(context),
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                          const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                        ),
+                        backgroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return Colors.white;
+                            }
+                            return const Color.fromARGB(255, 42, 150, 108);
+                          },
+                        ),
+                        foregroundColor:
+                            MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                            if (states.contains(MaterialState.hovered)) {
+                              return const Color.fromARGB(255, 42, 150, 108);
+                            }
+                            return Colors.white;
+                          },
+                        ),
+                      ),
+                      child: const Text('Help'),
+                    ),
                     const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ActivityPage()),
-                            );
-                          },
-                          style: ButtonStyle(
-                            shape:
-                                WidgetStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            padding:
-                                WidgetStateProperty.all<EdgeInsetsGeometry>(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                            ),
-                            backgroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return Colors.white;
-                                }
-                                return const Color.fromARGB(255, 42, 150, 108);
-                              },
-                            ),
-                            foregroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return const Color.fromARGB(
-                                      255, 42, 150, 108);
-                                }
-                                return Colors.white;
-                              },
-                            ),
-                          ),
-                          child: const Column(
-                            children: [
-                              Icon(Icons.history),
-                              Text('Portfolio',
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const HelpPage()),
-                            );
-                          },
-                          style: ButtonStyle(
-                            shape:
-                                WidgetStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                              ),
-                            ),
-                            padding:
-                                WidgetStateProperty.all<EdgeInsetsGeometry>(
-                              const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 20),
-                            ),
-                            backgroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return Colors.white;
-                                }
-                                return const Color.fromARGB(255, 42, 150, 108);
-                              },
-                            ),
-                            foregroundColor:
-                                WidgetStateProperty.resolveWith<Color>(
-                              (Set<WidgetState> states) {
-                                if (states.contains(WidgetState.hovered)) {
-                                  return const Color.fromARGB(
-                                      255, 42, 150, 108);
-                                }
-                                return Colors.white;
-                              },
-                            ),
-                          ),
-                          child: const Column(
-                            children: [
-                              Icon(Icons.help),
-                              Text(
-                                'Help',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                    Container(
+                      height: 1200,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: ProfileFeed(
+                        userId: user!.uid,
+                      ),
                     ),
                   ],
                 ),
@@ -574,6 +309,12 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
         ),
       );
     }
+
+    return const Scaffold(
+      body: Center(
+        child: Text('Access Denied'),
+      ),
+    );
   }
 }
 

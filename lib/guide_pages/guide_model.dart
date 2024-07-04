@@ -20,7 +20,7 @@ class Guide {
   final String telegramUrl;
   final String whatsappUrl;
   final String username;
-  final String profileImageURL;
+  final String profileImageUrl;
   final String Average_hourly_rate;
 
   Guide({
@@ -43,7 +43,7 @@ class Guide {
     required this.telegramUrl,
     required this.whatsappUrl,
     required this.username,
-    required this.profileImageURL,
+    required this.profileImageUrl,
     required this.Average_hourly_rate,
   });
 
@@ -57,7 +57,7 @@ class Guide {
       description: data['description'] ?? '',
       bio: data['bio'] ?? '',
       tags: List<String>.from(data['tags'] ?? []),
-      profileImageURL: data['profileImageURL'] ?? '',
+      profileImageUrl: data['profileImageUrl'] ?? '',
       packages: List<Map<String, dynamic>>.from(data['packages'] ?? []),
       experiences: List<Map<String, dynamic>>.from(data['experiences'] ?? []),
       services: List<Map<String, dynamic>>.from(data['services'] ?? []),

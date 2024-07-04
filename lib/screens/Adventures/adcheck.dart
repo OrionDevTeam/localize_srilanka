@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/guides/guide_location.dart';
 
 import '../Adventures/adventure.dart';
 import '../hotels/hotel.dart';
@@ -176,7 +177,9 @@ class _LocationState extends State<Location>
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    Center(child: Text('Explore with Guides')),
+                    GuidePlace(
+                      place: widget.place,
+                    ),
                     HotelList(hotelDetails: _hotelDetails),
                     Adventures(
                       place: widget.place,

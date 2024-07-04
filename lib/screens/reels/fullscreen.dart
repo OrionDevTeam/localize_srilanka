@@ -217,8 +217,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
               // ),
 
               Positioned(
-                top: 30,
-                left: 0,
+                top: 50,
+                left: 15,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -300,7 +300,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                 ),
               ),
               Positioned(
-                bottom: 10,
+                bottom: 30,
                 left: 10,
                 child: Row(
                   children: [
@@ -388,8 +388,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                 ),
               ),
               Positioned(
-                bottom: 10,
-                right: 10,
+                bottom: 30,
+                right: 15,
                 child: Row(
                   children: [
                     GestureDetector(
@@ -411,7 +411,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
               ),
 
               Positioned(
-                bottom: 60,
+                bottom: 80,
                 left: 10,
                 right: 10,
                 child: Text(

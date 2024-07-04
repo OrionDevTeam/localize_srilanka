@@ -119,8 +119,8 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
             children: [
               CircleAvatar(
                 radius: 50,
-                backgroundImage: guide!.profileImageURL.isNotEmpty
-                    ? NetworkImage(guide!.profileImageURL)
+                backgroundImage: guide!.profileImageUrl.isNotEmpty
+                    ? NetworkImage(guide!.profileImageUrl)
                         as ImageProvider // Cast to ImageProvider
                     : AssetImage(
                         'assets/placeholder.jpg'), // Placeholder image asset path

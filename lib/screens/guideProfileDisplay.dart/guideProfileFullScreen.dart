@@ -28,7 +28,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
     _controller = VideoPlayerController.network(widget.postreel.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.5);
   }
 
   @override
@@ -47,6 +47,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
       _controller.pause();
     }
   }
+
+  void _playsound(bool isVisible) {}
 
   void _toggleLike() async {
     setState(() {
@@ -178,8 +180,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                 ),
               ),
               Positioned(
-                top: 30,
-                left: 5,
+                top: 50,
+                left: 15,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -206,7 +208,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
               // ),
               // ),
               Positioned(
-                top: 30,
+                top: 40,
                 right: 5,
                 child: Container(
                   padding: const EdgeInsets.all(8.0),
@@ -215,7 +217,10 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                         BorderRadius.vertical(bottom: Radius.circular(10.0)),
                   ),
                   child: IconButton(
-                    icon: Icon(Icons.more_vert),
+                    icon: Icon(
+                      Icons.more_vert,
+                      size: 30,
+                    ),
                     color: Colors.white,
                     onPressed: () {
                       showDialog(
@@ -274,7 +279,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                 ),
               ),
               Positioned(
-                bottom: 10,
+                bottom: 40,
                 left: 10,
                 child: Row(
                   children: [
@@ -363,8 +368,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                 ),
               ),
               Positioned(
-                bottom: 10,
-                right: 10,
+                bottom: 40,
+                right: 20,
                 child: Row(
                   children: [
                     GestureDetector(
@@ -387,7 +392,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
               ),
 
               Positioned(
-                bottom: 60,
+                bottom: 90,
                 left: 10,
                 right: 10,
                 child: Text(

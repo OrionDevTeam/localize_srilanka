@@ -217,8 +217,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
               // ),
 
               Positioned(
-                top: 30,
-                left: 0,
+                top: 40,
+                left: 10,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);

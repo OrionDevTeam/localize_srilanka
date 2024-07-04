@@ -95,12 +95,9 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
             padding: const EdgeInsets.all(0),
             child: Column(
               children: [
-                SizedBox(
-                    height:
-                        28), // Add some space at the top (status bar height)
                 Padding(
-                  padding:
-                      const EdgeInsets.only(top: 18.0, left: 18, right: 18),
+                  padding: const EdgeInsets.only(
+                      top: 68.0, left: 18, right: 18, bottom: 10.0),
                   child: Row(
                     children: [
                       // Search bar and filter icon
@@ -286,7 +283,7 @@ class _PostWidgetState extends State<PostWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override
@@ -669,7 +666,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override

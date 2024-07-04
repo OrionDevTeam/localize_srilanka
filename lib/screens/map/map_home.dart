@@ -72,6 +72,7 @@ class _MapScreenState extends State<MapScreen> {
             initialCameraPosition: _initialCameraPosition,
             myLocationEnabled: true,
             markers: _markers,
+            zoomControlsEnabled: false,
           ),
           Positioned(
             top: 60,
@@ -253,7 +254,7 @@ class _MapScreenState extends State<MapScreen> {
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           return Container(
-            height: 350,
+            height: 380,
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.only(
@@ -266,7 +267,8 @@ class _MapScreenState extends State<MapScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(18.0),
+                  padding:
+                      const EdgeInsets.only(bottom: 800, left: 16, right: 16),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(

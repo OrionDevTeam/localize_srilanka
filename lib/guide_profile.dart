@@ -107,7 +107,6 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 18,
-              fontWeight: FontWeight.bold,
             ),
           ),
           actions: [

@@ -196,7 +196,7 @@ class _PostWidgetState extends State<PostWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override
@@ -379,7 +379,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override

@@ -11,6 +11,8 @@ import 'package:video_thumbnail/video_thumbnail.dart';
 import 'dart:typed_data';
 import 'package:intl/intl.dart';
 
+import '../guideProfileDisplay.dart/uploadReel.dart';
+
 class MemoriesUploader extends StatefulWidget {
   const MemoriesUploader({super.key});
 
@@ -24,76 +26,21 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final ImagePicker _picker = ImagePicker();
 
-  Future<Map<String, dynamic>?> _getMemoryDetails() async {
-    String? caption;
-    List<String> hashtags = [];
-    String location = 'not mentioned';
+  String? _thumbnailPath;
+  String? _mediaType;
 
-    await showDialog<Map<String, dynamic>>(
-      context: context,
-      builder: (BuildContext context) {
-        TextEditingController captionController = TextEditingController();
-        TextEditingController hashtagsController = TextEditingController();
-        TextEditingController locationController = TextEditingController();
-
-        return AlertDialog(
-          title: const Text('Add Memory Details'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: captionController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter caption here',
-                ),
-              ),
-              TextField(
-                controller: hashtagsController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter hashtags (comma-separated)',
-                ),
-              ),
-              TextField(
-                controller: locationController,
-                decoration: const InputDecoration(
-                  hintText: 'Enter location',
-                ),
-              ),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                caption = captionController.text;
-                hashtags = hashtagsController.text
-                    .split(',')
-                    .map((e) => e.trim())
-                    .toList();
-                location = locationController.text;
-                Navigator.of(context).pop({
-                  'caption': caption,
-                  'hashtags': hashtags,
-                  'location': location,
-                });
-              },
-              child: const Text('Submit'),
-            ),
-          ],
-        );
-      },
+  Future<Map<String, dynamic>?> _getMemoryDetails(
+      String thumbnailPath, String mediaType) async {
+    Map<String, dynamic>? memoryDetails = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AddMemoryDetailsPage(
+          thumbnailPath: thumbnailPath,
+          mediaType: mediaType,
+        ),
+      ),
     );
-    if (caption == null) return null;
-    return {
-      'caption': caption,
-      'hashtags': hashtags,
-      'location': location,
-    };
+
+    return memoryDetails;
   }
 
   Future<void> _pickAndUploadImage() async {
@@ -109,7 +56,13 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
         return;
       }
 
-      Map<String, dynamic>? memoryDetails = await _getMemoryDetails();
+      setState(() {
+        _thumbnailPath = pickedFile.path;
+        _mediaType = 'image';
+      });
+
+      Map<String, dynamic>? memoryDetails =
+          await _getMemoryDetails(pickedFile.path, 'image');
       if (memoryDetails == null) return;
 
       await _uploadFile(pickedFile, 'image', memoryDetails);
@@ -131,7 +84,13 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
         return;
       }
 
-      Map<String, dynamic>? memoryDetails = await _getMemoryDetails();
+      setState(() {
+        _thumbnailPath = pickedVideo.path;
+        _mediaType = 'video';
+      });
+
+      Map<String, dynamic>? memoryDetails =
+          await _getMemoryDetails(pickedVideo.path, 'video');
       if (memoryDetails == null) return;
 
       await _uploadFile(pickedVideo, 'video', memoryDetails);
@@ -158,8 +117,6 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
       String downloadURL = await _storage.ref(filePath).getDownloadURL();
 
       await _firestore.collection('memories').add({
-        // 'fileName': fileName,
-        // 'filePath': filePath,
         'downloadURL': downloadURL,
         'mediaType': mediaType,
         'uploadedAt': FieldValue.serverTimestamp(),
@@ -193,23 +150,92 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
       appBar: AppBar(
         title: const Text('Upload Memory'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: _pickAndUploadImage,
-              child: const Text('Upload Image'),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: _pickAndUploadVideo,
-              child: const Text('Upload Video'),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              Image.asset(
+                'assets/vimosh/upload.jpg',
+                height: 400,
+              ),
+              if (_thumbnailPath != null)
+                ElevatedButton(
+                  onPressed: _pickAndUploadImage,
+                  child: const Text('Upload Image'),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Color(0xFF2A966C),
+                    foregroundColor: Colors.white,
+                    elevation: 4,
+                  ),
+                ),
+              const SizedBox(height: 10),
+              Text("or", style: TextStyle(color: Colors.black)),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: _pickAndUploadVideo,
+                child: const Text('Upload Video'),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    side: BorderSide(
+                      color: Color(0xFF2A966C),
+                    ), // Add border color here
+                  ),
+                  backgroundColor: Colors.white,
+                  foregroundColor: Color(0xFF2A966C),
+                  elevation: 4,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
+  }
+}
+
+class VideoPlayerWidget extends StatefulWidget {
+  final String videoPath;
+
+  VideoPlayerWidget({required this.videoPath});
+
+  @override
+  _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
+}
+
+class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
+  late VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.file(File(widget.videoPath))
+      ..initialize().then((_) {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return _controller.value.isInitialized
+        ? AspectRatio(
+            aspectRatio: _controller.value.aspectRatio,
+            child: VideoPlayer(_controller),
+          )
+        : Container(
+            child: Center(child: CircularProgressIndicator()),
+          );
   }
 }
 

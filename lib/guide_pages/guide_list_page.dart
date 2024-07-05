@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'guide_model.dart';
-import 'guide_detail_page.dart';
+import 'package:flutter/material.dart';
+import 'package:localize_sl/guide_pages/guide_detail_page.dart';
+import 'package:localize_sl/guide_pages/guide_model.dart';
 
 class GuideListPage extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -21,10 +21,10 @@ class GuideListPage extends StatelessWidget {
         ),
         centerTitle: true,
         title: Text(
-          'Search Guides',
+          'Search',
           style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+              // fontWeight: FontWeight.bold,
+              ),
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
@@ -59,17 +59,29 @@ class GuideListPage extends StatelessWidget {
           ),
         ),
       ),
-      body: StreamBuilder(
+      body: StreamBuilder<QuerySnapshot>(
         stream: _firestore
             .collection('users')
-            .where('user_role', isEqualTo: "Guide")
-            .snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
+            .where('user_role', whereIn: ["Guide", "Business"]).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-                child: CircularProgressIndicator(
-              color: Colors.green,
-            ));
+              child: CircularProgressIndicator(
+                color: Colors.green,
+              ),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          }
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(
+              child: Text('No guides found'),
+            );
           }
 
           var guides = snapshot.data!.docs
@@ -103,7 +115,7 @@ class GuideCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GuideDetailPage(),
+              builder: (context) => GuideDetailPage(userId: guide.documentId),
             ),
           );
         },
@@ -111,7 +123,7 @@ class GuideCard extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10.0),
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: Colors.green),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -122,7 +134,7 @@ class GuideCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 30.0,
-                      backgroundImage: NetworkImage(guide.profileImageURL),
+                      backgroundImage: NetworkImage(guide.profileImageUrl),
                     ),
                     SizedBox(width: 20.0),
                     Expanded(
@@ -130,11 +142,17 @@ class GuideCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            guide.name,
+                            guide.username,
                             style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
+                          ),
+                          Text(
+                            'LOCALIZE ${guide.user_role.toUpperCase()}',
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: const Color.fromARGB(137, 22, 1, 1)),
                           ),
                           Text(
                             'Languages: ${guide.languages.join(', ')}',
@@ -172,14 +190,6 @@ class GuideCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 2.0),
-                Text(
-                  guide.description,
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
                 Wrap(
                   spacing: 4.0,
                   runSpacing: 4.0,
@@ -189,6 +199,7 @@ class GuideCard extends StatelessWidget {
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: Colors.green, width: 0.7),
                       ),
                     );
                   }).toList(),

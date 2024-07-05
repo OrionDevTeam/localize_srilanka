@@ -102,15 +102,15 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Guide Profile'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.favorite_border),
-            onPressed: () {
-              // Handle favorite button press
-            },
-          ),
-        ],
+        title: Text('Profile'),
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.favorite_border),
+        //     onPressed: () {
+        //       // Handle favorite button press
+        //     },
+        //   ),
+        // ],
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -131,6 +131,12 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                 guide!.username,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
+              Text(
+                'LOCALIZE ${guide!.user_role.toUpperCase()}',
+                style: TextStyle(
+                    fontSize: 16, color: const Color.fromARGB(137, 22, 1, 1)),
+              ),
+              SizedBox(height: 8.0),
               Text(
                 guide!.bio,
                 textAlign: TextAlign.center,

@@ -53,7 +53,12 @@ class GuidePlace extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 16),
                   child: TextButton.icon(
                     onPressed: () {
-                      GuideListPage();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GuideListPage(),
+                        ),
+                      );
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.transparent,

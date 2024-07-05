@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/screens/getStarted.dart';
+import 'package:localize_sl/screens/users/user_memories.dart';
 import 'package:localize_sl/screens/users/user_settings.dart';
 import 'package:localize_sl/screens/users/user_help.dart';
 import 'package:localize_sl/screens/users/user_wallet.dart';
@@ -106,7 +107,6 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 18,
-              fontWeight: FontWeight.bold,
             ),
           ),
           actions: [
@@ -157,7 +157,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Mr.${userName}' ?? "",
+                                      '${userName}' ?? "Unknown",
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
@@ -246,29 +246,34 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                       ),
                     ),
                     // add + icon in the end of the row to upload reel
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const SizedBox(width: 20),
-                        const Text(
-                          'Reels',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                    Container(
+                      width: double.infinity,
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Text(
+                              'Memories',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 40),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ChatBotPage()),
-                            );
-                          },
-                          child: const Icon(Icons.add),
-                        ),
-                      ],
+                          Positioned(
+                            right: 0,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MemoriesUploader()),
+                                );
+                              },
+                              child: Icon(Icons.add),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
 
                     // const Padding(

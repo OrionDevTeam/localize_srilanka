@@ -152,7 +152,10 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Chats"),
+        title: const Text(
+          "Chats",
+          style: TextStyle(fontSize: 20),
+        ),
         automaticallyImplyLeading:
             widget.showBackButton, // Show back button based on the parameter
       ),

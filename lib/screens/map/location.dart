@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/guides/guide_location.dart';
 
 import '../Adventures/adventure.dart';
@@ -83,7 +84,8 @@ class _LocationState extends State<Location>
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: TextStyle(fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 20),
+          // style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
       ),
@@ -208,6 +210,10 @@ class _LocationState extends State<Location>
                   onTap: () {
                     // Add your onPressed functionality here
                     print('Widget pressed!');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatBotPage()),
+                    );
                   },
                   child: Draggable(
                     feedback: Material(

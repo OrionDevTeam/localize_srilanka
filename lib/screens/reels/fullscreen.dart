@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:localize_sl/screens/reels/reels.dart';
 import 'package:video_player/video_player.dart';
@@ -435,6 +436,11 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                       onTap: () {
                         // Add your onPressed functionality here
                         print('Widget pressed!');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ChatBotPage()),
+                        );
                       },
                       child: Draggable(
                         feedback: Material(

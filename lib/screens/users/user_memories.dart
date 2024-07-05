@@ -174,7 +174,7 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
                   ),
                 ),
               const SizedBox(height: 10),
-              Text("or", style: TextStyle(color: Colors.black)),
+              // Text("or", style: TextStyle(color: Colors.black)),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _pickAndUploadVideo,

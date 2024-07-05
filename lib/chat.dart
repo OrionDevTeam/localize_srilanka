@@ -4,7 +4,7 @@ import 'package:dart_openai/dart_openai.dart';
 import 'package:localize_sl/secrets.dart';
 
 class ChatBotPage extends StatefulWidget {
-  const ChatBotPage({super.key});
+  const ChatBotPage({Key? key}) : super(key: key);
 
   @override
   State<ChatBotPage> createState() => _ChatBotPageState();
@@ -114,102 +114,101 @@ class _ChatBotPageState extends State<ChatBotPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AI Travel Assistant'),
+        title: const Text('Chat with Vidara'),
       ),
       body: Center(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.6,
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.8,
           child: Column(
             children: [
-              if (_chatMessages.length == 1)
-                Expanded(
-                  child: _conversationStartSection(),
-                )
-              else
-                Expanded(
-                  child: ListView.separated(
-                    controller: _scrollController,
-                    itemCount: _chatMessages.length + 1,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 10),
-                    itemBuilder: (context, index) {
-                      if (index == _chatMessages.length) {
-                        if (_stream != null) {
-                          return ValueListenableBuilder<
-                              OpenAIChatCompletionChoiceMessageModel?>(
-                            valueListenable: _lastResponse,
-                            builder: (context, value, _) {
-                              if (value == null) {
-                                return BubbleNormal(
-                                  leading: const CircularProgressIndicator(
-                                    color: Colors.green,
-                                  ),
-                                  text: '',
-                                  color: const Color(0xFFE8E8EE),
-                                  tail: false,
-                                  isSender: false,
-                                );
-                              }
-                              final messageText = value.content!.first.text!;
-                              return _assistantChatBubble(
-                                messageText,
+              Expanded(
+                child: _chatMessages.length == 1
+                    ? _conversationStartSection()
+                    : ListView.separated(
+                        controller: _scrollController,
+                        itemCount: _chatMessages.length + 1,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 10),
+                        itemBuilder: (context, index) {
+                          if (index == _chatMessages.length) {
+                            if (_stream != null) {
+                              return ValueListenableBuilder<
+                                  OpenAIChatCompletionChoiceMessageModel?>(
+                                valueListenable: _lastResponse,
+                                builder: (context, value, _) {
+                                  if (value == null) {
+                                    return BubbleNormal(
+                                      leading: const CircularProgressIndicator(
+                                        color: Color(0xFF2A966C),
+                                      ),
+                                      text: '',
+                                      color: const Color(0xFFE8E8EE),
+                                      tail: false,
+                                      isSender: false,
+                                    );
+                                  }
+                                  final messageText =
+                                      value.content!.first.text!;
+                                  return _assistantChatBubble(messageText);
+                                },
                               );
-                            },
-                          );
-                        } else if (_isLoading) {
-                          return BubbleNormal(
-                            leading: const CircularProgressIndicator(
-                              color: Colors.green,
-                            ),
-                            text: '',
-                            color: const Color(0xFFE8E8EE),
-                            tail: false,
-                            isSender: false,
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      }
-                      final message = _chatMessages[index];
-                      return switch (message.role) {
-                        OpenAIChatMessageRole.user => _userChatBubble(
-                            message.content!.first.text!,
-                          ),
-                        OpenAIChatMessageRole.assistant => _assistantChatBubble(
-                            message.content!.first.text!,
-                          ),
-                        _ => const SizedBox()
-                      };
-                    },
-                  ),
-                ),
+                            } else if (_isLoading) {
+                              return BubbleNormal(
+                                leading: const CircularProgressIndicator(
+                                  color: Color(0xFF2A966C),
+                                ),
+                                text: '',
+                                color: const Color(0xFFE8E8EE),
+                                tail: false,
+                                isSender: false,
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
+                          }
+                          final message = _chatMessages[index];
+                          return message.role == OpenAIChatMessageRole.user
+                              ? _userChatBubble(message.content!.first.text!)
+                              : _assistantChatBubble(
+                                  message.content!.first.text!);
+                        },
+                      ),
+              ),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: Row(
                     children: [
                       Expanded(
-                        child: TextField(
-                          controller: _textController,
-                          focusNode: _focusNode,
-                          autofocus: true,
-                          readOnly: _isLoading,
-                          decoration: const InputDecoration(
-                            hintText:
-                                'What are the best experiences nearby me?',
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                            ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors
+                                .white, // Set input field background to white
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                                color: Colors.green), // Adjust border color
                           ),
-                          onSubmitted: (_) => _onSubmitted(),
+                          child: TextField(
+                            controller: _textController,
+                            focusNode: _focusNode,
+                            autofocus: true,
+                            readOnly: _isLoading,
+                            decoration: const InputDecoration(
+                              hintText: 'Ask me anything!',
+                              border: InputBorder.none, // Remove default border
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 20),
+                            ),
+                            onSubmitted: (_) => _onSubmitted(),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Color(
+                              0xFF2A966C), // Set send button color to green
                         ),
                         child: IconButton(
                           icon: const Icon(Icons.send),
@@ -259,12 +258,12 @@ class _ChatBotPageState extends State<ChatBotPage> {
         Expanded(
           child: BubbleSpecialThree(
             text: text,
-            color: Theme.of(context).colorScheme.primary,
+            color: Color(0xFF2A966C),
             textStyle: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
         CircleAvatar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Color(0xFF2A966C),
           child: const Icon(
             Icons.person,
             color: Colors.white,
@@ -279,9 +278,9 @@ class _ChatBotPageState extends State<ChatBotPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Welcome to the AI Travel Assistant!',
+          'Chat with Vidara \nYour AI Travel Assistant!',
           style: TextStyle(
-            color: Theme.of(context).primaryColor,
+            color: Color(0xFF2A966C), // Text color set to green
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
@@ -300,13 +299,18 @@ class _ChatBotPageState extends State<ChatBotPage> {
             _onSubmitted();
           },
           style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            backgroundColor: Color(0xFF2A966C), // Button color set to green
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20), // Sharper edges
+            ),
           ),
           child: const Text(
             'What are the best experiences nearby me?',
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
+              color: Colors.white, // Text color set to white
             ),
           ),
         ),
@@ -318,13 +322,18 @@ class _ChatBotPageState extends State<ChatBotPage> {
             _onSubmitted();
           },
           style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            backgroundColor: Color(0xFF2A966C), // Button color set to green
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20), // Sharper edges
+            ),
           ),
           child: const Text(
             'I need to vlog my trip, how can I get help?',
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
+              color: Colors.white, // Text color set to white
             ),
           ),
         ),
@@ -336,13 +345,18 @@ class _ChatBotPageState extends State<ChatBotPage> {
             _onSubmitted();
           },
           style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+            backgroundColor: Color(0xFF2A966C), // Button color set to green
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20), // Sharper edges
+            ),
           ),
           child: const Text(
             'Help me find the best place to visit nearby and have a nice meal.',
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w600,
+              color: Colors.white, // Text color set to white
             ),
           ),
         ),

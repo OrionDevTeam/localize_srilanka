@@ -125,7 +125,10 @@ class userProfilePage extends StatelessWidget {
             margin: const EdgeInsets.all(8.0), // Reduced margin
             child: ListTile(
               leading: const Icon(Icons.person),
-              title: const Text('Account Settings'),
+              title: const Text(
+                'Account Settings',
+                style: TextStyle(fontSize: 20),
+              ),
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () {
                 Navigator.push(

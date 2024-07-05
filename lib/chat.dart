@@ -300,6 +300,9 @@ class _ChatBotPageState extends State<ChatBotPage> {
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
             backgroundColor: Color(0xFF2A966C), // Button color set to green
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20), // Sharper edges
+            ),
           ),
           child: const Text(
             'What are the best experiences nearby me?',
@@ -320,6 +323,9 @@ class _ChatBotPageState extends State<ChatBotPage> {
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
             backgroundColor: Color(0xFF2A966C), // Button color set to green
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20), // Sharper edges
+            ),
           ),
           child: const Text(
             'I need to vlog my trip, how can I get help?',
@@ -340,6 +346,9 @@ class _ChatBotPageState extends State<ChatBotPage> {
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
             backgroundColor: Color(0xFF2A966C), // Button color set to green
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20), // Sharper edges
+            ),
           ),
           child: const Text(
             'Help me find the best place to visit nearby and have a nice meal.',

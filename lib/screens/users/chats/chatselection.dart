@@ -119,6 +119,9 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
         userData.remove('bio');
         userData.remove('email');
 
+        // Add the document id to the userData map
+        userData['id'] = userSnapshot.id;
+
         print('User data: $userData');
         return userData;
       } else {

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart' as chat_ui;
 import 'package:image_picker/image_picker.dart';
+import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -45,6 +46,7 @@ class _ChatPageState extends State<ChatPage> {
     );
 
     final guideId = widget.guideData['id'];
+
     if (guideId != null && guideId is String) {
       _otherUser = types.User(
         id: guideId,
@@ -246,14 +248,14 @@ class _ChatPageState extends State<ChatPage> {
               onTap: () {
                 if (_guideUserRole == "Guide") {
                   // Navigate to profile page
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => UserProfilePage(
-                  //       userId: widget.guideData['id'],
-                  //     ),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GuideDetailPage(
+                        userId: widget.guideData['id'],
+                      ),
+                    ),
+                  );
                 }
               },
               child: Column(

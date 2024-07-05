@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'guide_model.dart';
-import 'guide_detail_page.dart';
+import 'package:flutter/material.dart';
+import 'package:localize_sl/guide_pages/guide_detail_page.dart';
+import 'package:localize_sl/guide_pages/guide_model.dart';
 
 class GuideListPage extends StatelessWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

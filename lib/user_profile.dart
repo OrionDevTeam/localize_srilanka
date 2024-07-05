@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/screens/users/userProfile.dart';
 
 import 'screens/getStarted.dart';
@@ -230,6 +231,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   onTap: () {
                     // Add your onPressed functionality here
                     print('Widget pressed!');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatBotPage()),
+                    );
                   },
                   child: Draggable(
                     feedback: Material(

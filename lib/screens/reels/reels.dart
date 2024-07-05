@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:localize_sl/screens/reels/fullscreen.dart';
@@ -77,6 +78,7 @@ Future<Map<String, dynamic>> getUserDetails(String userId) async {
   }
 }
 
+//
 class SocialMediaFeed extends StatefulWidget {
   @override
   _SocialMediaFeedState createState() => _SocialMediaFeedState();
@@ -210,6 +212,10 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
                 onTap: () {
                   // Add your onPressed functionality here
                   print('Widget pressed!');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatBotPage()),
+                  );
                 },
                 child: Draggable(
                   feedback: Material(

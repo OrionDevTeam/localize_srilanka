@@ -102,7 +102,10 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text(
+          'Profile',
+          style: TextStyle(fontSize: 20),
+        ),
         // actions: [
         //   IconButton(
         //     icon: Icon(Icons.favorite_border),

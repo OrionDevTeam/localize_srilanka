@@ -207,7 +207,8 @@ class _ChatBotPageState extends State<ChatBotPage> {
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.green, // Set send button color to green
+                          color: Color(
+                              0xFF2A966C), // Set send button color to green
                         ),
                         child: IconButton(
                           icon: const Icon(Icons.send),
@@ -257,12 +258,12 @@ class _ChatBotPageState extends State<ChatBotPage> {
         Expanded(
           child: BubbleSpecialThree(
             text: text,
-            color: Theme.of(context).colorScheme.primary,
+            color: Color(0xFF2A966C),
             textStyle: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
         CircleAvatar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Color(0xFF2A966C),
           child: const Icon(
             Icons.person,
             color: Colors.white,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/chat.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -174,6 +175,10 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
                 onTap: () {
                   // Add your onPressed functionality here
                   print('Widget pressed!');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatBotPage()),
+                  );
                 },
                 child: Draggable(
                   feedback: Material(

@@ -34,9 +34,9 @@ class _GuidesListState extends State<GuidesList> {
         ),
         centerTitle: true,
         title: Text(
-          'Search Guides',
+          'Search',
           style: TextStyle(
-            fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         bottom: PreferredSize(

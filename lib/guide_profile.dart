@@ -601,8 +601,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text(
           'Settings',
           style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         centerTitle: true,
@@ -793,7 +792,7 @@ class _SettingsPageState extends State<SettingsPage> {
           width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: isEnabled ? Color(0xFF2A966C) : Colors.white,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
@@ -810,7 +809,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Icon(
                 icon,
                 size: 40,
-                color: isEnabled ? Colors.white : Colors.black,
+                color: Colors.black,
               ),
               const SizedBox(height: 16),
               Text(
@@ -819,7 +818,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
-                  color: isEnabled ? Colors.white : Colors.black,
+                  color: Colors.black,
                 ),
               ),
               const SizedBox(height: 8),
@@ -828,7 +827,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 12,
-                  color: isEnabled ? Colors.white : Colors.grey,
+                  color: Colors.grey,
                 ),
               ),
             ],

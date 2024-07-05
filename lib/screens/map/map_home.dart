@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:localize_sl/chat.dart';
 
 import 'location.dart';
 
@@ -122,6 +123,10 @@ class _MapScreenState extends State<MapScreen> {
                   onTap: () {
                     // Add your onPressed functionality here
                     print('Widget pressed!');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ChatBotPage()),
+                    );
                   },
                   child: Draggable(
                     feedback: Material(

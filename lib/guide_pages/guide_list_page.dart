@@ -103,7 +103,7 @@ class GuideCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => GuideDetailPage(),
+              builder: (context) => GuideDetailPage(userId: guide.documentId),
             ),
           );
         },
@@ -122,7 +122,7 @@ class GuideCard extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 30.0,
-                      backgroundImage: NetworkImage(guide.profileImageURL),
+                      backgroundImage: NetworkImage(guide.profileImageUrl),
                     ),
                     SizedBox(width: 20.0),
                     Expanded(

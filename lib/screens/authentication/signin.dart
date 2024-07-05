@@ -62,15 +62,17 @@ class _SignInState extends State<SignIn> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                            "Happy to see you again! Please enter your email \n and password to login to your account.",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                fontFamily: 'Poppins',
-                                color: Color(
-                                    0xFF828F9C) // Make sure the font family name is a string
-                                )),
+                        Flexible(
+                          child: Text(
+                              "Happy to see you again! Please enter your email and password to login to your account.",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  fontFamily: 'Poppins',
+                                  color: Color(
+                                      0xFF828F9C) // Make sure the font family name is a string
+                                  )),
+                        ),
                       ],
                     ),
                   ),
@@ -158,7 +160,8 @@ class _SignInState extends State<SignIn> {
                                   _obscureText
                                       ? Icons.visibility
                                       : Icons.visibility_off,
-                                  color: const Color.fromARGB(255, 159, 159, 159),
+                                  color:
+                                      const Color.fromARGB(255, 159, 159, 159),
                                 ),
                                 onPressed: () {
                                   setState(() {
@@ -288,7 +291,8 @@ class _SignInState extends State<SignIn> {
                         const SizedBox(height: 12.0),
                         Text(
                           error,
-                          style: const TextStyle(color: Colors.red, fontSize: 14.0),
+                          style: const TextStyle(
+                              color: Colors.red, fontSize: 14.0),
                         ), // Add some space
                       ],
                     ),

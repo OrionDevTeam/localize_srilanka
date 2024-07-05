@@ -180,26 +180,34 @@ class _ChatBotPageState extends State<ChatBotPage> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: TextField(
-                          controller: _textController,
-                          focusNode: _focusNode,
-                          autofocus: true,
-                          readOnly: _isLoading,
-                          decoration: const InputDecoration(
-                            hintText: 'Ask me anything!',
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50)),
-                            ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors
+                                .white, // Set input field background to white
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(
+                                color: Colors.green), // Adjust border color
                           ),
-                          onSubmitted: (_) => _onSubmitted(),
+                          child: TextField(
+                            controller: _textController,
+                            focusNode: _focusNode,
+                            autofocus: true,
+                            readOnly: _isLoading,
+                            decoration: const InputDecoration(
+                              hintText: 'Ask me anything!',
+                              border: InputBorder.none, // Remove default border
+                              contentPadding:
+                                  EdgeInsets.symmetric(horizontal: 20),
+                            ),
+                            onSubmitted: (_) => _onSubmitted(),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Theme.of(context).colorScheme.primary,
+                          color: Colors.green, // Set send button color to green
                         ),
                         child: IconButton(
                           icon: const Icon(Icons.send),

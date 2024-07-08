@@ -123,56 +123,57 @@ class _ChatBotPageState extends State<ChatBotPage> {
             children: [
               Expanded(
                 child: _chatMessages.length == 1
-                    ? _conversationStartSection()
-                    : ListView.separated(
-                        controller: _scrollController,
-                        itemCount: _chatMessages.length + 1,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 10),
-                        itemBuilder: (context, index) {
-                          if (index == _chatMessages.length) {
-                            if (_stream != null) {
-                              return ValueListenableBuilder<
-                                  OpenAIChatCompletionChoiceMessageModel?>(
-                                valueListenable: _lastResponse,
-                                builder: (context, value, _) {
-                                  if (value == null) {
-                                    return BubbleNormal(
-                                      leading: const CircularProgressIndicator(
-                                        color: Color(0xFF2A966C),
-                                      ),
-                                      text: '',
-                                      color: const Color(0xFFE8E8EE),
-                                      tail: false,
-                                      isSender: false,
-                                    );
-                                  }
-                                  final messageText =
-                                      value.content!.first.text!;
-                                  return _assistantChatBubble(messageText);
-                                },
-                              );
-                            } else if (_isLoading) {
-                              return BubbleNormal(
-                                leading: const CircularProgressIndicator(
-                                  color: Color(0xFF2A966C),
-                                ),
-                                text: '',
-                                color: const Color(0xFFE8E8EE),
-                                tail: false,
-                                isSender: false,
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
+                  ? _conversationStartSection()
+                  : ListView.separated(
+                      controller: _scrollController,
+                      itemCount: _chatMessages.length + 1,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 10),
+                      itemBuilder: (context, index) {
+                        if (index == _chatMessages.length) {
+                          if (_stream != null) {
+                            return ValueListenableBuilder<OpenAIChatCompletionChoiceMessageModel?>(
+                              valueListenable: _lastResponse,
+                              builder: (context, value, _) {
+                                if (value == null) {
+                                  return BubbleNormal(
+                                    leading: const CircularProgressIndicator(),
+                                    text: '',
+                                    color: const Color(0xFFE8E8EE),
+                                    tail: false,
+                                    isSender: false,
+                                  );
+                                }
+                                final messageText = value.content!.first.text!;
+                                return _assistantChatBubble(
+                                  messageText,
+                                );
+                              },
+                            );
+                          } else if (_isLoading) {
+                            return BubbleNormal(
+                              leading: const CircularProgressIndicator(),
+                              text: '',
+                              color: const Color(0xFFE8E8EE),
+                              tail: false,
+                              isSender: false,
+                            );
+                          } else {
+                            return const SizedBox();
                           }
-                          final message = _chatMessages[index];
-                          return message.role == OpenAIChatMessageRole.user
-                              ? _userChatBubble(message.content!.first.text!)
-                              : _assistantChatBubble(
-                                  message.content!.first.text!);
-                        },
-                      ),
+                        }
+                        final message = _chatMessages[index];
+                        return switch (message.role) {
+                          OpenAIChatMessageRole.user => _userChatBubble(
+                            message.content!.first.text!,
+                          ),
+                          OpenAIChatMessageRole.assistant => _assistantChatBubble(
+                            message.content!.first.text!,
+                          ),
+                          _ => const SizedBox()
+                        };
+                      },
+                    ),
               ),
               Card(
                 child: Padding(

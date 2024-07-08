@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
 import 'package:localize_sl/screens/users/userProfile.dart';
 
 import 'screens/getStarted.dart';
@@ -221,66 +222,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 ],
               ),
             ),
-            Positioned(
-              left: _fabPosition.dx,
-              top: _fabPosition.dy,
-              child: Material(
-                elevation: 8.0, // Default shadow depth
-                color: Colors.transparent,
-                child: GestureDetector(
-                  onTap: () {
-                    // Add your onPressed functionality here
-                    print('Widget pressed!');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChatBotPage()),
-                    );
-                  },
-                  child: Draggable(
-                    feedback: Material(
-                      color: Colors.transparent,
-                      child: Tooltip(
-                        message: 'Chat with Mochi',
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18.0),
-                          child: Image.asset(
-                            'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                            width: 56.0,
-                            height: 56.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: Tooltip(
-                      message: 'Chat with Mochi',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18.0),
-                        child: Image.asset(
-                          'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                          width: 56.0,
-                          height: 56.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    onDragEnd: (details) {
-                      final screenWidth = MediaQuery.of(context).size.width;
-
-                      final newOffsetX = details.offset.dx < screenWidth / 2
-                          ? 0.0
-                          : screenWidth - 56.0; // 56.0 is the image's width
-
-                      setState(() {
-                        _fabPosition = Offset(newOffsetX, details.offset.dy);
-                      });
-                    },
-                    childWhenDragging:
-                        Container(), // Empty container when dragging
-                  ),
-                ),
-              ),
-            ),
+            const FloatingChatButton(),
           ],
         ),
       ),

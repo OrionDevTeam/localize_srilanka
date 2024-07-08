@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
 import 'package:localize_sl/guides/guide_location.dart';
 
 import '../Adventures/adventure.dart';
@@ -200,68 +201,7 @@ class _LocationState extends State<Location>
               ),
             ),
           ),
-          Positioned(
-            left: _fabPosition.dx,
-            top: _fabPosition.dy,
-            child: MouseRegion(
-              child: Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  onTap: () {
-                    // Add your onPressed functionality here
-                    print('Widget pressed!');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChatBotPage()),
-                    );
-                  },
-                  child: Draggable(
-                    feedback: Material(
-                      color: Colors.transparent,
-                      child: Tooltip(
-                        message: 'Chat with Mochi',
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18.0),
-                          child: Image.asset(
-                            'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                            width: 56.0,
-                            height: 56.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: Tooltip(
-                      message: 'Chat with Mochi',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18.0),
-                        child: Image.asset(
-                          'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                          width: 56.0,
-                          height: 56.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    onDragEnd: (details) {
-                      setState(() {
-                        // Get the screen width
-                        final screenWidth = MediaQuery.of(context).size.width;
-
-                        // Snap to the nearest side (left or right)
-                        final newOffsetX = details.offset.dx < screenWidth / 2
-                            ? 0.0
-                            : screenWidth - 56.0; // 56.0 is the image's width
-                        _fabPosition = Offset(newOffsetX, details.offset.dy);
-                      });
-                    },
-                    childWhenDragging:
-                        Container(), // Empty container when dragging
-                  ),
-                ),
-              ),
-            ),
-          ),
+          const FloatingChatButton(),
         ],
       ),
     );

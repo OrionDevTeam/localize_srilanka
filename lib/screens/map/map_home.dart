@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
 
 import 'location.dart';
 
@@ -16,10 +17,7 @@ class MapS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MapScreen(apiKey: apiKey),
-    );
+    return MapScreen(apiKey: apiKey);
   }
 }
 
@@ -74,6 +72,7 @@ class _MapScreenState extends State<MapScreen> {
             myLocationEnabled: true,
             markers: _markers,
             zoomControlsEnabled: false,
+            myLocationButtonEnabled: false,
           ),
           Positioned(
             top: 60,
@@ -113,68 +112,7 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
-          Positioned(
-            left: _fabPosition.dx,
-            top: _fabPosition.dy,
-            child: MouseRegion(
-              child: Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  onTap: () {
-                    // Add your onPressed functionality here
-                    print('Widget pressed!');
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ChatBotPage()),
-                    );
-                  },
-                  child: Draggable(
-                    feedback: Material(
-                      color: Colors.transparent,
-                      child: Tooltip(
-                        message: 'Chat with Mochi',
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18.0),
-                          child: Image.asset(
-                            'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                            width: 56.0,
-                            height: 56.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: Tooltip(
-                      message: 'Chat with Mochi',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18.0),
-                        child: Image.asset(
-                          'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                          width: 56.0,
-                          height: 56.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    onDragEnd: (details) {
-                      setState(() {
-                        // Get the screen width
-                        final screenWidth = MediaQuery.of(context).size.width;
-
-                        // Snap to the nearest side (left or right)
-                        final newOffsetX = details.offset.dx < screenWidth / 2
-                            ? 0.0
-                            : screenWidth - 56.0; // 56.0 is the image's width
-                        _fabPosition = Offset(newOffsetX, details.offset.dy);
-                      });
-                    },
-                    childWhenDragging:
-                        Container(), // Empty container when dragging
-                  ),
-                ),
-              ),
-            ),
-          ),
+          const FloatingChatButton(),
         ],
       ),
     );

@@ -36,7 +36,7 @@ const chatFeatureEnabled = true;
 - [Vimosh Vasanthakumar](https://github.com/vimosh0812)
 - [birunthabanr](https://github.com/birunthabanr)
 - [Kavienan J](https://github.com/kavienanj)
-- [Donald Aadi](https://github.com/DonaldAadithiyan)
+- [Donald Aadithiyan](https://github.com/DonaldAadithiyan)
 - [VarunRaj004](https://github.com/VarunRaj004)
 
 # Contributing

@@ -137,7 +137,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                       ),
                     );
                   } else {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                        child: CircularProgressIndicator(color: Colors.green));
                   }
                 },
               ),

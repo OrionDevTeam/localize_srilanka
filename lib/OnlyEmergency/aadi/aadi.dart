@@ -250,7 +250,8 @@ class MemoriesDisplay extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(color: Colors.green));
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -597,7 +598,7 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
   @override
   Widget build(BuildContext context) {
     if (!_initialized) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: CircularProgressIndicator(color: Colors.green));
     } else {
       return FutureBuilder(
         future: _getVideoThumbnail(),
@@ -623,7 +624,8 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
               ),
             );
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(color: Colors.green));
           }
         },
       );
@@ -700,7 +702,8 @@ class _VideoPlayerDialogState extends State<VideoPlayerDialog> {
                     child: VideoPlayer(_controller),
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: CircularProgressIndicator(color: Colors.green));
                 }
               },
             ),

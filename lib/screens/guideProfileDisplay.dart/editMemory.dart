@@ -112,7 +112,7 @@ class _EditMemoryPageState extends State<EditMemoryPage> {
       ),
       body: SingleChildScrollView(
         child: _thumbnailPath == null
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: CircularProgressIndicator(color: Colors.green))
             : Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(

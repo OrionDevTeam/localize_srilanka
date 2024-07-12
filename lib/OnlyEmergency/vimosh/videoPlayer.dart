@@ -78,7 +78,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 aspectRatio: _controller.value.aspectRatio,
                 child: VideoPlayer(_controller),
               )
-            : CircularProgressIndicator(),
+            : CircularProgressIndicator(color: Colors.green),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

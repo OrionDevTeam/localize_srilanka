@@ -110,7 +110,9 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(
+                            child:
+                                CircularProgressIndicator(color: Colors.green));
                       }
 
                       var posts = snapshot.data!.docs;
@@ -139,7 +141,9 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
                         future: Future.wait(futurePosts),
                         builder: (context, futureSnapshot) {
                           if (!futureSnapshot.hasData) {
-                            return Center(child: CircularProgressIndicator());
+                            return Center(
+                                child: CircularProgressIndicator(
+                                    color: Colors.green));
                           }
                           var posts = futureSnapshot.data!;
 
@@ -292,7 +296,8 @@ class _PostWidgetState extends State<PostWidget> {
                     ],
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: CircularProgressIndicator(color: Colors.green));
                 }
               },
             ),
@@ -369,7 +374,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             ),
           );
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: Colors.green));
         }
       },
     );

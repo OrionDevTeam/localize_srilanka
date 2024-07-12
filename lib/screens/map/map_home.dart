@@ -197,7 +197,7 @@ class _MapScreenState extends State<MapScreen> {
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           return Container(
-            height: 380,
+            height: 420,
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.only(
@@ -211,7 +211,7 @@ class _MapScreenState extends State<MapScreen> {
               children: [
                 Padding(
                   padding:
-                      const EdgeInsets.only(bottom: 800, left: 16, right: 16),
+                      const EdgeInsets.only(bottom: 100, left: 16, right: 16),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(

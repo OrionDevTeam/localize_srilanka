@@ -287,9 +287,7 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
             width: 162,
             color: Colors.white,
             child: Center(
-              child: CircularProgressIndicator(
-                color: Colors.blue,
-              ),
+              child: CircularProgressIndicator(color: Colors.green),
             ),
           );
   }
@@ -337,9 +335,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     aspectRatio: _controller.value.aspectRatio,
                     child: VideoPlayer(_controller),
                   )
-                : CircularProgressIndicator(
-                    color: Colors.blue,
-                  ),
+                : CircularProgressIndicator(color: Colors.green),
           ),
           Positioned(
             top: 40,

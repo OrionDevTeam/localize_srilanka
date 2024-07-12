@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'guide_list_page.dart';
 import 'guide_model.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -24,7 +23,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
 class GuideListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,9 +32,11 @@ class GuideListPage extends StatelessWidget {
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('guides').snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(color: Colors.green));
           }
 
           return ListView(

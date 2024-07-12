@@ -231,6 +231,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -287,11 +288,9 @@ class _ChatPageState extends State<ChatPage> {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error loading messages'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No messages yet'));
           }
 
-          _messages = snapshot.data!;
+          _messages = snapshot.data ?? [];
 
           return chat_ui.Chat(
             messages: _messages,

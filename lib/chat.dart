@@ -82,6 +82,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
       _stream = OpenAI.instance.chat.createStream(
         model: "gpt-3.5-turbo",
         messages: _chatMessages,
+        maxTokens: 500,
       );
       _stream!.listen((data) {
         if (data.choices.first.delta.content != null) {
@@ -123,57 +124,61 @@ class _ChatBotPageState extends State<ChatBotPage> {
             children: [
               Expanded(
                 child: _chatMessages.length == 1
-                  ? _conversationStartSection()
-                  : ListView.separated(
-                      controller: _scrollController,
-                      itemCount: _chatMessages.length + 1,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 10),
-                      itemBuilder: (context, index) {
-                        if (index == _chatMessages.length) {
-                          if (_stream != null) {
-                            return ValueListenableBuilder<OpenAIChatCompletionChoiceMessageModel?>(
-                              valueListenable: _lastResponse,
-                              builder: (context, value, _) {
-                                if (value == null) {
-                                  return BubbleNormal(
-                                    leading: const CircularProgressIndicator(),
-                                    text: '',
-                                    color: const Color(0xFFE8E8EE),
-                                    tail: false,
-                                    isSender: false,
+                    ? _conversationStartSection()
+                    : ListView.separated(
+                        controller: _scrollController,
+                        itemCount: _chatMessages.length + 1,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 10),
+                        itemBuilder: (context, index) {
+                          if (index == _chatMessages.length) {
+                            if (_stream != null) {
+                              return ValueListenableBuilder<
+                                  OpenAIChatCompletionChoiceMessageModel?>(
+                                valueListenable: _lastResponse,
+                                builder: (context, value, _) {
+                                  if (value == null) {
+                                    return BubbleNormal(
+                                      leading:
+                                          const CircularProgressIndicator(),
+                                      text: '',
+                                      color: const Color(0xFFE8E8EE),
+                                      tail: false,
+                                      isSender: false,
+                                    );
+                                  }
+                                  final messageText =
+                                      value.content!.first.text!;
+                                  return _assistantChatBubble(
+                                    messageText,
                                   );
-                                }
-                                final messageText = value.content!.first.text!;
-                                return _assistantChatBubble(
-                                  messageText,
-                                );
-                              },
-                            );
-                          } else if (_isLoading) {
-                            return BubbleNormal(
-                              leading: const CircularProgressIndicator(),
-                              text: '',
-                              color: const Color(0xFFE8E8EE),
-                              tail: false,
-                              isSender: false,
-                            );
-                          } else {
-                            return const SizedBox();
+                                },
+                              );
+                            } else if (_isLoading) {
+                              return BubbleNormal(
+                                leading: const CircularProgressIndicator(),
+                                text: '',
+                                color: const Color(0xFFE8E8EE),
+                                tail: false,
+                                isSender: false,
+                              );
+                            } else {
+                              return const SizedBox();
+                            }
                           }
-                        }
-                        final message = _chatMessages[index];
-                        return switch (message.role) {
-                          OpenAIChatMessageRole.user => _userChatBubble(
-                            message.content!.first.text!,
-                          ),
-                          OpenAIChatMessageRole.assistant => _assistantChatBubble(
-                            message.content!.first.text!,
-                          ),
-                          _ => const SizedBox()
-                        };
-                      },
-                    ),
+                          final message = _chatMessages[index];
+                          return switch (message.role) {
+                            OpenAIChatMessageRole.user => _userChatBubble(
+                                message.content!.first.text!,
+                              ),
+                            OpenAIChatMessageRole.assistant =>
+                              _assistantChatBubble(
+                                message.content!.first.text!,
+                              ),
+                            _ => const SizedBox()
+                          };
+                        },
+                      ),
               ),
               Card(
                 child: Padding(

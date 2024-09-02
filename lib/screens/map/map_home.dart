@@ -37,8 +37,7 @@ class _MapScreenState extends State<MapScreen> {
       Completer<GoogleMapController>();
   final TextEditingController _searchController = TextEditingController();
 
-  static const LatLng _center =
-      const LatLng(5.958809599999999, 80.40584129999999);
+  static const LatLng _center = const LatLng(5.9414224, 80.4622485);
   static const CameraPosition _initialCameraPosition = CameraPosition(
     target: _center,
     zoom: 13.0,

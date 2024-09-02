@@ -4,7 +4,7 @@ import 'package:localize_sl/guide_profile.dart';
 import 'chats/chatselection.dart';
 import 'package:localize_sl/screens/users/userProfile.dart';
 import 'package:localize_sl/user_profile.dart';
-
+import 'package:iconsax/iconsax.dart';
 
 import '../map/map_home.dart';
 import '../reels/reels.dart';
@@ -31,69 +31,64 @@ class _UserPageState extends State<UserPage> {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 50, // Height of the BottomNavigationBar
-            child: IndexedStack(
-              index: _selectedIndex,
-              children: [
-                MapS(),
-                SocialMediaFeed(),
-                ChatSelectionPage(),
-                UserProfilePage(),
-              ],
-            ),
+          IndexedStack(
+            index: _selectedIndex,
+            children: [
+              MapS(),
+              SocialMediaFeed(),
+              ChatSelectionPage(),
+              UserProfilePage(),
+            ],
           ),
           Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
+            left: 10,
+            right: 10,
+            bottom: 10,
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
-                    blurRadius: 10,
-                    offset: Offset(0, -1),
+                    blurRadius: 20,
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  topRight: Radius.circular(20.0),
-                ),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
                 child: BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.map_outlined),
+                      icon: Icon(Iconsax.home_2),
                       label: "Orders",
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.explore_outlined),
+                      icon: Icon(
+                        Iconsax.video_play,
+                        // size: 35,
+                      ),
                       label: "Home",
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.chat_sharp),
+                      icon: Icon(Iconsax.message),
                       label: "Chat",
                     ),
                     BottomNavigationBarItem(
-                      icon: Icon(Icons.person),
+                      icon: Icon(Iconsax.user),
                       label: "Profile",
                     ),
                   ],
+
                   currentIndex: _selectedIndex,
-                  selectedItemColor: Colors.black,
-                  unselectedItemColor: Colors.grey[400],
-                  backgroundColor: Colors.white,
+                  selectedItemColor: Colors.white,
+                  unselectedItemColor: const Color.fromARGB(192, 189, 189, 189),
+                  backgroundColor: Colors.black,
                   selectedIconTheme: IconThemeData(size: 32),
                   unselectedIconTheme: IconThemeData(size: 28),
-                  selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-                  unselectedLabelStyle:
-                      TextStyle(fontWeight: FontWeight.normal),
+                  // selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  // unselectedLabelStyle:
+                  //     TextStyle(fontWeight: FontWeight.normal),
                   showUnselectedLabels: false,
                   type: BottomNavigationBarType.fixed,
                   showSelectedLabels: false,

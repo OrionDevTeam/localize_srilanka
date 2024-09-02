@@ -151,13 +151,38 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Chats",
-          style: TextStyle(fontSize: 20),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(100.0), // Adjust the height as needed
+        child: ClipRRect(
+          borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(18.0)), // Add border radius to the bottom
+          child: AppBar(
+            backgroundColor: Color(0xFF2A966C),
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(60.0),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'Search',
+                        prefixIcon: Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(
+                              12.0), // Border radius for the TextField
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
-        automaticallyImplyLeading:
-            widget.showBackButton, // Show back button based on the parameter
       ),
       body: _chats.isEmpty
           ? Center(child: CircularProgressIndicator(color: Colors.green))
@@ -167,33 +192,95 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                 final chat = _chats[index];
                 final otherUserData =
                     chat['otherUserData'] as Map<String, dynamic>;
-                return ListTile(
-                  title: Text(otherUserData['username'] ?? ''),
-                  subtitle: Text(chat['userRole'] ?? ''),
-                  leading: CircleAvatar(
-                    backgroundImage:
-                        NetworkImage(otherUserData['profileImageUrl'] ?? ''),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChatPage(
-                          chatId: chat['chatID'],
-                          guideData: {
-                            'id': otherUserData[
-                                'id'], // Assuming 'id' is the key for guide's ID
-                            'username': otherUserData[
-                                'username'], // Assuming 'username' is the key for guide's username
-                            'profileImageUrl': otherUserData[
-                                'profileImageUrl'], // Key for guide's profile image URL
-                            'user_role': otherUserData[
-                                'user_role'], // Key for guide's user role
-                          },
+                return Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Divider(
+                            color: Colors.grey,
+                            thickness: 0.5,
+                            indent: 16.0,
+                            endIndent: 16.0,
+                          ),
+                        ),
+                        Text(
+                          'Today', // Replace with the date
+                          style: TextStyle(
+                            color: Colors.grey, // Set the color for the date
+                          ),
+                        ),
+                        Expanded(
+                          child: Divider(
+                            color: Colors.grey,
+                            thickness: 0.5,
+                            indent: 16.0,
+                            endIndent: 16.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    ListTile(
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.0,
+                          vertical: 8.0), // Adjust padding as needed
+                      leading: CircleAvatar(
+                        radius: 24, // Adjust the size of the avatar
+                        backgroundImage: NetworkImage(
+                            otherUserData['profileImageUrl'] ?? ''),
+                      ),
+                      title: Text(
+                        otherUserData['username'] ?? '',
+                        style: TextStyle(
+                          fontSize: 16.0, // Adjust the font size
+                          fontWeight: FontWeight.bold, // Make the username bold
+                          color: Colors.black, // Set the text color
                         ),
                       ),
-                    );
-                  },
+                      subtitle: Text(
+                        chat['userRole'] ?? '',
+                        style: TextStyle(
+                          fontSize:
+                              14.0, // Adjust the font size for the subtitle
+                          color: Colors.grey, // Set the subtitle color
+                        ),
+                      ),
+                      trailing: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '10 min', // Replace with your dynamic time
+                            style: TextStyle(
+                              fontSize:
+                                  12.0, // Adjust the font size for the time
+                              color: Colors.grey, // Set the color for the time
+                            ),
+                          ),
+                          SizedBox(height: 4.0),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(
+                              chatId: chat['chatID'],
+                              guideData: {
+                                'id': otherUserData[
+                                    'id'], // Assuming 'id' is the key for guide's ID
+                                'username': otherUserData[
+                                    'username'], // Assuming 'username' is the key for guide's username
+                                'profileImageUrl': otherUserData[
+                                    'profileImageUrl'], // Key for guide's profile image URL
+                                'user_role': otherUserData[
+                                    'user_role'], // Key for guide's user role
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 );
               },
             ),

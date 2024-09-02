@@ -63,6 +63,7 @@ dependencies:
   ffi: ^2.1.2
   video_thumbnail: ^0.5.3
   flutter_launcher_icons: ^0.13.1
+  iconsax: ^0.0.8
 
 dev_dependencies:
   flutter_test:

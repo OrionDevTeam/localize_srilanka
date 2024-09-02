@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:localize_sl/chat.dart';
-import 'package:localize_sl/floating_chat.dart';
-import 'package:localize_sl/guide_pages/guide_detail_page.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:localize_sl/screens/reels/fullscreen.dart';
 import 'package:video_player/video_player.dart';
@@ -92,123 +90,116 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 68.0, left: 18, right: 18, bottom: 10.0),
-                  child: Row(
-                    children: [
-                      // Search bar and filter icon
-                      Expanded(
-                        flex: 9,
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(32),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(width: 8),
-                              Icon(Icons.search, color: Colors.grey),
-                              SizedBox(width: 12),
-                              Expanded(
-                                child: Center(
-                                  child: TextField(
-                                    controller: _searchController,
-                                    decoration: InputDecoration(
-                                      hintText: 'Search here ..',
-                                      border: InputBorder.none,
-                                    ),
-                                  ),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(0),
+        child: Column(
+          children: [
+            SizedBox(
+                height: 40), // Add some space at the top (status bar height)
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              margin: EdgeInsets.only(bottom: 8),
+              child: Row(
+                children: [
+                  // Search bar and filter icon
+                  Expanded(
+                    flex: 9,
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 12),
+                          Icon(Icons.search, color: Colors.grey),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: Center(
+                              child: TextField(
+                                controller: _searchController,
+                                decoration: InputDecoration(
+                                  hintText: 'Search here ..',
+                                  border: InputBorder.none,
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                      SizedBox(
-                          width: 8), // Space between search and filter icon
-                      Expanded(
-                        flex: 1,
-                        child: Icon(Icons.filter_list, color: Colors.grey),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection('memories')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (!snapshot.hasData) {
-                        return Center(
-                            child:
-                                CircularProgressIndicator(color: Colors.green));
+                  SizedBox(width: 8), // Space between search and filter icon
+                  Expanded(
+                    flex: 1,
+                    child: Icon(Iconsax.filter, color: Colors.grey),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('memories')
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                  var posts = snapshot.data!.docs;
+                  List<Future<Post>> futurePosts = posts.map((doc) async {
+                    // Create Post object from document
+                    String userId = doc['userId'];
+                    Map<String, dynamic> userDetails =
+                        await getUserDetails(userId);
+
+                    // Create Post object with fetched user details
+                    return Post(
+                      caption: doc['caption'] ?? '',
+                      like_count: doc['like_count'] ?? 0,
+                      location: doc['location'] ?? '',
+                      profileUrl: userDetails['profileUrl'] ?? 'x',
+                      downloadURL: doc['downloadURL'] ?? '',
+                      type: 'LOCALIZE ${userDetails['type']}'.toUpperCase(),
+                      username: userDetails['username'] ?? 'x',
+                      userId: userId,
+                      isLiked: doc['isLiked'] ?? false,
+                    );
+                  }).toList();
+
+                  // Use FutureBuilder to handle asynchronous fetching of posts
+                  return FutureBuilder<List<Post>>(
+                    future: Future.wait(futurePosts),
+                    builder: (context, futureSnapshot) {
+                      if (!futureSnapshot.hasData) {
+                        return Center(child: CircularProgressIndicator());
                       }
+                      var posts = futureSnapshot.data!;
 
-                      var posts = snapshot.data!.docs;
-                      List<Future<Post>> futurePosts = posts.map((doc) async {
-                        // Create Post object from document
-                        String userId = doc['userId'];
-                        Map<String, dynamic> userDetails =
-                            await getUserDetails(userId);
-
-                        // Create Post object with fetched user details
-                        return Post(
-                          caption: doc['caption'] ?? '',
-                          like_count: doc['like_count'] ?? 0,
-                          location: doc['location'] ?? '',
-                          profileUrl: userDetails['profileUrl'] ?? 'x',
-                          downloadURL: doc['downloadURL'] ?? '',
-                          type: 'LOCALIZE ${userDetails['type']}'.toUpperCase(),
-                          username: userDetails['username'] ?? 'x',
-                          userId: userId,
-                          isLiked: doc['isLiked'] ?? false,
-                        );
-                      }).toList();
-
-                      // Use FutureBuilder to handle asynchronous fetching of posts
-                      return FutureBuilder<List<Post>>(
-                        future: Future.wait(futurePosts),
-                        builder: (context, futureSnapshot) {
-                          if (!futureSnapshot.hasData) {
-                            return Center(
-                                child: CircularProgressIndicator(
-                                    color: Colors.green));
+                      // Adding one to the itemCount to include the extra SizedBox
+                      return ListView.separated(
+                        itemCount:
+                            posts.length + 1, // +1 for the SizedBox at the end
+                        separatorBuilder: (context, index) =>
+                            SizedBox(height: 12.0), // Gap between posts
+                        itemBuilder: (context, index) {
+                          if (index == posts.length) {
+                            // Return the SizedBox at the end of the list
+                            return SizedBox(height: 30.0);
                           }
-                          var posts = futureSnapshot.data!;
-
-                          // Adding one to the itemCount to include the extra SizedBox
-                          return ListView.separated(
-                            itemCount: posts.length +
-                                1, // +1 for the SizedBox at the end
-                            separatorBuilder: (context, index) =>
-                                SizedBox(height: 12.0), // Gap between posts
-                            itemBuilder: (context, index) {
-                              if (index == posts.length) {
-                                // Return the SizedBox at the end of the list
-                                return SizedBox(height: 30.0);
-                              }
-                              return PostWidget(post: posts[index]);
-                            },
-                          );
+                          return PostWidget(post: posts[index]);
                         },
                       );
                     },
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
-          ),
-          const FloatingChatButton(),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -381,13 +372,15 @@ class _PostWidgetState extends State<PostWidget> {
                   ),
                   Positioned(
                     top: 20,
-                    left: 10,
                     child: Container(
                       height: 40,
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white70,
-                        borderRadius: BorderRadius.circular(32),
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(32),
+                          bottomRight: Radius.circular(32),
+                        ),
                       ),
                       child: Center(
                         child: Text(

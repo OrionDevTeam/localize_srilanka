@@ -36,8 +36,7 @@ class _MapScreenState extends State<MapScreen> {
       Completer<GoogleMapController>();
   final TextEditingController _searchController = TextEditingController();
 
-  static const LatLng _center =
-      const LatLng(5.958809599999999, 80.40584129999999);
+  static const LatLng _center = const LatLng(5.9414224, 80.4622485);
   static const CameraPosition _initialCameraPosition = CameraPosition(
     target: _center,
     zoom: 13.0,
@@ -83,7 +82,7 @@ class _MapScreenState extends State<MapScreen> {
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(32),
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
@@ -112,7 +111,6 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
-          const FloatingChatButton(),
         ],
       ),
     );

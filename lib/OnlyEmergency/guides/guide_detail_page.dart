@@ -83,7 +83,10 @@ class GuideDetailPage extends StatelessWidget {
             FirebaseFirestore.instance.collection('guides').doc(guideId).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+              color: Colors.green,
+            ));
           }
 
           if (!snapshot.hasData || snapshot.data == null) {
@@ -219,7 +222,7 @@ class GuideDetailPage extends StatelessWidget {
                 ),
                 SizedBox(height: 16.0),
                 Text(
-                  'Experiences',
+                  'Experiences I provide',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,

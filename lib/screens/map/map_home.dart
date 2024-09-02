@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
 
 import 'location.dart';
 
@@ -15,10 +17,7 @@ class MapS extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MapScreen(apiKey: apiKey),
-    );
+    return MapScreen(apiKey: apiKey);
   }
 }
 
@@ -71,6 +70,8 @@ class _MapScreenState extends State<MapScreen> {
             initialCameraPosition: _initialCameraPosition,
             myLocationEnabled: true,
             markers: _markers,
+            zoomControlsEnabled: false,
+            myLocationButtonEnabled: false,
           ),
           Positioned(
             top: 60,
@@ -194,7 +195,7 @@ class _MapScreenState extends State<MapScreen> {
         backgroundColor: Colors.transparent,
         builder: (BuildContext context) {
           return Container(
-            height: 350,
+            height: 420,
             decoration: BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.only(
@@ -207,7 +208,8 @@ class _MapScreenState extends State<MapScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(18.0),
+                  padding:
+                      const EdgeInsets.only(bottom: 100, left: 16, right: 16),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(

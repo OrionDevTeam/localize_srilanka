@@ -79,10 +79,14 @@ class GuideDetailPage extends StatelessWidget {
         title: Text('Guide Details'),
       ),
       body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
-        future: FirebaseFirestore.instance.collection('guides').doc(guideId).get(),
+        future:
+            FirebaseFirestore.instance.collection('guides').doc(guideId).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+              color: Colors.green,
+            ));
           }
 
           if (!snapshot.hasData || snapshot.data == null) {
@@ -167,7 +171,8 @@ class GuideDetailPage extends StatelessWidget {
                       fillColor: Color.fromARGB(255, 22, 156, 140),
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5.0, vertical: 2.0),
                           child: Text(
                             'Contact me',
                             style: TextStyle(
@@ -177,7 +182,8 @@ class GuideDetailPage extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 2.0),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 2.0, vertical: 2.0),
                           child: Text(
                             'Chat',
                             style: TextStyle(
@@ -292,7 +298,8 @@ class GuideDetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(12.0)),
                             child: Image.network(
                               'https://example.com/image.jpg', // Replace with your image URL
                               height: 120.0,
@@ -338,7 +345,10 @@ class GuideDetailPage extends StatelessWidget {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return Center(
+                          child: CircularProgressIndicator(
+                        color: Colors.green,
+                      ));
                     }
 
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -380,7 +390,6 @@ class GuideDetailPage extends StatelessWidget {
     );
   }
 }
-
 
 class VacationDetailPage extends StatelessWidget {
   final List<String> imgList = [
@@ -467,10 +476,13 @@ class VacationDetailPage extends StatelessWidget {
                 enableInfiniteScroll: true,
                 viewportFraction: 0.8,
               ),
-              items: imgList.map((item) => ClipRRect(
-                borderRadius: BorderRadius.circular(16.0),
-                child: Image.asset(item, fit: BoxFit.cover, width: 1000.0),
-              )).toList(),
+              items: imgList
+                  .map((item) => ClipRRect(
+                        borderRadius: BorderRadius.circular(16.0),
+                        child:
+                            Image.asset(item, fit: BoxFit.cover, width: 1000.0),
+                      ))
+                  .toList(),
             ),
             Spacer(),
             Row(
@@ -486,11 +498,11 @@ class VacationDetailPage extends StatelessWidget {
                     );
                   },
                   child: Text("Reserve",
-                  style: TextStyle(
-                fontSize: 20.0,
-                fontWeight:FontWeight.bold,
-                color: Colors.white,
-              )),
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      )),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 22, 156, 140),
                     shape: RoundedRectangleBorder(

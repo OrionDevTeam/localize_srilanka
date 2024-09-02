@@ -2,6 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
+import 'package:localize_sl/guides/guide_location.dart';
 
 import '../Adventures/adventure.dart';
 import '../hotels/hotel.dart';
@@ -82,7 +85,8 @@ class _LocationState extends State<Location>
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: TextStyle(fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: 20),
+          // style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
       ),
@@ -179,7 +183,9 @@ class _LocationState extends State<Location>
                     child: TabBarView(
                       controller: _tabController,
                       children: [
-                        Center(child: Text('Explore with Guides')),
+                        GuidePlace(
+                          place: widget.place,
+                        ),
                         HotelList(hotelDetails: _hotelDetails),
                         // Adventure(
                         //   title: widget.title,
@@ -195,64 +201,7 @@ class _LocationState extends State<Location>
               ),
             ),
           ),
-          Positioned(
-            left: _fabPosition.dx,
-            top: _fabPosition.dy,
-            child: MouseRegion(
-              child: Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  onTap: () {
-                    // Add your onPressed functionality here
-                    print('Widget pressed!');
-                  },
-                  child: Draggable(
-                    feedback: Material(
-                      color: Colors.transparent,
-                      child: Tooltip(
-                        message: 'Chat with Mochi',
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18.0),
-                          child: Image.asset(
-                            'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                            width: 56.0,
-                            height: 56.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: Tooltip(
-                      message: 'Chat with Mochi',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18.0),
-                        child: Image.asset(
-                          'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                          width: 56.0,
-                          height: 56.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    onDragEnd: (details) {
-                      setState(() {
-                        // Get the screen width
-                        final screenWidth = MediaQuery.of(context).size.width;
-
-                        // Snap to the nearest side (left or right)
-                        final newOffsetX = details.offset.dx < screenWidth / 2
-                            ? 0.0
-                            : screenWidth - 56.0; // 56.0 is the image's width
-                        _fabPosition = Offset(newOffsetX, details.offset.dy);
-                      });
-                    },
-                    childWhenDragging:
-                        Container(), // Empty container when dragging
-                  ),
-                ),
-              ),
-            ),
-          ),
+          const FloatingChatButton(),
         ],
       ),
     );
@@ -270,7 +219,7 @@ class HotelList extends StatelessWidget {
       future: hotelDetails,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: Colors.green));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -421,7 +370,8 @@ class Adventures extends StatelessWidget {
           future: fetchAdventureDetails(place),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(
+                  child: CircularProgressIndicator(color: Colors.green));
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

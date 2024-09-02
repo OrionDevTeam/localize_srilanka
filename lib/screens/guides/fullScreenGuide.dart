@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
+import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'dart:ui';
@@ -132,7 +135,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                       ),
                     );
                   } else {
-                    return Center(child: CircularProgressIndicator());
+                    return Center(
+                        child: CircularProgressIndicator(color: Colors.green));
                   }
                 },
               ),
@@ -216,8 +220,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
               // ),
 
               Positioned(
-                top: 30,
-                left: 0,
+                top: 40,
+                left: 10,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
@@ -308,8 +312,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return GuideMemoriesPage(
-                                  username: widget.ost.username);
+                              return GuideProfilePage(
+                                  userId: widget.ost.userId);
                             },
                             transitionDuration: Duration(milliseconds: 500),
                             transitionsBuilder: (context, animation,
@@ -344,8 +348,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                               PageRouteBuilder(
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
-                                  return GuideMemoriesPage(
-                                      username: widget.ost.username);
+                                  return GuideProfilePage(
+                                      userId: widget.ost.userId);
                                 },
                                 transitionDuration: Duration(milliseconds: 500),
                                 transitionsBuilder: (context, animation,
@@ -422,68 +426,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                   ),
                 ),
               ),
-              Positioned(
-                left: _fabPosition.dx,
-                top: _fabPosition.dy,
-                child: MouseRegion(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: GestureDetector(
-                      onTap: () {
-                        // Add your onPressed functionality here
-                        print('Widget pressed!');
-                      },
-                      child: Draggable(
-                        feedback: Material(
-                          color: Colors.transparent,
-                          child: Tooltip(
-                            message: 'Chat with Mochi',
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(18.0),
-                              child: Image.asset(
-                                'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                                width: 56.0,
-                                height: 56.0,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        child: Tooltip(
-                          message: 'Chat with Mochi',
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(18.0),
-                            child: Image.asset(
-                              'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                              width: 56.0,
-                              height: 56.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        onDragEnd: (details) {
-                          setState(() {
-                            // Get the screen width
-                            final screenWidth =
-                                MediaQuery.of(context).size.width;
-
-                            // Snap to the nearest side (left or right)
-                            final newOffsetX =
-                                details.offset.dx < screenWidth / 2
-                                    ? 0.0
-                                    : screenWidth -
-                                        56.0; // 56.0 is the image's width
-                            _fabPosition =
-                                Offset(newOffsetX, details.offset.dy);
-                          });
-                        },
-                        childWhenDragging:
-                            Container(), // Empty container when dragging
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              const FloatingChatButton(),
             ],
           ),
         ),
@@ -498,21 +441,6 @@ class GuidePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Guide Page')),
       body: Center(child: Text('Guide Page Content')),
-    );
-  }
-}
-
-// Placeholder for the guide memories page
-class GuideMemoriesPage extends StatelessWidget {
-  final String username;
-
-  GuideMemoriesPage({required this.username});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Memories of $username')),
-      body: Center(child: Text('Guide Memories Page Content for $username')),
     );
   }
 }

@@ -3,7 +3,8 @@
 A web app to help tourists to find best places to visit and find best travel guides nearby in Sri Lanka.
 Tourists can find travel guides who can assit with vlogging and photography.
 An AI powered chatbot is also available to assist with any queries.
-Developed by Team `Phantom Orion` for `Devthon 1.0 - 2024` hackathon.
+Developed by Team `Phantom Orion` for `IDEALIZE - 2024`.
+This project won the `Devthon 1.0 - 2024` hackathon.
 
 ## Getting Started
 
@@ -36,7 +37,7 @@ const chatFeatureEnabled = true;
 - [Vimosh Vasanthakumar](https://github.com/vimosh0812)
 - [birunthabanr](https://github.com/birunthabanr)
 - [Kavienan J](https://github.com/kavienanj)
-- [Donald Aadi](https://github.com/DonaldAadithiyan)
+- [Donald Aadithiyan](https://github.com/DonaldAadithiyan)
 - [VarunRaj004](https://github.com/VarunRaj004)
 
 # Contributing

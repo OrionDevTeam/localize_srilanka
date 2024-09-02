@@ -174,7 +174,7 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
                   ),
                 ),
               const SizedBox(height: 10),
-              Text("or", style: TextStyle(color: Colors.black)),
+              // Text("or", style: TextStyle(color: Colors.black)),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _pickAndUploadVideo,
@@ -234,7 +234,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             child: VideoPlayer(_controller),
           )
         : Container(
-            child: Center(child: CircularProgressIndicator()),
+            child:
+                Center(child: CircularProgressIndicator(color: Colors.green)),
           );
   }
 }
@@ -283,7 +284,8 @@ class MemoriesDisplay extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator(color: Colors.green));
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -631,7 +633,7 @@ class _VideoThumbnailWidgetState extends State<VideoThumbnailWidget> {
   @override
   Widget build(BuildContext context) {
     if (_thumbnailBytes == null) {
-      return Center(child: CircularProgressIndicator());
+      return Center(child: CircularProgressIndicator(color: Colors.green));
     }
 
     return Image.memory(_thumbnailBytes!, fit: BoxFit.cover);
@@ -707,7 +709,8 @@ class _VideoPlayerDialogState extends State<VideoPlayerDialog> {
                     child: VideoPlayer(_controller),
                   );
                 } else {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                      child: CircularProgressIndicator(color: Colors.green));
                 }
               },
             ),

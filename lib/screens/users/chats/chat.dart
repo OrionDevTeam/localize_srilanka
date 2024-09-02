@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart' as chat_ui;
 import 'package:image_picker/image_picker.dart';
+import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -26,17 +27,16 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  List<types.Message> _messages = [];
   late types.User _currentUser;
   late types.User _otherUser;
   String _guideProfileImageUrl = '';
   String _guideUserRole = '';
+  List<types.Message> _messages = [];
 
   @override
   void initState() {
     super.initState();
     _initializeUsers();
-    _loadMessages();
     _fetchGuideData();
   }
 
@@ -46,6 +46,7 @@ class _ChatPageState extends State<ChatPage> {
     );
 
     final guideId = widget.guideData['id'];
+
     if (guideId != null && guideId is String) {
       _otherUser = types.User(
         id: guideId,
@@ -67,10 +68,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _addMessage(types.Message message) async {
-    setState(() {
-      _messages.insert(0, message);
-    });
-
     // Convert message to JSON
     final messageJson = message.toJson();
 
@@ -215,25 +212,25 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void _loadMessages() async {
-    final chatDoc = await FirebaseFirestore.instance
+  Stream<List<types.Message>> _messagesStream() {
+    return FirebaseFirestore.instance
         .collection('chats')
         .doc(widget.chatId)
-        .get();
-
-    if (chatDoc.exists && chatDoc.data()!.containsKey('messages')) {
-      final messagesData = chatDoc['messages'] as List<dynamic>;
-      final messages = messagesData.map((messageData) {
-        final messageMap = Map<String, dynamic>.from(messageData);
-        return types.Message.fromJson(messageMap);
-      }).toList();
-
-      setState(() {
-        _messages = messages.reversed.toList();
-      });
-    }
+        .snapshots()
+        .map((snapshot) {
+      if (snapshot.exists && snapshot.data()!.containsKey('messages')) {
+        final messagesData = snapshot['messages'] as List<dynamic>;
+        final messages = messagesData.map((messageData) {
+          final messageMap = Map<String, dynamic>.from(messageData);
+          return types.Message.fromJson(messageMap);
+        }).toList();
+        return messages.reversed.toList();
+      }
+      return [];
+    });
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,14 +249,14 @@ class _ChatPageState extends State<ChatPage> {
               onTap: () {
                 if (_guideUserRole == "Guide") {
                   // Navigate to profile page
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => UserProfilePage(
-                  //       userId: widget.guideData['id'],
-                  //     ),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GuideDetailPage(
+                        userId: widget.guideData['id'],
+                      ),
+                    ),
+                  );
                 }
               },
               child: Column(
@@ -267,9 +264,9 @@ class _ChatPageState extends State<ChatPage> {
                 children: [
                   Text('${widget.guideData['username']}'),
                   Text(
-                    _guideUserRole,
+                    'LOCALIZE ${_guideUserRole.toUpperCase()}',
                     style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 12,
                         color: const Color.fromARGB(137, 22, 1, 1)),
                   ),
                 ],
@@ -284,24 +281,37 @@ class _ChatPageState extends State<ChatPage> {
           },
         ),
       ),
-      body: chat_ui.Chat(
-        messages: _messages,
-        onAttachmentPressed: _handleAttachmentPressed,
-        onMessageTap: (context, message) {
-          print('Message tapped: ${message.id}');
-        },
-        onSendPressed: (message) {
-          if (message is types.PartialText) {
-            final textMessage = types.TextMessage(
-              author: _currentUser,
-              createdAt: DateTime.now().millisecondsSinceEpoch,
-              id: DateTime.now().millisecondsSinceEpoch.toString(),
-              text: message.text,
-            );
-            _addMessage(textMessage);
+      body: StreamBuilder<List<types.Message>>(
+        stream: _messagesStream(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error loading messages'));
           }
+
+          _messages = snapshot.data ?? [];
+
+          return chat_ui.Chat(
+            messages: _messages,
+            onAttachmentPressed: _handleAttachmentPressed,
+            onMessageTap: (context, message) {
+              print('Message tapped: ${message.id}');
+            },
+            onSendPressed: (message) {
+              if (message is types.PartialText) {
+                final textMessage = types.TextMessage(
+                  author: _currentUser,
+                  createdAt: DateTime.now().millisecondsSinceEpoch,
+                  id: DateTime.now().millisecondsSinceEpoch.toString(),
+                  text: message.text,
+                );
+                _addMessage(textMessage);
+              }
+            },
+            user: _currentUser,
+          );
         },
-        user: _currentUser,
       ),
     );
   }
@@ -310,77 +320,44 @@ class _ChatPageState extends State<ChatPage> {
 extension on types.Message {
   Map<String, dynamic> toJson() {
     if (this is types.TextMessage) {
-      final textMessage = this as types.TextMessage;
       return {
-        'id': textMessage.id,
-        'author': {
-          'id': textMessage.author.id,
-        },
-        'createdAt': textMessage.createdAt,
-        'text': textMessage.text,
         'type': 'text',
+        'author': (this as types.TextMessage).author.toJson(),
+        'createdAt': (this as types.TextMessage).createdAt,
+        'id': (this as types.TextMessage).id,
+        'text': (this as types.TextMessage).text,
       };
     } else if (this is types.ImageMessage) {
-      final imageMessage = this as types.ImageMessage;
       return {
-        'id': imageMessage.id,
-        'author': {
-          'id': imageMessage.author.id,
-        },
-        'createdAt': imageMessage.createdAt,
-        'name': imageMessage.name,
-        'size': imageMessage.size,
-        'uri': imageMessage.uri,
-        'height': imageMessage.height,
-        'width': imageMessage.width,
         'type': 'image',
+        'author': (this as types.ImageMessage).author.toJson(),
+        'createdAt': (this as types.ImageMessage).createdAt,
+        'id': (this as types.ImageMessage).id,
+        'name': (this as types.ImageMessage).name,
+        'size': (this as types.ImageMessage).size,
+        'uri': (this as types.ImageMessage).uri,
+        'height': (this as types.ImageMessage).height,
+        'width': (this as types.ImageMessage).width,
       };
     } else if (this is types.VideoMessage) {
-      final videoMessage = this as types.VideoMessage;
       return {
-        'id': videoMessage.id,
-        'author': {
-          'id': videoMessage.author.id,
-        },
-        'createdAt': videoMessage.createdAt,
-        'name': videoMessage.name,
-        'size': videoMessage.size,
-        'uri': videoMessage.uri,
         'type': 'video',
+        'author': (this as types.VideoMessage).author.toJson(),
+        'createdAt': (this as types.VideoMessage).createdAt,
+        'id': (this as types.VideoMessage).id,
+        'name': (this as types.VideoMessage).name,
+        'size': (this as types.VideoMessage).size,
+        'uri': (this as types.VideoMessage).uri,
       };
     }
     return {};
   }
+}
 
-  static types.Message fromJson(Map<String, dynamic> json) {
-    if (json['type'] == 'text') {
-      return types.TextMessage(
-        id: json['id'],
-        author: types.User(id: json['author']['id']),
-        createdAt: json['createdAt'],
-        text: json['text'],
-      );
-    } else if (json['type'] == 'image') {
-      return types.ImageMessage(
-        id: json['id'],
-        author: types.User(id: json['author']['id']),
-        createdAt: json['createdAt'],
-        name: json['name'],
-        size: json['size'],
-        uri: json['uri'],
-        height: json['height'],
-        width: json['width'],
-      );
-    } else if (json['type'] == 'video') {
-      return types.VideoMessage(
-        id: json['id'],
-        author: types.User(id: json['author']['id']),
-        createdAt: json['createdAt'],
-        name: json['name'],
-        size: json['size'],
-        uri: json['uri'],
-      );
-    }
-    throw UnsupportedError('Unsupported message type');
+extension on types.User {
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+    };
   }
 }

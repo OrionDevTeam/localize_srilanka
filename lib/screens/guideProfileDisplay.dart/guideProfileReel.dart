@@ -111,7 +111,9 @@ class _SocialMediaFeedState extends State<ProfileFeed> {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(
+                            child:
+                                CircularProgressIndicator(color: Colors.green));
                       }
 
                       var posts = snapshot.data!.docs;
@@ -142,7 +144,9 @@ class _SocialMediaFeedState extends State<ProfileFeed> {
                         future: Future.wait(futurePosts),
                         builder: (context, futureSnapshot) {
                           if (!futureSnapshot.hasData) {
-                            return Center(child: CircularProgressIndicator());
+                            return Center(
+                                child: CircularProgressIndicator(
+                                    color: Colors.green));
                           }
                           var posts = futureSnapshot.data!;
 
@@ -196,7 +200,7 @@ class _PostWidgetState extends State<PostWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override
@@ -346,7 +350,8 @@ class _PostWidgetState extends State<PostWidget> {
                     ],
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: CircularProgressIndicator(color: Colors.green));
                 }
               },
             ),
@@ -379,7 +384,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override
@@ -423,35 +428,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             ),
           );
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: Colors.green));
         }
       },
-    );
-  }
-}
-
-// Placeholder for the guide page
-class GuidePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Page')),
-      body: Center(),
-    );
-  }
-}
-
-// Placeholder for the guide memories page
-class GuideMemoriesPage extends StatelessWidget {
-  final String username;
-
-  GuideMemoriesPage({required this.username});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Memories of $username')),
-      body: Center(child: Text('Guide Memories Page Content for $username')),
     );
   }
 }

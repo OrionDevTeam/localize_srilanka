@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
 import 'package:localize_sl/screens/getStarted.dart';
 import 'package:localize_sl/screens/users/user_memories.dart';
 import 'package:localize_sl/screens/users/user_settings.dart';
@@ -84,8 +85,6 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
       MaterialPageRoute(builder: (context) => const HelpPage()),
     );
   }
-
-  Offset _fabPosition = Offset(0, 140); // Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -302,62 +301,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                   ],
                 ),
               ),
-              Positioned(
-                left: _fabPosition.dx,
-                top: _fabPosition.dy,
-                child: Material(
-                  elevation: 8.0, // Default shadow depth
-                  color: Colors.transparent,
-                  child: GestureDetector(
-                    onTap: () {
-                      // Add your onPressed functionality here
-                      print('Widget pressed!');
-                    },
-                    child: Draggable(
-                      feedback: Material(
-                        color: Colors.transparent,
-                        child: Tooltip(
-                          message: 'Chat with Mochi',
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(18.0),
-                            child: Image.asset(
-                              'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                              width: 56.0,
-                              height: 56.0,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                      child: Tooltip(
-                        message: 'Chat with Mochi',
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18.0),
-                          child: Image.asset(
-                            'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                            width: 56.0,
-                            height: 56.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      onDragEnd: (details) {
-                        final screenWidth = MediaQuery.of(context).size.width;
-
-                        final newOffsetX = details.offset.dx < screenWidth / 2
-                            ? 0.0
-                            : screenWidth - 56.0; // 56.0 is the image's width
-
-                        setState(() {
-                          _fabPosition = Offset(newOffsetX, details.offset.dy);
-                        });
-                      },
-                      childWhenDragging:
-                          Container(), // Empty container when dragging
-                    ),
-                  ),
-                ),
-              ),
+              const FloatingChatButton(),
             ],
           ),
         ),
@@ -547,7 +491,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
 }
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({super.key});
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -597,8 +541,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: const Text(
           'Settings',
           style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+            fontSize: 20,
           ),
         ),
         centerTitle: true,
@@ -660,8 +603,9 @@ class _SettingsPageState extends State<SettingsPage> {
                             );
                           },
                           style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all<Color>(
-                                const Color(0xFF2A966C)),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              const Color(0xFF2A966C),
+                            ),
                           ),
                           child: const Text(
                             'Log Out',
@@ -676,7 +620,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 30),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -699,6 +643,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                             );
                           },
+                          isEnabled: false, // Example of an enabled block
                         ),
                         _buildProfileBlock(
                           context,
@@ -713,6 +658,50 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                             );
                           },
+                          isEnabled: false, // Example of a disabled block
+                        ),
+                        _buildProfileBlock(
+                          context,
+                          title: 'Add Packages',
+                          subtext:
+                              'Add packages, services, change rate and much more!',
+                          icon: Icons.add_circle_outline_sharp,
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Modify Profile"),
+                                  content: Text(
+                                      "If you want to modify your profile further, contact us to go through LOCALIZE verification process."),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context)
+                                            .pop(); // Close the dialog
+                                      },
+                                      child: Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        // Implement action for "Contact Us" button
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const NeedHelpPage(),
+                                          ),
+                                        );
+                                      },
+                                      child: Text("Contact Us"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+
+                          isEnabled: true, // Example of an enabled block
                         ),
                       ],
                     ),
@@ -733,133 +722,57 @@ class _SettingsPageState extends State<SettingsPage> {
     required String subtext,
     required IconData icon,
     required VoidCallback onTap,
+    required bool isEnabled,
   }) {
-    return GestureDetector(
+    return InkWell(
       onTap: onTap,
-      child: Container(
-        width: 150,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 4,
-              blurRadius: 6,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 40, color: Colors.black),
-            const SizedBox(height: 16),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 4,
+                blurRadius: 6,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                size: 40,
                 color: Colors.black,
               ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              subtext,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.grey,
+              const SizedBox(height: 16),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Text(
+                subtext,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
-}
-
-Widget _buildProfileBlock(
-  BuildContext context, {
-  required String title,
-  required String subtext,
-  required IconData icon,
-  required VoidCallback onTap,
-}) {
-  return InkWell(
-    onTap: onTap,
-    child: MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: ProfileBlock(
-        title: title,
-        subtext: subtext,
-        icon: icon,
-      ),
-    ),
-  );
-}
-
-class ProfileBlock extends StatefulWidget {
-  final String title;
-  final String subtext;
-  final IconData icon;
-
-  const ProfileBlock({
-    super.key,
-    required this.title,
-    required this.subtext,
-    required this.icon,
-  });
-
-  @override
-  State<ProfileBlock> createState() => _ProfileBlockState();
-}
-
-class _ProfileBlockState extends State<ProfileBlock> {
-  final bool _isHovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: _isHovered
-            ? const Color.fromARGB(255, 42, 150, 108)
-            : const Color.fromARGB(255, 235, 235, 235),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            widget.icon,
-            size: 50,
-            color: const Color.fromARGB(
-                255, 42, 150, 108), // Set icon color to white
-          ),
-          const SizedBox(height: 10),
-          Text(
-            widget.title,
-            style: const TextStyle(
-              color:
-                  Color.fromARGB(255, 42, 150, 108), // Set text color to white
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            widget.subtext,
-            style: const TextStyle(
-              color:
-                  Color.fromARGB(255, 42, 150, 108), // Set text color to white
-              fontSize: 14,
-            ),
-          ),
-        ],
       ),
     );
   }

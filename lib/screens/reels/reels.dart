@@ -77,6 +77,7 @@ Future<Map<String, dynamic>> getUserDetails(String userId) async {
   }
 }
 
+//
 class SocialMediaFeed extends StatefulWidget {
   @override
   _SocialMediaFeedState createState() => _SocialMediaFeedState();
@@ -225,7 +226,7 @@ class _PostWidgetState extends State<PostWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override
@@ -361,7 +362,9 @@ class _PostWidgetState extends State<PostWidget> {
                               ),
                             );
                           } else {
-                            return Center(child: CircularProgressIndicator());
+                            return Center(
+                                child: CircularProgressIndicator(
+                                    color: Colors.green));
                           }
                         },
                       ),
@@ -412,7 +415,7 @@ class _PostWidgetState extends State<PostWidget> {
                               PageRouteBuilder(
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
-                                  return GuideProfilePage(
+                                  return GuideDetailPage(
                                     userId: widget.post.userId,
                                   );
                                 },
@@ -610,7 +613,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override
@@ -654,35 +657,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             ),
           );
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: Colors.green));
         }
       },
-    );
-  }
-}
-
-// Placeholder for the guide page
-class GuidePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Page')),
-      body: Center(),
-    );
-  }
-}
-
-// Placeholder for the guide memories page
-class GuideMemoriesPage extends StatelessWidget {
-  final String username;
-
-  GuideMemoriesPage({required this.username});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Memories of $username')),
-      body: Center(child: Text('Guide Memories Page Content for $username')),
     );
   }
 }

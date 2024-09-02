@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/guides/guide_location.dart';
 
 import '../Adventures/adventure.dart';
 import '../hotels/hotel.dart';
@@ -176,7 +177,9 @@ class _LocationState extends State<Location>
                 child: TabBarView(
                   controller: _tabController,
                   children: [
-                    Center(child: Text('Explore with Guides')),
+                    GuidePlace(
+                      place: widget.place,
+                    ),
                     HotelList(hotelDetails: _hotelDetails),
                     Adventures(
                       place: widget.place,
@@ -204,7 +207,7 @@ class HotelList extends StatelessWidget {
       future: hotelDetails,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: Colors.green));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
@@ -352,7 +355,8 @@ class Adventures extends StatelessWidget {
         future: fetchAdventureDetails(place),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(color: Colors.green));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {

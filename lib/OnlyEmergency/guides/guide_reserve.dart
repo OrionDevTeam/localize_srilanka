@@ -26,7 +26,11 @@ class _ReservationScreenState extends State<ReservationScreen> {
   String selectedMonth = DateFormat.MMMM().format(DateTime.now());
   int currentYear = DateTime.now().year;
   List<String> dates = [];
-  final List<String> timeSlots = ["10:00AM - 2:00PM", "2:00PM - 6:00PM", "10:00AM - 2:00PM"];
+  final List<String> timeSlots = [
+    "10:00AM - 2:00PM",
+    "2:00PM - 6:00PM",
+    "10:00AM - 2:00PM"
+  ];
 
   @override
   void initState() {
@@ -42,7 +46,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
       final date = DateTime(currentYear, monthIndex, index + 1);
       return DateFormat.d().format(date);
     });
-    
+
     setState(() {});
   }
 
@@ -51,15 +55,19 @@ class _ReservationScreenState extends State<ReservationScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Reserve",
-        style: TextStyle(
+        title: Text(
+          "Reserve",
+          style: TextStyle(
             fontWeight: FontWeight.bold,
-        ),),
+          ),
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
       ),
       body: Padding(
@@ -90,7 +98,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: dates.length,
                 itemBuilder: (context, index) {
-                  final date = DateTime(currentYear, DateFormat.MMMM().parse(selectedMonth).month, index + 1);
+                  final date = DateTime(currentYear,
+                      DateFormat.MMMM().parse(selectedMonth).month, index + 1);
                   final day = DateFormat.E().format(date);
                   return GestureDetector(
                     onTap: () {
@@ -104,9 +113,13 @@ class _ReservationScreenState extends State<ReservationScreen> {
                       padding: const EdgeInsets.all(0),
                       margin: EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
-                        color: selectedDateIndex == index ? Colors.teal : Colors.white,
+                        color: selectedDateIndex == index
+                            ? Colors.teal
+                            : Colors.white,
                         border: Border.all(
-                          color: selectedDateIndex == index ? Colors.teal : Colors.grey,
+                          color: selectedDateIndex == index
+                              ? Colors.teal
+                              : Colors.grey,
                         ),
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -117,14 +130,18 @@ class _ReservationScreenState extends State<ReservationScreen> {
                             day,
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: selectedDateIndex == index ? Colors.white : Colors.black,
+                              color: selectedDateIndex == index
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                           ),
                           Text(
                             dates[index],
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: selectedDateIndex == index ? Colors.white : Colors.black,
+                              color: selectedDateIndex == index
+                                  ? Colors.white
+                                  : Colors.black,
                             ),
                           ),
                         ],
@@ -146,9 +163,13 @@ class _ReservationScreenState extends State<ReservationScreen> {
                   child: Container(
                     margin: EdgeInsets.symmetric(vertical: 4),
                     decoration: BoxDecoration(
-                      color: selectedTimeSlotIndex == index ? Colors.teal : Colors.white,
+                      color: selectedTimeSlotIndex == index
+                          ? Colors.teal
+                          : Colors.white,
                       border: Border.all(
-                        color: selectedTimeSlotIndex == index ? Colors.teal : Colors.grey,
+                        color: selectedTimeSlotIndex == index
+                            ? Colors.teal
+                            : Colors.grey,
                       ),
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -157,7 +178,9 @@ class _ReservationScreenState extends State<ReservationScreen> {
                         timeSlots[index],
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: selectedTimeSlotIndex == index ? Colors.white : Colors.black,
+                          color: selectedTimeSlotIndex == index
+                              ? Colors.white
+                              : Colors.black,
                         ),
                       ),
                       trailing: Container(
@@ -166,9 +189,13 @@ class _ReservationScreenState extends State<ReservationScreen> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: selectedTimeSlotIndex == index ? Colors.white : Colors.black,
+                            color: selectedTimeSlotIndex == index
+                                ? Colors.white
+                                : Colors.black,
                           ),
-                          color: selectedTimeSlotIndex == index ? Colors.teal : Colors.transparent,
+                          color: selectedTimeSlotIndex == index
+                              ? Colors.teal
+                              : Colors.transparent,
                         ),
                         child: selectedTimeSlotIndex == index
                             ? Icon(
@@ -183,16 +210,15 @@ class _ReservationScreenState extends State<ReservationScreen> {
                 );
               }),
             ),
-        
             Spacer(),
             ElevatedButton(
               onPressed: () {},
               child: Text("Continue",
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight:FontWeight.bold,
-                color: Colors.white,
-              ) ),
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  )),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromARGB(255, 22, 156, 140),
                 padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),

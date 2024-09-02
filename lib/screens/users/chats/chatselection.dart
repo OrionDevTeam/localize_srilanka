@@ -4,6 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'chat.dart';
 
 class ChatSelectionPage extends StatefulWidget {
+  final bool showBackButton;
+
+  const ChatSelectionPage({Key? key, this.showBackButton = false})
+      : super(key: key);
+
   @override
   _ChatSelectionPageState createState() => _ChatSelectionPageState();
 }
@@ -113,6 +118,9 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
         Map<String, dynamic> userData = userSnapshot.data()!;
         userData.remove('bio');
         userData.remove('email');
+
+        // Add the document id to the userData map
+        userData['id'] = userSnapshot.id;
 
         print('User data: $userData');
         return userData;

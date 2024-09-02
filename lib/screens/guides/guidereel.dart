@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -108,7 +110,9 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(child: CircularProgressIndicator());
+                        return Center(
+                            child:
+                                CircularProgressIndicator(color: Colors.green));
                       }
 
                       var posts = snapshot.data!.docs;
@@ -137,7 +141,9 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
                         future: Future.wait(futurePosts),
                         builder: (context, futureSnapshot) {
                           if (!futureSnapshot.hasData) {
-                            return Center(child: CircularProgressIndicator());
+                            return Center(
+                                child: CircularProgressIndicator(
+                                    color: Colors.green));
                           }
                           var posts = futureSnapshot.data!;
 
@@ -164,62 +170,7 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
               ],
             ),
           ),
-          Positioned(
-            left: _fabPosition.dx,
-            top: _fabPosition.dy,
-            child: Material(
-              elevation: 8.0, // Default shadow depth
-              color: Colors.transparent,
-              child: GestureDetector(
-                onTap: () {
-                  // Add your onPressed functionality here
-                  print('Widget pressed!');
-                },
-                child: Draggable(
-                  feedback: Material(
-                    color: Colors.transparent,
-                    child: Tooltip(
-                      message: 'Chat with Mochi',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18.0),
-                        child: Image.asset(
-                          'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                          width: 56.0,
-                          height: 56.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                  child: Tooltip(
-                    message: 'Chat with Mochi',
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(18.0),
-                      child: Image.asset(
-                        'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                        width: 56.0,
-                        height: 56.0,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  onDragEnd: (details) {
-                    final screenWidth = MediaQuery.of(context).size.width;
-
-                    final newOffsetX = details.offset.dx < screenWidth / 2
-                        ? 0.0
-                        : screenWidth - 56.0; // 56.0 is the image's width
-
-                    setState(() {
-                      _fabPosition = Offset(newOffsetX, details.offset.dy);
-                    });
-                  },
-                  childWhenDragging:
-                      Container(), // Empty container when dragging
-                ),
-              ),
-            ),
-          ),
+          const FloatingChatButton(),
         ],
       ),
     );
@@ -247,7 +198,7 @@ class _PostWidgetState extends State<PostWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override
@@ -345,7 +296,8 @@ class _PostWidgetState extends State<PostWidget> {
                     ],
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: CircularProgressIndicator(color: Colors.green));
                 }
               },
             ),
@@ -378,7 +330,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
     _controller = VideoPlayerController.network(widget.post.downloadURL);
     _initializeVideoPlayerFuture = _controller.initialize();
     _controller.setLooping(true);
-    _controller.setVolume(1.0);
+    _controller.setVolume(0.0);
   }
 
   @override
@@ -422,35 +374,9 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
             ),
           );
         } else {
-          return Center(child: CircularProgressIndicator());
+          return Center(child: CircularProgressIndicator(color: Colors.green));
         }
       },
-    );
-  }
-}
-
-// Placeholder for the guide page
-class GuidePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Page')),
-      body: Center(),
-    );
-  }
-}
-
-// Placeholder for the guide memories page
-class GuideMemoriesPage extends StatelessWidget {
-  final String username;
-
-  GuideMemoriesPage({required this.username});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Guide Memories of $username')),
-      body: Center(child: Text('Guide Memories Page Content for $username')),
     );
   }
 }

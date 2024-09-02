@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:iconsax/iconsax.dart';
+
 import 'package:localize_sl/screens/users/userProfile.dart';
 
 import 'screens/getStarted.dart';
@@ -75,7 +76,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-
         backgroundColor: Colors.white, // Change this to any color you like
         actions: [
           IconButton(

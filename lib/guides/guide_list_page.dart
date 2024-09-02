@@ -33,16 +33,16 @@ class _GuidesListState extends State<GuidesList> {
           },
         ),
         centerTitle: true,
-        title: Text('Search Guides',
-        style: TextStyle(
-            fontWeight: FontWeight.bold,
+        title: Text(
+          'Search',
+          style: TextStyle(
+            fontSize: 20,
+          ),
         ),
-        ),
-        
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical:10.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             child: Row(
               children: [
                 Expanded(
@@ -66,22 +66,20 @@ class _GuidesListState extends State<GuidesList> {
                   onPressed: () {
                     // Add filter action here
                   },
-                  
                 ),
-                
               ],
-              
             ),
-            
           ),
         ),
-        
       ),
       body: FutureBuilder<List<Guide>>(
         future: futureGuides,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(
+                child: CircularProgressIndicator(
+              color: Colors.green,
+            ));
           }
 
           if (snapshot.hasError) {
@@ -140,13 +138,16 @@ class GuideCard extends StatelessWidget {
                     FutureBuilder<String>(
                       future: getProfilePictureUrl(guide.id),
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
                           return CircleAvatar(
                             radius: 30.0,
                             backgroundColor: Colors.grey[300],
                           );
                         }
-                        if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                        if (snapshot.hasError ||
+                            !snapshot.hasData ||
+                            snapshot.data!.isEmpty) {
                           return CircleAvatar(
                             radius: 30.0,
                             backgroundColor: Colors.grey[300],

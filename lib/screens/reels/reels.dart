@@ -369,13 +369,15 @@ class _PostWidgetState extends State<PostWidget> {
                   ),
                   Positioned(
                     top: 20,
-                    left: 10,
                     child: Container(
                       height: 40,
                       padding: EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white70,
-                        borderRadius: BorderRadius.circular(32),
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(32),
+                          bottomRight: Radius.circular(32),
+                        ),
                       ),
                       child: Center(
                         child: Text(

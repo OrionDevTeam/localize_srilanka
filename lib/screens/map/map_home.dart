@@ -81,7 +81,7 @@ class _MapScreenState extends State<MapScreen> {
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(32),
+                borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black26,
@@ -107,64 +107,6 @@ class _MapScreenState extends State<MapScreen> {
                     onPressed: _searchPlace,
                   ),
                 ],
-              ),
-            ),
-          ),
-          Positioned(
-            left: _fabPosition.dx,
-            top: _fabPosition.dy,
-            child: MouseRegion(
-              child: Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  onTap: () {
-                    // Add your onPressed functionality here
-                    print('Widget pressed!');
-                  },
-                  child: Draggable(
-                    feedback: Material(
-                      color: Colors.transparent,
-                      child: Tooltip(
-                        message: 'Chat with Mochi',
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18.0),
-                          child: Image.asset(
-                            'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                            width: 56.0,
-                            height: 56.0,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    child: Tooltip(
-                      message: 'Chat with Mochi',
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18.0),
-                        child: Image.asset(
-                          'assets/vimosh/chatBot.jpg', // Replace with your image asset path
-                          width: 56.0,
-                          height: 56.0,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    onDragEnd: (details) {
-                      setState(() {
-                        // Get the screen width
-                        final screenWidth = MediaQuery.of(context).size.width;
-
-                        // Snap to the nearest side (left or right)
-                        final newOffsetX = details.offset.dx < screenWidth / 2
-                            ? 0.0
-                            : screenWidth - 56.0; // 56.0 is the image's width
-                        _fabPosition = Offset(newOffsetX, details.offset.dy);
-                      });
-                    },
-                    childWhenDragging:
-                        Container(), // Empty container when dragging
-                  ),
-                ),
               ),
             ),
           ),

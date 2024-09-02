@@ -122,19 +122,22 @@ class userProfilePage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Card(
-            margin: const EdgeInsets.all(8.0), // Reduced margin
-            child: ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('Account Settings'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserSettingsPage()),
-                );
-              },
-            ),
+          DoubleTClickableContainer(
+            icon1: Iconsax.user,
+            icon2: Iconsax.lock,
+            iconColor1: Colors.yellow[700],
+            iconColor2: Colors.orange[700],
+            title1: 'Account settings',
+            title2: 'Face ID & Passcode',
+            subtitle1: 'Manage your account settings',
+            subtitle2: 'Secure your account with Face ID',
+            onTap1: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserSettingsPage()),
+              );
+            },
+            onTap2: () {},
           ),
           ClickableContainer(
             icon: Iconsax.notification,
@@ -160,7 +163,14 @@ class userProfilePage extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => WalletPage()),
               );
             },
-            onTap2: () {
+            onTap2: () {},
+          ),
+          ClickableContainer(
+            icon: Icons.logout_outlined,
+            iconColor: Color(0xFF2A966C),
+            title: 'Logout',
+            subtitle: 'Sign out of your account',
+            onTap: () {
               signOut();
               Navigator.push(
                 context,
@@ -168,65 +178,17 @@ class userProfilePage extends StatelessWidget {
               );
             },
           ),
-          Card(
-            margin: const EdgeInsets.all(8.0), // Reduced margin
-            child: ListTile(
-              leading: const Icon(Icons.notifications_active_outlined),
-              title: const Text('Notification Settings'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () => _reAuthenticateAndChangePassword(context),
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.all(8.0), // Reduced margin
-            child: ListTile(
-              leading: const Icon(Icons.payment_rounded),
-              title: const Text('Payment Methods'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WalletPage()),
-                );
-              },
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.all(8.0), // Reduced margin
-            child: ListTile(
-              leading: const Icon(Icons.language),
-              title: const Text('Language Settings'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                signOut();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WelcomeScreen()),
-                );
-              },
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.all(8.0), // Reduced margin
-            child: ListTile(
-              leading: const Icon(Icons.lock),
-              title: const Text('Face ID & Passcode'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-            ),
-          ),
-          Card(
-            margin: const EdgeInsets.all(8.0), // Reduced margin
-            child: ListTile(
-              leading: const Icon(Icons.chat_outlined),
-              title: const Text('Help'),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => NeedHelpPage()),
-                );
-              },
-            ),
+          ClickableContainer(
+            icon: Iconsax.message_question,
+            iconColor: Colors.black,
+            title: 'Help & Support',
+            subtitle: 'Get help using the app',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => NeedHelpPage()),
+              );
+            },
           ),
         ],
       ),
@@ -460,6 +422,156 @@ class DoubleClickableContainer extends StatelessWidget {
                     Icon(
                       Icons.arrow_forward_ios,
                       color: Colors.grey,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DoubleTClickableContainer extends StatelessWidget {
+  final IconData icon1, icon2;
+  final Color? iconColor1, iconColor2;
+  final String title1, title2;
+  final String subtitle2, subtitle1;
+  final VoidCallback onTap1, onTap2;
+
+  const DoubleTClickableContainer({
+    Key? key,
+    required this.icon1,
+    required this.icon2,
+    required this.title1,
+    required this.title2,
+    required this.subtitle1,
+    required this.subtitle2,
+    required this.onTap1,
+    required this.onTap2,
+    this.iconColor1,
+    this.iconColor2,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      margin: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            blurRadius: 10,
+            spreadRadius: 5,
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: onTap1,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Container(
+                child: Row(
+                  children: [
+                    // Leading Icon
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: iconColor1?.withOpacity(0.3) ??
+                            Colors.blue.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        icon1,
+                        color: iconColor1 ?? Colors.blue[700],
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    // Title and Subtitle
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title1,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            subtitle1,
+                            style: TextStyle(color: Colors.grey[600]),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 8),
+          // add a divider
+          Divider(),
+          SizedBox(height: 8),
+
+          GestureDetector(
+            onTap: onTap2,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Container(
+                child: Row(
+                  children: [
+                    // Leading Icon
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: iconColor2?.withOpacity(0.3) ??
+                            Colors.blue.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        icon2,
+                        color: iconColor2 ?? Colors.blue[700],
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    // Title and Subtitle
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title2,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            subtitle2,
+                            style: TextStyle(color: Colors.grey[600]),
+                          ),
+                        ],
+                      ),
+                    ),
+                    // add toggle button
+                    Switch(
+                      value: true,
+                      onChanged: (value) {},
+                      activeColor: Colors.blue,
                     ),
                   ],
                 ),

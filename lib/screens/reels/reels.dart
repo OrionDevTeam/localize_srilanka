@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:localize_sl/guides/guide_detail_page.dart';
 import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:localize_sl/screens/reels/fullscreen.dart';
 import 'package:video_player/video_player.dart';
@@ -416,7 +417,7 @@ class _PostWidgetState extends State<PostWidget> {
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
                                   return GuideDetailPage(
-                                    userId: widget.post.userId,
+                                    guideId: widget.post.userId,
                                   );
                                 },
                                 transitionDuration: Duration(milliseconds: 500),

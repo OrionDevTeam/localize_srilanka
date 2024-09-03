@@ -7,7 +7,7 @@ class ContactCard extends StatelessWidget {
   final String subtitle;
   final VoidCallback onTap;
 
-  ContactCard({
+  const ContactCard({super.key, 
     required this.icon,
     required this.title,
     required this.subtitle,
@@ -20,23 +20,23 @@ class ContactCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               Icon(icon, size: 36.0),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text(
                 subtitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 14.0),
+                style: const TextStyle(fontSize: 14.0),
               ),
             ],
           ),
@@ -53,7 +53,7 @@ class ContactSocialMediaCard extends StatelessWidget {
   final String posts;
   final String url;
 
-  ContactSocialMediaCard({
+  const ContactSocialMediaCard({super.key, 
     required this.icon,
     required this.platform,
     required this.followers,
@@ -74,7 +74,7 @@ class ContactSocialMediaCard extends StatelessWidget {
           leading: Icon(icon),
           title: Text(platform),
           subtitle: Text('$followers • $posts'),
-          trailing: Icon(Icons.share),
+          trailing: const Icon(Icons.share),
         ),
       ),
     );

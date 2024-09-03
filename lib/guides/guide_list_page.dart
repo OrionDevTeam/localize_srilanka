@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'guide_model.dart';
 import 'guide_service.dart';
 import 'guide_detail_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GuidesList extends StatefulWidget {
+  const GuidesList({super.key});
+
   @override
   _GuidesListState createState() => _GuidesListState();
 }
@@ -26,43 +27,43 @@ class _GuidesListState extends State<GuidesList> {
         forceMaterialTransparency: true,
         scrolledUnderElevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Add your back button action here
             Navigator.pop(context);
           },
         ),
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Search',
           style: TextStyle(
             fontSize: 20,
           ),
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
+                      prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
                       fillColor: Colors.grey[200],
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
                     ),
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 IconButton(
-                  icon: Icon(Icons.filter_list),
+                  icon: const Icon(Icons.filter_list),
                   onPressed: () {
                     // Add filter action here
                   },
@@ -76,7 +77,7 @@ class _GuidesListState extends State<GuidesList> {
         future: futureGuides,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
                 child: CircularProgressIndicator(
               color: Colors.green,
             ));
@@ -87,7 +88,7 @@ class _GuidesListState extends State<GuidesList> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No guides available'));
+            return const Center(child: Text('No guides available'));
           }
 
           final guides = snapshot.data!;
@@ -107,7 +108,7 @@ class _GuidesListState extends State<GuidesList> {
 class GuideCard extends StatelessWidget {
   final Guide guide;
 
-  GuideCard({required this.guide});
+  const GuideCard({super.key, required this.guide});
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +152,7 @@ class GuideCard extends StatelessWidget {
                           return CircleAvatar(
                             radius: 30.0,
                             backgroundColor: Colors.grey[300],
-                            child: Icon(Icons.error),
+                            child: const Icon(Icons.error),
                           );
                         }
                         print('Profile picture URL: ${snapshot.data}');
@@ -161,14 +162,14 @@ class GuideCard extends StatelessWidget {
                         );
                       },
                     ),
-                    SizedBox(width: 20.0),
+                    const SizedBox(width: 20.0),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             guide.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
@@ -182,17 +183,17 @@ class GuideCard extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.star, color: Colors.amber, size: 16.0),
-                              SizedBox(width: 4.0),
+                              const Icon(Icons.star, color: Colors.amber, size: 16.0),
+                              const SizedBox(width: 4.0),
                               Text(
                                 '${guide.rating}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(width: 7.0),
+                              const SizedBox(width: 7.0),
                               Text(
                                 '(${guide.reviews} Reviews)',
                                 style: TextStyle(
@@ -205,13 +206,13 @@ class GuideCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Icon(Icons.arrow_forward_ios, size: 16.0),
+                    const Icon(Icons.arrow_forward_ios, size: 16.0),
                   ],
                 ),
-                SizedBox(height: 2.0),
+                const SizedBox(height: 2.0),
                 Text(
                   guide.description,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 14.0,
                     color: Colors.black,
                     fontWeight: FontWeight.bold,

@@ -6,7 +6,7 @@ class AddMemoryDetailsPage extends StatefulWidget {
   final String thumbnailPath;
   final String mediaType;
 
-  AddMemoryDetailsPage({required this.thumbnailPath, required this.mediaType});
+  const AddMemoryDetailsPage({super.key, required this.thumbnailPath, required this.mediaType});
 
   @override
   _AddMemoryDetailsPageState createState() => _AddMemoryDetailsPageState();
@@ -44,7 +44,7 @@ class _AddMemoryDetailsPageState extends State<AddMemoryDetailsPage> {
       appBar: AppBar(
         title: const Text(''),
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () {
             Navigator.of(context).pop(); // Close the screen
           },
@@ -154,7 +154,7 @@ class _AddMemoryDetailsPageState extends State<AddMemoryDetailsPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      backgroundColor: Color(0xFF2A966C),
+                      backgroundColor: const Color(0xFF2A966C),
                       foregroundColor: Colors.white,
                       elevation: 4,
                     ),

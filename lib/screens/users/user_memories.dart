@@ -155,7 +155,7 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Image.asset(
                 'assets/vimosh/upload.jpg',
                 height: 400,
@@ -163,33 +163,33 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
               if (_thumbnailPath != null)
                 ElevatedButton(
                   onPressed: _pickAndUploadImage,
-                  child: const Text('Upload Image'),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    backgroundColor: Color(0xFF2A966C),
+                    backgroundColor: const Color(0xFF2A966C),
                     foregroundColor: Colors.white,
                     elevation: 4,
                   ),
+                  child: const Text('Upload Image'),
                 ),
               const SizedBox(height: 10),
               // Text("or", style: TextStyle(color: Colors.black)),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: _pickAndUploadVideo,
-                child: const Text('Upload Video'),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(
+                    side: const BorderSide(
                       color: Color(0xFF2A966C),
                     ), // Add border color here
                   ),
                   backgroundColor: Colors.white,
-                  foregroundColor: Color(0xFF2A966C),
+                  foregroundColor: const Color(0xFF2A966C),
                   elevation: 4,
                 ),
+                child: const Text('Upload Video'),
               ),
             ],
           ),
@@ -202,7 +202,7 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
 class VideoPlayerWidget extends StatefulWidget {
   final String videoPath;
 
-  VideoPlayerWidget({required this.videoPath});
+  const VideoPlayerWidget({super.key, required this.videoPath});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -235,7 +235,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           )
         : Container(
             child:
-                Center(child: CircularProgressIndicator(color: Colors.green)),
+                const Center(child: CircularProgressIndicator(color: Colors.green)),
           );
   }
 }
@@ -593,7 +593,7 @@ class MemoriesDisplay extends StatelessWidget {
 class VideoThumbnailWidget extends StatefulWidget {
   final String url;
 
-  VideoThumbnailWidget({required this.url});
+  const VideoThumbnailWidget({super.key, required this.url});
 
   @override
   _VideoThumbnailWidgetState createState() => _VideoThumbnailWidgetState();
@@ -633,7 +633,7 @@ class _VideoThumbnailWidgetState extends State<VideoThumbnailWidget> {
   @override
   Widget build(BuildContext context) {
     if (_thumbnailBytes == null) {
-      return Center(child: CircularProgressIndicator(color: Colors.green));
+      return const Center(child: CircularProgressIndicator(color: Colors.green));
     }
 
     return Image.memory(_thumbnailBytes!, fit: BoxFit.cover);

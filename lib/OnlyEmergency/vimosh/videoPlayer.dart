@@ -3,24 +3,28 @@ import 'package:video_player/video_player.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: HomeScreen(),
     );
   }
 }
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Video Players'),
+        title: const Text('Video Players'),
       ),
       body: Center(
         child: Column(
@@ -30,10 +34,10 @@ class HomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => VideoPlayerScreen()),
+                  MaterialPageRoute(builder: (context) => const VideoPlayerScreen()),
                 );
               },
-              child: Text('Play Asset Video'),
+              child: const Text('Play Asset Video'),
             ),
           ],
         ),
@@ -43,6 +47,8 @@ class HomeScreen extends StatelessWidget {
 }
 
 class VideoPlayerScreen extends StatefulWidget {
+  const VideoPlayerScreen({super.key});
+
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
 }
@@ -70,7 +76,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Asset Video Player'),
+        title: const Text('Asset Video Player'),
       ),
       body: Center(
         child: _controller.value.isInitialized
@@ -78,7 +84,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 aspectRatio: _controller.value.aspectRatio,
                 child: VideoPlayer(_controller),
               )
-            : CircularProgressIndicator(color: Colors.green),
+            : const CircularProgressIndicator(color: Colors.green),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

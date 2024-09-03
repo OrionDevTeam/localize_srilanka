@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -12,22 +14,24 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ActivityScreen(),
+      home: const ActivityScreen(),
     );
   }
 }
 
 class ActivityScreen extends StatelessWidget {
+  const ActivityScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Activity'),
+        title: const Text('Activity'),
         centerTitle: true,
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
-        children: [
+        padding: const EdgeInsets.all(16.0),
+        children: const [
           ActivityItem(
             title: 'Mirissa Beach - Coconut Tree Hill',
             date: 'Apr 22 | 11:42 AM',
@@ -69,7 +73,7 @@ class ActivityItem extends StatelessWidget {
   final String date;
   final String price;
 
-  ActivityItem({
+  const ActivityItem({super.key, 
     required this.title,
     required this.date,
     required this.price,
@@ -79,9 +83,9 @@ class ActivityItem extends StatelessWidget {
     @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween, // Added this line
           children: [
@@ -91,10 +95,10 @@ class ActivityItem extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
                   Text(date),
-                  Text(price, style: TextStyle(color: Colors.grey)),
+                  Text(price, style: const TextStyle(color: Colors.grey)),
                 ],
               ),
             ),
@@ -103,7 +107,7 @@ class ActivityItem extends StatelessWidget {
               alignment: Alignment.bottomRight,
               child: TextButton(
                 onPressed: () {},
-                child: Text('Rebook'),
+                child: const Text('Rebook'),
               ),
             ),
           ],

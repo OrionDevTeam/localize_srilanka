@@ -36,7 +36,7 @@ class _UserPageState extends State<GuidePage> {
             bottom: 50, // Height of the BottomNavigationBar
             child: IndexedStack(
               index: _selectedIndex,
-              children: [
+              children: const [
                 MapS(),
                 SocialMediaFeed(),
                 ChatSelectionPage(),
@@ -49,7 +49,7 @@ class _UserPageState extends State<GuidePage> {
             right: 0,
             bottom: 0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.transparent,
                 boxShadow: [
                   BoxShadow(
@@ -60,7 +60,7 @@ class _UserPageState extends State<GuidePage> {
                 ],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
                 ),
@@ -87,11 +87,11 @@ class _UserPageState extends State<GuidePage> {
                   selectedItemColor: Colors.black,
                   unselectedItemColor: Colors.grey[400],
                   backgroundColor: Colors.white,
-                  selectedIconTheme: IconThemeData(size: 32),
-                  unselectedIconTheme: IconThemeData(size: 28),
-                  selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
+                  selectedIconTheme: const IconThemeData(size: 32),
+                  unselectedIconTheme: const IconThemeData(size: 28),
+                  selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
                   unselectedLabelStyle:
-                      TextStyle(fontWeight: FontWeight.normal),
+                      const TextStyle(fontWeight: FontWeight.normal),
                   showUnselectedLabels: false,
                   type: BottomNavigationBarType.fixed,
                   showSelectedLabels: false,

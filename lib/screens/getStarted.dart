@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localize_sl/screens/authentication/authenticate.dart';
 
-import 'wrapper.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -115,7 +114,7 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Authenticate()),
+                        MaterialPageRoute(builder: (context) => const Authenticate()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -136,7 +135,7 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Authenticate()),
+                        MaterialPageRoute(builder: (context) => const Authenticate()),
                       );
                     },
                     style: ElevatedButton.styleFrom(

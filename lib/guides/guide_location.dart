@@ -6,7 +6,7 @@ import 'package:localize_sl/guide_pages/guide_list_page.dart';
 class GuidePlace extends StatelessWidget {
   final String place;
 
-  GuidePlace({required this.place});
+  const GuidePlace({super.key, required this.place});
 
   Future<List<Map<String, dynamic>>> fetchGuides() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
@@ -29,11 +29,11 @@ class GuidePlace extends StatelessWidget {
       future: fetchGuides(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator(color: Colors.green));
+          return const Center(child: CircularProgressIndicator(color: Colors.green));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No Guides Found'));
+          return const Center(child: Text('No Guides Found'));
         } else {
           List<Map<String, dynamic>> guides = snapshot.data!;
           // Add the button to the guides list
@@ -43,14 +43,14 @@ class GuidePlace extends StatelessWidget {
 
           return ListView.separated(
             itemCount: guides.length,
-            separatorBuilder: (context, index) => SizedBox(height: 0),
+            separatorBuilder: (context, index) => const SizedBox(height: 0),
             itemBuilder: (context, index) {
               var item = guides[index];
               if (item.containsKey('isButton') && item['isButton']) {
                 // Render the button here
                 return Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
                   child: TextButton.icon(
                     onPressed: () {
                       Navigator.push(
@@ -63,12 +63,12 @@ class GuidePlace extends StatelessWidget {
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Colors.green, width: 1),
+                        side: const BorderSide(color: Colors.green, width: 1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    icon: Icon(Icons.add, color: Colors.green),
-                    label: Text(
+                    icon: const Icon(Icons.add, color: Colors.green),
+                    label: const Text(
                       'See all Guides and Businesses',
                       style: TextStyle(color: Colors.green, fontSize: 16),
                     ),
@@ -90,9 +90,9 @@ class GuidePlace extends StatelessWidget {
                   },
                   child: Column(
                     children: [
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Padding(
-                        padding: EdgeInsets.all(0),
+                        padding: const EdgeInsets.all(0),
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(18),
@@ -110,7 +110,7 @@ class GuidePlace extends StatelessWidget {
                                   flex: 1,
                                   child: ClipRRect(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(12)),
+                                        const BorderRadius.all(Radius.circular(12)),
                                     child: Image.network(
                                       guide['profileImageUrl'],
                                       height: 100,
@@ -118,27 +118,27 @@ class GuidePlace extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(width: 18),
+                                const SizedBox(width: 18),
                                 Expanded(
                                   flex: 1,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      SizedBox(height: 4),
+                                      const SizedBox(height: 4),
                                       Text(
                                         guide['username'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(height: 6),
+                                      const SizedBox(height: 6),
                                       Row(
                                         children: [
-                                          Icon(Icons.location_on_outlined,
+                                          const Icon(Icons.location_on_outlined,
                                               color: Colors.grey),
-                                          SizedBox(width: 4),
+                                          const SizedBox(width: 4),
                                           Text(
                                             '${guide['location']}',
                                             style: TextStyle(
@@ -148,19 +148,19 @@ class GuidePlace extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      SizedBox(height: 8),
+                                      const SizedBox(height: 8),
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          Icon(Icons.star,
+                                          const Icon(Icons.star,
                                               color: Colors.orange),
-                                          SizedBox(width: 4),
+                                          const SizedBox(width: 4),
                                           Text('${guide['rating']}'),
-                                          SizedBox(width: 4),
+                                          const SizedBox(width: 4),
                                         ],
                                       ),
-                                      SizedBox(height: 4),
+                                      const SizedBox(height: 4),
                                     ],
                                   ),
                                 ),
@@ -169,7 +169,7 @@ class GuidePlace extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                     ],
                   ),
                 );

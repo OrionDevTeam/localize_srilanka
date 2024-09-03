@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 class EditMemoryPage extends StatefulWidget {
   final String memoryId;
 
-  EditMemoryPage({required this.memoryId});
+  const EditMemoryPage({super.key, required this.memoryId});
 
   @override
   _EditMemoryPageState createState() => _EditMemoryPageState();
@@ -112,7 +112,7 @@ class _EditMemoryPageState extends State<EditMemoryPage> {
       ),
       body: SingleChildScrollView(
         child: _thumbnailPath == null
-            ? Center(child: CircularProgressIndicator(color: Colors.green))
+            ? const Center(child: CircularProgressIndicator(color: Colors.green))
             : Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -155,7 +155,7 @@ class _EditMemoryPageState extends State<EditMemoryPage> {
                     Center(
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF2A966C),
+                            backgroundColor: const Color(0xFF2A966C),
                             foregroundColor: Colors.white),
                         onPressed: _updateMemory,
                         child: const Text('Update'),

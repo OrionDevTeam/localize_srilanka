@@ -7,10 +7,12 @@ import 'guide_model.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,24 +20,26 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: GuidesList(),
+      home: const GuidesList(),
     );
   }
 }
 
 class GuideListPage extends StatelessWidget {
+  const GuideListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Guides'),
+        title: const Text('Guides'),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('guides').snapshots(),
         builder: (context,
             AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
           if (!snapshot.hasData) {
-            return Center(
+            return const Center(
                 child: CircularProgressIndicator(
               color: Colors.green,
             ));

@@ -12,7 +12,7 @@ import 'guidereel.dart';
 class FullScreenPostDialogx extends StatefulWidget {
   final Postx ost;
 
-  FullScreenPostDialogx({required this.ost});
+  const FullScreenPostDialogx({super.key, required this.ost});
 
   @override
   _FullScreenPostDialogState createState() => _FullScreenPostDialogState();
@@ -75,12 +75,12 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
     }
   }
 
-  Offset _fabPosition = Offset(0, 180); // Initial position
+  final Offset _fabPosition = const Offset(0, 180); // Initial position
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.all(0),
+      insetPadding: const EdgeInsets.all(0),
       backgroundColor: Colors.black,
       child: VisibilityDetector(
         key: Key(widget.ost.downloadURL),
@@ -122,20 +122,20 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                             child: FittedBox(
                               fit: BoxFit.cover,
                               child: SizedBox(
-                                width: _controller.value.size?.width ?? 0,
-                                height: _controller.value.size?.height ?? 0,
+                                width: _controller.value.size.width ?? 0,
+                                height: _controller.value.size.height ?? 0,
                                 child: VideoPlayer(_controller),
                               ),
                             ),
                           ),
                           if (!_controller.value.isPlaying)
-                            Icon(Icons.play_arrow,
+                            const Icon(Icons.play_arrow,
                                 size: 40.0, color: Colors.white),
                         ],
                       ),
                     );
                   } else {
-                    return Center(
+                    return const Center(
                         child: CircularProgressIndicator(color: Colors.green));
                   }
                 },
@@ -227,7 +227,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                     Navigator.pop(context);
                   },
                   child: Container(
-                    child: Icon(
+                    child: const Icon(
                       Icons.close,
                       color: Colors.white,
                       size: 32,
@@ -252,8 +252,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                 right: 0,
                 child: Container(
                   height: 40,
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(8),
+                  decoration: const BoxDecoration(
                     color: Colors.white70,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(32),
@@ -268,9 +268,9 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                           PageRouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) {
-                              return GuidePage();
+                              return const GuidePage();
                             },
-                            transitionDuration: Duration(milliseconds: 500),
+                            transitionDuration: const Duration(milliseconds: 500),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               const begin =
@@ -288,7 +288,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                           ),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         "Book Now",
                         style: TextStyle(
                           fontFamily: 'Poppins',
@@ -315,7 +315,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                               return GuideProfilePage(
                                   userId: widget.ost.userId);
                             },
-                            transitionDuration: Duration(milliseconds: 500),
+                            transitionDuration: const Duration(milliseconds: 500),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               const begin =
@@ -337,7 +337,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                         backgroundImage: NetworkImage(widget.ost.profileUrl),
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -351,7 +351,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                                   return GuideProfilePage(
                                       userId: widget.ost.userId);
                                 },
-                                transitionDuration: Duration(milliseconds: 500),
+                                transitionDuration: const Duration(milliseconds: 500),
                                 transitionsBuilder: (context, animation,
                                     secondaryAnimation, child) {
                                   const begin = Offset(
@@ -371,7 +371,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                           },
                           child: Text(
                             widget.ost.username,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -379,7 +379,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                         ),
                         Text(
                           widget.ost.type,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white70,
                           ),
                         ),
@@ -402,10 +402,10 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                         color: widget.ost.isLiked ? Colors.red : Colors.white,
                       ),
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       '${widget.ost.like_count}',
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -419,7 +419,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
                   widget.ost.caption,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -436,11 +436,13 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogx> {
 }
 
 class GuidePage extends StatelessWidget {
+  const GuidePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Guide Page')),
-      body: Center(child: Text('Guide Page Content')),
+      appBar: AppBar(title: const Text('Guide Page')),
+      body: const Center(child: Text('Guide Page Content')),
     );
   }
 }

@@ -6,8 +6,7 @@ import 'chat.dart';
 class ChatSelectionPage extends StatefulWidget {
   final bool showBackButton;
 
-  const ChatSelectionPage({Key? key, this.showBackButton = false})
-      : super(key: key);
+  const ChatSelectionPage({super.key, this.showBackButton = false});
 
   @override
   _ChatSelectionPageState createState() => _ChatSelectionPageState();
@@ -57,38 +56,36 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
 
       for (var chatDoc in chatsSnapshot.docs) {
         final chatData = chatDoc.data();
-        if (chatData != null) {
-          String? otherUserId;
-          String? userRole;
+        String? otherUserId;
+        String? userRole;
 
-          print('_currentUserRole: $_currentUserRole');
+        print('_currentUserRole: $_currentUserRole');
 
-          if (_currentUserRole == 'Guide') {
-            if (chatData['GuideID'] == _currentUser.uid) {
-              otherUserId = chatData['UserID'];
-              userRole = 'User';
-            }
-          } else if (_currentUserRole == 'user') {
-            if (chatData['UserID'] == _currentUser.uid) {
-              otherUserId = chatData['GuideID'];
-              userRole = 'Guide';
-            }
+        if (_currentUserRole == 'Guide') {
+          if (chatData['GuideID'] == _currentUser.uid) {
+            otherUserId = chatData['UserID'];
+            userRole = 'User';
           }
-
-          if (otherUserId != null && userRole != null) {
-            print('Fetching user data for userID: $otherUserId');
-            final otherUserData = await fetchUserData(otherUserId);
-            if (otherUserData != null) {
-              print("Adding chat");
-              chats.add({
-                'chatID': chatDoc.id,
-                'otherUserData': otherUserData,
-                'userRole': userRole,
-              });
-            }
+        } else if (_currentUserRole == 'user') {
+          if (chatData['UserID'] == _currentUser.uid) {
+            otherUserId = chatData['GuideID'];
+            userRole = 'Guide';
           }
         }
-      }
+
+        if (otherUserId != null && userRole != null) {
+          print('Fetching user data for userID: $otherUserId');
+          final otherUserData = await fetchUserData(otherUserId);
+          if (otherUserData != null) {
+            print("Adding chat");
+            chats.add({
+              'chatID': chatDoc.id,
+              'otherUserData': otherUserData,
+              'userRole': userRole,
+            });
+          }
+        }
+            }
 
       setState(() {
         _chats = chats;
@@ -152,14 +149,14 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0), // Adjust the height as needed
+        preferredSize: const Size.fromHeight(100.0), // Adjust the height as needed
         child: ClipRRect(
-          borderRadius: BorderRadius.vertical(
+          borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(18.0)), // Add border radius to the bottom
           child: AppBar(
-            backgroundColor: Color(0xFF2A966C),
+            backgroundColor: const Color(0xFF2A966C),
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(60.0),
+              preferredSize: const Size.fromHeight(60.0),
               child: Column(
                 children: [
                   Padding(
@@ -169,7 +166,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                         filled: true,
                         fillColor: Colors.white,
                         hintText: 'Search',
-                        prefixIcon: Icon(Icons.search),
+                        prefixIcon: const Icon(Icons.search),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                               12.0), // Border radius for the TextField
@@ -185,7 +182,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
         ),
       ),
       body: _chats.isEmpty
-          ? Center(child: CircularProgressIndicator(color: Colors.green))
+          ? const Center(child: CircularProgressIndicator(color: Colors.green))
           : ListView.builder(
               itemCount: _chats.length,
               itemBuilder: (context, index) {
@@ -194,7 +191,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                     chat['otherUserData'] as Map<String, dynamic>;
                 return Column(
                   children: [
-                    Row(
+                    const Row(
                       children: [
                         Expanded(
                           child: Divider(
@@ -221,7 +218,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                       ],
                     ),
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(
+                      contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16.0,
                           vertical: 8.0), // Adjust padding as needed
                       leading: CircleAvatar(
@@ -231,7 +228,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                       ),
                       title: Text(
                         otherUserData['username'] ?? '',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16.0, // Adjust the font size
                           fontWeight: FontWeight.bold, // Make the username bold
                           color: Colors.black, // Set the text color
@@ -239,13 +236,13 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                       ),
                       subtitle: Text(
                         chat['userRole'] ?? '',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize:
                               14.0, // Adjust the font size for the subtitle
                           color: Colors.grey, // Set the subtitle color
                         ),
                       ),
-                      trailing: Column(
+                      trailing: const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(

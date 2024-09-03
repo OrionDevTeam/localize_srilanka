@@ -3,19 +3,23 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: ReservationScreen(),
     );
   }
 }
 
 class ReservationScreen extends StatefulWidget {
+  const ReservationScreen({super.key});
+
   @override
   _ReservationScreenState createState() => _ReservationScreenState();
 }
@@ -51,14 +55,14 @@ class _ReservationScreenState extends State<ReservationScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Reserve",
+        title: const Text("Reserve",
         style: TextStyle(
             fontWeight: FontWeight.bold,
         ),),
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {},
         ),
       ),
@@ -66,7 +70,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             DropdownButton<String>(
               value: selectedMonth,
               items: List.generate(12, (index) {
@@ -83,8 +87,8 @@ class _ReservationScreenState extends State<ReservationScreen> {
                 });
               },
             ),
-            SizedBox(height: 20),
-            Container(
+            const SizedBox(height: 20),
+            SizedBox(
               height: 80,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -102,7 +106,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                       width: 60,
                       height: 60,
                       padding: const EdgeInsets.all(0),
-                      margin: EdgeInsets.symmetric(horizontal: 4),
+                      margin: const EdgeInsets.symmetric(horizontal: 4),
                       decoration: BoxDecoration(
                         color: selectedDateIndex == index ? Colors.teal : Colors.white,
                         border: Border.all(
@@ -134,7 +138,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                 },
               ),
             ),
-            SizedBox(height: 60),
+            const SizedBox(height: 60),
             Column(
               children: List.generate(timeSlots.length, (index) {
                 return GestureDetector(
@@ -144,7 +148,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                     });
                   },
                   child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 4),
+                    margin: const EdgeInsets.symmetric(vertical: 4),
                     decoration: BoxDecoration(
                       color: selectedTimeSlotIndex == index ? Colors.teal : Colors.white,
                       border: Border.all(
@@ -171,7 +175,7 @@ class _ReservationScreenState extends State<ReservationScreen> {
                           color: selectedTimeSlotIndex == index ? Colors.teal : Colors.transparent,
                         ),
                         child: selectedTimeSlotIndex == index
-                            ? Icon(
+                            ? const Icon(
                                 Icons.check,
                                 color: Colors.white,
                                 size: 16,
@@ -184,24 +188,24 @@ class _ReservationScreenState extends State<ReservationScreen> {
               }),
             ),
         
-            Spacer(),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {},
-              child: Text("Continue",
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 22, 156, 140),
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: const Text("Continue",
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight:FontWeight.bold,
                 color: Colors.white,
               ) ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 22, 156, 140),
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),

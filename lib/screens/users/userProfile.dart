@@ -5,7 +5,6 @@ import 'package:localize_sl/screens/users/user_help.dart';
 import 'package:localize_sl/screens/users/user_settings.dart';
 import 'package:localize_sl/screens/users/user_wallet.dart';
 
-import '../../get_started.dart';
 import '../getStarted.dart';
 
 class userProfilePage extends StatelessWidget {
@@ -134,7 +133,7 @@ class userProfilePage extends StatelessWidget {
             onTap1: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UserSettingsPage()),
+                MaterialPageRoute(builder: (context) => const UserSettingsPage()),
               );
             },
             onTap2: () {},
@@ -160,21 +159,21 @@ class userProfilePage extends StatelessWidget {
             onTap1: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => WalletPage()),
+                MaterialPageRoute(builder: (context) => const WalletPage()),
               );
             },
             onTap2: () {},
           ),
           ClickableContainer(
             icon: Icons.logout_outlined,
-            iconColor: Color(0xFF2A966C),
+            iconColor: const Color(0xFF2A966C),
             title: 'Logout',
             subtitle: 'Sign out of your account',
             onTap: () {
               signOut();
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                MaterialPageRoute(builder: (context) => const WelcomeScreen()),
               );
             },
           ),
@@ -186,7 +185,7 @@ class userProfilePage extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => NeedHelpPage()),
+                MaterialPageRoute(builder: (context) => const NeedHelpPage()),
               );
             },
           ),
@@ -208,13 +207,13 @@ class ClickableContainer extends StatelessWidget {
   final VoidCallback onTap;
 
   const ClickableContainer({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.onTap,
     this.iconColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -225,8 +224,8 @@ class ClickableContainer extends StatelessWidget {
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: Container(
-            padding: EdgeInsets.all(16),
-            margin: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(20),
@@ -242,7 +241,7 @@ class ClickableContainer extends StatelessWidget {
               children: [
                 // Leading Icon
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: iconColor?.withOpacity(0.3) ??
                         Colors.blue.withOpacity(0.3),
@@ -253,7 +252,7 @@ class ClickableContainer extends StatelessWidget {
                     color: iconColor ?? Colors.blue[700],
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 // Title and Subtitle
                 Expanded(
                   child: Column(
@@ -261,7 +260,7 @@ class ClickableContainer extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -273,7 +272,7 @@ class ClickableContainer extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.grey,
                 ),
@@ -294,7 +293,7 @@ class DoubleClickableContainer extends StatelessWidget {
   final VoidCallback onTap1, onTap2;
 
   const DoubleClickableContainer({
-    Key? key,
+    super.key,
     required this.icon1,
     required this.icon2,
     required this.title1,
@@ -305,13 +304,13 @@ class DoubleClickableContainer extends StatelessWidget {
     required this.onTap2,
     this.iconColor1,
     this.iconColor2,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -334,7 +333,7 @@ class DoubleClickableContainer extends StatelessWidget {
                   children: [
                     // Leading Icon
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: iconColor1?.withOpacity(0.3) ??
                             Colors.blue.withOpacity(0.3),
@@ -345,7 +344,7 @@ class DoubleClickableContainer extends StatelessWidget {
                         color: iconColor1 ?? Colors.blue[700],
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     // Title and Subtitle
                     Expanded(
                       child: Column(
@@ -353,7 +352,7 @@ class DoubleClickableContainer extends StatelessWidget {
                         children: [
                           Text(
                             title1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -365,7 +364,7 @@ class DoubleClickableContainer extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward_ios,
                       color: Colors.grey,
                     ),
@@ -374,10 +373,10 @@ class DoubleClickableContainer extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           // add a divider
-          Divider(),
-          SizedBox(height: 8),
+          const Divider(),
+          const SizedBox(height: 8),
 
           GestureDetector(
             onTap: onTap2,
@@ -388,7 +387,7 @@ class DoubleClickableContainer extends StatelessWidget {
                   children: [
                     // Leading Icon
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: iconColor2?.withOpacity(0.3) ??
                             Colors.blue.withOpacity(0.3),
@@ -399,7 +398,7 @@ class DoubleClickableContainer extends StatelessWidget {
                         color: iconColor2 ?? Colors.blue[700],
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     // Title and Subtitle
                     Expanded(
                       child: Column(
@@ -407,7 +406,7 @@ class DoubleClickableContainer extends StatelessWidget {
                         children: [
                           Text(
                             title2,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -419,7 +418,7 @@ class DoubleClickableContainer extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward_ios,
                       color: Colors.grey,
                     ),
@@ -442,7 +441,7 @@ class DoubleTClickableContainer extends StatelessWidget {
   final VoidCallback onTap1, onTap2;
 
   const DoubleTClickableContainer({
-    Key? key,
+    super.key,
     required this.icon1,
     required this.icon2,
     required this.title1,
@@ -453,13 +452,13 @@ class DoubleTClickableContainer extends StatelessWidget {
     required this.onTap2,
     this.iconColor1,
     this.iconColor2,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -482,7 +481,7 @@ class DoubleTClickableContainer extends StatelessWidget {
                   children: [
                     // Leading Icon
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: iconColor1?.withOpacity(0.3) ??
                             Colors.blue.withOpacity(0.3),
@@ -493,7 +492,7 @@ class DoubleTClickableContainer extends StatelessWidget {
                         color: iconColor1 ?? Colors.blue[700],
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     // Title and Subtitle
                     Expanded(
                       child: Column(
@@ -501,7 +500,7 @@ class DoubleTClickableContainer extends StatelessWidget {
                         children: [
                           Text(
                             title1,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -513,7 +512,7 @@ class DoubleTClickableContainer extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Icon(
+                    const Icon(
                       Icons.arrow_forward_ios,
                       color: Colors.grey,
                     ),
@@ -522,10 +521,10 @@ class DoubleTClickableContainer extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           // add a divider
-          Divider(),
-          SizedBox(height: 8),
+          const Divider(),
+          const SizedBox(height: 8),
 
           GestureDetector(
             onTap: onTap2,
@@ -536,7 +535,7 @@ class DoubleTClickableContainer extends StatelessWidget {
                   children: [
                     // Leading Icon
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: iconColor2?.withOpacity(0.3) ??
                             Colors.blue.withOpacity(0.3),
@@ -547,7 +546,7 @@ class DoubleTClickableContainer extends StatelessWidget {
                         color: iconColor2 ?? Colors.blue[700],
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     // Title and Subtitle
                     Expanded(
                       child: Column(
@@ -555,7 +554,7 @@ class DoubleTClickableContainer extends StatelessWidget {
                         children: [
                           Text(
                             title2,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),

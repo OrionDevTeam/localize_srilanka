@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,7 @@ Future<String> fetchApiKey() {
 class MyApp extends StatelessWidget {
   final String apiKey;
 
-  MyApp({required this.apiKey});
+  const MyApp({super.key, required this.apiKey});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +49,7 @@ class MyApp extends StatelessWidget {
 class MapScreen extends StatefulWidget {
   final String apiKey;
 
-  MapScreen({required this.apiKey});
+  const MapScreen({super.key, required this.apiKey});
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -67,7 +66,7 @@ class _MapScreenState extends State<MapScreen> {
     zoom: 14.58,
   );
 
-  Set<Marker> _markers = {};
+  final Set<Marker> _markers = {};
   final LatLng _center = const LatLng(5.937675, 80.465649);
 
   @override
@@ -105,11 +104,11 @@ class _MapScreenState extends State<MapScreen> {
             right: 16,
             child: Container(
               height: 48,
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(32),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     blurRadius: 8,
@@ -118,11 +117,11 @@ class _MapScreenState extends State<MapScreen> {
               ),
               child: Row(
                 children: [
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       controller: _searchController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Search for a place...',
                         border: InputBorder.none,
                       ),
@@ -130,7 +129,7 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.search, color: Colors.blue),
+                    icon: const Icon(Icons.search, color: Colors.blue),
                     onPressed: _searchPlace,
                   ),
                 ],
@@ -229,7 +228,7 @@ class _MapScreenState extends State<MapScreen> {
             // width to be determined based on the content
             // screens 80%
 
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.transparent,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25),
@@ -274,7 +273,7 @@ class _MapScreenState extends State<MapScreen> {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('markers').get();
 
-    querySnapshot.docs.forEach((doc) {
+    for (var doc in querySnapshot.docs) {
       // Check if the document contains the expected fields
       if (doc.exists &&
           doc.data() != null &&
@@ -299,7 +298,7 @@ class _MapScreenState extends State<MapScreen> {
         print('Document ${doc.id} is missing expected fields.');
         print("-------------------------------------------");
       }
-    });
+    }
 
     return markers;
   }
@@ -313,7 +312,7 @@ class LocationCard extends StatelessWidget {
   final List<String> tags;
   final String n;
 
-  LocationCard({
+  const LocationCard({super.key, 
     required this.n,
     required this.tags,
     required this.imageUrl,
@@ -335,7 +334,7 @@ class LocationCard extends StatelessWidget {
             child: Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
                   ),
@@ -351,7 +350,7 @@ class LocationCard extends StatelessWidget {
                   left: 0,
                   right: 0,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(16),
                       topRight: Radius.circular(16),
                     ),
@@ -359,17 +358,17 @@ class LocationCard extends StatelessWidget {
                       filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                       child: Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         color: Colors.black.withOpacity(0.4),
                         child: Column(
                           children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                SizedBox(width: 8),
+                                const SizedBox(width: 8),
                                 Text(
                                   title,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -383,16 +382,16 @@ class LocationCard extends StatelessWidget {
                                 Container(
                                   child: Row(
                                     children: [
-                                      SizedBox(width: 8),
-                                      Icon(
+                                      const SizedBox(width: 8),
+                                      const Icon(
                                         Icons.location_on_outlined,
                                         color: Colors.white,
                                         size: 12,
                                       ),
-                                      SizedBox(width: 4),
+                                      const SizedBox(width: 4),
                                       Text(
                                         location,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.white,
                                         ),
                                       ),
@@ -405,18 +404,18 @@ class LocationCard extends StatelessWidget {
                                       Container(
                                         child: Row(
                                           children: [
-                                            Icon(Icons.star,
+                                            const Icon(Icons.star,
                                                 color: Colors.orange),
-                                            SizedBox(width: 4),
+                                            const SizedBox(width: 4),
                                             Text(
                                               rating.toString(),
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Colors.white,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            SizedBox(width: 4),
+                                            const SizedBox(width: 4),
                                           ],
                                         ),
                                       ),
@@ -434,44 +433,44 @@ class LocationCard extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             height: 100,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 Row(
                   children: [
-                    SizedBox(width: 18),
+                    const SizedBox(width: 18),
                     Text(
                       "Guides offer $n experiences here",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 4,
                 ),
                 // Tags
                 Row(
                   children: [
-                    SizedBox(width: 18),
+                    const SizedBox(width: 18),
                     for (var tag in tags) ...{
                       Chip(
                         label: Text(tag),
-                        backgroundColor: Color(0xFFE4E7E9),
-                        labelStyle: TextStyle(color: Color(0xFF169C8C)),
+                        backgroundColor: const Color(0xFFE4E7E9),
+                        labelStyle: const TextStyle(color: Color(0xFF169C8C)),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
-                            side: BorderSide(color: Color(0xFF169C8C))),
+                            side: const BorderSide(color: Color(0xFF169C8C))),
                       ),
-                      SizedBox(width: 8),
+                      const SizedBox(width: 8),
                     }
                   ],
                 )

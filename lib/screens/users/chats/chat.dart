@@ -17,10 +17,10 @@ class ChatPage extends StatefulWidget {
   final Map<String, dynamic> guideData;
 
   const ChatPage({
-    Key? key,
+    super.key,
     required this.chatId,
     required this.guideData,
-  }) : super(key: key);
+  });
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -52,7 +52,7 @@ class _ChatPageState extends State<ChatPage> {
         id: guideId,
       );
     } else {
-      _otherUser = types.User(
+      _otherUser = const types.User(
         id: 'default_user_id',
       );
     }
@@ -73,7 +73,7 @@ class _ChatPageState extends State<ChatPage> {
 
     // Upload image or video to Firebase Storage
     if (message is types.ImageMessage) {
-      final imageMessage = message as types.ImageMessage;
+      final imageMessage = message;
       final file = File(imageMessage.uri);
 
       // Create reference to storage path
@@ -92,7 +92,7 @@ class _ChatPageState extends State<ChatPage> {
       // Update message JSON with download URL
       messageJson['uri'] = downloadUrl.toString();
     } else if (message is types.VideoMessage) {
-      final videoMessage = message as types.VideoMessage;
+      final videoMessage = message;
       final file = File(videoMessage.uri);
 
       // Create reference to storage path
@@ -137,24 +137,24 @@ class _ChatPageState extends State<ChatPage> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Photo'),
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Photo'),
               onTap: () {
                 Navigator.pop(context);
                 _handleImageSelection(ImageSource.gallery);
               },
             ),
             ListTile(
-              leading: Icon(Icons.videocam),
-              title: Text('Video'),
+              leading: const Icon(Icons.videocam),
+              title: const Text('Video'),
               onTap: () {
                 Navigator.pop(context);
                 _handleVideoSelection();
               },
             ),
             ListTile(
-              leading: Icon(Icons.cancel),
-              title: Text('Cancel'),
+              leading: const Icon(Icons.cancel),
+              title: const Text('Cancel'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -197,15 +197,15 @@ class _ChatPageState extends State<ChatPage> {
     );
 
     if (result != null) {
-      final videoFile = File(result.path!);
+      final videoFile = File(result.path);
 
       final message = types.VideoMessage(
         author: _currentUser,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: path.basename(result.path!),
+        name: path.basename(result.path),
         size: videoFile.lengthSync(),
-        uri: result.path!,
+        uri: result.path,
       );
 
       _addMessage(message);
@@ -240,11 +240,11 @@ class _ChatPageState extends State<ChatPage> {
             CircleAvatar(
               backgroundImage: _guideProfileImageUrl.isNotEmpty
                   ? NetworkImage(_guideProfileImageUrl)
-                  : AssetImage('assets/default_profile_image.jpg')
+                  : const AssetImage('assets/default_profile_image.jpg')
                       as ImageProvider,
               radius: 20,
             ),
-            SizedBox(width: 14),
+            const SizedBox(width: 14),
             GestureDetector(
               onTap: () {
                 if (_guideUserRole == "Guide") {
@@ -265,9 +265,9 @@ class _ChatPageState extends State<ChatPage> {
                   Text('${widget.guideData['username']}'),
                   Text(
                     'LOCALIZE ${_guideUserRole.toUpperCase()}',
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 12,
-                        color: const Color.fromARGB(137, 22, 1, 1)),
+                        color: Color.fromARGB(137, 22, 1, 1)),
                   ),
                 ],
               ),
@@ -285,9 +285,9 @@ class _ChatPageState extends State<ChatPage> {
         stream: _messagesStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading messages'));
+            return const Center(child: Text('Error loading messages'));
           }
 
           _messages = snapshot.data ?? [];
@@ -299,16 +299,14 @@ class _ChatPageState extends State<ChatPage> {
               print('Message tapped: ${message.id}');
             },
             onSendPressed: (message) {
-              if (message is types.PartialText) {
-                final textMessage = types.TextMessage(
-                  author: _currentUser,
-                  createdAt: DateTime.now().millisecondsSinceEpoch,
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  text: message.text,
-                );
-                _addMessage(textMessage);
-              }
-            },
+              final textMessage = types.TextMessage(
+                author: _currentUser,
+                createdAt: DateTime.now().millisecondsSinceEpoch,
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                text: message.text,
+              );
+              _addMessage(textMessage);
+                        },
             user: _currentUser,
           );
         },

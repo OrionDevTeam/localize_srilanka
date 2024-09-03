@@ -13,11 +13,13 @@ class VacationDetailPage extends StatelessWidget {
     'assets/biru/image_3.jpg',
   ];
 
+  VacationDetailPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,7 +38,7 @@ class VacationDetailPage extends StatelessWidget {
                   top: 16.0,
                   left: 16.0,
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -44,19 +46,19 @@ class VacationDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Camping',
               style: TextStyle(
                 fontSize: 28.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Row(
               children: [
                 Icon(Icons.location_on, color: Colors.grey[600]),
-                SizedBox(width: 4.0),
+                const SizedBox(width: 4.0),
                 Text(
                   'Mountain Resort',
                   style: TextStyle(
@@ -66,7 +68,7 @@ class VacationDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               'Enjoy your camping with warmth and amazing sightseeing on the mountains. Enjoy the best experience with us!',
               style: TextStyle(
@@ -74,15 +76,15 @@ class VacationDetailPage extends StatelessWidget {
                 color: Colors.grey[600],
               ),
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Preview',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             CarouselSlider(
               options: CarouselOptions(
                 height: 200.0,
@@ -96,7 +98,7 @@ class VacationDetailPage extends StatelessWidget {
                 child: Image.asset(item, fit: BoxFit.cover, width: 1000.0),
               )).toList(),
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -105,11 +107,17 @@ class VacationDetailPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ReservationScreen(),
+                        builder: (context) => const ReservationScreen(),
                       ),
                     );
                   },
-                  child: Text(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 22, 156, 140),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                  child: const Text(
                     "Reserve",
                     style: TextStyle(
                       fontSize: 20.0,
@@ -117,16 +125,10 @@ class VacationDetailPage extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 22, 156, 140),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                  ),
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
           ],
         ),
       ),

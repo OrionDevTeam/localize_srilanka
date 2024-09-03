@@ -60,7 +60,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     _fetchUserRole();
   }
 
-  Offset _fabPosition = Offset(0, 140); // Initial position
+  final Offset _fabPosition = const Offset(0, 140); // Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -118,23 +118,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               : const AssetImage('assets/placeholder.jpg'),
                         ),
                       ),
-                      SizedBox(width: 16),
+                      const SizedBox(width: 16),
                       Expanded(
                         flex: 4,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Mr.${userName}' ?? "",
-                              style: TextStyle(
+                              userName ?? "",
+                              style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(height: 2),
+                            const SizedBox(height: 2),
                             Row(
                               children: [
                                 Text(
-                                  '${userEmail}',
-                                  style: TextStyle(color: Colors.black),
+                                  userEmail,
+                                  style: const TextStyle(color: Colors.black),
                                   textAlign: TextAlign.start,
                                 ),
                               ],
@@ -149,8 +149,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
               ),
             ),
             Container(
-              height: 700,
-              decoration: BoxDecoration(
+              height: 1000,
+              decoration: const BoxDecoration(
                 color: Colors.white, // Add background color here
               ),
               child: userProfilePage(),

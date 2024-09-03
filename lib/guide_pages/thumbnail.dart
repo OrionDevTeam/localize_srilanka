@@ -8,13 +8,13 @@ class ShortVideoThumbnail extends StatelessWidget {
   const ShortVideoThumbnail({
     required this.imageRef,
     required this.description,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
    Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         image: DecorationImage(
@@ -25,7 +25,7 @@ class ShortVideoThumbnail extends StatelessWidget {
       child: Center(
         child: Text(
           description,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16.0,
             fontWeight: FontWeight.bold,
             color: Colors.white,

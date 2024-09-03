@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: ProfileScreen(),
     );
   }
 }
 
 class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
         elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.settings, color: Colors.black),
+            icon: const Icon(Icons.settings, color: Colors.black),
             onPressed: () {},
           ),
         ],
@@ -39,24 +43,24 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage(
+                      backgroundImage: const AssetImage(
                           'assets/profile.jpg'), // Replace with your image asset
                       backgroundColor: Colors.grey[200],
                     ),
-                    SizedBox(height: 16),
-                    Text(
+                    const SizedBox(height: 16),
+                    const Text(
                       'Mr. Vimosh V',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 4),
-                    Text(
+                    const SizedBox(height: 4),
+                    const Text(
                       'Age 25, No:29, Wellawaya Highway, Ella',
                       style: TextStyle(color: Colors.grey),
                       textAlign: TextAlign.center,
                     ),
-                    SizedBox(height: 4),
-                    Row(
+                    const SizedBox(height: 4),
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.star, color: Colors.orange),
@@ -64,15 +68,15 @@ class ProfileScreen extends StatelessWidget {
                             style: TextStyle(color: Colors.black)),
                       ],
                     ),
-                    SizedBox(height: 4),
-                    Text(
+                    const SizedBox(height: 4),
+                    const Text(
                       'Verified Guide',
                       style: TextStyle(color: Colors.green),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -82,7 +86,7 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => WalletScreen()),
+                        MaterialPageRoute(builder: (context) => const WalletScreen()),
                       );
                     },
                   ),
@@ -93,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ActivityScreen()),
+                            builder: (context) => const ActivityScreen()),
                       );
                     },
                   ),
@@ -103,7 +107,7 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => HelpScreen()),
+                        MaterialPageRoute(builder: (context) => const HelpScreen()),
                       );
                     },
                   ),
@@ -123,8 +127,8 @@ class ProfileButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
 
-  ProfileButton(
-      {required this.icon, required this.label, required this.onPressed});
+  const ProfileButton(
+      {super.key, required this.icon, required this.label, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -133,15 +137,15 @@ class ProfileButton extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: Colors.black),
           ),
-          SizedBox(height: 8),
-          Text(label, style: TextStyle(color: Colors.black)),
+          const SizedBox(height: 8),
+          Text(label, style: const TextStyle(color: Colors.black)),
         ],
       ),
     );
@@ -149,13 +153,15 @@ class ProfileButton extends StatelessWidget {
 }
 
 class WalletScreen extends StatelessWidget {
+  const WalletScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wallet'),
+        title: const Text('Wallet'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Wallet Screen'),
       ),
     );
@@ -163,13 +169,15 @@ class WalletScreen extends StatelessWidget {
 }
 
 class ActivityScreen extends StatelessWidget {
+  const ActivityScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Activity'),
+        title: const Text('Activity'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Activity Screen'),
       ),
     );
@@ -177,13 +185,15 @@ class ActivityScreen extends StatelessWidget {
 }
 
 class HelpScreen extends StatelessWidget {
+  const HelpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Help'),
+        title: const Text('Help'),
       ),
-      body: Center(
+      body: const Center(
         child: Text('Help Screen'),
       ),
     );

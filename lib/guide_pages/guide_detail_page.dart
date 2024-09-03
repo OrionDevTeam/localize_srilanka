@@ -9,7 +9,7 @@ import 'guide_model.dart';
 class GuideDetailPage extends StatefulWidget {
   final String userId;
 
-  GuideDetailPage({required this.userId});
+  const GuideDetailPage({super.key, required this.userId});
 
   @override
   _GuideDetailPageState createState() => _GuideDetailPageState();
@@ -79,9 +79,9 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
     if (isLoading) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Guide Profile'),
+          title: const Text('Guide Profile'),
         ),
-        body: Center(
+        body: const Center(
           child: CircularProgressIndicator(
             color: Colors.green,
           ),
@@ -92,9 +92,9 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
     if (guide == null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Guide Profile'),
+          title: const Text('Guide Profile'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('Guide not found.'),
         ),
       );
@@ -102,7 +102,7 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Profile',
           style: TextStyle(fontSize: 20),
         ),
@@ -117,7 +117,7 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
               CircleAvatar(
@@ -125,49 +125,49 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                 backgroundImage: guide!.profileImageUrl.isNotEmpty
                     ? NetworkImage(guide!.profileImageUrl)
                         as ImageProvider // Cast to ImageProvider
-                    : AssetImage(
+                    : const AssetImage(
                         'assets/placeholder.jpg'), // Placeholder image asset path
               ),
 
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Text(
                 guide!.username,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               Text(
                 'LOCALIZE ${guide!.user_role.toUpperCase()}',
-                style: TextStyle(
-                    fontSize: 16, color: const Color.fromARGB(137, 22, 1, 1)),
+                style: const TextStyle(
+                    fontSize: 16, color: Color.fromARGB(137, 22, 1, 1)),
               ),
-              SizedBox(height: 8.0),
+              const SizedBox(height: 8.0),
               Text(
                 guide!.bio,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+                style: const TextStyle(fontSize: 16, color: Colors.grey),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     children: [
-                      Icon(Icons.star),
+                      const Icon(Icons.star),
                       Text('${guide!.reviews} reviews'),
                     ],
                   ),
                   Column(
                     children: [
                       Row(
-                        children: [Text("${guide!.Average_hourly_rate}")],
+                        children: [Text(guide!.Average_hourly_rate)],
                       ),
-                      Text(
+                      const Text(
                           '  Average Hourly rate'), // Example, adjust as per your structure
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
-              Divider(),
+              const SizedBox(height: 16.0),
+              const Divider(),
               // Navigation Bar
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -178,18 +178,18 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                   _buildNavItem(Icons.contact_mail, 'Contact Me', 3),
                 ],
               ),
-              Divider(),
-              SizedBox(height: 16.0),
+              const Divider(),
+              const SizedBox(height: 16.0),
               // Content based on selected index
               if (_selectedIndex == 0) ...[
-                Text(
+                const Text(
                   'Available Packages',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 CarouselSlider.builder(
                   options: CarouselOptions(
                     height: 300.0,
@@ -197,8 +197,8 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                     enableInfiniteScroll: true,
                     autoPlay: true,
                     viewportFraction: 0.5,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayInterval: const Duration(seconds: 3),
+                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
                   ),
                   itemCount: guide!.packages.length,
                   itemBuilder: (context, index, realIdx) {
@@ -219,15 +219,15 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                     );
                   },
                 ),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   'Experiences',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 CarouselSlider.builder(
                   options: CarouselOptions(
                     height: 200.0,
@@ -235,8 +235,8 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                     enableInfiniteScroll: true,
                     autoPlay: true,
                     viewportFraction: 0.8,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayInterval: const Duration(seconds: 3),
+                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
                   ),
                   itemCount: guide!.experiences.length,
                   itemBuilder: (context, index, realIdx) {
@@ -272,9 +272,9 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                 //     fontWeight: FontWeight.bold,
                 //   ),
                 // ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 if (memories.isEmpty)
-                  Center(
+                  const Center(
                       child: CircularProgressIndicator(
                     color: Colors.green,
                   ))
@@ -292,7 +292,7 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
               ] else if (_selectedIndex == 3) ...[
                 ContactPage(guide: guide!),
               ],
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               // ElevatedButton(
               //   onPressed: () {
               //     // Handle book mentoring
@@ -335,13 +335,13 @@ class ShortVideoThumbnail extends StatelessWidget {
   const ShortVideoThumbnail({
     required this.imageRef,
     required this.description,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         image: DecorationImage(
@@ -352,7 +352,7 @@ class ShortVideoThumbnail extends StatelessWidget {
       child: Center(
         child: Text(
           description,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
             backgroundColor: Colors.black54,
@@ -370,13 +370,13 @@ class ExperienceThumbnail extends StatelessWidget {
   const ExperienceThumbnail({
     required this.imageRef,
     required this.description,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         image: DecorationImage(
@@ -387,7 +387,7 @@ class ExperienceThumbnail extends StatelessWidget {
       child: Center(
         child: Text(
           description,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
             backgroundColor: Colors.black54,
@@ -413,8 +413,8 @@ class ServiceCard extends StatelessWidget {
     required this.description,
     required this.attendees,
     required this.imageRef,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -435,7 +435,7 @@ class ServiceCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                 ),
                 Text('$day, $time'),
                 Text(description),
@@ -456,8 +456,8 @@ class MemoryGridItem extends StatelessWidget {
   const MemoryGridItem({
     required this.imageRef,
     required this.description,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -475,7 +475,7 @@ class MemoryGridItem extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               description,
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
           ),
         ],

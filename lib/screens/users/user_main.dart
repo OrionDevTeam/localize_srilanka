@@ -33,7 +33,7 @@ class _UserPageState extends State<UserPage> {
         children: [
           IndexedStack(
             index: _selectedIndex,
-            children: [
+            children: const [
               MapS(),
               SocialMediaFeed(),
               ChatSelectionPage(),
@@ -43,9 +43,9 @@ class _UserPageState extends State<UserPage> {
           Positioned(
             left: 10,
             right: 10,
-            bottom: 10,
+            bottom: 20,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.transparent,
                 boxShadow: [
                   BoxShadow(
@@ -56,7 +56,7 @@ class _UserPageState extends State<UserPage> {
                 ],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: const BorderRadius.all(Radius.circular(35)),
                 child: BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
@@ -84,8 +84,8 @@ class _UserPageState extends State<UserPage> {
                   selectedItemColor: Colors.white,
                   unselectedItemColor: const Color.fromARGB(192, 189, 189, 189),
                   backgroundColor: Colors.black,
-                  selectedIconTheme: IconThemeData(size: 32),
-                  unselectedIconTheme: IconThemeData(size: 28),
+                  selectedIconTheme: const IconThemeData(size: 32),
+                  unselectedIconTheme: const IconThemeData(size: 28),
                   // selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                   // unselectedLabelStyle:
                   //     TextStyle(fontWeight: FontWeight.normal),

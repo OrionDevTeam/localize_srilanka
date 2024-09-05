@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:localize_sl/guides/guide_detail_page.dart';
+import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:localize_sl/screens/reels/fullscreen.dart';
 import 'package:video_player/video_player.dart';
@@ -80,13 +80,15 @@ Future<Map<String, dynamic>> getUserDetails(String userId) async {
 
 //
 class SocialMediaFeed extends StatefulWidget {
+  const SocialMediaFeed({super.key});
+
   @override
   _SocialMediaFeedState createState() => _SocialMediaFeedState();
 }
 
 class _SocialMediaFeedState extends State<SocialMediaFeed> {
   final TextEditingController _searchController = TextEditingController();
-  Offset _fabPosition = Offset(0, 180); // Initial position
+  final Offset _fabPosition = const Offset(0, 180); // Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -96,11 +98,11 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
         padding: const EdgeInsets.all(0),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
                 height: 40), // Add some space at the top (status bar height)
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              margin: EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              margin: const EdgeInsets.only(bottom: 8),
               child: Row(
                 children: [
                   // Search bar and filter icon
@@ -114,14 +116,14 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
                       ),
                       child: Row(
                         children: [
-                          SizedBox(width: 12),
-                          Icon(Icons.search, color: Colors.grey),
-                          SizedBox(width: 16),
+                          const SizedBox(width: 12),
+                          const Icon(Icons.search, color: Colors.grey),
+                          const SizedBox(width: 16),
                           Expanded(
                             child: Center(
                               child: TextField(
                                 controller: _searchController,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: 'Search here ..',
                                   border: InputBorder.none,
                                 ),
@@ -132,8 +134,8 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 8), // Space between search and filter icon
-                  Expanded(
+                  const SizedBox(width: 8), // Space between search and filter icon
+                  const Expanded(
                     flex: 1,
                     child: Icon(Iconsax.filter, color: Colors.grey),
                   ),
@@ -147,7 +149,7 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   var posts = snapshot.data!.docs;
@@ -176,7 +178,7 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
                     future: Future.wait(futurePosts),
                     builder: (context, futureSnapshot) {
                       if (!futureSnapshot.hasData) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       }
                       var posts = futureSnapshot.data!;
 
@@ -185,11 +187,11 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
                         itemCount:
                             posts.length + 1, // +1 for the SizedBox at the end
                         separatorBuilder: (context, index) =>
-                            SizedBox(height: 12.0), // Gap between posts
+                            const SizedBox(height: 12.0), // Gap between posts
                         itemBuilder: (context, index) {
                           if (index == posts.length) {
                             // Return the SizedBox at the end of the list
-                            return SizedBox(height: 30.0);
+                            return const SizedBox(height: 30.0);
                           }
                           return PostWidget(post: posts[index]);
                         },
@@ -210,7 +212,7 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
 class PostWidget extends StatefulWidget {
   final Post post;
 
-  PostWidget({required this.post});
+  const PostWidget({super.key, required this.post});
 
   @override
   _PostWidgetState createState() => _PostWidgetState();
@@ -282,7 +284,7 @@ class _PostWidgetState extends State<PostWidget> {
         barrierDismissible:
             true, // Allows the dialog to be dismissed by tapping outside
         transitionDuration:
-            Duration(milliseconds: 500), // Transition animation duration
+            const Duration(milliseconds: 500), // Transition animation duration
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           const begin = Offset(0.0, 1.0); // Slide from bottom to top
           const end = Offset.zero;
@@ -322,7 +324,7 @@ class _PostWidgetState extends State<PostWidget> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(18),
-                    child: Container(
+                    child: SizedBox(
                       width: 343,
                       height: 343,
                       child: FutureBuilder(
@@ -332,8 +334,9 @@ class _PostWidgetState extends State<PostWidget> {
                               ConnectionState.done) {
                             return GestureDetector(
                               onTap: () {
-                                if (_isDisposed)
+                                if (_isDisposed) {
                                   return; // Prevent tapping if disposed
+                                }
 
                                 setState(() {
                                   if (_controller.value.isPlaying) {
@@ -357,13 +360,13 @@ class _PostWidgetState extends State<PostWidget> {
                                     ),
                                   ),
                                   if (!_controller.value.isPlaying)
-                                    Icon(Icons.play_arrow,
+                                    const Icon(Icons.play_arrow,
                                         size: 40.0, color: Colors.white),
                                 ],
                               ),
                             );
                           } else {
-                            return Center(
+                            return const Center(
                                 child: CircularProgressIndicator(
                                     color: Colors.green));
                           }
@@ -375,8 +378,8 @@ class _PostWidgetState extends State<PostWidget> {
                     top: 20,
                     child: Container(
                       height: 40,
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
                         color: Colors.white70,
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(32),
@@ -386,7 +389,7 @@ class _PostWidgetState extends State<PostWidget> {
                       child: Center(
                         child: Text(
                           widget.post.location,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,
                             fontSize: 14,
@@ -400,8 +403,8 @@ class _PostWidgetState extends State<PostWidget> {
                     right: 0,
                     child: Container(
                       height: 40,
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
+                      padding: const EdgeInsets.all(8),
+                      decoration: const BoxDecoration(
                         color: Colors.white70,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(32),
@@ -420,7 +423,7 @@ class _PostWidgetState extends State<PostWidget> {
                                     guideId: widget.post.userId,
                                   );
                                 },
-                                transitionDuration: Duration(milliseconds: 500),
+                                transitionDuration: const Duration(milliseconds: 500),
                                 transitionsBuilder: (context, animation,
                                     secondaryAnimation, child) {
                                   const begin = Offset(
@@ -438,7 +441,7 @@ class _PostWidgetState extends State<PostWidget> {
                               ),
                             );
                           },
-                          child: Text(
+                          child: const Text(
                             "Book Now",
                             style: TextStyle(
                               fontFamily: 'Poppins',
@@ -466,7 +469,7 @@ class _PostWidgetState extends State<PostWidget> {
                                     userId: widget.post.userId,
                                   );
                                 },
-                                transitionDuration: Duration(milliseconds: 500),
+                                transitionDuration: const Duration(milliseconds: 500),
                                 transitionsBuilder: (context, animation,
                                     secondaryAnimation, child) {
                                   const begin = Offset(
@@ -489,7 +492,7 @@ class _PostWidgetState extends State<PostWidget> {
                                 NetworkImage(widget.post.profileUrl),
                           ),
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -505,7 +508,7 @@ class _PostWidgetState extends State<PostWidget> {
                                       );
                                     },
                                     transitionDuration:
-                                        Duration(milliseconds: 500),
+                                        const Duration(milliseconds: 500),
                                     transitionsBuilder: (context, animation,
                                         secondaryAnimation, child) {
                                       const begin = Offset(
@@ -527,7 +530,7 @@ class _PostWidgetState extends State<PostWidget> {
                               },
                               child: Text(
                                 widget.post.username,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -535,7 +538,7 @@ class _PostWidgetState extends State<PostWidget> {
                             ),
                             Text(
                               widget.post.type,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white70,
                               ),
                             ),
@@ -559,10 +562,10 @@ class _PostWidgetState extends State<PostWidget> {
                                 widget.post.isLiked ? Colors.red : Colors.white,
                           ),
                         ),
-                        SizedBox(width: 4),
+                        const SizedBox(width: 4),
                         Text(
                           '${widget.post.like_count}',
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
@@ -575,7 +578,7 @@ class _PostWidgetState extends State<PostWidget> {
                       widget.post.caption,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -598,7 +601,7 @@ class UserProfile {}
 class VideoPlayerWidget extends StatefulWidget {
   final Post post;
 
-  VideoPlayerWidget({required this.post});
+  const VideoPlayerWidget({super.key, required this.post});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -647,18 +650,18 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                     fit: BoxFit.cover,
                     child: SizedBox(
                       width: _controller.value.size.width ?? 0,
-                      height: _controller.value.size?.height ?? 0,
+                      height: _controller.value.size.height ?? 0,
                       child: VideoPlayer(_controller),
                     ),
                   ),
                 ),
                 if (!_controller.value.isPlaying)
-                  Icon(Icons.play_arrow, size: 40.0, color: Colors.white),
+                  const Icon(Icons.play_arrow, size: 40.0, color: Colors.white),
               ],
             ),
           );
         } else {
-          return Center(child: CircularProgressIndicator(color: Colors.green));
+          return const Center(child: CircularProgressIndicator(color: Colors.green));
         }
       },
     );

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class HotelDetailsPage extends StatelessWidget {
-  HotelDetailsPage({
+  const HotelDetailsPage({
     super.key,
   });
 
@@ -20,7 +20,7 @@ class HotelDetailsPage extends StatelessWidget {
     TextEditingController paymentController = TextEditingController();
     TextEditingController placeController = TextEditingController();
 
-    File? _image;
+    File? image;
 
     showDialog(
       context: context,
@@ -28,48 +28,48 @@ class HotelDetailsPage extends StatelessWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text('Marker Details'),
+              title: const Text('Marker Details'),
               content: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     TextField(
                       controller: descriptionController,
-                      decoration: InputDecoration(labelText: 'Description'),
+                      decoration: const InputDecoration(labelText: 'Description'),
                     ),
                     TextField(
                       controller: idController,
-                      decoration: InputDecoration(labelText: 'id'),
+                      decoration: const InputDecoration(labelText: 'id'),
                     ),
                     TextField(
                       controller: locationController,
-                      decoration: InputDecoration(labelText: 'location'),
+                      decoration: const InputDecoration(labelText: 'location'),
                     ),
                     TextField(
                       controller: nameController,
-                      decoration: InputDecoration(labelText: 'name'),
+                      decoration: const InputDecoration(labelText: 'name'),
                     ),
                     TextField(
                       controller: paymentController,
-                      decoration: InputDecoration(labelText: 'payment'),
+                      decoration: const InputDecoration(labelText: 'payment'),
                     ),
                     TextField(
                       controller: ratingController,
-                      decoration: InputDecoration(labelText: 'rating'),
+                      decoration: const InputDecoration(labelText: 'rating'),
                     ),
                     TextField(
                       controller: noRatingController,
-                      decoration: InputDecoration(labelText: 'norating'),
+                      decoration: const InputDecoration(labelText: 'norating'),
                     ),
                     TextField(
                       controller: placeController,
-                      decoration: InputDecoration(labelText: 'place'),
+                      decoration: const InputDecoration(labelText: 'place'),
                     ),
-                    SizedBox(height: 20),
-                    _image == null
-                        ? Text('No image selected.')
-                        : Image.file(_image!),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
+                    image == null
+                        ? const Text('No image selected.')
+                        : Image.file(image!),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
                         final XFile? pickedFile = await ImagePicker()
@@ -77,13 +77,13 @@ class HotelDetailsPage extends StatelessWidget {
 
                         setState(() {
                           if (pickedFile != null) {
-                            _image = File(pickedFile.path);
+                            image = File(pickedFile.path);
                           } else {
                             print('No image selected.');
                           }
                         });
                       },
-                      child: Text('Pick Image'),
+                      child: const Text('Pick Image'),
                     ),
                   ],
                 ),
@@ -115,21 +115,21 @@ class HotelDetailsPage extends StatelessWidget {
                       'payment': payment,
                       'place': place,
                       'rating': rating,
-                      'imageUrl': _image != null
+                      'imageUrl': image != null
                           ? await uploadImageAndReturnUrl(
-                              _image!, place, context)
+                              image!, place, context)
                           : null,
                     });
 
                     Navigator.of(context).pop(); // Close the dialog
                   },
-                  child: Text('Save'),
+                  child: const Text('Save'),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(); // Close the dialog
                   },
-                  child: Text('Cancel'),
+                  child: const Text('Cancel'),
                 ),
               ],
             );
@@ -152,14 +152,14 @@ class HotelDetailsPage extends StatelessWidget {
 
       print('Uploaded image URL: $downloadUrl');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Image uploaded successfully!')),
+        const SnackBar(content: Text('Image uploaded successfully!')),
       );
 
       return downloadUrl;
     } catch (e) {
       print('Failed to upload image: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to upload image.')),
+        const SnackBar(content: Text('Failed to upload image.')),
       );
       return ''; // Handle error case
     }
@@ -169,14 +169,14 @@ class HotelDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hotel Details'),
+        title: const Text('Hotel Details'),
       ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
             _setDetailsDialog(context);
           },
-          child: Text('Add Hotel Details'),
+          child: const Text('Add Hotel Details'),
         ),
       ),
     );

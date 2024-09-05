@@ -1,8 +1,6 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/floating_chat.dart';
 import 'package:localize_sl/guides/guide_location.dart';
 
@@ -19,7 +17,7 @@ class Location extends StatefulWidget {
   final List<String> tags;
   final String n;
 
-  Location({
+  const Location({super.key, 
     required this.imageUrl,
     required this.place,
     required this.description,
@@ -59,9 +57,9 @@ class _LocationState extends State<Location>
               .get();
       print('hotelSnapshots: ${hotelSnapshots.docs}');
       print('hotelSnapshots: ${hotelSnapshots.docs.length}');
-      hotelSnapshots.docs.forEach((doc) {
+      for (var doc in hotelSnapshots.docs) {
         hotelList.add(doc.data()); // Add the hotel details to the list
-      });
+      }
       print('hotelList: $hotelList');
 
       return hotelList;
@@ -77,7 +75,7 @@ class _LocationState extends State<Location>
     super.dispose();
   }
 
-  Offset _fabPosition = Offset(0, 180); // Initial position
+  final Offset _fabPosition = const Offset(0, 180); // Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +83,7 @@ class _LocationState extends State<Location>
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
           // style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
@@ -99,7 +97,7 @@ class _LocationState extends State<Location>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(18)),
+                    borderRadius: const BorderRadius.all(Radius.circular(18)),
                     child: Image.network(
                       widget.imageUrl,
                       height: 300,
@@ -107,17 +105,17 @@ class _LocationState extends State<Location>
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.location_on_outlined, color: Colors.green),
-                          SizedBox(width: 4),
+                          const Icon(Icons.location_on_outlined, color: Colors.green),
+                          const SizedBox(width: 4),
                           Text(
                             widget.location,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -127,11 +125,11 @@ class _LocationState extends State<Location>
                       ),
                       Row(
                         children: [
-                          Icon(Icons.star, color: Colors.orange),
-                          SizedBox(width: 4),
+                          const Icon(Icons.star, color: Colors.orange),
+                          const SizedBox(width: 4),
                           Text(
                             widget.rating,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -141,7 +139,7 @@ class _LocationState extends State<Location>
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                     widget.description,
                     style: TextStyle(
@@ -150,10 +148,10 @@ class _LocationState extends State<Location>
                       color: Colors.grey[600],
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   TabBar(
                     controller: _tabController,
-                    tabs: [
+                    tabs: const [
                       Tab(
                         text: 'Guides',
                         icon: Icon(Icons.person_outline_rounded),
@@ -172,11 +170,11 @@ class _LocationState extends State<Location>
                       ),
                     ],
                     dividerColor: Colors.transparent,
-                    indicatorColor: Color(0xFF2A966C),
-                    labelColor: Color(0xFF2A966C),
+                    indicatorColor: const Color(0xFF2A966C),
+                    labelColor: const Color(0xFF2A966C),
                     unselectedLabelColor: Colors.grey[600],
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                    labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    overlayColor: WidgetStateProperty.all(Colors.transparent),
                   ),
                   SizedBox(
                     height: 300, // Set a fixed height for the TabBarView
@@ -193,7 +191,7 @@ class _LocationState extends State<Location>
                         Adventures(
                           place: widget.title,
                         ),
-                        Center(child: Text('Explore Groceries')),
+                        const Center(child: Text('Explore Groceries')),
                       ],
                     ),
                   ),
@@ -211,7 +209,7 @@ class _LocationState extends State<Location>
 class HotelList extends StatelessWidget {
   final Future<List<Map<String, dynamic>>> hotelDetails;
 
-  HotelList({required this.hotelDetails});
+  const HotelList({super.key, required this.hotelDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -219,11 +217,11 @@ class HotelList extends StatelessWidget {
       future: hotelDetails,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator(color: Colors.green));
+          return const Center(child: CircularProgressIndicator(color: Colors.green));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No Hotels Found'));
+          return const Center(child: Text('No Hotels Found'));
         } else {
           List<Map<String, dynamic>> hotels = snapshot.data!;
           return Column(
@@ -231,7 +229,7 @@ class HotelList extends StatelessWidget {
               Expanded(
                 child: ListView.separated(
                   itemCount: hotels.length,
-                  separatorBuilder: (context, index) => SizedBox(height: 0),
+                  separatorBuilder: (context, index) => const SizedBox(height: 0),
                   itemBuilder: (context, index) {
                     var hotel = hotels[index];
                     return GestureDetector(
@@ -248,11 +246,11 @@ class HotelList extends StatelessWidget {
                       },
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Padding(
-                            padding: EdgeInsets.all(0),
+                            padding: const EdgeInsets.all(0),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(18),
@@ -269,7 +267,7 @@ class HotelList extends StatelessWidget {
                                     Expanded(
                                       flex: 1,
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                             Radius.circular(12)),
                                         child: Image.network(
                                           hotel['imageUrl'],
@@ -278,27 +276,27 @@ class HotelList extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 18),
+                                    const SizedBox(width: 18),
                                     Expanded(
                                       flex: 1,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(height: 4),
+                                          const SizedBox(height: 4),
                                           Text(
                                             hotel['name'],
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                               fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          SizedBox(height: 6),
+                                          const SizedBox(height: 6),
                                           Row(
                                             children: [
-                                              Icon(Icons.location_on_outlined,
+                                              const Icon(Icons.location_on_outlined,
                                                   color: Colors.grey),
-                                              SizedBox(width: 4),
+                                              const SizedBox(width: 4),
                                               Text(
                                                 '${hotel['location']}',
                                                 style: TextStyle(
@@ -308,21 +306,21 @@ class HotelList extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          SizedBox(height: 8),
+                                          const SizedBox(height: 8),
                                           Text('${hotel['payment']}/ Night'),
-                                          SizedBox(height: 4),
+                                          const SizedBox(height: 4),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             children: [
-                                              Icon(Icons.star,
+                                              const Icon(Icons.star,
                                                   color: Colors.orange),
-                                              SizedBox(width: 4),
+                                              const SizedBox(width: 4),
                                               Text('${hotel['rating']}'),
-                                              SizedBox(width: 4),
+                                              const SizedBox(width: 4),
                                             ],
                                           ),
-                                          SizedBox(height: 4),
+                                          const SizedBox(height: 4),
                                         ],
                                       ),
                                     ),
@@ -331,7 +329,7 @@ class HotelList extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           )
                         ],
@@ -351,7 +349,7 @@ class HotelList extends StatelessWidget {
 class Adventures extends StatelessWidget {
   final String place;
 
-  Adventures({required this.place});
+  const Adventures({super.key, required this.place});
 
   void _navigateTo(BuildContext context, Widget page) {
     Navigator.push(
@@ -370,12 +368,12 @@ class Adventures extends StatelessWidget {
           future: fetchAdventureDetails(place),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                   child: CircularProgressIndicator(color: Colors.green));
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No adventures available'));
+              return const Center(child: Text('No adventures available'));
             } else {
               final adventures = snapshot.data!;
               return SingleChildScrollView(
@@ -395,7 +393,7 @@ class Adventures extends StatelessWidget {
                           children: [
                             ClipRRect(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(18)),
+                                  const BorderRadius.all(Radius.circular(18)),
                               child: Image.asset(
                                 'assets/vimosh/${adventure.toLowerCase().replaceAll(' ', '_')}.jpg', // Assuming images are named like 'snorkelling.jpg' and 'surfing.jpg'
                                 height: 160,
@@ -418,7 +416,7 @@ class Adventures extends StatelessWidget {
                                     begin: Alignment.bottomCenter,
                                     end: Alignment.topCenter,
                                   ),
-                                  borderRadius: BorderRadius.only(
+                                  borderRadius: const BorderRadius.only(
                                     bottomLeft: Radius.circular(18),
                                     bottomRight: Radius.circular(18),
                                   ),
@@ -432,7 +430,7 @@ class Adventures extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   adventure,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,

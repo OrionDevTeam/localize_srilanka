@@ -83,7 +83,7 @@ Future<Map<String, dynamic>> getUserDetails(String userId) async {
 class ProfileFeed extends StatefulWidget {
   final String userId; // Add userId as a parameter
 
-  ProfileFeed({required this.userId}); // Pass userId to the constructor
+  const ProfileFeed({super.key, required this.userId}); // Pass userId to the constructor
 
   @override
   _SocialMediaFeedState createState() => _SocialMediaFeedState();
@@ -111,7 +111,7 @@ class _SocialMediaFeedState extends State<ProfileFeed> {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(
+                        return const Center(
                             child:
                                 CircularProgressIndicator(color: Colors.green));
                       }
@@ -144,7 +144,7 @@ class _SocialMediaFeedState extends State<ProfileFeed> {
                         future: Future.wait(futurePosts),
                         builder: (context, futureSnapshot) {
                           if (!futureSnapshot.hasData) {
-                            return Center(
+                            return const Center(
                                 child: CircularProgressIndicator(
                                     color: Colors.green));
                           }
@@ -153,7 +153,7 @@ class _SocialMediaFeedState extends State<ProfileFeed> {
                           // Adding one to the itemCount to include the extra SizedBox
                           return GridView.builder(
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, // Number of items per row
                               crossAxisSpacing: 1.0,
                               mainAxisSpacing: 1.0,
@@ -183,7 +183,7 @@ class _SocialMediaFeedState extends State<ProfileFeed> {
 class PostWidget extends StatefulWidget {
   final Postreel post;
 
-  PostWidget({required this.post});
+  const PostWidget({super.key, required this.post});
 
   @override
   _PostWidgetState createState() => _PostWidgetState();
@@ -271,14 +271,14 @@ class _PostWidgetState extends State<PostWidget> {
                         child: Container(
                           padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.vertical(
+                            borderRadius: const BorderRadius.vertical(
                                 bottom: Radius.circular(10.0)),
                             color: Colors.black.withOpacity(0.2),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              SizedBox(height: 4.0),
+                              const SizedBox(height: 4.0),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -300,12 +300,12 @@ class _PostWidgetState extends State<PostWidget> {
                         top: 5,
                         right: 5,
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.vertical(
                                 bottom: Radius.circular(10.0)),
                           ),
                           child: IconButton(
-                            icon: Icon(Icons.more_vert),
+                            icon: const Icon(Icons.more_vert),
                             color: Colors.white,
                             onPressed: () {
                               showDialog(
@@ -319,8 +319,8 @@ class _PostWidgetState extends State<PostWidget> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         ListTile(
-                                          leading: Icon(Icons.edit),
-                                          title: Text('Edit'),
+                                          leading: const Icon(Icons.edit),
+                                          title: const Text('Edit'),
                                           onTap: () {
                                             Navigator.of(context).pop();
 
@@ -329,8 +329,8 @@ class _PostWidgetState extends State<PostWidget> {
                                           },
                                         ),
                                         ListTile(
-                                          leading: Icon(Icons.delete),
-                                          title: Text('Delete'),
+                                          leading: const Icon(Icons.delete),
+                                          title: const Text('Delete'),
                                           onTap: () {
                                             Navigator.of(context).pop();
                                             _confirmDelete(
@@ -350,7 +350,7 @@ class _PostWidgetState extends State<PostWidget> {
                     ],
                   );
                 } else {
-                  return Center(
+                  return const Center(
                       child: CircularProgressIndicator(color: Colors.green));
                 }
               },
@@ -368,7 +368,7 @@ class UserProfile {}
 class VideoPlayerWidget extends StatefulWidget {
   final Postreel post;
 
-  VideoPlayerWidget({required this.post});
+  const VideoPlayerWidget({super.key, required this.post});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -417,18 +417,18 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                     fit: BoxFit.cover,
                     child: SizedBox(
                       width: _controller.value.size.width ?? 0,
-                      height: _controller.value.size?.height ?? 0,
+                      height: _controller.value.size.height ?? 0,
                       child: VideoPlayer(_controller),
                     ),
                   ),
                 ),
                 if (!_controller.value.isPlaying)
-                  Icon(Icons.play_arrow, size: 40.0, color: Colors.white),
+                  const Icon(Icons.play_arrow, size: 40.0, color: Colors.white),
               ],
             ),
           );
         } else {
-          return Center(child: CircularProgressIndicator(color: Colors.green));
+          return const Center(child: CircularProgressIndicator(color: Colors.green));
         }
       },
     );
@@ -444,8 +444,8 @@ void _confirmDelete(BuildContext context, String memoryId) {
       actions: <Widget>[
         TextButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Color(0xFF2A966C)),
-            foregroundColor: MaterialStateProperty.all(Colors.white),
+            backgroundColor: WidgetStateProperty.all(const Color(0xFF2A966C)),
+            foregroundColor: WidgetStateProperty.all(Colors.white),
           ),
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog
@@ -477,7 +477,7 @@ void _confirmDelete(BuildContext context, String memoryId) {
           },
           style: TextButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: Color(0xFF2A966C)),
+              foregroundColor: const Color(0xFF2A966C)),
           child: const Text("Delete"),
         ),
       ],

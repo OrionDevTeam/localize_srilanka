@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/floating_chat.dart';
 import 'package:localize_sl/screens/getStarted.dart';
 import 'package:localize_sl/screens/users/user_memories.dart';
@@ -149,42 +148,42 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                                           'assets/placeholder.jpg'),
                                 ),
                               ),
-                              SizedBox(width: 16),
+                              const SizedBox(width: 16),
                               Expanded(
                                 flex: 3,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      '${userName}' ?? "Unknown",
-                                      style: TextStyle(
+                                      userName ?? "Unknown",
+                                      style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(height: 2),
+                                    const SizedBox(height: 2),
                                     Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.location_on,
                                           color: Colors.grey,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 4,
                                         ),
                                         Text(
-                                          '${location}',
-                                          style: TextStyle(color: Colors.grey),
+                                          location,
+                                          style: const TextStyle(color: Colors.grey),
                                           textAlign: TextAlign.start,
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 2),
+                                    const SizedBox(height: 2),
                                     Row(
                                       children: [
-                                        Icon(Icons.star, color: Colors.orange),
+                                        const Icon(Icons.star, color: Colors.orange),
                                         Text('$rating ($reviews Reviews)',
                                             style:
-                                                TextStyle(color: Colors.black)),
+                                                const TextStyle(color: Colors.black)),
                                       ],
                                     ),
                                   ],
@@ -196,8 +195,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                           Container(
                             height: 0.5,
                             width: double.infinity,
-                            decoration: BoxDecoration(
-                                color: const Color.fromARGB(122, 0, 0, 0)),
+                            decoration: const BoxDecoration(
+                                color: Color.fromARGB(122, 0, 0, 0)),
                           ),
                           const SizedBox(height: 10),
                           Text(
@@ -219,7 +218,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                                 label: 'Wallet',
                                 onPressed: () => navigateToWallet(context),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 20,
                               ),
                               // ProfileButton for Activity
@@ -229,7 +228,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                                 onPressed: () => navigateToActivity(context),
                               ),
                               // ProfileButton for Help
-                              SizedBox(
+                              const SizedBox(
                                 width: 20,
                               ),
 
@@ -245,11 +244,11 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                       ),
                     ),
                     // add + icon in the end of the row to upload reel
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       child: Stack(
                         children: [
-                          Center(
+                          const Center(
                             child: Text(
                               'Memories',
                               style: TextStyle(
@@ -265,10 +264,10 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => MemoriesUploader()),
+                                      builder: (context) => const MemoriesUploader()),
                                 );
                               },
-                              child: Icon(Icons.add),
+                              child: const Icon(Icons.add),
                             ),
                           ),
                         ],
@@ -491,7 +490,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
 }
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
@@ -603,7 +602,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             );
                           },
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
+                            backgroundColor: WidgetStateProperty.all<Color>(
                               const Color(0xFF2A966C),
                             ),
                           ),
@@ -671,8 +670,8 @@ class _SettingsPageState extends State<SettingsPage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: Text("Modify Profile"),
-                                  content: Text(
+                                  title: const Text("Modify Profile"),
+                                  content: const Text(
                                       "If you want to modify your profile further, contact us to go through LOCALIZE verification process."),
                                   actions: <Widget>[
                                     TextButton(
@@ -680,7 +679,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         Navigator.of(context)
                                             .pop(); // Close the dialog
                                       },
-                                      child: Text("Cancel"),
+                                      child: const Text("Cancel"),
                                     ),
                                     TextButton(
                                       onPressed: () {
@@ -693,7 +692,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                           ),
                                         );
                                       },
-                                      child: Text("Contact Us"),
+                                      child: const Text("Contact Us"),
                                     ),
                                   ],
                                 );
@@ -755,7 +754,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Text(
                 title,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
@@ -765,7 +764,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Text(
                 subtext,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
                 ),
@@ -1125,8 +1124,8 @@ class ProfileButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
 
-  ProfileButton(
-      {required this.icon, required this.label, required this.onPressed});
+  const ProfileButton(
+      {super.key, required this.icon, required this.label, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -1136,10 +1135,10 @@ class ProfileButton extends StatelessWidget {
           onTap: onPressed,
           child: Container(
             constraints:
-                BoxConstraints(minWidth: 80), // Add min width constraint
-            padding: EdgeInsets.all(16),
+                const BoxConstraints(minWidth: 80), // Add min width constraint
+            padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Color(0xFF2A966C),
+              color: const Color(0xFF2A966C),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Column(
@@ -1149,9 +1148,9 @@ class ProfileButton extends StatelessWidget {
                   color: Colors.white,
                   size: 24,
                 ),
-                SizedBox(height: 3),
+                const SizedBox(height: 3),
                 Text(label,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white, fontWeight: FontWeight.bold)),
               ],
             ),

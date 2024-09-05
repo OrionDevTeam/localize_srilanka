@@ -37,7 +37,7 @@ Future<String> fetchApiKey() {
 class MyApp extends StatelessWidget {
   final String apiKey;
 
-  MyApp({required this.apiKey});
+  const MyApp({super.key, required this.apiKey});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
 class MapScreen extends StatefulWidget {
   final String apiKey;
 
-  MapScreen({required this.apiKey});
+  const MapScreen({super.key, required this.apiKey});
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -68,7 +68,7 @@ class _MapScreenState extends State<MapScreen> {
     zoom: 14.58,
   );
 
-  Set<Marker> _markers = {};
+  final Set<Marker> _markers = {};
   final LatLng _center = const LatLng(5.937675, 80.465649);
 
   @override
@@ -106,11 +106,11 @@ class _MapScreenState extends State<MapScreen> {
             right: 16,
             child: Container(
               height: 48,
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(32),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.black26,
                     blurRadius: 8,
@@ -119,11 +119,11 @@ class _MapScreenState extends State<MapScreen> {
               ),
               child: Row(
                 children: [
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
                       controller: _searchController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Search for a place...',
                         border: InputBorder.none,
                       ),
@@ -131,7 +131,7 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                   ),
                   IconButton(
-                    icon: Icon(Icons.search, color: Colors.blue),
+                    icon: const Icon(Icons.search, color: Colors.blue),
                     onPressed: _searchPlace,
                   ),
                 ],
@@ -212,7 +212,7 @@ class _MapScreenState extends State<MapScreen> {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('markers').get();
 
-    querySnapshot.docs.forEach((doc) {
+    for (var doc in querySnapshot.docs) {
       // Check if the document contains the expected fields
       if (doc.exists &&
           doc.data() != null &&
@@ -236,7 +236,7 @@ class _MapScreenState extends State<MapScreen> {
         print('Document ${doc.id} is missing expected fields.');
         print("-------------------------------------------");
       }
-    });
+    }
 
     return markers;
   }
@@ -250,7 +250,7 @@ _setDetailsDialog(BuildContext context, String markerId, LatLng latLng) {
   TextEditingController experience1Controller = TextEditingController();
   TextEditingController experience2Controller = TextEditingController();
   TextEditingController experience3Controller = TextEditingController();
-  File? _image;
+  File? image;
 
   showDialog(
     context: context,
@@ -258,40 +258,40 @@ _setDetailsDialog(BuildContext context, String markerId, LatLng latLng) {
       return StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
-            title: Text('Marker Details'),
+            title: const Text('Marker Details'),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   TextField(
                     controller: ratingController,
-                    decoration: InputDecoration(labelText: 'Rating'),
+                    decoration: const InputDecoration(labelText: 'Rating'),
                   ),
                   TextField(
                     controller: locationController,
-                    decoration: InputDecoration(labelText: 'Location'),
+                    decoration: const InputDecoration(labelText: 'Location'),
                   ),
                   TextField(
                     controller: nController,
-                    decoration: InputDecoration(labelText: 'N'),
+                    decoration: const InputDecoration(labelText: 'N'),
                   ),
                   TextField(
                     controller: experience1Controller,
-                    decoration: InputDecoration(labelText: 'Experience 1'),
+                    decoration: const InputDecoration(labelText: 'Experience 1'),
                   ),
                   TextField(
                     controller: experience2Controller,
-                    decoration: InputDecoration(labelText: 'Experience 2'),
+                    decoration: const InputDecoration(labelText: 'Experience 2'),
                   ),
                   TextField(
                     controller: experience3Controller,
-                    decoration: InputDecoration(labelText: 'Experience 3'),
+                    decoration: const InputDecoration(labelText: 'Experience 3'),
                   ),
-                  SizedBox(height: 20),
-                  _image == null
-                      ? Text('No image selected.')
-                      : Image.file(_image!),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  image == null
+                      ? const Text('No image selected.')
+                      : Image.file(image!),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () async {
                       final XFile? pickedFile = await ImagePicker()
@@ -299,13 +299,13 @@ _setDetailsDialog(BuildContext context, String markerId, LatLng latLng) {
 
                       setState(() {
                         if (pickedFile != null) {
-                          _image = File(pickedFile.path);
+                          image = File(pickedFile.path);
                         } else {
                           print('No image selected.');
                         }
                       });
                     },
-                    child: Text('Pick Image'),
+                    child: const Text('Pick Image'),
                   ),
                 ],
               ),
@@ -338,21 +338,21 @@ _setDetailsDialog(BuildContext context, String markerId, LatLng latLng) {
                     'location': location,
                     'n': '$n+',
                     'experiences': experiences,
-                    'imageUrl': _image != null
+                    'imageUrl': image != null
                         ? await uploadImageAndReturnUrl(
-                            _image!, markerId, context)
+                            image!, markerId, context)
                         : null,
                   });
 
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text('Save'),
+                child: const Text('Save'),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               ),
             ],
           );
@@ -375,14 +375,14 @@ Future<String> uploadImageAndReturnUrl(
 
     print('Uploaded image URL: $downloadUrl');
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Image uploaded successfully!')),
+      const SnackBar(content: Text('Image uploaded successfully!')),
     );
 
     return downloadUrl;
   } catch (e) {
     print('Failed to upload image: $e');
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to upload image.')),
+      const SnackBar(content: Text('Failed to upload image.')),
     );
     return ''; // Handle error case
   }

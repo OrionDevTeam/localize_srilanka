@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:localize_sl/guide_profile.dart';
 import 'chats/chatselection.dart';
-import 'package:localize_sl/screens/users/userProfile.dart';
 import 'package:localize_sl/user_profile.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../map/map_home.dart';
 import '../reels/reels.dart';
+import '../../home_screen.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -19,12 +19,31 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   int _selectedIndex = 0; // Add selected index for navigation
+  User? currentUser; // Variable to hold the logged-in user
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentUser(); // Get the logged-in user when the widget initializes
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
+
+  // Function to get the currently logged-in user
+  void _getCurrentUser() {
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        setState(() {
+          currentUser = user; // Set the current user
+        });
+      }
+    });
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +53,7 @@ class _UserPageState extends State<UserPage> {
           IndexedStack(
             index: _selectedIndex,
             children: [
+              HomeScreen(user: currentUser),
               MapS(),
               SocialMediaFeed(),
               ChatSelectionPage(),
@@ -43,9 +63,9 @@ class _UserPageState extends State<UserPage> {
           Positioned(
             left: 10,
             right: 10,
-            bottom: 10,
+            bottom: 20,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.transparent,
                 boxShadow: [
                   BoxShadow(
@@ -56,19 +76,23 @@ class _UserPageState extends State<UserPage> {
                 ],
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(20)),
+                borderRadius: const BorderRadius.all(Radius.circular(35)),
                 child: BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[
                     BottomNavigationBarItem(
                       icon: Icon(Iconsax.home_2),
-                      label: "Orders",
+                      label: "Home",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Iconsax.map),
+                      label: "Maps",
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(
                         Iconsax.video_play,
                         // size: 35,
                       ),
-                      label: "Home",
+                      label: "Reels",
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Iconsax.message),
@@ -84,8 +108,8 @@ class _UserPageState extends State<UserPage> {
                   selectedItemColor: Colors.white,
                   unselectedItemColor: const Color.fromARGB(192, 189, 189, 189),
                   backgroundColor: Colors.black,
-                  selectedIconTheme: IconThemeData(size: 32),
-                  unselectedIconTheme: IconThemeData(size: 28),
+                  selectedIconTheme: const IconThemeData(size: 32),
+                  unselectedIconTheme: const IconThemeData(size: 28),
                   // selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
                   // unselectedLabelStyle:
                   //     TextStyle(fontWeight: FontWeight.normal),

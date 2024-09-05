@@ -19,7 +19,7 @@ class Wrapper extends StatelessWidget {
     final user = Provider.of<User?>(context);
 
     if (user == null) {
-      return WelcomeScreen();
+      return const WelcomeScreen();
     } else {
       return FutureBuilder<DocumentSnapshot>(
         future:
@@ -74,10 +74,10 @@ class Wrapper extends StatelessWidget {
 
           switch (role) {
             case 'user':
-              return UserPage();
+              return const UserPage();
             // admin
             case 'admin':
-              return AdminPage();
+              return const AdminPage();
             case 'Guide':
               return const GuidePage();
             default:

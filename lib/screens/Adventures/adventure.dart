@@ -7,7 +7,7 @@ class AdventurePage extends StatefulWidget {
   final String place;
   final String adventure;
 
-  AdventurePage({required this.place, required this.adventure});
+  const AdventurePage({super.key, required this.place, required this.adventure});
 
   @override
   _SurfingPageState createState() => _SurfingPageState();
@@ -43,13 +43,13 @@ class _SurfingPageState extends State<AdventurePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '${widget.adventure}',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+              widget.adventure,
+              style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(
               'in ${widget.place}',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             )
           ],
         ),
@@ -59,12 +59,12 @@ class _SurfingPageState extends State<AdventurePage> {
         future: _surfingProviders,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
                 child: CircularProgressIndicator(color: Colors.green));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No Surfing Providers Found'));
+            return const Center(child: Text('No Surfing Providers Found'));
           } else {
             return ListView.builder(
               itemCount: snapshot.data!.length,
@@ -82,16 +82,16 @@ class _SurfingPageState extends State<AdventurePage> {
                     right: 12.0,
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.all(Radius.circular(18)),
+                      borderRadius: const BorderRadius.all(Radius.circular(18)),
                     ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(18)),
+                          borderRadius: const BorderRadius.all(Radius.circular(18)),
                           child: Image.network(
                             provider['titleImageUrl'],
                             height: 132,
@@ -101,30 +101,30 @@ class _SurfingPageState extends State<AdventurePage> {
                           ),
                         ),
 
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         // Provider details
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Text(
                                 '${provider['name']}!',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 5),
+                              const SizedBox(height: 5),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.star_half_outlined,
                                     size: 16,
                                     color: Colors.orange,
                                   ),
-                                  SizedBox(width: 5),
+                                  const SizedBox(width: 5),
                                   Text(
                                     provider['rating'].toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.grey),
@@ -133,7 +133,7 @@ class _SurfingPageState extends State<AdventurePage> {
                               ),
                               Row(
                                 children: [
-                                  Text(
+                                  const Text(
                                     'LKR ',
                                     style: TextStyle(
                                         fontSize: 14,
@@ -142,12 +142,12 @@ class _SurfingPageState extends State<AdventurePage> {
                                   ),
                                   Text(
                                     provider['rate'].toString(),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black),
                                   ),
-                                  Text(
+                                  const Text(
                                     ' / hour',
                                     style: TextStyle(
                                         fontSize: 14,
@@ -156,7 +156,7 @@ class _SurfingPageState extends State<AdventurePage> {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -177,11 +177,11 @@ class _SurfingPageState extends State<AdventurePage> {
                                       width: 124,
                                       height: 36,
                                       decoration: BoxDecoration(
-                                        color: Color(0xFFF0EFEF),
+                                        color: const Color(0xFFF0EFEF),
                                         borderRadius:
                                             BorderRadius.circular(24.0),
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text(
                                           'Book Now',
                                           style: TextStyle(

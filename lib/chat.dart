@@ -4,7 +4,7 @@ import 'package:dart_openai/dart_openai.dart';
 import 'package:localize_sl/secrets.dart';
 
 class ChatBotPage extends StatefulWidget {
-  const ChatBotPage({Key? key}) : super(key: key);
+  const ChatBotPage({super.key});
 
   @override
   State<ChatBotPage> createState() => _ChatBotPageState();
@@ -118,7 +118,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
         title: const Text('Chat with Vidara'),
       ),
       body: Center(
-        child: Container(
+        child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
           child: Column(
             children: [
@@ -211,7 +211,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
                       ),
                       const SizedBox(width: 10),
                       Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Color(
                               0xFF2A966C), // Set send button color to green
@@ -264,13 +264,13 @@ class _ChatBotPageState extends State<ChatBotPage> {
         Expanded(
           child: BubbleSpecialThree(
             text: text,
-            color: Color(0xFF2A966C),
+            color: const Color(0xFF2A966C),
             textStyle: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
-        CircleAvatar(
+        const CircleAvatar(
           backgroundColor: Color(0xFF2A966C),
-          child: const Icon(
+          child: Icon(
             Icons.person,
             color: Colors.white,
           ),
@@ -283,7 +283,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'Chat with Vidara \nYour AI Travel Assistant!',
           style: TextStyle(
             color: Color(0xFF2A966C), // Text color set to green
@@ -306,7 +306,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
           },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-            backgroundColor: Color(0xFF2A966C), // Button color set to green
+            backgroundColor: const Color(0xFF2A966C), // Button color set to green
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20), // Sharper edges
             ),
@@ -329,7 +329,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
           },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-            backgroundColor: Color(0xFF2A966C), // Button color set to green
+            backgroundColor: const Color(0xFF2A966C), // Button color set to green
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20), // Sharper edges
             ),
@@ -352,7 +352,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
           },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-            backgroundColor: Color(0xFF2A966C), // Button color set to green
+            backgroundColor: const Color(0xFF2A966C), // Button color set to green
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20), // Sharper edges
             ),

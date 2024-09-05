@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AdventureHomePage extends StatelessWidget {
   final Map<String, dynamic> provider;
 
-  AdventureHomePage({required this.provider});
+  const AdventureHomePage({super.key, required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class AdventureHomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -21,16 +21,16 @@ class AdventureHomePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(Icons.arrow_back_ios_new),
+                  icon: const Icon(Icons.arrow_back_ios_new),
                 ),
-                SizedBox(width: 25),
+                const SizedBox(width: 25),
                 Text(
                   'Surf with ${provider['name']} !',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ClipRRect(
               borderRadius: BorderRadius.circular(24),
               child: Image.network(
@@ -42,21 +42,21 @@ class AdventureHomePage extends StatelessWidget {
                   return Container(
                     height: 161,
                     color: Colors.grey,
-                    child: Center(
+                    child: const Center(
                       child: Icon(Icons.error),
                     ),
                   );
                 },
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         'LKR ',
                         style: TextStyle(
                             fontSize: 14,
@@ -65,12 +65,12 @@ class AdventureHomePage extends StatelessWidget {
                       ),
                       Text(
                         provider['rate'].toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
-                      Text(
+                      const Text(
                         ' / hour',
                         style: TextStyle(
                             fontSize: 14,
@@ -80,7 +80,7 @@ class AdventureHomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 ElevatedButton(
                   onPressed: () {
                     // Implement booking functionality here
@@ -102,12 +102,12 @@ class AdventureHomePage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               '${provider['about']}',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),

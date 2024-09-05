@@ -182,11 +182,11 @@ class AuthService {
         break;
       case 'Guide':
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => GuidePage()));
+            context, MaterialPageRoute(builder: (context) => const GuidePage()));
         break;
       case 'admin':
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => AdminPage()));
+            context, MaterialPageRoute(builder: (context) => const AdminPage()));
         break;
       default:
         ScaffoldMessenger.of(context).showSnackBar(

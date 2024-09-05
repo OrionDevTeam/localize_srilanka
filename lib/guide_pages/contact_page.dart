@@ -8,7 +8,7 @@ import 'package:localize_sl/screens/users/chats/chatselection.dart';
 class ContactPage extends StatefulWidget {
   final Guide guide;
 
-  ContactPage({required this.guide});
+  const ContactPage({super.key, required this.guide});
 
   @override
   _ContactPageState createState() => _ContactPageState();
@@ -56,11 +56,11 @@ class _ContactPageState extends State<ContactPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Chat Not Allowed'),
-            content: Text('A Guide or Business cannot initiate a chat.'),
+            title: const Text('Chat Not Allowed'),
+            content: const Text('A Guide or Business cannot initiate a chat.'),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -86,7 +86,7 @@ class _ContactPageState extends State<ContactPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ChatSelectionPage(
+            builder: (context) => const ChatSelectionPage(
               showBackButton: true, // Show back button on ChatSelectionPage
             ),
           ),
@@ -104,7 +104,7 @@ class _ContactPageState extends State<ContactPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatSelectionPage(
+              builder: (context) => const ChatSelectionPage(
                 showBackButton: true, // Show back button on ChatSelectionPage
               ),
             ),
@@ -121,21 +121,21 @@ class _ContactPageState extends State<ContactPage> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 16.0),
-        Text(
+        const SizedBox(height: 16.0),
+        const Text(
           'Contact Me',
           style: TextStyle(
             fontSize: 24.0,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 8.0),
-        Text(
+        const SizedBox(height: 8.0),
+        const Text(
           'Don\'t hesitate to contact me for \nbookings and if you have any \nsuggestions on how I \ncan improve my service',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 16.0),
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -157,12 +157,18 @@ class _ContactPageState extends State<ContactPage> {
             ),
           ],
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         SizedBox(
           width: double.infinity, // Full width
           child: ElevatedButton(
             onPressed: _handleChat,
-            child: Text(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF2A966C),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12), // Set border radius
+              ),
+            ),
+            child: const Text(
               'Chat',
               style: TextStyle(
                 color: Colors.white,
@@ -170,23 +176,17 @@ class _ContactPageState extends State<ContactPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF2A966C),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12), // Set border radius
-              ),
-            ),
           ),
         ),
-        SizedBox(height: 16.0),
-        Text(
+        const SizedBox(height: 16.0),
+        const Text(
           'Contact me in Social Media',
           style: TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 16.0),
+        const SizedBox(height: 16.0),
         ContactSocialMediaCard(
           icon: Icons.camera_alt,
           platform: 'Instagram',

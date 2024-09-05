@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/guide_pages/guide_detail_page.dart';
-import 'package:localize_sl/screens/users/chats/chat.dart';
 import 'package:localize_sl/screens/users/chats/chatselection.dart';
 
 import 'guidereel.dart';

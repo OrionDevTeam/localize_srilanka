@@ -5,8 +5,6 @@ import 'package:iconsax/iconsax.dart';
 
 import 'package:localize_sl/screens/users/userProfile.dart';
 
-import 'screens/getStarted.dart';
-import 'screens/wrapper.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});

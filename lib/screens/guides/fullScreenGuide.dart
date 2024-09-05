@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/floating_chat.dart';
 import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:video_player/video_player.dart';

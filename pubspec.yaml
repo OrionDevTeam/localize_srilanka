@@ -64,6 +64,8 @@ dependencies:
   video_thumbnail: ^0.5.3
   flutter_launcher_icons: ^0.13.1
   iconsax: ^0.0.8
+  flutter_svg: ^2.0.10
+  flutter_svg_provider: ^1.0.0
 
   path: any
   intl: any
@@ -98,6 +100,7 @@ flutter:
     - assets/biru/image_13.jpg
     - assets/icon/
     - assets/placeholder.jpg
+    - assets/features/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

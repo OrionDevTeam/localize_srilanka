@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomeScreen extends StatelessWidget {
-  final dynamic user; // Assuming user object is passed as a parameter
+  final dynamic user;
 
   const HomeScreen({super.key, this.user});
 
@@ -28,33 +29,27 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text("Localize Srilanka", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
                   // Search Bar
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: "Search...",
-                      prefixIcon: const Icon(Icons.search),
-                      filled: true, // This makes the search bar filled with a color
-                      fillColor: Colors.grey[200], // This sets the background color of the search bar
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: BorderSide.none, // Remove the border
-                      ),
-                      // enabledBorder: OutlineInputBorder(
-                      //   borderRadius: BorderRadius.circular(18),
-                      //   borderSide: BorderSide(
-                      //     color: Colors.green, // Set the color of the border when enabled
-                      //     width: 2.0, // Set the width of the border
-                      //   ),
-                      // ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(18),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF2A966C), // Set the color of the border when focused
-                          width: 2.0, // Set the width of the border
-                        ),
-                      ),
-                    ),
-                  ),
+                  // TextField(
+                  //   decoration: InputDecoration(
+                  //     hintText: "Search...",
+                  //     prefixIcon: const Icon(Icons.search),
+                  //     filled: true,
+                  //     fillColor: Colors.grey[200],
+                  //     border: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(18),
+                  //       borderSide: BorderSide.none,
+                  //     ),
+                  //     focusedBorder: OutlineInputBorder(
+                  //       borderRadius: BorderRadius.circular(18),
+                  //       borderSide: const BorderSide(
+                  //         color: Color(0xFF2A966C),
+                  //         width: 2.0,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(height: 20),
 
                   // Top Container with Images and Button
@@ -73,16 +68,36 @@ class HomeScreen extends StatelessWidget {
                     ),
                     child: Column(
                       children: [
-                        // Row with 5 Images
+                        // Row with 5 Images (SVG)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: List.generate(
-                            5,
-                            (index) => CircleAvatar(
+                          children: [
+                            CircleAvatar(
                               radius: 30,
-                              backgroundImage: AssetImage('assets/features/image$index.png'), // Replace with your image assets
+                              backgroundColor: Colors.transparent,
+                              child: SvgPicture.asset('assets/features/ticket.svg'),
                             ),
-                          ),
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.transparent,
+                              child: SvgPicture.asset('assets/features/hotel.svg'),
+                            ),
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.transparent,
+                              child: SvgPicture.asset('assets/features/sim.svg'),
+                            ),
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.transparent,
+                              child: SvgPicture.asset('assets/features/train.svg'),
+                            ),
+                            CircleAvatar(
+                              radius: 30,
+                              backgroundColor: Colors.transparent,
+                              child: SvgPicture.asset('assets/features/shopping.svg'),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 20),
                         // Full-width Button
@@ -93,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                               // Button action here
                             },
                             icon: const Icon(
-                              Iconsax.map,  // Use Iconsax.map or any other appropriate icon
+                              Iconsax.map,
                               color: Colors.white,
                             ),
                             label: const Text(
@@ -101,10 +116,11 @@ class HomeScreen extends StatelessWidget {
                               style: TextStyle(color: Colors.white),
                             ),
                             style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white, backgroundColor: const Color(0xFF2A966C),  // Set text color to white
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),  // Adjust padding as needed
+                              foregroundColor: Colors.white,
+                              backgroundColor: const Color(0xFF2A966C),
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),  // Optional: Set rounded corners
+                                borderRadius: BorderRadius.circular(20.0),
                               ),
                             ),
                           ),
@@ -121,23 +137,20 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Container with an Image
+                  // Container with an SVG Image
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AnotherPage()), // Replace with your target page
+                        MaterialPageRoute(builder: (context) => const AnotherPage()),
                       );
                     },
                     child: Container(
                       width: double.infinity,
                       height: 150,
+                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        image: const DecorationImage(
-                          image: AssetImage('assets/features/visa.png'), // Replace with your image asset
-                          fit: BoxFit.cover,
-                        ),
                         boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
@@ -146,18 +159,24 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: SvgPicture.asset(
+                          'assets/features/train.svg',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
 
-                  // Text
                   const Text(
                     'LOCALIZE features',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
 
-                  // Row with 2 Containers with Images
+                  // Row with 2 Containers with SVG Images
                   Row(
                     children: [
                       Expanded(
@@ -165,18 +184,14 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const AnotherPage()), // Replace with your target page
+                              MaterialPageRoute(builder: (context) => const AnotherPage()),
                             );
                           },
                           child: Container(
-                            height: 150,
-                            margin: const EdgeInsets.only(right: 8.0),
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              image: const DecorationImage(
-                                image: AssetImage('assets/features/image7.png'), // Replace with your image asset
-                                fit: BoxFit.cover,
-                              ),
                               boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black12,
@@ -185,6 +200,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            child: SvgPicture.asset('assets/features/train.svg'),
                           ),
                         ),
                       ),
@@ -193,18 +209,14 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const AnotherPage()), // Replace with your target page
+                              MaterialPageRoute(builder: (context) => const AnotherPage()),
                             );
                           },
                           child: Container(
-                            height: 150,
-                            margin: const EdgeInsets.only(left: 8.0),
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              image: const DecorationImage(
-                                image: AssetImage('assets/image8.png'), // Replace with your image asset
-                                fit: BoxFit.cover,
-                              ),
                               boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black12,
@@ -213,6 +225,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            child: SvgPicture.asset('assets/features/train.svg'),
                           ),
                         ),
                       ),
@@ -220,14 +233,13 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Text
                   const Text(
                     'Carousel Slider',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
 
-                  // Vertical Carousel Slider with Containers
+                  // Vertical Carousel Slider with SVG Images
                   CarouselSlider(
                     options: CarouselOptions(
                       height: 200.0,
@@ -235,38 +247,135 @@ class HomeScreen extends StatelessWidget {
                       enlargeCenterPage: true,
                       viewportFraction: 0.8,
                     ),
-                    items: [1, 2, 3, 4, 5].map((i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const AnotherPage()), // Replace with your target page
-                              );
-                            },
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                image: const DecorationImage(
-                                  image: AssetImage('assets/image9.png'), // Replace with your image asset
-                                  fit: BoxFit.cover,
-                                ),
-                                boxShadow: const [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    blurRadius: 6,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                            ),
+                    items: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AnotherPage()),
                           );
                         },
-                      );
-                    }).toList(),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: SvgPicture.asset('assets/features/train.svg'),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AnotherPage()),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: SvgPicture.asset('assets/features/ticket.svg'),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AnotherPage()),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: SvgPicture.asset(
+                              'assets/features/train.svg',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AnotherPage()),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: SvgPicture.asset(
+                              'assets/features/train.svg',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const AnotherPage()),
+                          );
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 6,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: SvgPicture.asset('assets/features/sim.svg'),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 120),
                 ],
@@ -279,7 +388,8 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-// Replace with your target page
+
+//remove this and put this as visa form page in a different file
 class AnotherPage extends StatelessWidget {
   const AnotherPage({super.key});
 

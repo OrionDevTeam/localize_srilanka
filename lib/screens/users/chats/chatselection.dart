@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:localize_sl/chat.dart';
+import '../userProfile.dart';
 import 'chat.dart';
 
 class ChatSelectionPage extends StatefulWidget {
@@ -191,28 +194,74 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                     chat['otherUserData'] as Map<String, dynamic>;
                 return Column(
                   children: [
-                    const Row(
+                    // create a container for the AI chat
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChatBotPage(),
+                            ),
+                          );
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: Container(
+                            padding: EdgeInsets.all(16),
+                            margin: EdgeInsets.all(8),
+                            child: Row(
+                              children: [
+                                // Leading Icon
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.blue.withOpacity(0.3),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Icon(
+                                    Iconsax.message,
+                                    color: Colors.blue[700],
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                // Title and Subtitle
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "AI Chat",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Chat with Vidara",
+                                        style:
+                                            TextStyle(color: Colors.grey[600]),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Row(
                       children: [
-                        Expanded(
-                          child: Divider(
-                            color: Colors.grey,
-                            thickness: 0.5,
-                            indent: 16.0,
-                            endIndent: 16.0,
-                          ),
-                        ),
+                        SizedBox(width: 16.0),
                         Text(
-                          'Today', // Replace with the date
+                          'Chats',
                           style: TextStyle(
-                            color: Colors.grey, // Set the color for the date
-                          ),
-                        ),
-                        Expanded(
-                          child: Divider(
-                            color: Colors.grey,
-                            thickness: 0.5,
-                            indent: 16.0,
-                            endIndent: 16.0,
+                            fontSize: 14.0, // Adjust the font size
+                            fontWeight: FontWeight.bold, // Make the text bold
                           ),
                         ),
                       ],

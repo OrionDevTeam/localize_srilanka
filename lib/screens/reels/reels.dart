@@ -420,7 +420,7 @@ class _PostWidgetState extends State<PostWidget> {
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
                                   return GuideDetailPage(
-                                    userId: widget.post.userId,
+                                    guideId: widget.post.userId,
                                   );
                                 },
                                 transitionDuration: const Duration(milliseconds: 500),

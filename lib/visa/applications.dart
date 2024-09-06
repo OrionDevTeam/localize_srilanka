@@ -14,7 +14,7 @@ class ApplicationsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         title: const Text(
           'Your Applications',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
         ),
         centerTitle: true,
       ),
@@ -71,6 +71,10 @@ class _ApplicationsListState extends State<ApplicationsList> {
             final status = doc['status'] as String;
             final applicationId = doc.id;
 
+            // Extract the visa reference from the document
+            final visaRef = doc['visa'] as DocumentReference;
+
+            // Define status color
             Color statusColor;
             switch (status) {
               case 'Processing':
@@ -90,24 +94,23 @@ class _ApplicationsListState extends State<ApplicationsList> {
             }
 
             return GestureDetector(
-              onTap: () {
-                if (status == 'Ongoing') {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VisaApplicationScreen()),
-                  );
-                } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ApplicationDetailsScreen()),
-                  );
-                }
+              onTap: () async {
+                // Fetch the visa document data
+                final visaDoc = await visaRef.get();
+                final visaData = visaDoc.data() as Map<String, dynamic>? ?? {};
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ApplicationDetailsScreen(
+                      visaData: visaData,
+                      status: status,
+                    ),
+                  ),
+                );
               },
               child: Stack(
                 children: [
-                  // Background image container
                   Positioned.fill(
                     child: Container(
                       margin: const EdgeInsets.all(8.0),
@@ -133,7 +136,6 @@ class _ApplicationsListState extends State<ApplicationsList> {
                     decoration: BoxDecoration(
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(12),
-                      // border: Border.all(color: statusColor),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -183,16 +185,6 @@ class VisaApplicationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Visa Application')),
       body: const Center(child: Text('Visa Application Details')),
-    );
-  }
-}
-
-class ApplicationScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Application')),
-      body: const Center(child: Text('Application Details')),
     );
   }
 }

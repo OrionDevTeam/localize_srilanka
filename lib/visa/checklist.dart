@@ -27,7 +27,7 @@ class _VisaDocumentsChecklistState extends State<VisaDocumentsChecklist> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "Required Documents",
               style: TextStyle(
                 fontSize: 24,
@@ -35,7 +35,16 @@ class _VisaDocumentsChecklistState extends State<VisaDocumentsChecklist> {
                 color: Color(0xFF2A966C),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 7),
+            const Text(
+              "Make sure you have these documents when going for the Visa appointment",
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF2A966C),
+              ),
+            ),
+            SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: documents.length,
@@ -62,25 +71,25 @@ class _VisaDocumentsChecklistState extends State<VisaDocumentsChecklist> {
             ),
             SizedBox(height: 10),
             // Submit Button
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Add your submission logic here
-                  _showSubmissionStatus();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF2A966C), // Custom button color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                ),
-                child: Text(
-                  "Save",
-                  style: TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
-            ),
+            // Center(
+            //   child: ElevatedButton(
+            //     onPressed: () {
+            //       // Add your submission logic here
+            //       _showSubmissionStatus();
+            //     },
+            //     style: ElevatedButton.styleFrom(
+            //       backgroundColor: Color(0xFF2A966C), // Custom button color
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(12),
+            //       ),
+            //       padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+            //     ),
+            //     child: Text(
+            //       "Save",
+            //       style: TextStyle(fontSize: 16, color: Colors.white),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

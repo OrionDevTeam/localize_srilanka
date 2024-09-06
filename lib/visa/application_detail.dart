@@ -38,9 +38,15 @@ class ApplicationDetailsScreen extends StatelessWidget {
     }
 
     // Extract visa details with default values
-    String name = visaData['name'] ?? 'Name not provided';
+    String firstName = visaData['firstName'] ?? 'First name not provided';
+    String surname = visaData['surname'] ?? 'Surname not provided';
+    String dob = visaData['dob'] ?? 'Date of birth not provided';
     String address = visaData['address'] ?? 'Address not provided';
     String passportNumber = visaData['passportNumber'] ?? 'Passport number not provided';
+    String passportIssueDate = visaData['passportIssueDate'] ?? 'Passport issue date not provided';
+    String passportExpiryDate = visaData['passportExpiryDate'] ?? 'Passport expiry date not provided';
+    String nationality = visaData['nationality'] ?? 'Nationality not provided';
+    String durationOfStay = visaData['durationOfStay'] ?? 'Duration of stay not provided';
     // Add more fields as necessary
 
     return Scaffold(
@@ -111,7 +117,17 @@ class ApplicationDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Name: $name',
+                    'First Name: $firstName',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Surname: $surname',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Date of Birth: $dob',
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   const SizedBox(height: 8.0),
@@ -122,6 +138,26 @@ class ApplicationDetailsScreen extends StatelessWidget {
                   const SizedBox(height: 8.0),
                   Text(
                     'Passport Number: $passportNumber',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Passport Issue Date: $passportIssueDate',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Passport Expiry Date: $passportExpiryDate',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Nationality: $nationality',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Duration of Stay: $durationOfStay',
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                   // Add other fields from the visa data here

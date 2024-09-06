@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/guide_pages/guide_list_page.dart';
+
+import '../screens/map/map_home.dart';
+import '../visa/visahome.dart';
+
 
 class HomeScreen extends StatelessWidget {
   final dynamic user;
@@ -29,7 +35,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Localize Srilanka", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                  const Text("Localize Srilanka", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
                   // Search Bar
                   // TextField(
                   //   decoration: InputDecoration(
@@ -51,9 +57,11 @@ class HomeScreen extends StatelessWidget {
                   //   ),
                   // ),
                   const SizedBox(height: 20),
+                  
 
                   // Top Container with Images and Button
                   Container(
+                    
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -72,30 +80,60 @@ class HomeScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/ticket.svg'),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.transparent,
+                                  child: SvgPicture.asset('assets/features/ticket.svg'),
+                                ),
+                                // SizedBox(height: 8), // spacing between image and text
+                                Text('Experiences',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                              ],
                             ),
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/hotel.svg'),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.transparent,
+                                  child: SvgPicture.asset('assets/features/hotel.svg'),
+                                ),
+                                // SizedBox(height: 8),
+                                Text('Hotels',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                              ],
                             ),
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/sim.svg'),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.transparent,
+                                  child: SvgPicture.asset('assets/features/sim.svg'),
+                                ),
+                                // SizedBox(height: 8),
+                                Text('Networks',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                              ],
                             ),
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/train.svg'),
-                            ),
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/shopping.svg'),
+                            // Column(
+                            //   children: [
+                            //     CircleAvatar(
+                            //       radius: 30,
+                            //       backgroundColor: Colors.transparent,
+                            //       child: SvgPicture.asset('assets/features/train.svg'),
+                            //     ),
+                            //     // SizedBox(height: 4),
+                            //     Text('Travelling'),
+                            //   ],
+                            // ),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.transparent,
+                                  child: SvgPicture.asset('assets/features/shopping.svg'),
+                                ),
+                                // SizedBox(height: 4),
+                                Text('Shopping',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                              ],
                             ),
                           ],
                         ),
@@ -106,14 +144,18 @@ class HomeScreen extends StatelessWidget {
                           child: ElevatedButton.icon(
                             onPressed: () {
                               // Button action here
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const MapS(showBackButton: true)),
+                              );
                             },
                             icon: const Icon(
                               Iconsax.map,
                               color: Colors.white,
                             ),
                             label: const Text(
-                              'Explore Map',
-                              style: TextStyle(color: Colors.white),
+                              'Explore map',
+                              style: TextStyle(color: Colors.white, fontSize: 15),
                             ),
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
@@ -135,14 +177,14 @@ class HomeScreen extends StatelessWidget {
                     'Apply for SriLankan Visa',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 20),
-
+                  const SizedBox(height: 10),
+                  
                   // Container with an SVG Image
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        MaterialPageRoute(builder: (context) => VisaHomePage()),
                       );
                     },
                     child: Container(
@@ -151,19 +193,19 @@ class HomeScreen extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 5.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 6,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
+                        // boxShadow: const [
+                        //   BoxShadow(
+                        //     color: Colors.black12,
+                        //     blurRadius: 6,
+                        //     offset: Offset(0, 3),
+                        //   ),
+                        // ],
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: SvgPicture.asset(
-                          'assets/features/train.svg',
-                          fit: BoxFit.cover,
+                          'assets/features/visaprocess.svg',
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),
@@ -171,7 +213,7 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   const Text(
-                    'LOCALIZE features',
+                    'New LOCALIZE features',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
@@ -184,7 +226,7 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const AnotherPage()),
+                              MaterialPageRoute(builder: (context) => const ChatBotPage()),
                             );
                           },
                           child: Container(
@@ -192,15 +234,28 @@ class HomeScreen extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 6,
-                                  offset: Offset(0, 3),
+                              // boxShadow: const [
+                              //   BoxShadow(
+                              //     color: Colors.black12,
+                              //     blurRadius: 6,
+                              //     offset: Offset(0, 3),
+                              //   ),
+                              // ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset('assets/features/chatbot.svg'),
+                                const SizedBox(height: 10), // Add spacing between the image and text
+                                const Text(
+                                  'Chatbot',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
-                            child: SvgPicture.asset('assets/features/train.svg'),
                           ),
                         ),
                       ),
@@ -209,23 +264,40 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const AnotherPage()),
+                              MaterialPageRoute(builder: (context) => GuideListPage()),
                             );
                           },
                           child: Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: MediaQuery.of(context).size.width * 0.8, // Adjust the width as needed
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 6,
-                                  offset: Offset(0, 3),
+                              // boxShadow: const [
+                              //   BoxShadow(
+                              //     color: Colors.black12,
+                              //     blurRadius: 6,
+                              //     offset: Offset(0, 3),
+                              //   ),
+                              // ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/features/guide.svg',
+                                  height: 80, // Increase the height as needed
+                                  width: 80, // Increase the width as needed
+                                ),
+                                const SizedBox(height: 30), // Add spacing between the image and text
+                                const Text(
+                                  'Guides',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ],
                             ),
-                            child: SvgPicture.asset('assets/features/train.svg'),
                           ),
                         ),
                       ),
@@ -233,152 +305,154 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  const Text(
-                    'Carousel Slider',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
+                  // const Text(
+                  //   'Carousel Slider',
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  // ),
+                  // const SizedBox(height: 20),
 
-                  // Vertical Carousel Slider with SVG Images
-                  CarouselSlider(
-                    options: CarouselOptions(
-                      height: 200.0,
-                      enableInfiniteScroll: false,
-                      enlargeCenterPage: true,
-                      viewportFraction: 0.8,
-                    ),
-                    items: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AnotherPage()),
-                          );
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: SvgPicture.asset('assets/features/train.svg'),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AnotherPage()),
-                          );
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: SvgPicture.asset('assets/features/ticket.svg'),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AnotherPage()),
-                          );
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: SvgPicture.asset(
-                              'assets/features/train.svg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        )
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AnotherPage()),
-                          );
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: SvgPicture.asset(
-                              'assets/features/train.svg',
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const AnotherPage()),
-                          );
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: const [
-                              BoxShadow(
-                                color: Colors.black12,
-                                blurRadius: 6,
-                                offset: Offset(0, 3),
-                              ),
-                            ],
-                          ),
-                          child: SvgPicture.asset('assets/features/sim.svg'),
-                        ),
-                      ),
-                    ],
-                  ),
+                  // // Vertical Carousel Slider with SVG Images
+                  // CarouselSlider(
+                  //   options: CarouselOptions(
+                  //     height: 200.0,
+                  //     enableInfiniteScroll: false,
+                  //     enlargeCenterPage: true,
+                  //     viewportFraction: 0.8,
+                  //   ),
+                  //   items: [
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
+                  //         );
+                  //       },
+                  //       child: Container(
+                  //         width: MediaQuery.of(context).size.width,
+                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           boxShadow: const [
+                  //             BoxShadow(
+                  //               color: Colors.black12,
+                  //               blurRadius: 6,
+                  //               offset: Offset(0, 3),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         child: SvgPicture.asset('assets/features/train.svg'),
+                  //       ),
+                  //     ),
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
+                  //         );
+                  //       },
+                  //       child: Container(
+                  //         width: MediaQuery.of(context).size.width,
+                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           boxShadow: const [
+                  //             BoxShadow(
+                  //               color: Colors.black12,
+                  //               blurRadius: 6,
+                  //               offset: Offset(0, 3),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         child: SvgPicture.asset('assets/features/ticket.svg'),
+                  //       ),
+                  //     ),
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
+                  //         );
+                  //       },
+                  //       child: Container(
+                  //         width: MediaQuery.of(context).size.width,
+                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           boxShadow: const [
+                  //             BoxShadow(
+                  //               color: Colors.black12,
+                  //               blurRadius: 6,
+                  //               offset: Offset(0, 3),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         child: ClipRRect(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           child: SvgPicture.asset(
+                  //             'assets/features/train.svg',
+                  //             fit: BoxFit.cover,
+                  //           ),
+                  //         ),
+                  //       )
+                  //     ),
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
+                  //         );
+                  //       },
+                  //       child: Container(
+                  //         width: MediaQuery.of(context).size.width,
+                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           boxShadow: const [
+                  //             BoxShadow(
+                  //               color: Colors.black12,
+                  //               blurRadius: 6,
+                  //               offset: Offset(0, 3),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         child: ClipRRect(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           child: SvgPicture.asset(
+                  //             'assets/features/train.svg',
+                  //             fit: BoxFit.cover,
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
+                  //         );
+                  //       },
+                  //       child: Container(
+                  //         width: MediaQuery.of(context).size.width,
+                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           boxShadow: const [
+                  //             BoxShadow(
+                  //               color: Colors.black12,
+                  //               blurRadius: 6,
+                  //               offset: Offset(0, 3),
+                  //             ),
+                  //           ],
+                  //         ),
+                  //         child: SvgPicture.asset('assets/features/sim.svg'),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(height: 120),
+                  
                 ],
+                
               ),
             ),
           ),

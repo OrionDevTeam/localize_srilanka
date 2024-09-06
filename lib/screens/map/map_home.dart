@@ -5,24 +5,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
 
 import 'location.dart';
 
 class MapS extends StatelessWidget {
   final String apiKey = "AIzaSyA3FOuDQdJiRFn8c_9UEkTc3DeMyECjMB0";
-
-  const MapS({super.key});
+  final bool showBackButton;
+  const MapS({Key? key, required this.showBackButton}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return MapScreen(apiKey: apiKey);
+    return MapScreen(apiKey: apiKey, showBackButton: showBackButton);
   }
 }
 
 class MapScreen extends StatefulWidget {
   final String apiKey;
+  final bool showBackButton;
+  const MapScreen({required this.apiKey, required this.showBackButton, Key? key}) : super(key: key);
 
-  const MapScreen({required this.apiKey, super.key});
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -34,14 +37,15 @@ class _MapScreenState extends State<MapScreen> {
       Completer<GoogleMapController>();
   final TextEditingController _searchController = TextEditingController();
 
-  static const LatLng _center = LatLng(5.9414224, 80.4622485);
+  static const LatLng _center =
+      const LatLng(5.958809599999999, 80.40584129999999);
   static const CameraPosition _initialCameraPosition = CameraPosition(
     target: _center,
     zoom: 13.0,
   );
 
-  final Set<Marker> _markers = {};
-  final Offset _fabPosition = const Offset(0, 180); // Initial position
+  Set<Marker> _markers = {};
+  Offset _fabPosition = const Offset(0, 180); // Initial position
 
   @override
   void initState() {
@@ -76,21 +80,29 @@ class _MapScreenState extends State<MapScreen> {
             left: 16,
             right: 16,
             child: Container(
-              height: 48,
+              height: 55,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: const [
-                  BoxShadow(
+                borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  const BoxShadow(
                     color: Colors.black26,
                     blurRadius: 8,
                   ),
                 ],
               ),
-              child: Row(
+              child:Row(
                 children: [
-                  const SizedBox(width: 8),
+                  if (widget.showBackButton) // Conditionally display the back button
+                    Padding(
+                      padding: const EdgeInsets.only(right:10),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.blue),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                    ),
+                  SizedBox(width: widget.showBackButton ? 8 : 0), // Adjust spacing if back button is present
                   Expanded(
                     child: TextField(
                       controller: _searchController,
@@ -109,6 +121,7 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
+          const FloatingChatButton(),
         ],
       ),
     );
@@ -259,7 +272,7 @@ class _MapScreenState extends State<MapScreen> {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('markers').get();
 
-    for (var doc in querySnapshot.docs) {
+    querySnapshot.docs.forEach((doc) {
       // Check if the document contains the expected fields
       if (doc.exists &&
           doc.data() != null &&
@@ -284,7 +297,7 @@ class _MapScreenState extends State<MapScreen> {
         print('Document ${doc.id} is missing expected fields.');
         print("-------------------------------------------");
       }
-    }
+    });
 
     return markers;
   }
@@ -298,7 +311,7 @@ class LocationCard extends StatelessWidget {
   final List<String> tags;
   final String n;
 
-  const LocationCard({super.key, 
+  LocationCard({
     required this.n,
     required this.tags,
     required this.imageUrl,
@@ -419,7 +432,7 @@ class LocationCard extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          Container(
             height: 100,
             width: double.infinity,
             child: Column(

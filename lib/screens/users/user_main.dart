@@ -54,10 +54,10 @@ class _UserPageState extends State<UserPage> {
             index: _selectedIndex,
             children: [
               HomeScreen(user: currentUser),
-              MapS(),
-              SocialMediaFeed(),
-              ChatSelectionPage(),
-              UserProfilePage(),
+              const MapS(showBackButton: false),
+              const SocialMediaFeed(),
+              const ChatSelectionPage(),
+              const UserProfilePage(),
             ],
           ),
           Positioned(

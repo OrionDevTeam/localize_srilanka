@@ -100,48 +100,48 @@ class _SocialMediaFeedState extends State<SocialMediaFeed> {
           children: [
             const SizedBox(
                 height: 40), // Add some space at the top (status bar height)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              margin: const EdgeInsets.only(bottom: 8),
-              child: Row(
-                children: [
-                  // Search bar and filter icon
-                  Expanded(
-                    flex: 9,
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(width: 12),
-                          const Icon(Icons.search, color: Colors.grey),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Center(
-                              child: TextField(
-                                controller: _searchController,
-                                decoration: const InputDecoration(
-                                  hintText: 'Search here ..',
-                                  border: InputBorder.none,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8), // Space between search and filter icon
-                  const Expanded(
-                    flex: 1,
-                    child: Icon(Iconsax.filter, color: Colors.grey),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   padding: const EdgeInsets.symmetric(horizontal: 24),
+            //   margin: const EdgeInsets.only(bottom: 8),
+            //   child: Row(
+            //     children: [
+            //       // Search bar and filter icon
+            //       Expanded(
+            //         flex: 9,
+            //         child: Container(
+            //           height: 50,
+            //           decoration: BoxDecoration(
+            //             color: Colors.grey[200],
+            //             borderRadius: BorderRadius.circular(16),
+            //           ),
+            //           child: Row(
+            //             children: [
+            //               const SizedBox(width: 12),
+            //               const Icon(Icons.search, color: Colors.grey),
+            //               const SizedBox(width: 16),
+            //               Expanded(
+            //                 child: Center(
+            //                   child: TextField(
+            //                     controller: _searchController,
+            //                     decoration: const InputDecoration(
+            //                       hintText: 'Search here ..',
+            //                       border: InputBorder.none,
+            //                     ),
+            //                   ),
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //       ),
+            //       const SizedBox(width: 8), // Space between search and filter icon
+            //       const Expanded(
+            //         flex: 1,
+            //         child: Icon(Iconsax.filter, color: Colors.grey),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -420,7 +420,7 @@ class _PostWidgetState extends State<PostWidget> {
                                 pageBuilder:
                                     (context, animation, secondaryAnimation) {
                                   return GuideDetailPage(
-                                    guideId: widget.post.userId,
+                                    userId: widget.post.userId,
                                   );
                                 },
                                 transitionDuration: const Duration(milliseconds: 500),

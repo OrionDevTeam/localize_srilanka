@@ -39,47 +39,41 @@ class VisaHomePage extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              child: SingleChildScrollView(
+              child: const SingleChildScrollView(
                 scrollDirection: Axis.horizontal, // Enable horizontal scrolling
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     // Add some padding to space out the cards
-                    const SizedBox(width: 20),
+                    SizedBox(width: 20),
                     VisaCard(
                       backgroundImagePath: 'assets/visa/sl.png',
                       foregroundImagePath: 'assets/visa/girl.png',
                       visaType: "Tourist visa with",
                       duration: "Single Entry for 14 days",
-                      features: const [
+                      features: [
                         "Simple Process",
                         "Quick Review",
                         "Faster Approval"
                       ],
-                      onApply: () {
-                        print("Apply Now button clicked!");
-                      },
                       backgroundColor:
-                          const Color(0xFF2A966C), // Custom background color
+                          Color(0xFF2A966C), // Custom background color
                       buttonColor:
-                          const Color(0xFF2A966C), // Custom button color
+                          Color(0xFF2A966C), // Custom button color
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10),
                     VisaCard(
                       backgroundImagePath: 'assets/visa/sl.png',
                       foregroundImagePath: 'assets/visa/girl.png',
                       visaType: "Tourist visa with",
                       duration: "Single Entry for 28 days",
-                      features: const [
+                      features: [
                         "Simple Process",
                         "Quick Review",
                         "Faster Approval"
                       ],
-                      onApply: () {
-                        print("Apply Now button clicked!");
-                      },
-                      backgroundColor: const Color.fromARGB(255, 222, 170, 38),
-                      buttonColor: const Color.fromARGB(255, 222, 170, 38),
+                      backgroundColor: Color.fromARGB(255, 222, 170, 38),
+                      buttonColor: Color.fromARGB(255, 222, 170, 38),
                     ),
                   ],
                 ),

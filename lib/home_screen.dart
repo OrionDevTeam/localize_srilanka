@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 
 import '../screens/map/map_home.dart';
 import '../visa/visahome.dart';
+import 'floating_chat.dart';
 
 class HomeScreen extends StatelessWidget {
   final dynamic user;
@@ -54,9 +55,11 @@ class HomeScreen extends StatelessWidget {
                   //   ),
                   // ),
                   const SizedBox(height: 20),
+                  
 
                   // Top Container with Images and Button
                   Container(
+                    
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -172,8 +175,8 @@ class HomeScreen extends StatelessWidget {
                     'Apply for SriLankan Visa',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 20),
-
+                  const SizedBox(height: 10),
+                  
                   // Container with an SVG Image
                   GestureDetector(
                     onTap: () {
@@ -188,19 +191,19 @@ class HomeScreen extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 5.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 6,
-                            offset: Offset(0, 3),
-                          ),
-                        ],
+                        // boxShadow: const [
+                        //   BoxShadow(
+                        //     color: Colors.black12,
+                        //     blurRadius: 6,
+                        //     offset: Offset(0, 3),
+                        //   ),
+                        // ],
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: SvgPicture.asset(
-                          'assets/features/train.svg',
-                          fit: BoxFit.cover,
+                          'assets/features/visaprocess.svg',
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),
@@ -415,7 +418,9 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 120),
+                  
                 ],
+                
               ),
             ),
           ),

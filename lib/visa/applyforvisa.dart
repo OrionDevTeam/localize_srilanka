@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:localize_sl/visa/applications.dart';
 
 class ApplyForVisaPage extends StatefulWidget {
   @override
@@ -7,6 +10,52 @@ class ApplyForVisaPage extends StatefulWidget {
 
 class _VisaScreenState extends State<ApplyForVisaPage> {
   String selectedVisaType = 'Standard Visitor';
+
+  // Firestore instance
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> _applyForVisa() async {
+    try {
+      // Get current user
+      User? user = _auth.currentUser;
+      if (user == null) {
+        // Handle user not logged in
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('User not logged in')),
+        );
+        return;
+      }
+
+      // Create a new visa document
+      DocumentReference visaRef = await _firestore.collection('visas').add({
+        'type': selectedVisaType,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      // Create a new visa application document
+      await _firestore.collection('visa applications').add({
+        'ongoing': true,
+        'status': 'Ongoing',
+        'userRef': _firestore.collection('users').doc(user.uid),
+        'visa': visaRef,
+      });
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Visa application initiated successfully')),
+      );
+
+      // Optionally, navigate to another page or reset state
+      Navigator.pop(context);
+
+    } catch (e) {
+      // Handle errors
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error: ${e.toString()}')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +117,11 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
                       ),
                       child: DropdownButton<String>(
                         value: selectedVisaType,
-                        icon: Icon(Icons.arrow_drop_down_sharp,
+                        icon: const Icon(Icons.arrow_drop_down_sharp,
                             color: Colors.white),
                         iconSize: 24,
                         elevation: 16,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                         onChanged: (String? newValue) {
                           setState(() {
                             selectedVisaType = newValue!;
@@ -86,7 +135,7 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
                           return DropdownMenuItem<String>(
                             value: value,
                             child: Text(value,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black, fontSize: 16)),
                           );
                         }).toList(),
@@ -94,7 +143,7 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Container(
                   width: 200,
                   child: ElevatedButton(
@@ -105,8 +154,14 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
                           borderRadius: BorderRadius.circular(10.0),
                         ),
                       ),
-                      onPressed: () {},
-                      child: Text(
+                      onPressed: () async {
+                        await _applyForVisa();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ApplicationsScreen()),
+                        );
+                      },
+                      child: const Text(
                         'Apply Now',
                         style: TextStyle(
                           fontSize: 16,
@@ -124,14 +179,14 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
             right: 0,
             bottom: 0,
             child: Container(
-              padding: EdgeInsets.all(16),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(32),
                 ),
               ),
-              child: Column(
+              child: const Column(
                 children: [
                   // Row(
                   //   mainAxisAlignment: MainAxisAlignment.end,
@@ -223,13 +278,13 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
             top: 250,
             right: 40,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: const Color(0xFF2A966C),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(
+              child: const Padding(
+                padding: EdgeInsets.only(
                   left: 8,
                   right: 8,
                 ),

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'application_detail.dart';
+import '../visa/application/visa_application1.dart';
 
 class ApplicationsScreen extends StatelessWidget {
   const ApplicationsScreen({super.key});
@@ -95,19 +96,32 @@ class _ApplicationsListState extends State<ApplicationsList> {
 
             return GestureDetector(
               onTap: () async {
-                // Fetch the visa document data
-                final visaDoc = await visaRef.get();
-                final visaData = visaDoc.data() as Map<String, dynamic>? ?? {};
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ApplicationDetailsScreen(
-                      visaData: visaData,
-                      status: status,
+                if (status == 'Ongoing') {
+                  final visaDoc = await visaRef.get();
+                  final visaData = visaDoc.data() as Map<String, dynamic>? ?? {};
+                  // Navigate to the Visa Application Form page if status is "Ongoing"
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => VisaApplicationFormPage(visa: visaDoc), // Replace with the correct page
                     ),
-                  ),
-                );
+                  );
+                } else {
+                  // Fetch the visa document data if the status is not "Ongoing"
+                  final visaDoc = await visaRef.get();
+                  final visaData = visaDoc.data() as Map<String, dynamic>? ?? {};
+
+                  // Navigate to the Application Details screen for other statuses
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ApplicationDetailsScreen(
+                        visaData: visaData,
+                        status: status,
+                      ),
+                    ),
+                  );
+                }
               },
               child: Stack(
                 children: [

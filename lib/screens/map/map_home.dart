@@ -5,14 +5,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/floating_chat.dart';
 
 import 'location.dart';
 
 class MapS extends StatelessWidget {
   final String apiKey = "AIzaSyA3FOuDQdJiRFn8c_9UEkTc3DeMyECjMB0";
-  final bool showBackButton; // Boolean variable for back button visibility
-
-  const MapS({super.key, required this.showBackButton});
+  final bool showBackButton;
+  const MapS({Key? key, required this.showBackButton}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +23,9 @@ class MapS extends StatelessWidget {
 
 class MapScreen extends StatefulWidget {
   final String apiKey;
-  final bool showBackButton; // Boolean variable for back button visibility
+  final bool showBackButton;
+  const MapScreen({required this.apiKey, required this.showBackButton, Key? key}) : super(key: key);
 
-  const MapScreen({required this.apiKey, required this.showBackButton, super.key});
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -36,14 +37,15 @@ class _MapScreenState extends State<MapScreen> {
       Completer<GoogleMapController>();
   final TextEditingController _searchController = TextEditingController();
 
-  static const LatLng _center = LatLng(5.9414224, 80.4622485);
+  static const LatLng _center =
+      const LatLng(5.958809599999999, 80.40584129999999);
   static const CameraPosition _initialCameraPosition = CameraPosition(
     target: _center,
     zoom: 13.0,
   );
 
-  final Set<Marker> _markers = {};
-  final Offset _fabPosition = const Offset(0, 180); // Initial position
+  Set<Marker> _markers = {};
+  Offset _fabPosition = const Offset(0, 180); // Initial position
 
   @override
   void initState() {
@@ -78,31 +80,29 @@ class _MapScreenState extends State<MapScreen> {
             left: 16,
             right: 16,
             child: Container(
-              height: 48,
-              // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              height: 55,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: const [
-                  BoxShadow(
+                borderRadius: BorderRadius.circular(32),
+                boxShadow: [
+                  const BoxShadow(
                     color: Colors.black26,
                     blurRadius: 8,
                   ),
                 ],
               ),
-              child: Row(
+              child:Row(
                 children: [
-                  if (widget.showBackButton) // Conditionally display back button
+                  if (widget.showBackButton) // Conditionally display the back button
                     Padding(
-                      padding: const EdgeInsets.only(bottom:1.0),
+                      padding: const EdgeInsets.only(right:10),
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
+                        icon: const Icon(Icons.arrow_back, color: Colors.blue),
+                        onPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: widget.showBackButton ? 8 : 0), // Adjust spacing if back button is present
                   Expanded(
                     child: TextField(
                       controller: _searchController,
@@ -121,6 +121,7 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
+          const FloatingChatButton(),
         ],
       ),
     );
@@ -271,7 +272,7 @@ class _MapScreenState extends State<MapScreen> {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('markers').get();
 
-    for (var doc in querySnapshot.docs) {
+    querySnapshot.docs.forEach((doc) {
       // Check if the document contains the expected fields
       if (doc.exists &&
           doc.data() != null &&
@@ -296,7 +297,7 @@ class _MapScreenState extends State<MapScreen> {
         print('Document ${doc.id} is missing expected fields.');
         print("-------------------------------------------");
       }
-    }
+    });
 
     return markers;
   }
@@ -310,7 +311,7 @@ class LocationCard extends StatelessWidget {
   final List<String> tags;
   final String n;
 
-  const LocationCard({super.key, 
+  LocationCard({
     required this.n,
     required this.tags,
     required this.imageUrl,
@@ -322,19 +323,156 @@ class LocationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.network(imageUrl, fit: BoxFit.cover),
-          ListTile(
-            title: Text(title),
-            subtitle: Text(location),
-            trailing: Text(rating),
+          Container(
+            child: Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16),
+                    topRight: Radius.circular(16),
+                  ),
+                  child: Image.network(
+                    imageUrl,
+                    height: 200,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(16),
+                      topRight: Radius.circular(16),
+                    ),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                      child: Container(
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        color: Colors.black.withOpacity(0.4),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const SizedBox(width: 8),
+                                Text(
+                                  title,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      const SizedBox(width: 8),
+                                      const Icon(
+                                        Icons.location_on_outlined,
+                                        color: Colors.white,
+                                        size: 12,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        location,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        child: Row(
+                                          children: [
+                                            const Icon(Icons.star,
+                                                color: Colors.orange),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              rating.toString(),
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            const SizedBox(width: 4),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
-          Wrap(
-            spacing: 8.0,
-            children: tags.map((tag) {
-              return Chip(label: Text(tag));
-            }).toList(),
+          Container(
+            height: 100,
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const SizedBox(width: 18),
+                    Text(
+                      "Guides offer $n experiences here",
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    const SizedBox(width: 10),
+                    for (var tag in tags) ...{
+                      Chip(
+                        label: Text(tag),
+                        backgroundColor: const Color(0xFFE4E7E9),
+                        labelStyle: const TextStyle(color: Color(0xFF169C8C)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          side: const BorderSide(
+                            color: Color(0xFF169C8C),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                    },
+                  ],
+                )
+              ],
+            ),
           ),
         ],
       ),

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/visa/applications.dart';
 
 class VisaCard extends StatelessWidget {
   final String backgroundImagePath;
@@ -6,7 +9,6 @@ class VisaCard extends StatelessWidget {
   final String visaType;
   final String duration;
   final List<String> features;
-  final VoidCallback onApply;
   final Color backgroundColor;
   final Color buttonColor;
 
@@ -17,7 +19,6 @@ class VisaCard extends StatelessWidget {
     required this.visaType,
     required this.duration,
     required this.features,
-    required this.onApply,
     this.backgroundColor = const Color(0xFF2A966C), // Default background color
     this.buttonColor = const Color(0xFF2A966C), // Default button color
   }) : super(key: key);
@@ -67,7 +68,7 @@ class VisaCard extends StatelessWidget {
                 children: [
                   Text(
                     visaType,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -75,18 +76,18 @@ class VisaCard extends StatelessWidget {
                   ),
                   Text(
                     duration,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       color: Colors.white,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: features.map((feature) {
                       return Text(
                         "• $feature",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
                         ),
@@ -102,16 +103,23 @@ class VisaCard extends StatelessWidget {
               left: 20,
               right: 20,
               child: ElevatedButton(
-                onPressed: onApply,
+                onPressed: () async {
+                  await _applyForVisa(context); // Run the provided async function
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ApplicationsScreen()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       buttonColor.withOpacity(0.8), // Custom button color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
-                child: Text(
+                child: const Text(
                   "Apply Now",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),
@@ -120,6 +128,49 @@ class VisaCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+// Function to be passed to VisaCard
+Future<void> _applyForVisa(BuildContext context) async {
+  try {
+    // Get current user
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      // Handle user not logged in
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('User not logged in')),
+      );
+      return;
+    }
+
+    // Create a new visa document
+    DocumentReference visaRef =
+        await FirebaseFirestore.instance.collection('visas').add({
+      'type': "normal",
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+
+    // Create a new visa application document
+    await FirebaseFirestore.instance.collection('visa applications').add({
+      'ongoing': true,
+      'status': 'Ongoing',
+      'userRef': FirebaseFirestore.instance.collection('users').doc(user.uid),
+      'visa': visaRef,
+    });
+
+    // Show success message
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Visa application initiated successfully')),
+    );
+
+    // Optionally, navigate to another page or reset state
+    Navigator.pop(context);
+  } catch (e) {
+    // Handle errors
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error: ${e.toString()}')),
     );
   }
 }

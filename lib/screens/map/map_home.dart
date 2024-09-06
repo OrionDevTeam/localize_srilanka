@@ -10,19 +10,21 @@ import 'location.dart';
 
 class MapS extends StatelessWidget {
   final String apiKey = "AIzaSyA3FOuDQdJiRFn8c_9UEkTc3DeMyECjMB0";
+  final bool showBackButton; // Boolean variable for back button visibility
 
-  const MapS({super.key});
+  const MapS({super.key, required this.showBackButton});
 
   @override
   Widget build(BuildContext context) {
-    return MapScreen(apiKey: apiKey);
+    return MapScreen(apiKey: apiKey, showBackButton: showBackButton);
   }
 }
 
 class MapScreen extends StatefulWidget {
   final String apiKey;
+  final bool showBackButton; // Boolean variable for back button visibility
 
-  const MapScreen({required this.apiKey, super.key});
+  const MapScreen({required this.apiKey, required this.showBackButton, super.key});
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -77,7 +79,7 @@ class _MapScreenState extends State<MapScreen> {
             right: 16,
             child: Container(
               height: 48,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -90,6 +92,16 @@ class _MapScreenState extends State<MapScreen> {
               ),
               child: Row(
                 children: [
+                  if (widget.showBackButton) // Conditionally display back button
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:1.0),
+                      child: IconButton(
+                        icon: const Icon(Icons.arrow_back, color: Colors.black),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextField(
@@ -310,156 +322,19 @@ class LocationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
-                  ),
-                  child: Image.network(
-                    imageUrl,
-                    height: 200,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      topRight: Radius.circular(16),
-                    ),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                      child: Container(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        color: Colors.black.withOpacity(0.4),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                const SizedBox(width: 8),
-                                Text(
-                                  title,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(width: 8),
-                                      const Icon(
-                                        Icons.location_on_outlined,
-                                        color: Colors.white,
-                                        size: 12,
-                                      ),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        location,
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        child: Row(
-                                          children: [
-                                            const Icon(Icons.star,
-                                                color: Colors.orange),
-                                            const SizedBox(width: 4),
-                                            Text(
-                                              rating.toString(),
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const SizedBox(width: 4),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
+          Image.network(imageUrl, fit: BoxFit.cover),
+          ListTile(
+            title: Text(title),
+            subtitle: Text(location),
+            trailing: Text(rating),
           ),
-          SizedBox(
-            height: 100,
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    const SizedBox(width: 18),
-                    Text(
-                      "Guides offer $n experiences here",
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const SizedBox(width: 10),
-                    for (var tag in tags) ...{
-                      Chip(
-                        label: Text(tag),
-                        backgroundColor: const Color(0xFFE4E7E9),
-                        labelStyle: const TextStyle(color: Color(0xFF169C8C)),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                          side: const BorderSide(
-                            color: Color(0xFF169C8C),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                    },
-                  ],
-                )
-              ],
-            ),
+          Wrap(
+            spacing: 8.0,
+            children: tags.map((tag) {
+              return Chip(label: Text(tag));
+            }).toList(),
           ),
         ],
       ),

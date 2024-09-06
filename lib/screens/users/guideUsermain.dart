@@ -36,7 +36,7 @@ class _UserPageState extends State<GuidePage> {
             child: IndexedStack(
               index: _selectedIndex,
               children: const [
-                MapS(),
+                MapS(showBackButton: false),
                 SocialMediaFeed(),
                 ChatSelectionPage(),
                 GuideProfilePage(),

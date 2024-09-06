@@ -3,6 +3,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../screens/map/map_home.dart';
+import '../visa/visahome.dart';
+
 class HomeScreen extends StatelessWidget {
   final dynamic user;
 
@@ -29,7 +32,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Localize Srilanka", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                  const Text("Localize Srilanka", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
                   // Search Bar
                   // TextField(
                   //   decoration: InputDecoration(
@@ -72,30 +75,60 @@ class HomeScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/ticket.svg'),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.transparent,
+                                  child: SvgPicture.asset('assets/features/ticket.svg'),
+                                ),
+                                // SizedBox(height: 8), // spacing between image and text
+                                Text('Experiences',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                              ],
                             ),
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/hotel.svg'),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.transparent,
+                                  child: SvgPicture.asset('assets/features/hotel.svg'),
+                                ),
+                                // SizedBox(height: 8),
+                                Text('Hotels',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                              ],
                             ),
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/sim.svg'),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.transparent,
+                                  child: SvgPicture.asset('assets/features/sim.svg'),
+                                ),
+                                // SizedBox(height: 8),
+                                Text('Networks',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                              ],
                             ),
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/train.svg'),
-                            ),
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundColor: Colors.transparent,
-                              child: SvgPicture.asset('assets/features/shopping.svg'),
+                            // Column(
+                            //   children: [
+                            //     CircleAvatar(
+                            //       radius: 30,
+                            //       backgroundColor: Colors.transparent,
+                            //       child: SvgPicture.asset('assets/features/train.svg'),
+                            //     ),
+                            //     // SizedBox(height: 4),
+                            //     Text('Travelling'),
+                            //   ],
+                            // ),
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: Colors.transparent,
+                                  child: SvgPicture.asset('assets/features/shopping.svg'),
+                                ),
+                                // SizedBox(height: 4),
+                                Text('Shopping',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                              ],
                             ),
                           ],
                         ),
@@ -106,14 +139,18 @@ class HomeScreen extends StatelessWidget {
                           child: ElevatedButton.icon(
                             onPressed: () {
                               // Button action here
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const MapS(showBackButton: true)),
+                              );
                             },
                             icon: const Icon(
                               Iconsax.map,
                               color: Colors.white,
                             ),
                             label: const Text(
-                              'Explore Map',
-                              style: TextStyle(color: Colors.white),
+                              'Explore map',
+                              style: TextStyle(color: Colors.white, fontSize: 15),
                             ),
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
@@ -142,7 +179,7 @@ class HomeScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        MaterialPageRoute(builder: (context) => VisaHomePage()),
                       );
                     },
                     child: Container(

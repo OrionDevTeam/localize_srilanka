@@ -98,18 +98,21 @@ class _ApplicationsListState extends State<ApplicationsList> {
               onTap: () async {
                 if (status == 'Ongoing') {
                   final visaDoc = await visaRef.get();
-                  final visaData = visaDoc.data() as Map<String, dynamic>? ?? {};
+                  final visaData =
+                      visaDoc.data() as Map<String, dynamic>? ?? {};
                   // Navigate to the Visa Application Form page if status is "Ongoing"
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => VisaApplicationFormPage(visa: visaDoc), // Replace with the correct page
+                      builder: (context) =>
+                          VisaApplicationFormPage(), // Replace with the correct page
                     ),
                   );
                 } else {
                   // Fetch the visa document data if the status is not "Ongoing"
                   final visaDoc = await visaRef.get();
-                  final visaData = visaDoc.data() as Map<String, dynamic>? ?? {};
+                  final visaData =
+                      visaDoc.data() as Map<String, dynamic>? ?? {};
 
                   // Navigate to the Application Details screen for other statuses
                   Navigator.push(
@@ -134,10 +137,12 @@ class _ApplicationsListState extends State<ApplicationsList> {
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: statusColor),
                         image: DecorationImage(
-                          image: AssetImage('assets/visa/application.jpg'), // Ensure this path is correct
+                          image: AssetImage(
+                              'assets/visa/application.jpg'), // Ensure this path is correct
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
-                            Colors.white.withOpacity(0.7), // Adjust opacity as needed
+                            Colors.white
+                                .withOpacity(0.7), // Adjust opacity as needed
                             BlendMode.lighten,
                           ),
                         ),

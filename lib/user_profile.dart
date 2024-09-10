@@ -5,7 +5,6 @@ import 'package:iconsax/iconsax.dart';
 
 import 'package:localize_sl/screens/users/userProfile.dart';
 
-
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
 
@@ -40,8 +39,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
           userEmail = data['email'] ?? '';
           userBio = data['bio'] ?? '';
           profileImageUrl = data['profileImageUrl'] ?? '';
-          rating = data['rating'].toString() ?? '0';
-          reviews = data['reviews'].toString() ?? '10';
+          rating = data['rating'].toString();
+          reviews = data['reviews'].toString();
           location = data['location'] ?? '';
         });
       } else {
@@ -58,7 +57,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     _fetchUserRole();
   }
 
-  final Offset _fabPosition = const Offset(0, 140); // Initial position
+// Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +122,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              userName ?? "",
+                              userName,
                               style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:localize_sl/chat.dart';
@@ -7,7 +6,6 @@ import 'package:localize_sl/guide_pages/guide_list_page.dart';
 
 import '../screens/map/map_home.dart';
 import '../visa/visahome.dart';
-
 
 class HomeScreen extends StatelessWidget {
   final dynamic user;
@@ -35,7 +33,11 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Localize Srilanka", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+                  const Text("Localize Srilanka",
+                      style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white)),
                   // Search Bar
                   // TextField(
                   //   decoration: InputDecoration(
@@ -57,11 +59,9 @@ class HomeScreen extends StatelessWidget {
                   //   ),
                   // ),
                   const SizedBox(height: 20),
-                  
 
                   // Top Container with Images and Button
                   Container(
-                    
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -85,10 +85,15 @@ class HomeScreen extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 30,
                                   backgroundColor: Colors.transparent,
-                                  child: SvgPicture.asset('assets/features/ticket.svg'),
+                                  child: SvgPicture.asset(
+                                      'assets/features/ticket.svg'),
                                 ),
                                 // SizedBox(height: 8), // spacing between image and text
-                                Text('Experiences',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                                Text('Experiences',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF2A966C),
+                                        fontWeight: FontWeight.bold)),
                               ],
                             ),
                             Column(
@@ -96,10 +101,15 @@ class HomeScreen extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 30,
                                   backgroundColor: Colors.transparent,
-                                  child: SvgPicture.asset('assets/features/hotel.svg'),
+                                  child: SvgPicture.asset(
+                                      'assets/features/hotel.svg'),
                                 ),
                                 // SizedBox(height: 8),
-                                Text('Hotels',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                                Text('Hotels',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF2A966C),
+                                        fontWeight: FontWeight.bold)),
                               ],
                             ),
                             Column(
@@ -107,10 +117,15 @@ class HomeScreen extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 30,
                                   backgroundColor: Colors.transparent,
-                                  child: SvgPicture.asset('assets/features/sim.svg'),
+                                  child: SvgPicture.asset(
+                                      'assets/features/sim.svg'),
                                 ),
                                 // SizedBox(height: 8),
-                                Text('Networks',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                                Text('Networks',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF2A966C),
+                                        fontWeight: FontWeight.bold)),
                               ],
                             ),
                             // Column(
@@ -129,10 +144,15 @@ class HomeScreen extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 30,
                                   backgroundColor: Colors.transparent,
-                                  child: SvgPicture.asset('assets/features/shopping.svg'),
+                                  child: SvgPicture.asset(
+                                      'assets/features/shopping.svg'),
                                 ),
                                 // SizedBox(height: 4),
-                                Text('Shopping',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                                Text('Shopping',
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xFF2A966C),
+                                        fontWeight: FontWeight.bold)),
                               ],
                             ),
                           ],
@@ -146,7 +166,9 @@ class HomeScreen extends StatelessWidget {
                               // Button action here
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const MapS(showBackButton: true)),
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MapS(showBackButton: true)),
                               );
                             },
                             icon: const Icon(
@@ -155,12 +177,14 @@ class HomeScreen extends StatelessWidget {
                             ),
                             label: const Text(
                               'Explore map',
-                              style: TextStyle(color: Colors.white, fontSize: 15),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
                             ),
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
                               backgroundColor: const Color(0xFF2A966C),
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 16.0),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20.0),
                               ),
@@ -178,7 +202,7 @@ class HomeScreen extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  
+
                   // Container with an SVG Image
                   GestureDetector(
                     onTap: () {
@@ -226,7 +250,8 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const ChatBotPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => const ChatBotPage()),
                             );
                           },
                           child: Container(
@@ -246,7 +271,9 @@ class HomeScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 SvgPicture.asset('assets/features/chatbot.svg'),
-                                const SizedBox(height: 10), // Add spacing between the image and text
+                                const SizedBox(
+                                    height:
+                                        10), // Add spacing between the image and text
                                 const Text(
                                   'Chatbot',
                                   style: TextStyle(
@@ -264,11 +291,13 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => GuideListPage()),
+                              MaterialPageRoute(
+                                  builder: (context) => GuideListPage()),
                             );
                           },
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.8, // Adjust the width as needed
+                            width: MediaQuery.of(context).size.width *
+                                0.8, // Adjust the width as needed
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
@@ -288,7 +317,9 @@ class HomeScreen extends StatelessWidget {
                                   height: 80, // Increase the height as needed
                                   width: 80, // Increase the width as needed
                                 ),
-                                const SizedBox(height: 30), // Add spacing between the image and text
+                                const SizedBox(
+                                    height:
+                                        30), // Add spacing between the image and text
                                 const Text(
                                   'Guides',
                                   style: TextStyle(
@@ -450,9 +481,7 @@ class HomeScreen extends StatelessWidget {
                   //   ],
                   // ),
                   const SizedBox(height: 120),
-                  
                 ],
-                
               ),
             ),
           ),
@@ -461,7 +490,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
 
 //remove this and put this as visa form page in a different file
 class AnotherPage extends StatelessWidget {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:localize_sl/visa/applications.dart';
 
 class VisaCard extends StatelessWidget {
   final String backgroundImagePath;
   final String foregroundImagePath;
   final String visaType;
   final String duration;
+  final VoidCallback onApply;
   final List<String> features;
   final Color backgroundColor;
   final Color buttonColor;
@@ -19,6 +19,7 @@ class VisaCard extends StatelessWidget {
     required this.visaType,
     required this.duration,
     required this.features,
+    required this.onApply,
     this.backgroundColor = const Color(0xFF2A966C), // Default background color
     this.buttonColor = const Color(0xFF2A966C), // Default button color
   }) : super(key: key);
@@ -103,23 +104,16 @@ class VisaCard extends StatelessWidget {
               left: 20,
               right: 20,
               child: ElevatedButton(
-                onPressed: () async {
-                  await _applyForVisa(context); // Run the provided async function
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ApplicationsScreen()),
-                  );
-                },
+                onPressed: onApply,
                 style: ElevatedButton.styleFrom(
                   backgroundColor:
                       buttonColor.withOpacity(0.8), // Custom button color
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  padding: EdgeInsets.symmetric(vertical: 15),
                 ),
-                child: const Text(
+                child: Text(
                   "Apply Now",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),

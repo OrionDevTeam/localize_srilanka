@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:localize_sl/visa/applications.dart';
+
+import 'progress.dart';
 
 class ApplyForVisaPage extends StatefulWidget {
+  final Color color;
+  final String cost;
+  final String imagePath;
+  ApplyForVisaPage(
+      {Key? key,
+      required this.color,
+      required this.cost,
+      required this.imagePath})
+      : super(key: key);
   @override
   _VisaScreenState createState() => _VisaScreenState();
 }
@@ -43,12 +53,12 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
 
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Visa application initiated successfully')),
+        const SnackBar(
+            content: Text('Visa application initiated successfully')),
       );
 
       // Optionally, navigate to another page or reset state
       Navigator.pop(context);
-
     } catch (e) {
       // Handle errors
       ScaffoldMessenger.of(context).showSnackBar(
@@ -63,7 +73,7 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
       body: Stack(
         children: [
           Container(
-            color: const Color(0xFF00BA72),
+            color: widget.color.withOpacity(0.8),
           ),
           Positioned(
             top: 60,
@@ -83,9 +93,18 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
             left: 20,
             child: Column(
               children: [
-                Image.asset(
-                  'assets/visa/girl.png', // Path to your foreground image
-                  height: 200,
+                Transform(
+                  alignment: Alignment
+                      .center, // Align the transformation at the center
+                  transform: Matrix4.rotationY(3.14159), // Mirror horizontally
+                  child: SizedBox(
+                    height: 200, // Define the height here
+                    child: Image.asset(
+                      widget.imagePath, // Your image asset
+                      fit: BoxFit
+                          .cover, // Adjust how the image fits within the box
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -149,7 +168,7 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
-                        foregroundColor: const Color(0xFF2A966C),
+                        foregroundColor: widget.color,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -158,7 +177,9 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
                         await _applyForVisa();
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => ApplicationsScreen()),
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const VisaApplicationScreen1()),
                         );
                       },
                       child: const Text(
@@ -171,8 +192,6 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
               ],
             ),
           ),
-
-          // Positioned white container with scrollable content inside
           Positioned(
             top: 270, // Adjust the position based on the design
             left: 0,
@@ -188,32 +207,6 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
               ),
               child: const Column(
                 children: [
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.end,
-                  //   children: [
-                  //     Container(
-                  //       padding: EdgeInsets.all(10),
-                  //       decoration: BoxDecoration(
-                  //         color: const Color(0xFF2A966C),
-                  //         borderRadius: BorderRadius.circular(10),
-                  //       ),
-                  //       child: Padding(
-                  //         padding: const EdgeInsets.only(
-                  //           left: 8,
-                  //           right: 8,
-                  //         ),
-                  //         child: Text(
-                  //           "50\$",
-                  //           style: TextStyle(
-                  //             color: Colors.white,
-                  //             fontSize: 16,
-                  //             fontWeight: FontWeight.bold,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
                   Expanded(
                     child: SingleChildScrollView(
                       child: Column(
@@ -280,17 +273,17 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: const Color(0xFF2A966C),
+                color: widget.color,
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: const Padding(
-                padding: EdgeInsets.only(
+              child: Padding(
+                padding: const EdgeInsets.only(
                   left: 8,
                   right: 8,
                 ),
                 child: Text(
-                  "50\$",
-                  style: TextStyle(
+                  widget.cost,
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

@@ -18,14 +18,13 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
   int dependents = 0;
   bool hasValidPassport = false;
   bool hasCriminalRecord = false;
-  String eligibilityMessage = '';
 
   // List of available options
   final List<String> citizenshipOptions = [
     'Select',
-    'Country A',
-    'Country B',
-    'Country C'
+    'India',
+    'Russia',
+    'Canada'
   ];
 
   final List<String> employmentOptions = [
@@ -54,22 +53,67 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
 
   // Eligibility logic
   void checkEligibility() {
+    String eligibilityMessage;
+    Color buttonColor;
+
+    // Determine eligibility message and button color
     if (age >= 18 &&
-        (citizenship == 'Country A' || citizenship == 'Country B') &&
+        (citizenship == 'India' || citizenship == 'Canada') &&
         employmentStatus != 'Unemployed' &&
         income > 10000 &&
         educationLevel != 'Select' &&
         maritalStatus != 'Select' &&
         hasValidPassport &&
         !hasCriminalRecord) {
-      setState(() {
-        eligibilityMessage = 'You are eligible for the visa.';
-      });
+      eligibilityMessage = 'You are eligible for the visa.';
+      buttonColor = Colors.green; // Set button color to green if eligible
     } else {
-      setState(() {
-        eligibilityMessage = 'You are not eligible for the visa.';
-      });
+      eligibilityMessage = 'You are not eligible for the visa.';
+      buttonColor = Colors.red; // Set button color to red if not eligible
     }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(
+            child: Text('Eligibility Status'),
+          ),
+          content: Text(
+            eligibilityMessage,
+            style: TextStyle(fontSize: 16, color: buttonColor),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('OK', style: TextStyle(color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: buttonColor,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4, horizontal: 30),
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(12), // Set the border radius here
+                ),
+              ),
+            )
+            // TextButton(
+            //   child: Text(
+            //     'OK',
+            //     style: TextStyle(
+            //         color:
+            //             buttonColor), // Set button color based on eligibility
+            //   ),
+            //   onPressed: () {
+            //     Navigator.of(context).pop();
+            //   },
+            // ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -77,7 +121,7 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Eligibility Checker'),
+        title: const Text('Eligibility Checker'),
         backgroundColor: Colors.white, // Custom color for app bar
       ),
       body: Padding(
@@ -88,11 +132,11 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 // Age Input
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Enter your age',
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFF2A966C)),
@@ -106,11 +150,11 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Citizenship Dropdown
                 DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Select your citizenship',
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFF2A966C)),
@@ -135,11 +179,11 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Employment Status Dropdown
                 DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Select your employment status',
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFF2A966C)),
@@ -164,12 +208,12 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Income Input
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Enter your annual income',
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFF2A966C)),
@@ -183,11 +227,11 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Education Level Dropdown
                 DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Select your education level',
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFF2A966C)),
@@ -212,11 +256,11 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Marital Status Dropdown
                 DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Select your marital status',
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFF2A966C)),
@@ -241,12 +285,12 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Number of Dependents Input
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Enter the number of dependents',
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Color(0xFF2A966C)),
@@ -260,11 +304,11 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Valid Passport Checkbox
                 CheckboxListTile(
-                  title: Text("Do you have a valid passport?"),
+                  title: const Text("Do you have a valid passport?"),
                   value: hasValidPassport,
                   onChanged: (bool? value) {
                     setState(() {
@@ -272,12 +316,12 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                     });
                   },
                   controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: Color(0xFF2A966C), // Custom checked color
+                  activeColor: const Color(0xFF2A966C), // Custom checked color
                 ),
 
                 // Criminal Record Checkbox
                 CheckboxListTile(
-                  title: Text("Do you have any criminal record?"),
+                  title: const Text("Do you have any criminal record?"),
                   value: hasCriminalRecord,
                   onChanged: (bool? value) {
                     setState(() {
@@ -285,9 +329,9 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                     });
                   },
                   controlAffinity: ListTileControlAffinity.leading,
-                  activeColor: Color(0xFF2A966C), // Custom checked color
+                  activeColor: const Color(0xFF2A966C), // Custom checked color
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Check Eligibility Button
                 Center(
@@ -298,36 +342,22 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF2A966C),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                      backgroundColor: const Color(0xFF2A966C),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 15, horizontal: 30),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             12), // Set the border radius here
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       "Check Eligibility",
                       style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 ),
 
-                SizedBox(height: 20),
-
-                Center(
-                  child: Text(
-                    eligibilityMessage,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color:
-                          eligibilityMessage == 'You are eligible for the visa.'
-                              ? Colors.green
-                              : Colors.red,
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

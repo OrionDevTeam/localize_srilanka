@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:localize_sl/chat.dart';
-import 'package:localize_sl/guide_pages/guide_list_page.dart';
 
 import '../screens/map/map_home.dart';
-import '../visa/visahome.dart';
 
+import 'SIM/sim_home.dart';
+import 'vehicle/vehicle_main.dart';
+import 'visa/widgets/banner.dart';
 
 class HomeScreen extends StatelessWidget {
   final dynamic user;
@@ -18,6 +18,16 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        // decoration: const BoxDecoration(
+        //   gradient: LinearGradient(
+        //     begin: Alignment.topCenter,
+        //     end: Alignment.bottomCenter, // Fill vertically
+        //     colors: [
+        //       Color(0xFF2A966C), // Start color
+        //       Colors.white, // End color
+        //     ],
+        //     stops: [0.5, 0.5], // Stops to define where the colors transition
+        //   ),
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -35,33 +45,15 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("Localize Srilanka", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
-                  // Search Bar
-                  // TextField(
-                  //   decoration: InputDecoration(
-                  //     hintText: "Search...",
-                  //     prefixIcon: const Icon(Icons.search),
-                  //     filled: true,
-                  //     fillColor: Colors.grey[200],
-                  //     border: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(18),
-                  //       borderSide: BorderSide.none,
-                  //     ),
-                  //     focusedBorder: OutlineInputBorder(
-                  //       borderRadius: BorderRadius.circular(18),
-                  //       borderSide: const BorderSide(
-                  //         color: Color(0xFF2A966C),
-                  //         width: 2.0,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  const Text(
+                    "Localize Srilanka",
+                    style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
                   const SizedBox(height: 20),
-                  
-
-                  // Top Container with Images and Button
                   Container(
-                    
                     padding: const EdgeInsets.all(16.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -82,87 +74,161 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             Column(
                               children: [
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.transparent,
-                                  child: SvgPicture.asset('assets/features/ticket.svg'),
+                                SizedBox(
+                                  height: 40, // Set the height for the image
+                                  width: 40, // Set the width for the image
+                                  child: SvgPicture.asset(
+                                    'assets/features/ticket.svg',
+                                    fit: BoxFit
+                                        .contain, // Ensures the asset fits within the box
+                                  ),
                                 ),
-                                // SizedBox(height: 8), // spacing between image and text
-                                Text('Experiences',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
+                                const Text(
+                                  'Experiences',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xFF2A966C),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // Navigate to MyApp page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VehicleScreen()),
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 40, // Set the height for the image
+                                    width: 40, // Set the width for the image
+                                    child: SvgPicture.asset(
+                                      'assets/features/sim.svg',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Networks',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFF2A966C),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // Navigate to Panorama page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SimCardsPage()),
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 40, // Set the height for the image
+                                    width: 40, // Set the width for the image
+                                    child: SvgPicture.asset(
+                                      'assets/features/hotel.svg',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  const Text(
+                                    '360',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFF2A966C),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             Column(
                               children: [
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.transparent,
-                                  child: SvgPicture.asset('assets/features/hotel.svg'),
+                                SizedBox(
+                                  height: 40, // Set the height for the image
+                                  width: 40, // Set the width for the image
+                                  child: SvgPicture.asset(
+                                    'assets/features/shopping.svg',
+                                    fit: BoxFit.contain,
+                                  ),
                                 ),
-                                // SizedBox(height: 8),
-                                Text('Hotels',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.transparent,
-                                  child: SvgPicture.asset('assets/features/sim.svg'),
+                                const Text(
+                                  'Shopping',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Color(0xFF2A966C),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                // SizedBox(height: 8),
-                                Text('Networks',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                            // Column(
-                            //   children: [
-                            //     CircleAvatar(
-                            //       radius: 30,
-                            //       backgroundColor: Colors.transparent,
-                            //       child: SvgPicture.asset('assets/features/train.svg'),
-                            //     ),
-                            //     // SizedBox(height: 4),
-                            //     Text('Travelling'),
-                            //   ],
-                            // ),
-                            Column(
-                              children: [
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.transparent,
-                                  child: SvgPicture.asset('assets/features/shopping.svg'),
-                                ),
-                                // SizedBox(height: 4),
-                                Text('Shopping',style: TextStyle(fontSize: 12,color:Color(0xFF2A966C),fontWeight: FontWeight.bold)),
                               ],
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
-                        // Full-width Button
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: double.infinity,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              // Button action here
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const MapS(showBackButton: true)),
-                              );
-                            },
-                            icon: const Icon(
-                              Iconsax.map,
-                              color: Colors.white,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF00BA72), // Start color of gradient
+                                  Color(0xFF2A966C), // End color of gradient
+                                ],
+                                begin: Alignment
+                                    .topLeft, // Starting point of the gradient
+                                end: Alignment
+                                    .bottomRight, // Ending point of the gradient
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                  7), // Match the button's border radius
                             ),
-                            label: const Text(
-                              'Explore map',
-                              style: TextStyle(color: Colors.white, fontSize: 15),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              foregroundColor: Colors.white,
-                              backgroundColor: const Color(0xFF2A966C),
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MapS(showBackButton: true),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 6.0,
+                                ), // Adjust button padding
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      7), // Match the container's radius
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .center, // Center the content
+                                  children: [
+                                    Icon(
+                                      Iconsax.map,
+                                      color: Colors.white,
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            8), // Space between icon and text
+                                    Text(
+                                      'Explore map',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 15),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -171,54 +237,51 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // Text
                   const Text(
                     'Apply for SriLankan Visa',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 10),
-                  
-                  // Container with an SVG Image
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => VisaHomePage()),
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 150,
-                      margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        // boxShadow: const [
-                        //   BoxShadow(
-                        //     color: Colors.black12,
-                        //     blurRadius: 6,
-                        //     offset: Offset(0, 3),
-                        //   ),
-                        // ],
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: SvgPicture.asset(
-                          'assets/features/visaprocess.svg',
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                    ),
+                  const VisaBanner(
+                    backgroundColor: Color(0xFF2A966C),
+                    buttonColor: Color(0xFF286A50),
+                    textColor: Colors.white,
+                    text:
+                        'Get Your Sri Lankan Tourist Visa Hassle-Free with Us!',
+                    imagePath: 'assets/visa/girl.png',
                   ),
-                  const SizedBox(height: 20),
+                  // Container with an SVG Image
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //           builder: (context) => const VisaHomePage()),
+                  //     );
+                  //   },
+                  //   child: Container(
+                  //     width: double.infinity,
+                  //     height: 150,
+                  //     margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(12),
+                  //     ),
+                  //     child: ClipRRect(
+                  //       borderRadius: BorderRadius.circular(12),
+                  //       child: SvgPicture.asset(
+                  //         'assets/features/visaprocess.svg',
+                  //         fit: BoxFit.fill,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
 
+                  const SizedBox(height: 20),
                   const Text(
-                    'New LOCALIZE features',
+                    'New Localize Features',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-
-                  // Row with 2 Containers with SVG Images
                   Row(
                     children: [
                       Expanded(
@@ -226,7 +289,9 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => const ChatBotPage()),
+                              MaterialPageRoute(
+                                builder: (context) => const ChatBotPage(),
+                              ),
                             );
                           },
                           child: Container(
@@ -234,19 +299,31 @@ class HomeScreen extends StatelessWidget {
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              // boxShadow: const [
-                              //   BoxShadow(
-                              //     color: Colors.black12,
-                              //     blurRadius: 6,
-                              //     offset: Offset(0, 3),
-                              //   ),
-                              // ],
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset('assets/features/chatbot.svg'),
-                                const SizedBox(height: 10), // Add spacing between the image and text
+                                // Change SvgPicture.asset to Image.asset
+                                Container(
+                                  height: 100, // Adjust height as needed
+                                  width: 100, // Adjust width as needed
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(
+                                        12), // Optional for rounded corners
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(
+                                        12), // Rounded corners for the image
+                                    child: Image.asset(
+                                      'assets/vimosh/localx.png', // Path to your image asset
+                                      fit: BoxFit
+                                          .cover, // Ensures the image covers the box entirely
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                    height:
+                                        10), // Add spacing between the image and text
                                 const Text(
                                   'Chatbot',
                                   style: TextStyle(
@@ -264,33 +341,71 @@ class HomeScreen extends StatelessWidget {
                           onTap: () {
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => GuideListPage()),
+                              MaterialPageRoute(
+                                builder: (context) => const ChatBotPage(),
+                              ),
                             );
                           },
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.8, // Adjust the width as needed
+                            width: MediaQuery.of(context).size.width,
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              // boxShadow: const [
-                              //   BoxShadow(
-                              //     color: Colors.black12,
-                              //     blurRadius: 6,
-                              //     offset: Offset(0, 3),
-                              //   ),
-                              // ],
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(
-                                  'assets/features/guide.svg',
-                                  height: 80, // Increase the height as needed
-                                  width: 80, // Increase the width as needed
+                                // Change SvgPicture.asset to Image.asset
+                                Image.asset(
+                                  'assets/vimosh/360.png', // Path to your image asset
+                                  height: 100, // Adjust height as needed
+                                  width: 80, // Adjust width as needed
                                 ),
-                                const SizedBox(height: 30), // Add spacing between the image and text
+                                const SizedBox(
+                                    height:
+                                        10), // Add spacing between the image and text
                                 const Text(
-                                  'Guides',
+                                  '360',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ChatBotPage(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Change SvgPicture.asset to Image.asset
+                                Image.asset(
+                                  'assets/vimosh/guidex.jpg', // Path to your image asset
+                                  height: 100, // Adjust height as needed
+                                  width: 100, // Adjust width as needed
+                                ),
+                                const SizedBox(
+                                    height:
+                                        10), // Add spacing between the image and text
+                                const Text(
+                                  'Localize Guides',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -450,9 +565,7 @@ class HomeScreen extends StatelessWidget {
                   //   ],
                   // ),
                   const SizedBox(height: 120),
-                  
                 ],
-                
               ),
             ),
           ),
@@ -461,7 +574,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
 
 //remove this and put this as visa form page in a different file
 class AnotherPage extends StatelessWidget {

@@ -1,14 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For Date Formatting
-import 'package:localize_sl/visa/application/visa_application2.dart';
+import 'visa_application2.dart'; // Import the Upload Document page
 
 class VisaApplicationFormPage extends StatefulWidget {
-  final DocumentSnapshot visa;
-  const VisaApplicationFormPage({Key? key, required this.visa}) : super(key: key);
+  const VisaApplicationFormPage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _VisaApplicationFormPageState createState() =>
       _VisaApplicationFormPageState();
 }
@@ -23,24 +20,6 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
   final TextEditingController _expiryDateController = TextEditingController();
   String? _durationOfStay = '30 Days';
   String? _nationality = 'Indian';
-
-  @override
-  void initState() {
-    super.initState();
-    // Pre-fill the form with existing values from the visa document
-    if (widget.visa.exists) {
-      final data = widget.visa.data() as Map<String, dynamic>;
-
-      _FirstNameContoller.text = data['firstName'] ?? '';
-      _SurnameController.text = data['surname'] ?? '';
-      _dobController.text = data['dob'] ?? '';
-      _PassportContoller.text = data['passportNumber'] ?? '';
-      _issueDateController.text = data['passportIssueDate'] ?? '';
-      _expiryDateController.text = data['passportExpiryDate'] ?? '';
-      _durationOfStay = data['durationOfStay'] ?? '30 Days';
-      _nationality = data['nationality'] ?? 'Indian';
-    }
-  }
 
   // Function to pick a date
   Future<void> _selectDate(
@@ -60,64 +39,23 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      // Create or update Firestore document with the form values
-      widget.visa.reference.set({
-        'firstName': _FirstNameContoller.text,
-        'surname': _SurnameController.text,
-        'dob': _dobController.text,
-        'passportNumber': _PassportContoller.text,
-        'passportIssueDate': _issueDateController.text,
-        'passportExpiryDate': _expiryDateController.text,
-        'durationOfStay': _durationOfStay!,
-        'nationality': _nationality!,
-      }, SetOptions(merge: true)).then((_) {
-        // Navigate to the document upload page and pass the form data
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => UploadDocumentPage(
-              visa: widget.visa,
-            ),
+      // Navigate to the document upload page and pass the form data
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UploadDocumentPage(
+            firstName: _FirstNameContoller.text,
+            surname: _SurnameController.text,
+            dob: _dobController.text,
+            nationality: _nationality!,
+            passportNumber: _PassportContoller.text,
+            passportIssueDate: _issueDateController.text,
+            passportExpiryDate: _expiryDateController.text,
+            durationOfStay: _durationOfStay!,
           ),
-        );
-      }).catchError((error) {
-        // Handle any errors that occur during the update
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update document: $error')),
-        );
-      });
+        ),
+      );
     }
-  }
-
-  InputDecoration _inputDecoration(String labelText) {
-    return InputDecoration(
-      labelText: labelText,
-      labelStyle: const TextStyle(
-          color: Color(0xFF2A966C)), // Label color when not focused
-      fillColor: const Color(0xFFF5F5F5), // Background fill color
-      filled: true, // Enable fill color
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(
-          color: Color(0xFF2A966C), // Border color when not focused
-        ),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(
-          color: Color(0xFF2A966C), // Border color when not focused
-        ),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(
-          color: Color(0xFF2A966C), // Border color when focused
-          width: 2.0,
-        ),
-      ),
-      hoverColor:
-          Colors.greenAccent, // Optional hover effect for web/desktop platforms
-    );
   }
 
   @override
@@ -147,22 +85,16 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                // Add an image
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(
-                      child: Image(
-                    image: AssetImage('assets/visa/1.png'),
-                  )),
-                ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 24),
                 Row(
                   children: [
                     Expanded(
                       child: TextFormField(
                         controller: _FirstNameContoller,
-                        decoration: _inputDecoration('First Name'),
+                        decoration: const InputDecoration(
+                          labelText: 'First Name',
+                          border: OutlineInputBorder(),
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your first name';
@@ -175,7 +107,10 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
                     Expanded(
                       child: TextFormField(
                         controller: _SurnameController,
-                        decoration: _inputDecoration('Surname'),
+                        decoration: const InputDecoration(
+                          labelText: 'Surname',
+                          border: OutlineInputBorder(),
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your surname';
@@ -192,8 +127,10 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
                     Expanded(
                       child: TextFormField(
                         controller: _dobController,
-                        decoration: _inputDecoration('Date of Birth').copyWith(
-                          suffixIcon: const Icon(Icons.calendar_today),
+                        decoration: const InputDecoration(
+                          labelText: 'Date of Birth',
+                          border: OutlineInputBorder(),
+                          suffixIcon: Icon(Icons.calendar_today),
                         ),
                         readOnly: true,
                         onTap: () => _selectDate(context, _dobController),
@@ -209,7 +146,10 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
                     Expanded(
                       child: DropdownButtonFormField<String>(
                         value: _nationality,
-                        decoration: _inputDecoration('Nationality'),
+                        decoration: const InputDecoration(
+                          labelText: 'Nationality',
+                          border: OutlineInputBorder(),
+                        ),
                         items: [
                           'Indian',
                           'American',
@@ -238,7 +178,10 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
                     Expanded(
                       child: TextFormField(
                         controller: _PassportContoller,
-                        decoration: _inputDecoration('Passport Number'),
+                        decoration: const InputDecoration(
+                          labelText: 'Passport Number',
+                          border: OutlineInputBorder(),
+                        ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your passport number';
@@ -251,9 +194,10 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
                     Expanded(
                       child: TextFormField(
                         controller: _issueDateController,
-                        decoration:
-                            _inputDecoration('Passport Issue Date').copyWith(
-                          suffixIcon: const Icon(Icons.calendar_today),
+                        decoration: const InputDecoration(
+                          labelText: 'Passport Issue Date',
+                          border: OutlineInputBorder(),
+                          suffixIcon: Icon(Icons.calendar_today),
                         ),
                         readOnly: true,
                         onTap: () => _selectDate(context, _issueDateController),
@@ -270,8 +214,10 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _expiryDateController,
-                  decoration: _inputDecoration('Passport Expiry Date').copyWith(
-                    suffixIcon: const Icon(Icons.calendar_today),
+                  decoration: const InputDecoration(
+                    labelText: 'Passport Expiry Date',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.calendar_today),
                   ),
                   readOnly: true,
                   onTap: () => _selectDate(context, _expiryDateController),
@@ -285,7 +231,10 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
                 const SizedBox(height: 20),
                 DropdownButtonFormField<String>(
                   value: _durationOfStay,
-                  decoration: _inputDecoration('Duration of Stay'),
+                  decoration: const InputDecoration(
+                    labelText: 'Duration of Stay',
+                    border: OutlineInputBorder(),
+                  ),
                   items: ['30 Days', '60 Days', '90 Days']
                       .map((String duration) => DropdownMenuItem<String>(
                             value: duration,
@@ -298,22 +247,22 @@ class _VisaApplicationFormPageState extends State<VisaApplicationFormPage> {
                     });
                   },
                 ),
-                const SizedBox(height: 30),
+                const SizedBox(height: 32),
+
+                // Continue Button
                 Center(
                   child: ElevatedButton(
                     onPressed: _submitForm,
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 16),
-                      backgroundColor: const Color(0xFF2A966C),
+                          horizontal: 50, vertical: 15),
+                      backgroundColor: const Color(0xFF00BA72),
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text(
-                      'Submit and Continue',
-                      style: TextStyle(fontSize: 16,color: Colors.white),
-                    ),
+                    child: const Text('Continue'),
                   ),
                 ),
               ],

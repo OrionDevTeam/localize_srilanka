@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:localize_sl/chat.dart';
-import '../userProfile.dart';
 import 'chat.dart';
 
 class ChatSelectionPage extends StatefulWidget {
@@ -88,7 +87,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
             });
           }
         }
-            }
+      }
 
       setState(() {
         _chats = chats;
@@ -152,7 +151,8 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(100.0), // Adjust the height as needed
+        preferredSize:
+            const Size.fromHeight(100.0), // Adjust the height as needed
         child: ClipRRect(
           borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(18.0)), // Add border radius to the bottom

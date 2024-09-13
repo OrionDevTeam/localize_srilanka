@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'guide_reserve_page.dart';
-
-
-
+import 'package:localize_sl/calendar.dart';
 
 class VacationDetailPage extends StatelessWidget {
   final List<String> imgList = [
@@ -92,10 +90,13 @@ class VacationDetailPage extends StatelessWidget {
                 enableInfiniteScroll: true,
                 viewportFraction: 0.8,
               ),
-              items: imgList.map((item) => ClipRRect(
-                borderRadius: BorderRadius.circular(16.0),
-                child: Image.asset(item, fit: BoxFit.cover, width: 1000.0),
-              )).toList(),
+              items: imgList
+                  .map((item) => ClipRRect(
+                        borderRadius: BorderRadius.circular(16.0),
+                        child:
+                            Image.asset(item, fit: BoxFit.cover, width: 1000.0),
+                      ))
+                  .toList(),
             ),
             const Spacer(),
             Row(
@@ -106,7 +107,10 @@ class VacationDetailPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ReservationScreen(),
+                        builder: (context) => CalendarPage(
+                          packageName: 'Camping',
+                          imageURL : 'assets/biru/image_13.jpg'
+                        ),
                       ),
                     );
                   },

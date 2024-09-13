@@ -30,7 +30,7 @@ class _GuideListPageState extends State<GuideListPage> {
         ),
         centerTitle: true,
         title: const Text(
-          'Search',
+          'Localizers',
           style: TextStyle(),
         ),
         bottom: PreferredSize(

@@ -132,6 +132,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               time: _selectedTime!,
                               packageName: widget.packageName, // Pass the package name
                               imageURL: widget.imageURL,
+                              isPaymentButton: true, // Show payment button
                             ),
                           ),
                         );

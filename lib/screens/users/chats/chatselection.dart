@@ -19,6 +19,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
   late User _currentUser;
   String _currentUserRole = '';
   List<Map<String, dynamic>> _chats = [];
+  String _searchQuery = ''; // Added a field for search query
 
   @override
   void initState() {
@@ -158,6 +159,22 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
               bottom: Radius.circular(18.0)), // Add border radius to the bottom
           child: AppBar(
             backgroundColor: const Color(0xFF2A966C),
+            leading: widget.showBackButton
+                ? IconButton(
+                    icon: const Icon(Icons.arrow_back,color: Colors.white),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )
+                : null,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () {
+                  _fetchChats(); // Refresh chats when button is pressed
+                },
+              ),
+            ],
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(60.0),
               child: Column(
@@ -168,7 +185,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
-                        hintText: 'Search',
+                        hintText: 'Search by username', // Added placeholder for search
                         prefixIcon: const Icon(Icons.search),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
@@ -176,6 +193,11 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                           borderSide: BorderSide.none,
                         ),
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value; // Update the search query
+                        });
+                      },
                     ),
                   ),
                 ],
@@ -184,152 +206,153 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
           ),
         ),
       ),
-      body: _chats.isEmpty
-          ? const Center(child: CircularProgressIndicator(color: Colors.green))
-          : ListView.builder(
-              itemCount: _chats.length,
-              itemBuilder: (context, index) {
-                final chat = _chats[index];
-                final otherUserData =
-                    chat['otherUserData'] as Map<String, dynamic>;
-                return Column(
-                  children: [
-                    // create a container for the AI chat
-                    MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const ChatBotPage(),
-                            ),
-                          );
-                        },
-                        child: MouseRegion(
-                          cursor: SystemMouseCursors.click,
-                          child: Container(
-                            padding: const EdgeInsets.all(16),
-                            margin: const EdgeInsets.all(8),
-                            child: Row(
-                              children: [
-                                // Leading Icon
-                                Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.blue.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Icon(
-                                    Iconsax.message,
-                                    color: Colors.blue[700],
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                // Title and Subtitle
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "AI Chat",
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        "Chat with Vidara",
-                                        style:
-                                            TextStyle(color: Colors.grey[600]),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const Row(
-                      children: [
-                        SizedBox(width: 16.0),
-                        Text(
-                          'Chats',
-                          style: TextStyle(
-                            fontSize: 14.0, // Adjust the font size
-                            fontWeight: FontWeight.bold, // Make the text bold
-                          ),
-                        ),
-                      ],
-                    ),
-                    ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16.0,
-                          vertical: 8.0), // Adjust padding as needed
-                      leading: CircleAvatar(
-                        radius: 24, // Adjust the size of the avatar
-                        backgroundImage: NetworkImage(
-                            otherUserData['profileImageUrl'] ?? ''),
-                      ),
-                      title: Text(
-                        otherUserData['username'] ?? '',
-                        style: const TextStyle(
-                          fontSize: 16.0, // Adjust the font size
-                          fontWeight: FontWeight.bold, // Make the username bold
-                          color: Colors.black, // Set the text color
-                        ),
-                      ),
-                      subtitle: Text(
-                        chat['userRole'] ?? '',
-                        style: const TextStyle(
-                          fontSize:
-                              14.0, // Adjust the font size for the subtitle
-                          color: Colors.grey, // Set the subtitle color
-                        ),
-                      ),
-                      trailing: const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '10 min', // Replace with your dynamic time
-                            style: TextStyle(
-                              fontSize:
-                                  12.0, // Adjust the font size for the time
-                              color: Colors.grey, // Set the color for the time
-                            ),
-                          ),
-                          SizedBox(height: 4.0),
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ChatPage(
-                              chatId: chat['chatID'],
-                              guideData: {
-                                'id': otherUserData[
-                                    'id'], // Assuming 'id' is the key for guide's ID
-                                'username': otherUserData[
-                                    'username'], // Assuming 'username' is the key for guide's username
-                                'profileImageUrl': otherUserData[
-                                    'profileImageUrl'], // Key for guide's profile image URL
-                                'user_role': otherUserData[
-                                    'user_role'], // Key for guide's user role
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+      body: Column(
+        children: [
+          // Create a container for the AI chat
+          MouseRegion(
+            cursor: SystemMouseCursors.click,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ChatBotPage(),
+                  ),
                 );
               },
+              child: MouseRegion(
+                cursor: SystemMouseCursors.click,
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.all(8),
+                  child: Row(
+                    children: [
+                      // Leading Icon
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.blue.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          Iconsax.message,
+                          color: Colors.blue[700],
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      // Title and Subtitle
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "AI Chat",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "Chat with Vidara",
+                              style: TextStyle(color: Colors.grey[600]),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Text(
+                  'Chats',
+                  style: TextStyle(
+                    fontSize: 14.0, // Adjust the font size
+                    fontWeight: FontWeight.bold, // Make the text bold
+                  ),
+                ),
+                Spacer(), // Pushes the refresh button to the right
+                IconButton(
+                  icon: Icon(Icons.refresh),
+                  onPressed: () {
+                    _fetchChats(); // Refresh chats when button is pressed
+                  },
+                ),
+              ],
+            ),
+          ),
+          _chats.isEmpty
+              ? const Expanded(child: Center(child: CircularProgressIndicator(color: Colors.green)))
+              : Expanded(
+                  child: ListView.builder(
+                    itemCount: _chats.length,
+                    itemBuilder: (context, index) {
+                      final chat = _chats[index];
+                      final otherUserData =
+                          chat['otherUserData'] as Map<String, dynamic>;
+                      final username = otherUserData['username'] ?? '';
+
+                      // Check if the chat matches the search query
+                      if (_searchQuery.isNotEmpty &&
+                          !username.toLowerCase().contains(_searchQuery.toLowerCase())) {
+                        return const SizedBox.shrink(); // Skip items that don't match
+                      }
+
+                      return Column(
+                        children: [
+                          ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16.0,
+                                vertical: 0.0), // Adjust padding as needed
+                            leading: CircleAvatar(
+                              radius: 24, // Adjust the size of the avatar
+                              backgroundImage: NetworkImage(
+                                  otherUserData['profileImageUrl'] ?? ''),
+                            ),
+                            title: Text(
+                              username,
+                              style: const TextStyle(
+                                fontSize: 16.0, // Adjust the font size
+                                fontWeight: FontWeight.bold, // Make the username bold
+                                color: Colors.black, // Set the text color
+                              ),
+                            ),
+                            subtitle: Text(
+                              'LOCALIZE '+chat['userRole'] ?? '',
+                              style: const TextStyle(
+                                fontSize: 14.0, // Adjust the font size for the subtitle
+                                color: Colors.grey, // Set the subtitle color
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatPage(
+                                    chatId: chat['chatID'],
+                                    guideData: {
+                                      'id': otherUserData['id'], // Assuming 'id' is the key for guide's ID
+                                      'username': otherUserData['username'], // Assuming 'username' is the key for guide's username
+                                      'profileImageUrl': otherUserData['profileImageUrl'], // Key for guide's profile image URL
+                                      'user_role': otherUserData['user_role'], // Key for guide's user role
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+        ],
+      ),
     );
   }
 }

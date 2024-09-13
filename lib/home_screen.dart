@@ -432,99 +432,175 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // Vertical Carousel Slider with SVG Images
-                  // CarouselSlider(
-                  //   options: CarouselOptions(
-                  //     height: 100.0,
-                  //     enableInfiniteScroll: false,
-                  //     enlargeCenterPage: true,
-                  //     viewportFraction: 0.8,
-                  //   ),
-                  //   items: [
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: Image.asset(
-                  //             'assets/experiences/camping.jpg',
-                  //             fit: BoxFit.cover,
-                  //           ),
-                  //       ),
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: Image.asset(
-                  //             'assets/experiences/camping.jpg',
-                  //             fit: BoxFit.cover,
-                  //           ),
-                  //       ),
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: ClipRRect(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           child: Image.asset(
-                  //             'assets/experiences/camping.jpg',
-                  //             fit: BoxFit.cover,
-                  //           ),
-                  //         ),
-                  //       )
-                  //     ),
-                      
-                  //   ],
-                  // ),
+                  CarouselSlider(
+                  options: CarouselOptions(
+                    height: 180.0,
+                    enableInfiniteScroll: false,
+                    enlargeCenterPage: true,
+                    viewportFraction: 0.8,
+                  ),
+                  items: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 6,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/experiences/Surfing.jpg',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 110,
+                            child: Text(
+                              "Surfing",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    offset: Offset(0, 1),
+                                    blurRadius: 5.0,
+                                    color: Colors.black.withOpacity(0.5),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 6,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/experiences/camping.jpg',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 100,
+                            child: Text(
+                              "Camping",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    offset: Offset(0, 1),
+                                    blurRadius: 5.0,
+                                    color: Colors.black.withOpacity(0.5),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 6,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/experiences/ele_safari.jpg',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 80,
+                            child: Text(
+                              "Elephant Safari",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    offset: Offset(0, 1),
+                                    blurRadius: 5.0,
+                                    color: Colors.black.withOpacity(0.5),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
                   const SizedBox(height: 120),
                 ],
               ),

@@ -266,7 +266,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.only(top:2, left: 16, right: 16),
             child: Row(
               children: [
                 Text(

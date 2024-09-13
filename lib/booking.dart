@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore for username
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/experience/guide_details.dart';
+import 'package:localize_sl/guide_pages/guide_model.dart'; // Import Firestore for username
+// import '../payment.dart';
+import 'package:localize_sl/payment.dart';
 
 class BookingPage extends StatelessWidget {
   final DateTime date;
@@ -8,6 +12,7 @@ class BookingPage extends StatelessWidget {
   final String packageName;
   final String imageURL;
   final bool isPaymentButton;
+  final Guide guide;
 
   // Constructor
   BookingPage({
@@ -16,6 +21,7 @@ class BookingPage extends StatelessWidget {
     required this.packageName,
     required this.imageURL,
     required this.isPaymentButton,
+    required this.guide,
   });
 
   @override
@@ -25,7 +31,7 @@ class BookingPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Booking Confirmation'),
+        title: const Text('Booking'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -40,22 +46,24 @@ class BookingPage extends StatelessWidget {
                     .get(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   if (snapshot.hasData && snapshot.data != null) {
-                    var userData = snapshot.data!.data() as Map<String, dynamic>;
+                    var userData =
+                        snapshot.data!.data() as Map<String, dynamic>;
                     return Container(
+                      width: double.infinity,
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(12.0),
+                        color: Colors.grey.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Name: ${userData['username'] ?? 'No Name'}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -63,22 +71,31 @@ class BookingPage extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(
                             'Email: ${currentUser.email ?? 'No Email'}',
-                            style: TextStyle(fontSize: 16),
+                            style: const TextStyle(fontSize: 16),
                           ),
                         ],
                       ),
                     );
                   }
-                  return Text('Error fetching user data');
+                  return const Text('Error fetching user data');
                 },
               ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
 
             // Container for Image and Package Name
             Container(
-              color: Colors.green.withOpacity(0.3),
-              padding: const EdgeInsets.all(16.0),
+              width: double.infinity,
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Color(0xFF2A966C).withOpacity(0.3), // Background color
+                border: Border.all(
+                  // Add the border
+                  color: Color(0xFF2A966C).withOpacity(0.1), // Border color
+                  width: 2.0, // Border width
+                ),
+                borderRadius: BorderRadius.circular(12.0), // Rounded corners
+              ),
               child: Row(
                 children: [
                   // Display the image
@@ -92,9 +109,9 @@ class BookingPage extends StatelessWidget {
                   // Display the package name
                   Expanded(
                     child: Text(
-                      packageName,
-                      style: TextStyle(
-                        fontSize: 18,
+                      '$packageName with \n${guide.username}',
+                      style: const TextStyle(
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -105,7 +122,56 @@ class BookingPage extends StatelessWidget {
 
             const SizedBox(height: 16),
 
-            // Container with Date and Time
+            // New Container with the guide's profile image, name, rating, and location
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: Color(0xFF2A966C).withOpacity(0.3), width: 2.0),
+                borderRadius: BorderRadius.circular(15.0),
+              ),
+              padding: const EdgeInsets.all(12.0),
+              child: Row(
+                children: [
+                  // Display guide's profile image
+                  ClipOval(
+                    child: Image.network(
+                      guide.profileImageUrl,
+                      width: 60,
+                      height: 60,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  // Display guide's name, rating, and location
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          guide.username,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Rating: ${guide.rating.toString()}',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Location: ${guide.location}',
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Container with Date and Time (icons one under the other)
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(16.0),
@@ -114,23 +180,41 @@ class BookingPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.calendar_today),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Date: ${date.toLocal().toShortDateString()}',
-                        style: TextStyle(fontSize: 16),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.calendar_today,
+                                  color: Color(0xFF2A966C)),
+                              const SizedBox(width: 8),
+                              Text(
+                                '${date.toLocal().toShortDateString()}',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.access_time),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Time: ${time.format(context)}',
-                        style: TextStyle(fontSize: 16),
+                      Column(
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(Icons.access_time,
+                                  color: Color(0xFF2A966C)),
+                              const SizedBox(width: 8),
+                              Text(
+                                '${time.format(context)}',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -146,13 +230,30 @@ class BookingPage extends StatelessWidget {
                   onPressed: () {
                     // Logic for payment or confirmation action
                     print("Pay and Confirm");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaymentPage(
+                          date: date,
+                          time: time,
+                          packageName: packageName,
+                          imageURL: imageURL,
+                          guide: guide,
+                        ),
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 16.0),
-                    backgroundColor: Colors.green,
-                    textStyle: TextStyle(fontSize: 18),
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    backgroundColor: Color(0xFF2A966C),
+                    textStyle: const TextStyle(fontSize: 18),
                   ),
-                  child: const Text('Pay and Confirm'),
+                  child: const Text('Pay and Confirm',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      )),
                 ),
               ),
           ],
@@ -165,6 +266,6 @@ class BookingPage extends StatelessWidget {
 // Extension for formatting the Date
 extension DateTimeExtensions on DateTime {
   String toShortDateString() {
-    return '${this.day}-${this.month}-${this.year}';
+    return '${this.day}/${this.month}/${this.year}';
   }
 }

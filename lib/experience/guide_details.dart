@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localize_sl/guide_pages/guide_model.dart';
 
 class GuideDetailsPage extends StatelessWidget {
   final String title;
@@ -1113,12 +1114,12 @@ class _HiringPageState extends State<HiringPage> {
               onPressed: isContinueButtonEnabled
                   ? () {
                       // Add functionality for continue button
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PaymentPage(),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const PaymentPage(),
+                      //   ),
+                      // );
                     }
                   : null,
               style: ButtonStyle(
@@ -1252,405 +1253,405 @@ class _HiringPageState extends State<HiringPage> {
   }
 }
 
-class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
+// class PaymentPage extends StatefulWidget {
+//   const PaymentPage({super.key, required DateTime date, required TimeOfDay time, required String imageURL, required Guide guide, required String packageName, required bool isPaymentButton});
 
-  @override
-  State<PaymentPage> createState() => _PaymentPageState();
-}
+//   @override
+//   State<PaymentPage> createState() => _PaymentPageState();
+// }
 
-class _PaymentPageState extends State<PaymentPage> {
-  bool isCardOptionSelected = false;
-  bool isVisaSelected = false;
-  bool isMasterCardSelected = false;
-  bool isAmericanExpressSelected = false;
+// class _PaymentPageState extends State<PaymentPage> {
+//   bool isCardOptionSelected = false;
+//   bool isVisaSelected = false;
+//   bool isMasterCardSelected = false;
+//   bool isAmericanExpressSelected = false;
 
-  bool isConfirmEnabled = false;
+//   bool isConfirmEnabled = false;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Payment Options'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-      ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const SizedBox(width: 100),
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        isCardOptionSelected = true;
-                        isVisaSelected = false;
-                        isMasterCardSelected = false;
-                        isAmericanExpressSelected = false;
-                        isConfirmEnabled = false;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: isCardOptionSelected
-                          ? const Color.fromRGBO(42, 150, 108, 1)
-                          : Colors.white,
-                      side: const BorderSide(
-                          color: Color.fromRGBO(42, 150, 108, 1), width: 2),
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-                    ),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'assets/aadi/Unknown.png',
-                          width: 40,
-                          height: 40,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Card',
-                          style: TextStyle(
-                              color: isCardOptionSelected
-                                  ? Colors.white
-                                  : const Color.fromRGBO(42, 150, 108, 1),
-                              fontWeight: FontWeight.w900),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.white,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-                      side: const BorderSide(
-                          color: Color.fromRGBO(42, 150, 108, 1), width: 2),
-                    ),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'assets/aadi/apple-pay-og-twitter.jpg',
-                          width: 40,
-                          height: 40,
-                        ),
-                        const SizedBox(width: 8),
-                        const Text('Apple pay',
-                            style: TextStyle(
-                                color: Color.fromRGBO(42, 150, 108, 1),
-                                fontWeight: FontWeight.w900)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.white,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-                      side: const BorderSide(
-                          color: Color.fromRGBO(42, 150, 108, 1), width: 2),
-                    ),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'assets/aadi/paypal-3384015_1280.png',
-                          width: 40,
-                          height: 40,
-                        ),
-                        const SizedBox(width: 8),
-                        const Text('Paypal',
-                            style: TextStyle(
-                                color: Color.fromRGBO(42, 150, 108, 1),
-                                fontWeight: FontWeight.w900)),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                'Select your card',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                height: 550,
-                width: MediaQuery.of(context).size.width * 0.7,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    const SizedBox(width: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isVisaSelected = true;
-                          isMasterCardSelected = false;
-                          isAmericanExpressSelected = false;
-                          isConfirmEnabled =
-                              isCardOptionSelected && isVisaSelected;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: isVisaSelected
-                            ? const Color.fromRGBO(42, 150, 108, 1)
-                            : Colors.white,
-                        padding: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/aadi/Card.png',
-                            width: 500,
-                            height: 500,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Visa',
-                            style: TextStyle(
-                                color: isVisaSelected
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isVisaSelected = false;
-                          isMasterCardSelected = true;
-                          isAmericanExpressSelected = false;
-                          isConfirmEnabled =
-                              isCardOptionSelected && isMasterCardSelected;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: isMasterCardSelected
-                            ? const Color.fromRGBO(42, 150, 108, 1)
-                            : Colors.white,
-                        padding: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/aadi/world-mastercard-card_1280x720.jpg',
-                            width: 500,
-                            height: 500,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'MasterCard',
-                            style: TextStyle(
-                                color: isMasterCardSelected
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          isVisaSelected = false;
-                          isMasterCardSelected = false;
-                          isAmericanExpressSelected = true;
-                          isConfirmEnabled =
-                              isCardOptionSelected && isAmericanExpressSelected;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: isAmericanExpressSelected
-                            ? const Color.fromRGBO(42, 150, 108, 1)
-                            : Colors.white,
-                        padding: EdgeInsets.zero,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/aadi/1684306263-web-platinum-card.webp',
-                            width: 500,
-                            height: 500,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'American Express',
-                            style: TextStyle(
-                                color: isAmericanExpressSelected
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontWeight: FontWeight.w900),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width * 0.7,
-                color: const Color.fromRGBO(42, 150, 108, 1),
-                padding: const EdgeInsets.all(20),
-                child: const Column(
-                  children: [
-                    SizedBox(width: 20),
-                    Text(
-                      'Hideaway Camping Trials',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-                    ),
-                    Text(
-                      'By Birunthaban',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width * 0.7,
-                color: const Color.fromRGBO(219, 229, 224, 1),
-                padding: const EdgeInsets.all(20),
-                child: const Row(
-                  children: [
-                    SizedBox(width: 20),
-                    Icon(Icons.calendar_today), // Calendar icon
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        '02.03.2024',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    SizedBox(width: 20),
-                    Icon(Icons.people), // People icon
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        '7 Adults, 4 Children',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    SizedBox(width: 20),
-                    Icon(Icons.access_time), // Clock icon
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text(
-                        '10:00 AM - 2:00 PM',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: isConfirmEnabled ? () {} : null,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  side: const BorderSide(
-                      color: Color.fromRGBO(42, 150, 108, 1),
-                      width: 2), // Add green border
-                ),
-                icon: const Icon(Icons.add, color: Color.fromRGBO(42, 150, 108, 1)),
-                label: const Text('Add Voucher',
-                    style: TextStyle(color: Color.fromRGBO(42, 150, 108, 1))),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.7,
-                padding: const EdgeInsets.all(20),
-                color: const Color.fromRGBO(219, 229, 224, 1),
-                child: const Center(
-                  child: Column(children: [
-                    Text(
-                      'Sub Total                           LKR 125,000',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-                    ),
-                    Text(
-                      'VAT(10%)                           LKR 12,500',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-                    ),
-                    Text(
-                      'Discount                            LKR -10,000',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-                    ),
-                    Text(
-                      'Total                                LKR 127,500',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
-                    )
-                  ]),
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: isConfirmEnabled
-                    ? () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const ConfirmationPage()),
-                        );
-                      }
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: isConfirmEnabled
-                      ? const Color.fromRGBO(42, 150, 108, 1)
-                      : const Color.fromRGBO(42, 150, 108, 1),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-                  side: const BorderSide(
-                      color: Color.fromRGBO(42, 150, 108, 1),
-                      width: 3), // Add green border
-                ),
-                child: const Text(
-                  'Confirm and Continue',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w900),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      backgroundColor: Colors.white,
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('Payment Options'),
+//         backgroundColor: Colors.white,
+//         foregroundColor: Colors.black,
+//       ),
+//       body: SingleChildScrollView(
+//         child: Center(
+//           child: Column(
+//             children: [
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   const SizedBox(width: 100),
+//                   ElevatedButton(
+//                     onPressed: () {
+//                       setState(() {
+//                         isCardOptionSelected = true;
+//                         isVisaSelected = false;
+//                         isMasterCardSelected = false;
+//                         isAmericanExpressSelected = false;
+//                         isConfirmEnabled = false;
+//                       });
+//                     },
+//                     style: ElevatedButton.styleFrom(
+//                       foregroundColor: Colors.black,
+//                       backgroundColor: isCardOptionSelected
+//                           ? const Color.fromRGBO(42, 150, 108, 1)
+//                           : Colors.white,
+//                       side: const BorderSide(
+//                           color: Color.fromRGBO(42, 150, 108, 1), width: 2),
+//                       padding:
+//                           const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+//                     ),
+//                     child: Column(
+//                       children: [
+//                         Image.asset(
+//                           'assets/aadi/Unknown.png',
+//                           width: 40,
+//                           height: 40,
+//                         ),
+//                         const SizedBox(width: 8),
+//                         Text(
+//                           'Card',
+//                           style: TextStyle(
+//                               color: isCardOptionSelected
+//                                   ? Colors.white
+//                                   : const Color.fromRGBO(42, 150, 108, 1),
+//                               fontWeight: FontWeight.w900),
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   const SizedBox(width: 10),
+//                   ElevatedButton(
+//                     onPressed: () {},
+//                     style: ElevatedButton.styleFrom(
+//                       foregroundColor: Colors.black,
+//                       backgroundColor: Colors.white,
+//                       padding:
+//                           const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+//                       side: const BorderSide(
+//                           color: Color.fromRGBO(42, 150, 108, 1), width: 2),
+//                     ),
+//                     child: Column(
+//                       children: [
+//                         Image.asset(
+//                           'assets/aadi/apple-pay-og-twitter.jpg',
+//                           width: 40,
+//                           height: 40,
+//                         ),
+//                         const SizedBox(width: 8),
+//                         const Text('Apple pay',
+//                             style: TextStyle(
+//                                 color: Color.fromRGBO(42, 150, 108, 1),
+//                                 fontWeight: FontWeight.w900)),
+//                       ],
+//                     ),
+//                   ),
+//                   const SizedBox(width: 10),
+//                   ElevatedButton(
+//                     onPressed: () {},
+//                     style: ElevatedButton.styleFrom(
+//                       foregroundColor: Colors.black,
+//                       backgroundColor: Colors.white,
+//                       padding:
+//                           const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+//                       side: const BorderSide(
+//                           color: Color.fromRGBO(42, 150, 108, 1), width: 2),
+//                     ),
+//                     child: Column(
+//                       children: [
+//                         Image.asset(
+//                           'assets/aadi/paypal-3384015_1280.png',
+//                           width: 40,
+//                           height: 40,
+//                         ),
+//                         const SizedBox(width: 8),
+//                         const Text('Paypal',
+//                             style: TextStyle(
+//                                 color: Color.fromRGBO(42, 150, 108, 1),
+//                                 fontWeight: FontWeight.w900)),
+//                       ],
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               const SizedBox(height: 20),
+//               const Text(
+//                 'Select your card',
+//                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+//               ),
+//               const SizedBox(height: 20),
+//               SizedBox(
+//                 height: 550,
+//                 width: MediaQuery.of(context).size.width * 0.7,
+//                 child: ListView(
+//                   scrollDirection: Axis.horizontal,
+//                   children: [
+//                     const SizedBox(width: 20),
+//                     ElevatedButton(
+//                       onPressed: () {
+//                         setState(() {
+//                           isVisaSelected = true;
+//                           isMasterCardSelected = false;
+//                           isAmericanExpressSelected = false;
+//                           isConfirmEnabled =
+//                               isCardOptionSelected && isVisaSelected;
+//                         });
+//                       },
+//                       style: ElevatedButton.styleFrom(
+//                         foregroundColor: Colors.white,
+//                         backgroundColor: isVisaSelected
+//                             ? const Color.fromRGBO(42, 150, 108, 1)
+//                             : Colors.white,
+//                         padding: EdgeInsets.zero,
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(20),
+//                         ),
+//                       ),
+//                       child: Column(
+//                         children: [
+//                           Image.asset(
+//                             'assets/aadi/Card.png',
+//                             width: 500,
+//                             height: 500,
+//                           ),
+//                           const SizedBox(width: 4),
+//                           Text(
+//                             'Visa',
+//                             style: TextStyle(
+//                                 color: isVisaSelected
+//                                     ? Colors.white
+//                                     : Colors.black,
+//                                 fontWeight: FontWeight.w900),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     const SizedBox(width: 20),
+//                     ElevatedButton(
+//                       onPressed: () {
+//                         setState(() {
+//                           isVisaSelected = false;
+//                           isMasterCardSelected = true;
+//                           isAmericanExpressSelected = false;
+//                           isConfirmEnabled =
+//                               isCardOptionSelected && isMasterCardSelected;
+//                         });
+//                       },
+//                       style: ElevatedButton.styleFrom(
+//                         foregroundColor: Colors.white,
+//                         backgroundColor: isMasterCardSelected
+//                             ? const Color.fromRGBO(42, 150, 108, 1)
+//                             : Colors.white,
+//                         padding: EdgeInsets.zero,
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(20),
+//                         ),
+//                       ),
+//                       child: Column(
+//                         children: [
+//                           Image.asset(
+//                             'assets/aadi/world-mastercard-card_1280x720.jpg',
+//                             width: 500,
+//                             height: 500,
+//                           ),
+//                           const SizedBox(width: 4),
+//                           Text(
+//                             'MasterCard',
+//                             style: TextStyle(
+//                                 color: isMasterCardSelected
+//                                     ? Colors.white
+//                                     : Colors.black,
+//                                 fontWeight: FontWeight.w900),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                     const SizedBox(width: 20),
+//                     ElevatedButton(
+//                       onPressed: () {
+//                         setState(() {
+//                           isVisaSelected = false;
+//                           isMasterCardSelected = false;
+//                           isAmericanExpressSelected = true;
+//                           isConfirmEnabled =
+//                               isCardOptionSelected && isAmericanExpressSelected;
+//                         });
+//                       },
+//                       style: ElevatedButton.styleFrom(
+//                         foregroundColor: Colors.white,
+//                         backgroundColor: isAmericanExpressSelected
+//                             ? const Color.fromRGBO(42, 150, 108, 1)
+//                             : Colors.white,
+//                         padding: EdgeInsets.zero,
+//                         shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(20),
+//                         ),
+//                       ),
+//                       child: Column(
+//                         children: [
+//                           Image.asset(
+//                             'assets/aadi/1684306263-web-platinum-card.webp',
+//                             width: 500,
+//                             height: 500,
+//                           ),
+//                           const SizedBox(width: 4),
+//                           Text(
+//                             'American Express',
+//                             style: TextStyle(
+//                                 color: isAmericanExpressSelected
+//                                     ? Colors.white
+//                                     : Colors.black,
+//                                 fontWeight: FontWeight.w900),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//               Container(
+//                 alignment: Alignment.center,
+//                 width: MediaQuery.of(context).size.width * 0.7,
+//                 color: const Color.fromRGBO(42, 150, 108, 1),
+//                 padding: const EdgeInsets.all(20),
+//                 child: const Column(
+//                   children: [
+//                     SizedBox(width: 20),
+//                     Text(
+//                       'Hideaway Camping Trials',
+//                       style:
+//                           TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+//                     ),
+//                     Text(
+//                       'By Birunthaban',
+//                       style:
+//                           TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               Container(
+//                 alignment: Alignment.center,
+//                 width: MediaQuery.of(context).size.width * 0.7,
+//                 color: const Color.fromRGBO(219, 229, 224, 1),
+//                 padding: const EdgeInsets.all(20),
+//                 child: const Row(
+//                   children: [
+//                     SizedBox(width: 20),
+//                     Icon(Icons.calendar_today), // Calendar icon
+//                     SizedBox(width: 10),
+//                     Expanded(
+//                       child: Text(
+//                         '02.03.2024',
+//                         style: TextStyle(fontSize: 16),
+//                       ),
+//                     ),
+//                     SizedBox(width: 20),
+//                     Icon(Icons.people), // People icon
+//                     SizedBox(width: 10),
+//                     Expanded(
+//                       child: Text(
+//                         '7 Adults, 4 Children',
+//                         style: TextStyle(fontSize: 16),
+//                       ),
+//                     ),
+//                     SizedBox(width: 20),
+//                     Icon(Icons.access_time), // Clock icon
+//                     SizedBox(width: 10),
+//                     Expanded(
+//                       child: Text(
+//                         '10:00 AM - 2:00 PM',
+//                         style: TextStyle(fontSize: 16),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//               ElevatedButton.icon(
+//                 onPressed: isConfirmEnabled ? () {} : null,
+//                 style: ElevatedButton.styleFrom(
+//                   foregroundColor: Colors.black,
+//                   backgroundColor: Colors.white,
+//                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+//                   side: const BorderSide(
+//                       color: Color.fromRGBO(42, 150, 108, 1),
+//                       width: 2), // Add green border
+//                 ),
+//                 icon: const Icon(Icons.add, color: Color.fromRGBO(42, 150, 108, 1)),
+//                 label: const Text('Add Voucher',
+//                     style: TextStyle(color: Color.fromRGBO(42, 150, 108, 1))),
+//               ),
+//               const SizedBox(height: 20),
+//               Container(
+//                 width: MediaQuery.of(context).size.width * 0.7,
+//                 padding: const EdgeInsets.all(20),
+//                 color: const Color.fromRGBO(219, 229, 224, 1),
+//                 child: const Center(
+//                   child: Column(children: [
+//                     Text(
+//                       'Sub Total                           LKR 125,000',
+//                       style:
+//                           TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+//                     ),
+//                     Text(
+//                       'VAT(10%)                           LKR 12,500',
+//                       style:
+//                           TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+//                     ),
+//                     Text(
+//                       'Discount                            LKR -10,000',
+//                       style:
+//                           TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+//                     ),
+//                     Text(
+//                       'Total                                LKR 127,500',
+//                       style:
+//                           TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+//                     )
+//                   ]),
+//                 ),
+//               ),
+//               const SizedBox(height: 20),
+//               ElevatedButton(
+//                 onPressed: isConfirmEnabled
+//                     ? () {
+//                         Navigator.push(
+//                           context,
+//                           MaterialPageRoute(
+//                               builder: (context) => const ConfirmationPage()),
+//                         );
+//                       }
+//                     : null,
+//                 style: ElevatedButton.styleFrom(
+//                   foregroundColor: Colors.white,
+//                   backgroundColor: isConfirmEnabled
+//                       ? const Color.fromRGBO(42, 150, 108, 1)
+//                       : const Color.fromRGBO(42, 150, 108, 1),
+//                   padding:
+//                       const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+//                   side: const BorderSide(
+//                       color: Color.fromRGBO(42, 150, 108, 1),
+//                       width: 3), // Add green border
+//                 ),
+//                 child: const Text(
+//                   'Confirm and Continue',
+//                   style: TextStyle(
+//                       color: Colors.white, fontWeight: FontWeight.w900),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//       backgroundColor: Colors.white,
+//     );
+//   }
+// }
 
 class ConfirmationPage extends StatelessWidget {
   const ConfirmationPage({super.key});

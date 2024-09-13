@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:localize_sl/guide_pages/guide_model.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'booking.dart';
 
 class CalendarPage extends StatefulWidget {
   final String packageName;
   final String imageURL;
+  final Guide guide;
 
   CalendarPage({
     required this.packageName,
     required this.imageURL,
+    required this.guide,
   });
 
   @override
@@ -133,6 +136,7 @@ class _CalendarPageState extends State<CalendarPage> {
                               packageName: widget.packageName, // Pass the package name
                               imageURL: widget.imageURL,
                               isPaymentButton: true, // Show payment button
+                              guide: widget.guide, // Pass the guide data for payment integration
                             ),
                           ),
                         );

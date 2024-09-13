@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:localize_sl/guide_pages/guide_model.dart';
 import 'guide_reserve_page.dart';
 import 'package:localize_sl/calendar.dart';
 
@@ -10,7 +11,9 @@ class VacationDetailPage extends StatelessWidget {
     'assets/biru/image_3.jpg',
   ];
 
-  VacationDetailPage({super.key});
+  final Guide guide; // Add guide object here
+
+  VacationDetailPage({super.key, required this.guide}); // Include guide in constructor
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +112,8 @@ class VacationDetailPage extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => CalendarPage(
                           packageName: 'Camping',
-                          imageURL : 'assets/biru/image_13.jpg'
+                          imageURL : 'assets/biru/image_13.jpg',
+                          guide: guide!,
                         ),
                       ),
                     );

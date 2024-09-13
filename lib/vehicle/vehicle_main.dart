@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'components/vehicle_list.dart';
 
 class VehicleScreen extends StatelessWidget {
+  const VehicleScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +51,7 @@ class VehicleScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Column(
+      body: const Column(
         children: [
           Expanded(child: VehicleList()),
         ],

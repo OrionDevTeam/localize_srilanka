@@ -1,7 +1,9 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/guide_pages/guide_list_page.dart';
 
 import '../screens/map/map_home.dart';
 
@@ -75,14 +77,15 @@ class HomeScreen extends StatelessWidget {
                             Column(
                               children: [
                                 SizedBox(
-                                  height: 40, // Set the height for the image
-                                  width: 40, // Set the width for the image
+                                  height: 50, // Set the height for the image
+                                  width: 50, // Set the width for the image
                                   child: SvgPicture.asset(
                                     'assets/features/ticket.svg',
                                     fit: BoxFit
                                         .contain, // Ensures the asset fits within the box
                                   ),
                                 ),
+                                const SizedBox(height: 8),
                                 const Text(
                                   'Experiences',
                                   style: TextStyle(
@@ -99,19 +102,20 @@ class HomeScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => VehicleScreen()),
+                                      builder: (context) => const VehicleScreen()),
                                 );
                               },
                               child: Column(
                                 children: [
                                   SizedBox(
-                                    height: 40, // Set the height for the image
-                                    width: 40, // Set the width for the image
+                                    height: 50, // Set the height for the image
+                                    width: 50, // Set the width for the image
                                     child: SvgPicture.asset(
                                       'assets/features/sim.svg',
                                       fit: BoxFit.contain,
                                     ),
                                   ),
+                                  const SizedBox(height: 8),
                                   const Text(
                                     'Networks',
                                     style: TextStyle(
@@ -129,19 +133,20 @@ class HomeScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SimCardsPage()),
+                                      builder: (context) => const SimCardsPage()),
                                 );
                               },
                               child: Column(
                                 children: [
                                   SizedBox(
-                                    height: 40, // Set the height for the image
-                                    width: 40, // Set the width for the image
+                                    height: 50, // Set the height for the image
+                                    width: 50, // Set the width for the image
                                     child: SvgPicture.asset(
                                       'assets/features/hotel.svg',
                                       fit: BoxFit.contain,
                                     ),
                                   ),
+                                  const SizedBox(height: 8),
                                   const Text(
                                     '360',
                                     style: TextStyle(
@@ -156,13 +161,14 @@ class HomeScreen extends StatelessWidget {
                             Column(
                               children: [
                                 SizedBox(
-                                  height: 40, // Set the height for the image
-                                  width: 40, // Set the width for the image
+                                  height: 50, // Set the height for the image
+                                  width: 50, // Set the width for the image
                                   child: SvgPicture.asset(
                                     'assets/features/shopping.svg',
                                     fit: BoxFit.contain,
                                   ),
                                 ),
+                                const SizedBox(height: 8),
                                 const Text(
                                   'Shopping',
                                   style: TextStyle(
@@ -325,7 +331,7 @@ class HomeScreen extends StatelessWidget {
                                     height:
                                         10), // Add spacing between the image and text
                                 const Text(
-                                  'Chatbot',
+                                  'Vidara',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -382,7 +388,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const ChatBotPage(),
+                                builder: (context) => GuideListPage(),
                               ),
                             );
                           },
@@ -405,7 +411,7 @@ class HomeScreen extends StatelessWidget {
                                     height:
                                         10), // Add spacing between the image and text
                                 const Text(
-                                  'Localize Guides',
+                                  'Localizers',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -420,16 +426,16 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // const Text(
-                  //   'Carousel Slider',
-                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  // ),
-                  // const SizedBox(height: 20),
+                  const Text(
+                    'Experineces in Srilanka',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
 
-                  // // Vertical Carousel Slider with SVG Images
+                  // Vertical Carousel Slider with SVG Images
                   // CarouselSlider(
                   //   options: CarouselOptions(
-                  //     height: 200.0,
+                  //     height: 100.0,
                   //     enableInfiniteScroll: false,
                   //     enlargeCenterPage: true,
                   //     viewportFraction: 0.8,
@@ -455,7 +461,10 @@ class HomeScreen extends StatelessWidget {
                   //             ),
                   //           ],
                   //         ),
-                  //         child: SvgPicture.asset('assets/features/train.svg'),
+                  //         child: Image.asset(
+                  //             'assets/experiences/camping.jpg',
+                  //             fit: BoxFit.cover,
+                  //           ),
                   //       ),
                   //     ),
                   //     GestureDetector(
@@ -478,7 +487,10 @@ class HomeScreen extends StatelessWidget {
                   //             ),
                   //           ],
                   //         ),
-                  //         child: SvgPicture.asset('assets/features/ticket.svg'),
+                  //         child: Image.asset(
+                  //             'assets/experiences/camping.jpg',
+                  //             fit: BoxFit.cover,
+                  //           ),
                   //       ),
                   //     ),
                   //     GestureDetector(
@@ -503,65 +515,14 @@ class HomeScreen extends StatelessWidget {
                   //         ),
                   //         child: ClipRRect(
                   //           borderRadius: BorderRadius.circular(12),
-                  //           child: SvgPicture.asset(
-                  //             'assets/features/train.svg',
+                  //           child: Image.asset(
+                  //             'assets/experiences/camping.jpg',
                   //             fit: BoxFit.cover,
                   //           ),
                   //         ),
                   //       )
                   //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: ClipRRect(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           child: SvgPicture.asset(
-                  //             'assets/features/train.svg',
-                  //             fit: BoxFit.cover,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: SvgPicture.asset('assets/features/sim.svg'),
-                  //       ),
-                  //     ),
+                      
                   //   ],
                   // ),
                   const SizedBox(height: 120),

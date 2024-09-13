@@ -6,11 +6,10 @@ class VehicleInfoSection extends StatelessWidget {
   final String rating;
 
   const VehicleInfoSection(
-      {Key? key,
+      {super.key,
       required this.vehicleName,
       required this.pricePerHour,
-      required this.rating})
-      : super(key: key);
+      required this.rating});
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +23,16 @@ class VehicleInfoSection extends StatelessWidget {
             children: [
               Text(
                 vehicleName,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(width: 8),
-              Icon(
+              const SizedBox(width: 8),
+              const Icon(
                 Icons.star,
                 color: Colors.yellow,
               ),
               Text(
                 rating,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black,
                     fontWeight: FontWeight.bold),

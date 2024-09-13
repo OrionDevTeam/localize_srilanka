@@ -5,6 +5,8 @@ import 'screens/simcard_detail.dart';
 import 'widgets/simwidget.dart';
 
 class SimCardsPage extends StatelessWidget {
+  const SimCardsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +76,7 @@ class SimCardsPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SimCardDetailWidget(
+                          builder: (context) => const SimCardDetailWidget(
                             title: 'Mobitel 4G SIM Card with 5GB data',
                             reviews: '(25 Reviews)',
                             duration: '7 - 14 days',
@@ -99,7 +101,7 @@ class SimCardsPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SimCardDetailWidget(
+                          builder: (context) => const SimCardDetailWidget(
                             title: 'Mobitel 4G SIM Card with 5GB data',
                             reviews: '(25 Reviews)',
                             duration: '7 - 14 days',
@@ -124,7 +126,7 @@ class SimCardsPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SimCardDetailWidget(
+                          builder: (context) => const SimCardDetailWidget(
                             title: 'Mobitel 4G SIM Card with 5GB data',
                             reviews: '(25 Reviews)',
                             duration: '7 - 14 days',

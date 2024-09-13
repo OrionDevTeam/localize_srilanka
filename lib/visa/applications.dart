@@ -105,7 +105,7 @@ class _ApplicationsListState extends State<ApplicationsList> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          VisaApplicationFormPage(), // Replace with the correct page
+                          const VisaApplicationFormPage(), // Replace with the correct page
                     ),
                   );
                 } else {
@@ -137,7 +137,7 @@ class _ApplicationsListState extends State<ApplicationsList> {
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(color: statusColor),
                         image: DecorationImage(
-                          image: AssetImage(
+                          image: const AssetImage(
                               'assets/visa/application.jpg'), // Ensure this path is correct
                           fit: BoxFit.cover,
                           colorFilter: ColorFilter.mode(
@@ -199,6 +199,8 @@ class _ApplicationsListState extends State<ApplicationsList> {
 
 // Placeholder screens for navigation
 class VisaApplicationScreen extends StatelessWidget {
+  const VisaApplicationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

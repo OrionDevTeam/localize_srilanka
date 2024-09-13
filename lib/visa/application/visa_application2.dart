@@ -61,8 +61,8 @@ class UploadDocumentPage extends StatelessWidget {
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Row(
-                  children: const [
+                child: const Row(
+                  children: [
                     Icon(Icons.cloud_download),
                     SizedBox(width: 10),
                     Text('Upload your photo'),
@@ -85,8 +85,8 @@ class UploadDocumentPage extends StatelessWidget {
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Row(
-                  children: const [
+                child: const Row(
+                  children: [
                     Icon(Icons.cloud_download),
                     SizedBox(width: 10),
                     Text('Upload your passport copy'),
@@ -96,7 +96,7 @@ class UploadDocumentPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             const Text('Other Documents'),
             GestureDetector(
@@ -110,8 +110,8 @@ class UploadDocumentPage extends StatelessWidget {
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Row(
-                  children: const [
+                child: const Row(
+                  children: [
                     Icon(Icons.cloud_download),
                     SizedBox(width: 10),
                     Text('Upload other documents'),

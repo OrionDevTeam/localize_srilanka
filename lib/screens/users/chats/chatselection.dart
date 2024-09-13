@@ -202,20 +202,20 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ChatBotPage(),
+                              builder: (context) => const ChatBotPage(),
                             ),
                           );
                         },
                         child: MouseRegion(
                           cursor: SystemMouseCursors.click,
                           child: Container(
-                            padding: EdgeInsets.all(16),
-                            margin: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(16),
+                            margin: const EdgeInsets.all(8),
                             child: Row(
                               children: [
                                 // Leading Icon
                                 Container(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     color: Colors.blue.withOpacity(0.3),
                                     borderRadius: BorderRadius.circular(10),
@@ -225,14 +225,14 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                                     color: Colors.blue[700],
                                   ),
                                 ),
-                                SizedBox(width: 16),
+                                const SizedBox(width: 16),
                                 // Title and Subtitle
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
+                                      const Text(
                                         "AI Chat",
                                         style: TextStyle(
                                           fontSize: 16,
@@ -254,7 +254,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                       ),
                     ),
 
-                    Row(
+                    const Row(
                       children: [
                         SizedBox(width: 16.0),
                         Text(

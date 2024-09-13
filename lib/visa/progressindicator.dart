@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class VisaProgressBar extends StatefulWidget {
+  const VisaProgressBar({super.key});
+
   @override
   _VisaProgressBarState createState() => _VisaProgressBarState();
 }
@@ -39,33 +41,33 @@ class _VisaProgressBarState extends State<VisaProgressBar> {
               // White Checkmarks for each stage (20%, 40%, 60%, 80%, 100%)
               Positioned(
                 left: MediaQuery.of(context).size.width * 0,
-                child: Icon(Icons.check_circle, color: Colors.white, size: 25),
+                child: const Icon(Icons.check_circle, color: Colors.white, size: 25),
               ),
               Positioned(
                 left: MediaQuery.of(context).size.width * 0.12,
-                child: Icon(Icons.check_circle, color: Colors.white, size: 25),
+                child: const Icon(Icons.check_circle, color: Colors.white, size: 25),
               ),
               Positioned(
                 left: MediaQuery.of(context).size.width * 0.30,
-                child: Icon(Icons.check_circle, color: Colors.white, size: 25),
+                child: const Icon(Icons.check_circle, color: Colors.white, size: 25),
               ),
               Positioned(
                 left: MediaQuery.of(context).size.width * 0.48,
-                child: Icon(Icons.check_circle, color: Colors.white, size: 25),
+                child: const Icon(Icons.check_circle, color: Colors.white, size: 25),
               ),
               Positioned(
                 left: MediaQuery.of(context).size.width * 0.73,
-                child: Icon(Icons.check_circle, color: Colors.white, size: 25),
+                child: const Icon(Icons.check_circle, color: Colors.white, size: 25),
               ),
             ],
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           // Display progress level
           Text(
             'Level: ${(_progressValue * 100).round()}%', // Progress value as a percentage
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           // Slider to manually adjust the progress
           Slider(
             value: _progressValue,

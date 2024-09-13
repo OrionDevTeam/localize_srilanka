@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/floating_chat.dart';
 
 import 'location.dart';
@@ -13,7 +12,7 @@ import 'location.dart';
 class MapS extends StatelessWidget {
   final String apiKey = "AIzaSyA3FOuDQdJiRFn8c_9UEkTc3DeMyECjMB0";
   final bool showBackButton;
-  const MapS({Key? key, required this.showBackButton}) : super(key: key);
+  const MapS({super.key, required this.showBackButton});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class MapS extends StatelessWidget {
 class MapScreen extends StatefulWidget {
   final String apiKey;
   final bool showBackButton;
-  const MapScreen({required this.apiKey, required this.showBackButton, Key? key}) : super(key: key);
+  const MapScreen({required this.apiKey, required this.showBackButton, super.key});
 
 
   @override
@@ -38,14 +37,14 @@ class _MapScreenState extends State<MapScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   static const LatLng _center =
-      const LatLng(5.958809599999999, 80.40584129999999);
+      LatLng(5.958809599999999, 80.40584129999999);
   static const CameraPosition _initialCameraPosition = CameraPosition(
     target: _center,
     zoom: 13.0,
   );
 
-  Set<Marker> _markers = {};
-  Offset _fabPosition = const Offset(0, 180); // Initial position
+  final Set<Marker> _markers = {};
+  final Offset _fabPosition = const Offset(0, 180); // Initial position
 
   @override
   void initState() {
@@ -85,8 +84,8 @@ class _MapScreenState extends State<MapScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(32),
-                boxShadow: [
-                  const BoxShadow(
+                boxShadow: const [
+                  BoxShadow(
                     color: Colors.black26,
                     blurRadius: 8,
                   ),
@@ -272,7 +271,7 @@ class _MapScreenState extends State<MapScreen> {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('markers').get();
 
-    querySnapshot.docs.forEach((doc) {
+    for (var doc in querySnapshot.docs) {
       // Check if the document contains the expected fields
       if (doc.exists &&
           doc.data() != null &&
@@ -297,7 +296,7 @@ class _MapScreenState extends State<MapScreen> {
         print('Document ${doc.id} is missing expected fields.');
         print("-------------------------------------------");
       }
-    });
+    }
 
     return markers;
   }
@@ -311,7 +310,7 @@ class LocationCard extends StatelessWidget {
   final List<String> tags;
   final String n;
 
-  LocationCard({
+  const LocationCard({super.key, 
     required this.n,
     required this.tags,
     required this.imageUrl,
@@ -432,7 +431,7 @@ class LocationCard extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             height: 100,
             width: double.infinity,
             child: Column(

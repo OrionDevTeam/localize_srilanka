@@ -79,7 +79,7 @@ class _UserPageState extends State<UserPage> {
                 color: Colors.white.withOpacity(0.2),
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xFF2A966C).withOpacity(0.6),
+                    color: Color(0xFF2A966C).withOpacity(0.5),
                     blurRadius: 10,
                     spreadRadius: 2,
                     offset: const Offset(0, 1),
@@ -114,7 +114,7 @@ class _UserPageState extends State<UserPage> {
                     currentIndex: _selectedIndex,
                     selectedItemColor: Colors.black,
                     unselectedItemColor:
-                        Colors.black.withOpacity(0.3),
+                        Colors.black.withOpacity(0.45),
                     backgroundColor: Colors.transparent, // Transparent to show glossy effect
                     selectedIconTheme: const IconThemeData(size: 32),
                     unselectedIconTheme: const IconThemeData(size: 28),

@@ -256,31 +256,7 @@ class HomeScreen extends StatelessWidget {
                         'Get Your Sri Lankan Tourist Visa Hassle-Free with Us!',
                     imagePath: 'assets/visa/girl.png',
                   ),
-                  // Container with an SVG Image
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (context) => const VisaHomePage()),
-                  //     );
-                  //   },
-                  //   child: Container(
-                  //     width: double.infinity,
-                  //     height: 150,
-                  //     margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(12),
-                  //     ),
-                  //     child: ClipRRect(
-                  //       borderRadius: BorderRadius.circular(12),
-                  //       child: SvgPicture.asset(
-                  //         'assets/features/visaprocess.svg',
-                  //         fit: BoxFit.fill,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  
 
                   const SizedBox(height: 20),
                   const Text(

@@ -70,8 +70,8 @@ class _UserPageState extends State<UserPage> {
                 height: 68,
                 borderRadius: BorderRadius.circular(35),
                 opacity: 0.2,
-                strengthX: 0, // Horizontal blur strength
-                strengthY: 0, // Vertical blur strength
+                strengthX: 50, // Horizontal blur strength
+                strengthY: 50, // Vertical blur strength
                 border: Border.all(
                   color: Color(0xFF2A966C).withOpacity(0.8),
                   width: 1.5,
@@ -79,10 +79,10 @@ class _UserPageState extends State<UserPage> {
                 color: Colors.white.withOpacity(0.2),
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xFF2A966C).withOpacity(0.5),
+                    color: Color(0xFF2A966C).withOpacity(0.7),
                     blurRadius: 10,
-                    spreadRadius: 2,
-                    offset: const Offset(0, 1),
+                    // spreadRadius: 2,
+                    offset: const Offset(0, 5),
                   ),
                 ],
                 blendMode: BlendMode.overlay, // Define the blending mode

@@ -33,11 +33,15 @@ class SimCardsPage extends StatelessWidget {
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(
+                      color: Colors.white, // Red border for enabled state
+                      width: 1.0, // You can adjust the thickness
+                    ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: const BorderSide(
-                      color: Colors.transparent, // Red border for enabled state
+                      color: Colors.white, // Red border for enabled state
                       width: 1.0, // You can adjust the thickness
                     ),
                   ),
@@ -75,13 +79,12 @@ class SimCardsPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => SimCardDetailWidget(
-                            title: 'Mobitel 4G SIM Card with 5GB data',
-                            reviews: '(25 Reviews)',
-                            duration: '7 - 14 days',
-                            network: '4G',
-                            dataType: 'Data & Calls',
-                            price: 'LKR 1000.00',
-                            imagePath: 'assets/SIM/mobitel.jpg',
+                            reviews: '(35 Reviews)',
+                            duration: '3 - 30 days',
+                            network: '4G / 5G',
+                            dataType: 'Data Only',
+                            price: 'LKR 500.00',
+                            imagePath: 'assets/SIM/hutchbg.jpg',
                           ),
                         ),
                       );
@@ -100,13 +103,12 @@ class SimCardsPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => SimCardDetailWidget(
-                            title: 'Mobitel 4G SIM Card with 5GB data',
                             reviews: '(25 Reviews)',
                             duration: '7 - 14 days',
                             network: '4G',
                             dataType: 'Data & Calls',
                             price: 'LKR 1000.00',
-                            imagePath: 'assets/SIM/mobitel.jpg',
+                            imagePath: 'assets/SIM/mobitelbg.jpg',
                           ),
                         ),
                       );
@@ -125,13 +127,12 @@ class SimCardsPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => SimCardDetailWidget(
-                            title: 'Mobitel 4G SIM Card with 5GB data',
-                            reviews: '(25 Reviews)',
+                            reviews: '(45 Reviews)',
                             duration: '7 - 14 days',
-                            network: '4G',
+                            network: '4G / 5G',
                             dataType: 'Data & Calls',
-                            price: 'LKR 1000.00',
-                            imagePath: 'assets/SIM/mobitel.jpg',
+                            price: 'LKR 1500.00',
+                            imagePath: 'assets/SIM/dialogbg.jpg',
                           ),
                         ),
                       );

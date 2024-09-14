@@ -42,6 +42,7 @@ class VehicleItem extends StatelessWidget {
           width: 200,
           height: 300,
           child: Card(
+            color: Colors.white,
             elevation: 4,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),

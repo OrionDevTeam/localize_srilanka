@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:localize_sl/SIM/widgets/bottom_nav.dart';
 import '../widgets/selected_card.dart';
 
 class SimCardDetailWidget extends StatelessWidget {
-  final String title;
   final String reviews;
   final String duration;
   final String network;
@@ -12,7 +11,6 @@ class SimCardDetailWidget extends StatelessWidget {
   final String imagePath;
 
   SimCardDetailWidget({
-    required this.title,
     required this.reviews,
     required this.duration,
     required this.network,
@@ -25,7 +23,6 @@ class SimCardDetailWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(title), // Set the title of the AppBar
         backgroundColor: Colors.white, // You can customize the color
       ),
       body: Stack(
@@ -113,51 +110,167 @@ class SimCardDetailWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Text(
-                      'Package type',
-                      style: TextStyle(
-                        fontSize: 12,
+                    const SizedBox(height: 10),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF5F5F5),
+                        borderRadius:
+                            BorderRadius.circular(12), // Add border radius
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Package type',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                // Data in total button
+                                Expanded(
+                                  child: PackageOptionButton(
+                                    label: 'Data in total',
+                                    isSelected: true, // Selected state
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                // Data per day button
+                                Expanded(
+                                  child: PackageOptionButton(
+                                    label: 'Data per day',
+                                    isSelected: false,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              'Package type',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    // Data in total button
+                                    Expanded(
+                                      child: PackageOptionButton(
+                                        label: '7 days',
+                                        isSelected: false, // Selected state
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    // Data per day button
+                                    Expanded(
+                                      child: PackageOptionButton(
+                                        label: '14 days',
+                                        isSelected: false,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    // Data in total button
+                                    Expanded(
+                                      child: PackageOptionButton(
+                                        label: '21 days',
+                                        isSelected: false, // Selected state
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    // Data per day button
+                                    Expanded(
+                                      child: PackageOptionButton(
+                                        label: '28 days',
+                                        isSelected: true,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  children: [
+                                    // Data in total button
+                                    Expanded(
+                                      child: PackageOptionButton(
+                                        label: '30 days',
+                                        isSelected: false, // Selected state
+                                      ),
+                                    ),
+                                    SizedBox(width: 10),
+                                    // Data per day button
+                                    Expanded(
+                                      child: PackageOptionButton(
+                                        label: '60 days',
+                                        isSelected: false,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    const SizedBox(height: 20),
-                    const Row(
+                    const SizedBox(height: 16),
+                    Row(
                       children: [
-                        // Data in total button
-                        Expanded(
-                          child: PackageOptionButton(
-                            label: 'Data in total',
-                            isSelected: true, // Selected state
+                        Container(
+                          height: 20,
+                          width: 10,
+                          decoration: const BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.all(Radius.circular(2)),
                           ),
                         ),
-                        SizedBox(width: 10),
-                        // Data per day button
-                        Expanded(
-                          child: PackageOptionButton(
-                            label: 'Data per day',
-                            isSelected: false,
+                        const SizedBox(width: 12),
+                        const Text(
+                          'Usage validity',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'Popins',
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    const Column(
+                      children: [
+                        Text(
+                          'The voucher is valid for 180 days from the booking confirmation date.It expires at the same booking confirmation time on the last day. ( I.e if the booking confirmation time at 17.00, it will expire at 17.00 180 days later )',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontFamily: 'Popins',
                           ),
                         ),
                       ],
                     ),
-                    Text(
-                      'Network: $network',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      'Data Type: $dataType',
-                      style: const TextStyle(fontSize: 16),
-                    ),
-                    Text(
-                      'Price: $price',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
+                    const SizedBox(height: 70),
                   ],
                 ),
               ),
             ),
           ),
+          Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: BookNowBar(
+                pricePerHour: price,
+              ))
         ],
       ),
     );

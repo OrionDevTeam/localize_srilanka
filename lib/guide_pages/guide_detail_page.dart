@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:localize_sl/colorpalate.dart';
 import 'package:localize_sl/guide_pages/contact_page.dart';
 import 'package:localize_sl/guide_pages/vacation_detail_page.dart';
 import 'package:localize_sl/screens/guides/guidereel.dart';
@@ -102,6 +103,7 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text(
           'Profile',
           style: TextStyle(fontSize: 20),
@@ -116,8 +118,8 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
         // ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: Container(
+          color: Colors.white,
           child: Column(
             children: [
               CircleAvatar(
@@ -132,7 +134,8 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
               const SizedBox(height: 16.0),
               Text(
                 guide!.username,
-                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               Text(
                 'LOCALIZE ${guide!.user_role.toUpperCase()}',
@@ -140,10 +143,13 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                     fontSize: 16, color: Color.fromARGB(137, 22, 1, 1)),
               ),
               const SizedBox(height: 8.0),
-              Text(
-                guide!.bio,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  guide!.bio,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                ),
               ),
               const SizedBox(height: 16.0),
               Row(
@@ -151,8 +157,19 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                 children: [
                   Column(
                     children: [
-                      const Icon(Icons.star),
-                      Text('${guide!.reviews} reviews'),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(guide!.rating.toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
+                        ],
+                      ),
+                      Text('(${guide!.reviews} reviews)'),
                     ],
                   ),
                   Column(
@@ -161,7 +178,7 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                         children: [Text(guide!.Average_hourly_rate)],
                       ),
                       const Text(
-                          '  Average Hourly rate'), // Example, adjust as per your structure
+                          'Average Hourly rate'), // Example, adjust as per your structure
                     ],
                   ),
                 ],
@@ -192,13 +209,14 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                 const SizedBox(height: 8.0),
                 CarouselSlider.builder(
                   options: CarouselOptions(
-                    height: 300.0,
+                    height: 250.0,
                     enlargeCenterPage: true,
                     enableInfiniteScroll: true,
                     autoPlay: true,
                     viewportFraction: 0.5,
                     autoPlayInterval: const Duration(seconds: 3),
-                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
                   ),
                   itemCount: guide!.packages.length,
                   itemBuilder: (context, index, realIdx) {
@@ -219,34 +237,36 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                     );
                   },
                 ),
-                const SizedBox(height: 16.0),
-                const Text(
-                  'Experiences',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                CarouselSlider.builder(
-                  options: CarouselOptions(
-                    height: 200.0,
-                    enlargeCenterPage: true,
-                    enableInfiniteScroll: true,
-                    autoPlay: true,
-                    viewportFraction: 0.8,
-                    autoPlayInterval: const Duration(seconds: 3),
-                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                  ),
-                  itemCount: guide!.experiences.length,
-                  itemBuilder: (context, index, realIdx) {
-                    var experience = guide!.experiences[index];
-                    return ExperienceThumbnail(
-                      imageRef: experience['image'],
-                      description: experience['description'],
-                    );
-                  },
-                ),
+
+                // const SizedBox(height: 16.0),
+                // const Text(
+                //   'Experiences',
+                //   style: TextStyle(
+                //     fontSize: 20.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                // const SizedBox(height: 8.0),
+                // CarouselSlider.builder(
+                //   options: CarouselOptions(
+                //     height: 200.0,
+                //     enlargeCenterPage: true,
+                //     enableInfiniteScroll: true,
+                //     autoPlay: true,
+                //     viewportFraction: 0.8,
+                //     autoPlayInterval: const Duration(seconds: 3),
+                //     autoPlayAnimationDuration:
+                //         const Duration(milliseconds: 800),
+                //   ),
+                //   itemCount: guide!.experiences.length,
+                //   itemBuilder: (context, index, realIdx) {
+                //     var experience = guide!.experiences[index];
+                //     return ExperienceThumbnail(
+                //       imageRef: experience['image'],
+                //       description: experience['description'],
+                //     );
+                //   },
+                // ),
               ] else if (_selectedIndex == 1) ...[
                 SizedBox(
                   height: 250.0, // Adjust height as needed
@@ -314,12 +334,12 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
         children: [
           Icon(
             icon,
-            color: _selectedIndex == index ? Colors.green : Colors.grey,
+            color: _selectedIndex == index ? ColorPalette.green : Colors.grey,
           ),
           Text(
             label,
             style: TextStyle(
-              color: _selectedIndex == index ? Colors.green : Colors.grey,
+              color: _selectedIndex == index ? ColorPalette.green : Colors.grey,
             ),
           ),
         ],
@@ -418,32 +438,43 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.network(
-            imageRef,
-            width: double.infinity,
-            height: 100.0,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image.network(
+                  imageRef,
+                  width: double.infinity,
+                  height: 100.0,
+                  fit: BoxFit.cover,
                 ),
-                Text('$day, $time'),
-                Text(description),
-                Text('Attendees: $attendees'),
-              ],
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding:
+                  const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(description),
+                  Text('Attendees: $attendees'),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

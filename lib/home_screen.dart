@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/panaroma/panaroma.dart';
 
 import '../screens/map/map_home.dart';
 
 import 'SIM/sim_home.dart';
+import 'payment/payment.dart';
 import 'vehicle/vehicle_main.dart';
 import 'visa/widgets/banner.dart';
 
@@ -72,27 +74,6 @@ class HomeScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Column(
-                              children: [
-                                SizedBox(
-                                  height: 40, // Set the height for the image
-                                  width: 40, // Set the width for the image
-                                  child: SvgPicture.asset(
-                                    'assets/features/ticket.svg',
-                                    fit: BoxFit
-                                        .contain, // Ensures the asset fits within the box
-                                  ),
-                                ),
-                                const Text(
-                                  'Experiences',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Color(0xFF2A966C),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ],
-                            ),
                             GestureDetector(
                               onTap: () {
                                 // Navigate to MyApp page
@@ -108,12 +89,42 @@ class HomeScreen extends StatelessWidget {
                                     height: 40, // Set the height for the image
                                     width: 40, // Set the width for the image
                                     child: SvgPicture.asset(
-                                      'assets/features/sim.svg',
+                                      'assets/features/ticket.svg',
                                       fit: BoxFit.contain,
                                     ),
                                   ),
                                   const Text(
-                                    'Networks',
+                                    'Experiences',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xFF2A966C),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                // Navigate to MyApp page
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => VehicleScreen()),
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 40, // Set the height for the image
+                                    width: 40, // Set the width for the image
+                                    child: Image.asset(
+                                      'assets/features/rental.png',
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Rentals',
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Color(0xFF2A966C),
@@ -138,12 +149,12 @@ class HomeScreen extends StatelessWidget {
                                     height: 40, // Set the height for the image
                                     width: 40, // Set the width for the image
                                     child: SvgPicture.asset(
-                                      'assets/features/hotel.svg',
+                                      'assets/features/sim.svg',
                                       fit: BoxFit.contain,
                                     ),
                                   ),
                                   const Text(
-                                    '360',
+                                    'Networks',
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Color(0xFF2A966C),
@@ -158,8 +169,8 @@ class HomeScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 40, // Set the height for the image
                                   width: 40, // Set the width for the image
-                                  child: SvgPicture.asset(
-                                    'assets/features/shopping.svg',
+                                  child: Image.asset(
+                                    'assets/features/shopping.png',
                                     fit: BoxFit.contain,
                                   ),
                                 ),
@@ -183,7 +194,7 @@ class HomeScreen extends StatelessWidget {
                               gradient: const LinearGradient(
                                 colors: [
                                   Color(0xFF00BA72), // Start color of gradient
-                                  Color(0xFF2A966C), // End color of gradient
+                                  Color(0xFF00BA72), // Start color of gradient
                                 ],
                                 begin: Alignment
                                     .topLeft, // Starting point of the gradient
@@ -215,15 +226,8 @@ class HomeScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment
                                       .center, // Center the content
                                   children: [
-                                    Icon(
-                                      Iconsax.map,
-                                      color: Colors.white,
-                                    ),
-                                    SizedBox(
-                                        width:
-                                            8), // Space between icon and text
                                     Text(
-                                      'Explore map',
+                                      'All Categories',
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 15),
                                     ),
@@ -342,7 +346,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const ChatBotPage(),
+                                builder: (context) => const PanaromaScreen(),
                               ),
                             );
                           },
@@ -382,7 +386,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const ChatBotPage(),
+                                builder: (context) => CardFormPage(),
                               ),
                             );
                           },
@@ -397,7 +401,7 @@ class HomeScreen extends StatelessWidget {
                               children: [
                                 // Change SvgPicture.asset to Image.asset
                                 Image.asset(
-                                  'assets/vimosh/guidex.jpg', // Path to your image asset
+                                  'assets/vimosh/guidex.png', // Path to your image asset
                                   height: 100, // Adjust height as needed
                                   width: 100, // Adjust width as needed
                                 ),

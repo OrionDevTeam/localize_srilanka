@@ -1,10 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:localize_sl/colorpalate.dart';
 import 'package:localize_sl/floating_chat.dart';
 import 'package:localize_sl/guides/guide_location.dart';
+import 'package:localize_sl/screens/hotels/widgets/hotel_card.dart';
 
 import '../Adventures/adventure.dart';
+import '../Adventures/widget/AdCard.dart';
+import '../Adventures/widget/adventureCard.dart';
 import '../hotels/hotel.dart';
 
 class Location extends StatefulWidget {
@@ -17,7 +20,8 @@ class Location extends StatefulWidget {
   final List<String> tags;
   final String n;
 
-  const Location({super.key, 
+  const Location({
+    super.key,
     required this.imageUrl,
     required this.place,
     required this.description,
@@ -88,13 +92,13 @@ class _LocationState extends State<Location>
         ),
         centerTitle: true,
       ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(18)),
@@ -111,7 +115,8 @@ class _LocationState extends State<Location>
                     children: [
                       Row(
                         children: [
-                          const Icon(Icons.location_on_outlined, color: Colors.green),
+                          const Icon(Icons.location_on_outlined,
+                              color: Colors.green),
                           const SizedBox(width: 4),
                           Text(
                             widget.location,
@@ -149,58 +154,54 @@ class _LocationState extends State<Location>
                     ),
                   ),
                   const SizedBox(height: 12),
-                  TabBar(
-                    controller: _tabController,
-                    tabs: const [
-                      Tab(
-                        text: 'Guides',
-                        icon: Icon(Icons.person_outline_rounded),
-                      ),
-                      Tab(
-                        text: 'Hotels',
-                        icon: Icon(Icons.hotel_outlined),
-                      ),
-                      Tab(
-                        text: 'Adventure',
-                        icon: Icon(Icons.surfing_outlined),
-                      ),
-                      Tab(
-                        text: 'Food',
-                        icon: Icon(Icons.fastfood_outlined),
-                      ),
-                    ],
-                    dividerColor: Colors.transparent,
-                    indicatorColor: const Color(0xFF2A966C),
-                    labelColor: const Color(0xFF2A966C),
-                    unselectedLabelColor: Colors.grey[600],
-                    labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                    overlayColor: WidgetStateProperty.all(Colors.transparent),
-                  ),
-                  SizedBox(
-                    height: 300, // Set a fixed height for the TabBarView
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        GuidePlace(
-                          place: widget.place,
-                        ),
-                        HotelList(hotelDetails: _hotelDetails),
-                        // Adventure(
-                        //   title: widget.title,
-                        // ),
-                        Adventures(
-                          place: widget.title,
-                        ),
-                        const Center(child: Text('Explore Groceries')),
-                      ],
-                    ),
-                  ),
                 ],
               ),
             ),
-          ),
-          const FloatingChatButton(),
-        ],
+            TabBar(
+              controller: _tabController,
+              tabs: const [
+                Tab(
+                  text: 'Guides',
+                  icon: Icon(Icons.person_outline_rounded),
+                ),
+                Tab(
+                  text: 'Hotels',
+                  icon: Icon(Icons.hotel_outlined),
+                ),
+                Tab(
+                  text: 'Adventure',
+                  icon: Icon(Icons.surfing_outlined),
+                ),
+                Tab(
+                  text: 'Food',
+                  icon: Icon(Icons.fastfood_outlined),
+                ),
+              ],
+              dividerColor: Colors.transparent,
+              indicatorColor: const Color(0xFF2A966C),
+              labelColor: const Color(0xFF2A966C),
+              unselectedLabelColor: Colors.grey[600],
+              labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+              overlayColor: WidgetStateProperty.all(Colors.transparent),
+            ),
+            SizedBox(
+              height: 300, // Set a fixed height for the TabBarView
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  GuidePlace(
+                    place: widget.place,
+                  ),
+                  HotelList(hotelDetails: _hotelDetails),
+                  Adventures(
+                    place: widget.title,
+                  ),
+                  const Center(child: Text('Explore Food')),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -217,128 +218,47 @@ class HotelList extends StatelessWidget {
       future: hotelDetails,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator(color: Colors.green));
+          return const Center(
+              child: CircularProgressIndicator(color: Colors.green));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(child: Text('No Hotels Found'));
         } else {
           List<Map<String, dynamic>> hotels = snapshot.data!;
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  itemCount: hotels.length,
-                  separatorBuilder: (context, index) => const SizedBox(height: 0),
-                  itemBuilder: (context, index) {
-                    var hotel = hotels[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HotelPage(
-                              hotelId: hotel['id'],
-                              place: hotel['place'],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(18),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 0.7,
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(12)),
-                                        child: Image.network(
-                                          hotel['imageUrl'],
-                                          height: 100,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 18),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(height: 4),
-                                          Text(
-                                            hotel['name'],
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 6),
-                                          Row(
-                                            children: [
-                                              const Icon(Icons.location_on_outlined,
-                                                  color: Colors.grey),
-                                              const SizedBox(width: 4),
-                                              Text(
-                                                '${hotel['location']}',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[600],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 8),
-                                          Text('${hotel['payment']}/ Night'),
-                                          const SizedBox(height: 4),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              const Icon(Icons.star,
-                                                  color: Colors.orange),
-                                              const SizedBox(width: 4),
-                                              Text('${hotel['rating']}'),
-                                              const SizedBox(width: 4),
-                                            ],
-                                          ),
-                                          const SizedBox(height: 4),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+          return Container(
+            color: ColorPalette.grey2.withOpacity(0.3),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: hotels.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 0),
+                    itemBuilder: (context, index) {
+                      var hotel = hotels[index];
+                      return HotelCard(
+                        imageUrl: hotel['imageUrl'].toString(),
+                        location: hotel['location'].toString(),
+                        title: hotel['name'].toString(),
+                        rating: hotel['rating'].toString(),
+                        OnTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HotelPage(
+                                hotelId: hotel['id'],
+                                place: hotel['place'],
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          )
-                        ],
-                      ),
-                    );
-                  },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
       },
@@ -376,73 +296,109 @@ class Adventures extends StatelessWidget {
               return const Center(child: Text('No adventures available'));
             } else {
               final adventures = snapshot.data!;
-              return SingleChildScrollView(
+
+              // return SingleChildScrollView(
+              //   child: Column(
+              //     children: adventures.map((adventure) {
+              //       return Padding(
+              //         padding: const EdgeInsets.symmetric(vertical: 6),
+              //         child: GestureDetector(
+              //           onTap: () => _navigateTo(
+              //             context,
+              //             AdventurePage(
+              //               place: place,
+              //               adventure: adventure,
+              //             ),
+              //           ),
+              //           child: Stack(
+              //             children: [
+              //               ClipRRect(
+              //                 borderRadius:
+              //                     const BorderRadius.all(Radius.circular(18)),
+              //                 child: Image.asset(
+              //                   'assets/vimosh/${adventure.toLowerCase().replaceAll(' ', '_')}.jpg', // Assuming images are named like 'snorkelling.jpg' and 'surfing.jpg'
+              //                   height: 160,
+              //                   width: 320,
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //               ),
+              //               Positioned(
+              //                 bottom: 0,
+              //                 left: 0,
+              //                 right: 0,
+              //                 child: Container(
+              //                   height: 60,
+              //                   decoration: BoxDecoration(
+              //                     gradient: LinearGradient(
+              //                       colors: [
+              //                         Colors.black.withOpacity(0.7),
+              //                         Colors.black.withOpacity(0.3),
+              //                       ],
+              //                       begin: Alignment.bottomCenter,
+              //                       end: Alignment.topCenter,
+              //                     ),
+              //                     borderRadius: const BorderRadius.only(
+              //                       bottomLeft: Radius.circular(18),
+              //                       bottomRight: Radius.circular(18),
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //               Positioned(
+              //                 bottom: 15,
+              //                 left: 0,
+              //                 right: 0,
+              //                 child: Center(
+              //                   child: Text(
+              //                     adventure,
+              //                     style: const TextStyle(
+              //                       color: Colors.white,
+              //                       fontSize: 18,
+              //                       fontWeight: FontWeight.bold,
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       );
+              //     }).toList(),
+              //   ),
+              // );
+              return Container(
+                color: ColorPalette.grey2.withOpacity(0.3),
                 child: Column(
-                  children: adventures.map((adventure) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: GestureDetector(
-                        onTap: () => _navigateTo(
-                          context,
-                          AdventurePage(
-                            place: place,
-                            adventure: adventure,
-                          ),
-                        ),
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(18)),
-                              child: Image.asset(
-                                'assets/vimosh/${adventure.toLowerCase().replaceAll(' ', '_')}.jpg', // Assuming images are named like 'snorkelling.jpg' and 'surfing.jpg'
-                                height: 160,
-                                width: 320,
-                                fit: BoxFit.cover,
+                  children: [
+                    Expanded(
+                        child: ListView.separated(
+                      itemCount: adventures
+                          .length, // Update based on the adventure list
+                      separatorBuilder: (context, index) => const SizedBox(
+                          height: 10), // Adjust height between adventure cards
+                      itemBuilder: (context, index) {
+                        var adventure = adventures[index];
+                        return AdCard(
+                          imageUrl:
+                              'assets/vimosh/${adventure.toLowerCase().replaceAll(' ', '_')}.jpg', // Assuming image paths are dynamically generated
+                          location:
+                              place, // Since 'place' is passed to the page
+                          title: adventure, // Adventure title
+                          rating:
+                              '4.5', // You can replace it with dynamic rating value if available
+                          OnTap: () {
+                            _navigateTo(
+                              context,
+                              AdventurePage(
+                                place: place,
+                                adventure: adventure,
                               ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.black.withOpacity(0.7),
-                                      Colors.black.withOpacity(0.3),
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                  ),
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(18),
-                                    bottomRight: Radius.circular(18),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 15,
-                              left: 0,
-                              right: 0,
-                              child: Center(
-                                child: Text(
-                                  adventure,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                            );
+                          },
+                        );
+                      },
+                    )),
+                  ],
                 ),
               );
             }

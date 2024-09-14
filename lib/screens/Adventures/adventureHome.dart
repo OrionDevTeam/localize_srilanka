@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:localize_sl/colorpalate.dart';
 import 'package:video_player/video_player.dart';
 
 class AdventureHomePage extends StatelessWidget {
@@ -67,26 +68,23 @@ class AdventureHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 30),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios_new),
-                  ),
-                  const SizedBox(width: 12),
                   Text(
                     'Surf with ${provider['name']}' ?? "Unknown",
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -148,8 +146,8 @@ class AdventureHomePage extends StatelessWidget {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color(0xFF009DE1),
-                          Color(0xFF027EB3),
+                          ColorPalette.green2,
+                          ColorPalette.green,
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12),
@@ -180,7 +178,8 @@ class AdventureHomePage extends StatelessWidget {
               const SizedBox(height: 10),
               Text(
                 '${provider['about']}',
-                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
               const SizedBox(height: 10),
               Row(
@@ -218,6 +217,7 @@ class AdventureHomePage extends StatelessWidget {
               ReviewSection(
                   reviews:
                       List<Map<String, dynamic>>.from(provider['reviews'])),
+              SizedBox(height: 20),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
               //   children: [
@@ -453,7 +453,8 @@ class ReviewTile extends StatelessWidget {
   final String review;
   final String imageUrl;
 
-  const ReviewTile({super.key, 
+  const ReviewTile({
+    super.key,
     required this.name,
     required this.date,
     required this.rating,
@@ -466,7 +467,7 @@ class ReviewTile extends StatelessWidget {
     return Container(
       width: 250, // Fixed width for each review tile
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[500]!),
+        border: Border.all(color: ColorPalette.grey1!),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(

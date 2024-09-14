@@ -11,6 +11,7 @@ import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ChatPage extends StatefulWidget {
   final String chatId;
@@ -165,51 +166,76 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  void _handleImageSelection(ImageSource source) async {
-    final result = await ImagePicker().pickImage(
-      source: source,
-      imageQuality: 70,
-      maxWidth: 1440,
-    );
-
-    if (result != null) {
-      final bytes = await result.readAsBytes();
-      final image = await decodeImageFromList(bytes);
-
-      final message = types.ImageMessage(
-        author: _currentUser,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: path.basename(result.path),
-        size: bytes.length,
-        uri: result.path,
-        height: image.height.toDouble(),
-        width: image.width.toDouble(),
+  Future<void> _handleImageSelection(ImageSource source) async {
+    if (await _requestPhotoPermission()) {
+      final result = await ImagePicker().pickImage(
+        source: source,
+        imageQuality: 70,
+        maxWidth: 1440,
       );
 
-      _addMessage(message);
+      if (result != null) {
+        final bytes = await result.readAsBytes();
+        final image = await decodeImageFromList(bytes);
+
+        final message = types.ImageMessage(
+          author: _currentUser,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          name: path.basename(result.path),
+          size: bytes.length,
+          uri: result.path,
+          height: image.height.toDouble(),
+          width: image.width.toDouble(),
+        );
+
+        _addMessage(message);
+      }
+    } else {
+      print('Permission denied.');
+      // Optionally show a message to the user about why the permission is needed
     }
   }
 
-  void _handleVideoSelection() async {
-    final result = await ImagePicker().pickVideo(
-      source: ImageSource.gallery,
-    );
-
-    if (result != null) {
-      final videoFile = File(result.path);
-
-      final message = types.VideoMessage(
-        author: _currentUser,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: path.basename(result.path),
-        size: videoFile.lengthSync(),
-        uri: result.path,
+  Future<void> _handleVideoSelection() async {
+    if (await _requestVideoPermission()) {
+      final result = await ImagePicker().pickVideo(
+        source: ImageSource.gallery,
       );
 
-      _addMessage(message);
+      if (result != null) {
+        final videoFile = File(result.path);
+
+        final message = types.VideoMessage(
+          author: _currentUser,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          name: path.basename(result.path),
+          size: videoFile.lengthSync(),
+          uri: result.path,
+        );
+
+        _addMessage(message);
+      }
+    } else {
+      print('Permission denied.');
     }
+  }
+
+  Future<bool> _requestPhotoPermission() async {
+    var status = await Permission.photos.status;
+    if (status.isDenied) {
+      status = await Permission.photos.request();
+    }
+    return status.isGranted;
+  }
+
+  Future<bool> _requestVideoPermission() async {
+    var status = await Permission.photos.status;
+    if (status.isDenied) {
+      status = await Permission.photos.request();
+    }
+    return status.isGranted;
   }
 
   Stream<List<types.Message>> _messagesStream() {
@@ -230,7 +256,6 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -266,8 +291,7 @@ class _ChatPageState extends State<ChatPage> {
                   Text(
                     'LOCALIZE ${_guideUserRole.toUpperCase()}',
                     style: const TextStyle(
-                        fontSize: 12,
-                        color: Color.fromARGB(137, 22, 1, 1)),
+                        fontSize: 12, color: Color.fromARGB(137, 22, 1, 1)),
                   ),
                 ],
               ),
@@ -285,77 +309,34 @@ class _ChatPageState extends State<ChatPage> {
         stream: _messagesStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(child: Text('Error loading messages'));
+            return Center(child: CircularProgressIndicator());
           }
 
-          _messages = snapshot.data ?? [];
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return Center(child: Text('No messages'));
+          }
 
           return chat_ui.Chat(
-            messages: _messages,
-            onAttachmentPressed: _handleAttachmentPressed,
-            onMessageTap: (context, message) {
-              print('Message tapped: ${message.id}');
-            },
-            onSendPressed: (message) {
+            messages: snapshot.data!,
+            onSendPressed: (partialTextMessage) {
               final textMessage = types.TextMessage(
                 author: _currentUser,
                 createdAt: DateTime.now().millisecondsSinceEpoch,
                 id: DateTime.now().millisecondsSinceEpoch.toString(),
-                text: message.text,
+                text: partialTextMessage.text,
               );
+
               _addMessage(textMessage);
-                        },
+            },
             user: _currentUser,
+            onAttachmentPressed: _handleAttachmentPressed,
           );
         },
       ),
     );
-  }
-}
-
-extension on types.Message {
-  Map<String, dynamic> toJson() {
-    if (this is types.TextMessage) {
-      return {
-        'type': 'text',
-        'author': (this as types.TextMessage).author.toJson(),
-        'createdAt': (this as types.TextMessage).createdAt,
-        'id': (this as types.TextMessage).id,
-        'text': (this as types.TextMessage).text,
-      };
-    } else if (this is types.ImageMessage) {
-      return {
-        'type': 'image',
-        'author': (this as types.ImageMessage).author.toJson(),
-        'createdAt': (this as types.ImageMessage).createdAt,
-        'id': (this as types.ImageMessage).id,
-        'name': (this as types.ImageMessage).name,
-        'size': (this as types.ImageMessage).size,
-        'uri': (this as types.ImageMessage).uri,
-        'height': (this as types.ImageMessage).height,
-        'width': (this as types.ImageMessage).width,
-      };
-    } else if (this is types.VideoMessage) {
-      return {
-        'type': 'video',
-        'author': (this as types.VideoMessage).author.toJson(),
-        'createdAt': (this as types.VideoMessage).createdAt,
-        'id': (this as types.VideoMessage).id,
-        'name': (this as types.VideoMessage).name,
-        'size': (this as types.VideoMessage).size,
-        'uri': (this as types.VideoMessage).uri,
-      };
-    }
-    return {};
-  }
-}
-
-extension on types.User {
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-    };
   }
 }

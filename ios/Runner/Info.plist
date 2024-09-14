@@ -53,5 +53,9 @@
 	<string>We need access to your camera to take photos.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need access to your microphone to record videos with sound.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>We need permission to save photos to your library.</string>
+	<key>NSContactsUsageDescription</key>
+    <string>This app requires access to display the contacts list. This will be used to import contacts automatically if necessary to the app contacts list.</string>
 </dict>
 </plist>

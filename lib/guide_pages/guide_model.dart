@@ -23,6 +23,7 @@ class Guide {
   final String profileImageUrl;
   final String Average_hourly_rate;
   final String user_role;
+  final String location;
 
   Guide({
     required this.name,
@@ -47,6 +48,7 @@ class Guide {
     required this.profileImageUrl,
     required this.Average_hourly_rate,
     required this.user_role,
+    required this.location,
   });
 
   factory Guide.fromFirestore(DocumentSnapshot<Map<String, dynamic>> doc) {
@@ -74,6 +76,7 @@ class Guide {
       username: data['username'] ?? '',
       Average_hourly_rate: data['Average_hourly_rate'] ?? 'Not specified',
       user_role: data['user_role'] ?? 'Unknown',
+      location: data['location'] ?? 'Unknown',
     );
   }
 }

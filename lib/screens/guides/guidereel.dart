@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/floating_chat.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -81,15 +80,14 @@ Future<Map<String, dynamic>> getUserDetails(String userId) async {
 class SocialMediaFeedy extends StatefulWidget {
   final String userId; // Add userId as a parameter
 
-  SocialMediaFeedy({required this.userId}); // Pass userId to the constructor
+  const SocialMediaFeedy({super.key, required this.userId}); // Pass userId to the constructor
 
   @override
   _SocialMediaFeedState createState() => _SocialMediaFeedState();
 }
 
 class _SocialMediaFeedState extends State<SocialMediaFeedy> {
-  final TextEditingController _searchController = TextEditingController();
-  Offset _fabPosition = Offset(0, 140); // Initial position
+// Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +108,7 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Center(
+                        return const Center(
                             child:
                                 CircularProgressIndicator(color: Colors.green));
                       }
@@ -141,7 +139,7 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
                         future: Future.wait(futurePosts),
                         builder: (context, futureSnapshot) {
                           if (!futureSnapshot.hasData) {
-                            return Center(
+                            return const Center(
                                 child: CircularProgressIndicator(
                                     color: Colors.green));
                           }
@@ -150,7 +148,7 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
                           // Adding one to the itemCount to include the extra SizedBox
                           return GridView.builder(
                             gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
+                                const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2, // Number of items per row
                               crossAxisSpacing: 1.0,
                               mainAxisSpacing: 1.0,
@@ -181,7 +179,7 @@ class _SocialMediaFeedState extends State<SocialMediaFeedy> {
 class PostWidget extends StatefulWidget {
   final Postx post;
 
-  PostWidget({required this.post});
+  const PostWidget({super.key, required this.post});
 
   @override
   _PostWidgetState createState() => _PostWidgetState();
@@ -268,14 +266,14 @@ class _PostWidgetState extends State<PostWidget> {
                         child: Container(
                           padding: const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.vertical(
+                            borderRadius: const BorderRadius.vertical(
                                 bottom: Radius.circular(10.0)),
                             color: Colors.black.withOpacity(0.2),
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              SizedBox(height: 4.0),
+                              const SizedBox(height: 4.0),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -296,7 +294,7 @@ class _PostWidgetState extends State<PostWidget> {
                     ],
                   );
                 } else {
-                  return Center(
+                  return const Center(
                       child: CircularProgressIndicator(color: Colors.green));
                 }
               },
@@ -314,7 +312,7 @@ class UserProfile {}
 class VideoPlayerWidget extends StatefulWidget {
   final Postx post;
 
-  VideoPlayerWidget({required this.post});
+  const VideoPlayerWidget({super.key, required this.post});
 
   @override
   _VideoPlayerWidgetState createState() => _VideoPlayerWidgetState();
@@ -362,19 +360,19 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                   child: FittedBox(
                     fit: BoxFit.cover,
                     child: SizedBox(
-                      width: _controller.value.size.width ?? 0,
-                      height: _controller.value.size?.height ?? 0,
+                      width: _controller.value.size.width,
+                      height: _controller.value.size.height,
                       child: VideoPlayer(_controller),
                     ),
                   ),
                 ),
                 if (!_controller.value.isPlaying)
-                  Icon(Icons.play_arrow, size: 40.0, color: Colors.white),
+                  const Icon(Icons.play_arrow, size: 40.0, color: Colors.white),
               ],
             ),
           );
         } else {
-          return Center(child: CircularProgressIndicator(color: Colors.green));
+          return const Center(child: CircularProgressIndicator(color: Colors.green));
         }
       },
     );

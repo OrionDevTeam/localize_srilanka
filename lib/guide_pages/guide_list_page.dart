@@ -3,8 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 import 'package:localize_sl/guide_pages/guide_model.dart';
 
-class GuideListPage extends StatelessWidget {
+class GuideListPage extends StatefulWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  GuideListPage({super.key});
+
+  @override
+  _GuideListPageState createState() => _GuideListPageState();
+}
+
+class _GuideListPageState extends State<GuideListPage> {
+  String _searchQuery = ''; // To store the search query
 
   @override
   Widget build(BuildContext context) {
@@ -14,42 +23,45 @@ class GuideListPage extends StatelessWidget {
         forceMaterialTransparency: true,
         scrolledUnderElevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         centerTitle: true,
-        title: Text(
-          'Search',
-          style: TextStyle(
-              // fontWeight: FontWeight.bold,
-              ),
+        title: const Text(
+          'Localizers',
+          style: TextStyle(),
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(kToolbarHeight),
+          preferredSize: const Size.fromHeight(kToolbarHeight),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
             child: Row(
               children: [
                 Expanded(
                   child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value.trim().toLowerCase(); // Update search query
+                      });
+                    },
                     decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search),
+                      hintText: 'Search by username',
+                      prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
                       fillColor: Colors.grey[200],
-                      contentPadding: EdgeInsets.symmetric(vertical: 0),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
                     ),
                   ),
                 ),
-                SizedBox(width: 8.0),
+                const SizedBox(width: 8.0),
                 IconButton(
-                  icon: Icon(Icons.filter_list),
+                  icon: const Icon(Icons.filter_list),
                   onPressed: () {
                     // Add filter action here
                   },
@@ -60,12 +72,12 @@ class GuideListPage extends StatelessWidget {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _firestore
+        stream: widget._firestore
             .collection('users')
             .where('user_role', whereIn: ["Guide", "Business"]).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(
                 color: Colors.green,
               ),
@@ -79,15 +91,24 @@ class GuideListPage extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('No guides found'),
             );
           }
 
+          // Filter guides based on the search query
           var guides = snapshot.data!.docs
               .map((doc) => Guide.fromFirestore(
                   doc as DocumentSnapshot<Map<String, dynamic>>))
+              .where((guide) =>
+                  guide.username.toLowerCase().contains(_searchQuery)) // Filter by username
               .toList();
+
+          if (guides.isEmpty) {
+            return const Center(
+              child: Text('No guides found matching the search'),
+            );
+          }
 
           return ListView.builder(
             itemCount: guides.length,
@@ -104,7 +125,7 @@ class GuideListPage extends StatelessWidget {
 class GuideCard extends StatelessWidget {
   final Guide guide;
 
-  GuideCard({required this.guide});
+  const GuideCard({super.key, required this.guide});
 
   @override
   Widget build(BuildContext context) {
@@ -136,23 +157,23 @@ class GuideCard extends StatelessWidget {
                       radius: 30.0,
                       backgroundImage: NetworkImage(guide.profileImageUrl),
                     ),
-                    SizedBox(width: 20.0),
+                    const SizedBox(width: 20.0),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             guide.username,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                           Text(
                             'LOCALIZE ${guide.user_role.toUpperCase()}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12,
-                                color: const Color.fromARGB(137, 22, 1, 1)),
+                                color: Color.fromARGB(137, 22, 1, 1)),
                           ),
                           Text(
                             'Languages: ${guide.languages.join(', ')}',
@@ -163,17 +184,17 @@ class GuideCard extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.star, color: Colors.amber, size: 16.0),
-                              SizedBox(width: 4.0),
+                              const Icon(Icons.star, color: Colors.amber, size: 16.0),
+                              const SizedBox(width: 4.0),
                               Text(
                                 '${guide.rating}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 14.0,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(width: 7.0),
+                              const SizedBox(width: 7.0),
                               Text(
                                 '(${guide.reviews} Reviews)',
                                 style: TextStyle(
@@ -186,10 +207,10 @@ class GuideCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Icon(Icons.arrow_forward_ios, size: 16.0),
+                    const Icon(Icons.arrow_forward_ios, size: 16.0),
                   ],
                 ),
-                SizedBox(height: 2.0),
+                const SizedBox(height: 2.0),
                 Wrap(
                   spacing: 4.0,
                   runSpacing: 4.0,
@@ -199,7 +220,7 @@ class GuideCard extends StatelessWidget {
                       backgroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
-                        side: BorderSide(color: Colors.green, width: 0.7),
+                        side: const BorderSide(color: Colors.green, width: 0.7),
                       ),
                     );
                   }).toList(),

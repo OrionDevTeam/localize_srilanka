@@ -1,12 +1,13 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:localize_sl/chat.dart';
+import 'package:localize_sl/colorpalate.dart';
 import 'package:localize_sl/floating_chat.dart';
 import 'package:localize_sl/guides/guide_location.dart';
+import 'package:localize_sl/screens/hotels/widgets/hotel_card.dart';
 
 import '../Adventures/adventure.dart';
+import '../Adventures/widget/AdCard.dart';
+import '../Adventures/widget/adventureCard.dart';
 import '../hotels/hotel.dart';
 
 class Location extends StatefulWidget {
@@ -19,7 +20,8 @@ class Location extends StatefulWidget {
   final List<String> tags;
   final String n;
 
-  Location({
+  const Location({
+    super.key,
     required this.imageUrl,
     required this.place,
     required this.description,
@@ -59,9 +61,9 @@ class _LocationState extends State<Location>
               .get();
       print('hotelSnapshots: ${hotelSnapshots.docs}');
       print('hotelSnapshots: ${hotelSnapshots.docs.length}');
-      hotelSnapshots.docs.forEach((doc) {
+      for (var doc in hotelSnapshots.docs) {
         hotelList.add(doc.data()); // Add the hotel details to the list
-      });
+      }
       print('hotelList: $hotelList');
 
       return hotelList;
@@ -77,7 +79,7 @@ class _LocationState extends State<Location>
     super.dispose();
   }
 
-  Offset _fabPosition = Offset(0, 180); // Initial position
+// Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -85,21 +87,21 @@ class _LocationState extends State<Location>
       appBar: AppBar(
         title: Text(
           widget.title,
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
           // style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
       ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(18)),
+                    borderRadius: const BorderRadius.all(Radius.circular(18)),
                     child: Image.network(
                       widget.imageUrl,
                       height: 300,
@@ -107,17 +109,18 @@ class _LocationState extends State<Location>
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
-                          Icon(Icons.location_on_outlined, color: Colors.green),
-                          SizedBox(width: 4),
+                          const Icon(Icons.location_on_outlined,
+                              color: Colors.green),
+                          const SizedBox(width: 4),
                           Text(
                             widget.location,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -127,11 +130,11 @@ class _LocationState extends State<Location>
                       ),
                       Row(
                         children: [
-                          Icon(Icons.star, color: Colors.orange),
-                          SizedBox(width: 4),
+                          const Icon(Icons.star, color: Colors.orange),
+                          const SizedBox(width: 4),
                           Text(
                             widget.rating,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -141,7 +144,7 @@ class _LocationState extends State<Location>
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Text(
                     widget.description,
                     style: TextStyle(
@@ -150,59 +153,55 @@ class _LocationState extends State<Location>
                       color: Colors.grey[600],
                     ),
                   ),
-                  SizedBox(height: 12),
-                  TabBar(
-                    controller: _tabController,
-                    tabs: [
-                      Tab(
-                        text: 'Guides',
-                        icon: Icon(Icons.person_outline_rounded),
-                      ),
-                      Tab(
-                        text: 'Hotels',
-                        icon: Icon(Icons.hotel_outlined),
-                      ),
-                      Tab(
-                        text: 'Adventure',
-                        icon: Icon(Icons.surfing_outlined),
-                      ),
-                      Tab(
-                        text: 'Food',
-                        icon: Icon(Icons.fastfood_outlined),
-                      ),
-                    ],
-                    dividerColor: Colors.transparent,
-                    indicatorColor: Color(0xFF2A966C),
-                    labelColor: Color(0xFF2A966C),
-                    unselectedLabelColor: Colors.grey[600],
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    overlayColor: MaterialStateProperty.all(Colors.transparent),
-                  ),
-                  SizedBox(
-                    height: 300, // Set a fixed height for the TabBarView
-                    child: TabBarView(
-                      controller: _tabController,
-                      children: [
-                        GuidePlace(
-                          place: widget.place,
-                        ),
-                        HotelList(hotelDetails: _hotelDetails),
-                        // Adventure(
-                        //   title: widget.title,
-                        // ),
-                        Adventures(
-                          place: widget.title,
-                        ),
-                        Center(child: Text('Explore Groceries')),
-                      ],
-                    ),
-                  ),
+                  const SizedBox(height: 12),
                 ],
               ),
             ),
-          ),
-          const FloatingChatButton(),
-        ],
+            TabBar(
+              controller: _tabController,
+              tabs: const [
+                Tab(
+                  text: 'Guides',
+                  icon: Icon(Icons.person_outline_rounded),
+                ),
+                Tab(
+                  text: 'Hotels',
+                  icon: Icon(Icons.hotel_outlined),
+                ),
+                Tab(
+                  text: 'Adventure',
+                  icon: Icon(Icons.surfing_outlined),
+                ),
+                Tab(
+                  text: 'Food',
+                  icon: Icon(Icons.fastfood_outlined),
+                ),
+              ],
+              dividerColor: Colors.transparent,
+              indicatorColor: const Color(0xFF2A966C),
+              labelColor: const Color(0xFF2A966C),
+              unselectedLabelColor: Colors.grey[600],
+              labelStyle: const TextStyle(fontWeight: FontWeight.bold),
+              overlayColor: WidgetStateProperty.all(Colors.transparent),
+            ),
+            SizedBox(
+              height: 300, // Set a fixed height for the TabBarView
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  GuidePlace(
+                    place: widget.place,
+                  ),
+                  HotelList(hotelDetails: _hotelDetails),
+                  Adventures(
+                    place: widget.title,
+                  ),
+                  const Center(child: Text('Explore Food')),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -211,7 +210,7 @@ class _LocationState extends State<Location>
 class HotelList extends StatelessWidget {
   final Future<List<Map<String, dynamic>>> hotelDetails;
 
-  HotelList({required this.hotelDetails});
+  const HotelList({super.key, required this.hotelDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -219,128 +218,47 @@ class HotelList extends StatelessWidget {
       future: hotelDetails,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator(color: Colors.green));
+          return const Center(
+              child: CircularProgressIndicator(color: Colors.green));
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Center(child: Text('No Hotels Found'));
+          return const Center(child: Text('No Hotels Found'));
         } else {
           List<Map<String, dynamic>> hotels = snapshot.data!;
-          return Column(
-            children: [
-              Expanded(
-                child: ListView.separated(
-                  itemCount: hotels.length,
-                  separatorBuilder: (context, index) => SizedBox(height: 0),
-                  itemBuilder: (context, index) {
-                    var hotel = hotels[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HotelPage(
-                              hotelId: hotel['id'],
-                              place: hotel['place'],
-                            ),
-                          ),
-                        );
-                      },
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(18),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 0.7,
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      flex: 1,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(12)),
-                                        child: Image.network(
-                                          hotel['imageUrl'],
-                                          height: 100,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(width: 18),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(height: 4),
-                                          Text(
-                                            hotel['name'],
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: 6),
-                                          Row(
-                                            children: [
-                                              Icon(Icons.location_on_outlined,
-                                                  color: Colors.grey),
-                                              SizedBox(width: 4),
-                                              Text(
-                                                '${hotel['location']}',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey[600],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          SizedBox(height: 8),
-                                          Text('${hotel['payment']}/ Night'),
-                                          SizedBox(height: 4),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Icon(Icons.star,
-                                                  color: Colors.orange),
-                                              SizedBox(width: 4),
-                                              Text('${hotel['rating']}'),
-                                              SizedBox(width: 4),
-                                            ],
-                                          ),
-                                          SizedBox(height: 4),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
+          return Container(
+            color: ColorPalette.grey2.withOpacity(0.3),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: hotels.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 0),
+                    itemBuilder: (context, index) {
+                      var hotel = hotels[index];
+                      return HotelCard(
+                        imageUrl: hotel['imageUrl'].toString(),
+                        location: hotel['location'].toString(),
+                        title: hotel['name'].toString(),
+                        rating: hotel['rating'].toString(),
+                        OnTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HotelPage(
+                                hotelId: hotel['id'],
+                                place: hotel['place'],
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 8,
-                          )
-                        ],
-                      ),
-                    );
-                  },
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         }
       },
@@ -351,7 +269,7 @@ class HotelList extends StatelessWidget {
 class Adventures extends StatelessWidget {
   final String place;
 
-  Adventures({required this.place});
+  const Adventures({super.key, required this.place});
 
   void _navigateTo(BuildContext context, Widget page) {
     Navigator.push(
@@ -370,81 +288,117 @@ class Adventures extends StatelessWidget {
           future: fetchAdventureDetails(place),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                   child: CircularProgressIndicator(color: Colors.green));
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return Center(child: Text('No adventures available'));
+              return const Center(child: Text('No adventures available'));
             } else {
               final adventures = snapshot.data!;
-              return SingleChildScrollView(
+
+              // return SingleChildScrollView(
+              //   child: Column(
+              //     children: adventures.map((adventure) {
+              //       return Padding(
+              //         padding: const EdgeInsets.symmetric(vertical: 6),
+              //         child: GestureDetector(
+              //           onTap: () => _navigateTo(
+              //             context,
+              //             AdventurePage(
+              //               place: place,
+              //               adventure: adventure,
+              //             ),
+              //           ),
+              //           child: Stack(
+              //             children: [
+              //               ClipRRect(
+              //                 borderRadius:
+              //                     const BorderRadius.all(Radius.circular(18)),
+              //                 child: Image.asset(
+              //                   'assets/vimosh/${adventure.toLowerCase().replaceAll(' ', '_')}.jpg', // Assuming images are named like 'snorkelling.jpg' and 'surfing.jpg'
+              //                   height: 160,
+              //                   width: 320,
+              //                   fit: BoxFit.cover,
+              //                 ),
+              //               ),
+              //               Positioned(
+              //                 bottom: 0,
+              //                 left: 0,
+              //                 right: 0,
+              //                 child: Container(
+              //                   height: 60,
+              //                   decoration: BoxDecoration(
+              //                     gradient: LinearGradient(
+              //                       colors: [
+              //                         Colors.black.withOpacity(0.7),
+              //                         Colors.black.withOpacity(0.3),
+              //                       ],
+              //                       begin: Alignment.bottomCenter,
+              //                       end: Alignment.topCenter,
+              //                     ),
+              //                     borderRadius: const BorderRadius.only(
+              //                       bottomLeft: Radius.circular(18),
+              //                       bottomRight: Radius.circular(18),
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //               Positioned(
+              //                 bottom: 15,
+              //                 left: 0,
+              //                 right: 0,
+              //                 child: Center(
+              //                   child: Text(
+              //                     adventure,
+              //                     style: const TextStyle(
+              //                       color: Colors.white,
+              //                       fontSize: 18,
+              //                       fontWeight: FontWeight.bold,
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       );
+              //     }).toList(),
+              //   ),
+              // );
+              return Container(
+                color: ColorPalette.grey2.withOpacity(0.3),
                 child: Column(
-                  children: adventures.map((adventure) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: GestureDetector(
-                        onTap: () => _navigateTo(
-                          context,
-                          AdventurePage(
-                            place: place,
-                            adventure: adventure,
-                          ),
-                        ),
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(18)),
-                              child: Image.asset(
-                                'assets/vimosh/${adventure.toLowerCase().replaceAll(' ', '_')}.jpg', // Assuming images are named like 'snorkelling.jpg' and 'surfing.jpg'
-                                height: 160,
-                                width: 320,
-                                fit: BoxFit.cover,
+                  children: [
+                    Expanded(
+                        child: ListView.separated(
+                      itemCount: adventures
+                          .length, // Update based on the adventure list
+                      separatorBuilder: (context, index) => const SizedBox(
+                          height: 10), // Adjust height between adventure cards
+                      itemBuilder: (context, index) {
+                        var adventure = adventures[index];
+                        return AdCard(
+                          imageUrl:
+                              'assets/vimosh/${adventure.toLowerCase().replaceAll(' ', '_')}.jpg', // Assuming image paths are dynamically generated
+                          location:
+                              place, // Since 'place' is passed to the page
+                          title: adventure, // Adventure title
+                          rating:
+                              '4.5', // You can replace it with dynamic rating value if available
+                          OnTap: () {
+                            _navigateTo(
+                              context,
+                              AdventurePage(
+                                place: place,
+                                adventure: adventure,
                               ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              left: 0,
-                              right: 0,
-                              child: Container(
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.black.withOpacity(0.7),
-                                      Colors.black.withOpacity(0.3),
-                                    ],
-                                    begin: Alignment.bottomCenter,
-                                    end: Alignment.topCenter,
-                                  ),
-                                  borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(18),
-                                    bottomRight: Radius.circular(18),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 15,
-                              left: 0,
-                              right: 0,
-                              child: Center(
-                                child: Text(
-                                  adventure,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                            );
+                          },
+                        );
+                      },
+                    )),
+                  ],
                 ),
               );
             }

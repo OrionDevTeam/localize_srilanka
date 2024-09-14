@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:localize_sl/colorpalate.dart';
 import 'package:video_player/video_player.dart';
 
 class AdventureHomePage extends StatelessWidget {
@@ -18,7 +18,7 @@ class AdventureHomePage extends StatelessWidget {
     'assets/vimosh/s1.mp4',
   ];
 
-  AdventureHomePage({required this.provider});
+  AdventureHomePage({super.key, required this.provider});
 
   void showAllReels(BuildContext context, List<String> reelUrls) {
     showModalBottomSheet(
@@ -68,30 +68,27 @@ class AdventureHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 30),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(Icons.arrow_back_ios_new),
-                  ),
-                  SizedBox(width: 12),
                   Text(
                     'Surf with ${provider['name']}' ?? "Unknown",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ClipRRect(
                 borderRadius: BorderRadius.circular(24),
                 child: Image.network(
@@ -103,21 +100,21 @@ class AdventureHomePage extends StatelessWidget {
                     return Container(
                       height: 161,
                       color: Colors.grey,
-                      child: Center(
+                      child: const Center(
                         child: Icon(Icons.error),
                       ),
                     );
                   },
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
                     child: Row(
                       children: [
-                        Text(
+                        const Text(
                           'LKR ',
                           style: TextStyle(
                               fontSize: 14,
@@ -126,12 +123,12 @@ class AdventureHomePage extends StatelessWidget {
                         ),
                         Text(
                           provider['rate'].toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Colors.black),
                         ),
-                        Text(
+                        const Text(
                           ' / hour',
                           style: TextStyle(
                               fontSize: 14,
@@ -141,16 +138,16 @@ class AdventureHomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(width: 12),
+                  const SizedBox(width: 12),
                   Container(
                     height: 48,
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
+                      gradient: const LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                          Color(0xFF009DE1),
-                          Color(0xFF027EB3),
+                          ColorPalette.green2,
+                          ColorPalette.green,
                         ],
                       ),
                       borderRadius: BorderRadius.circular(12),
@@ -166,7 +163,7 @@ class AdventureHomePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(24),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Book Now',
                         style: TextStyle(
                           fontSize: 16,
@@ -178,12 +175,13 @@ class AdventureHomePage extends StatelessWidget {
                   )
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 '${provider['about']}',
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: memories.take(2).map((url) {
@@ -208,7 +206,7 @@ class AdventureHomePage extends StatelessWidget {
                     onPressed: () {
                       showAllReels(context, memories);
                     },
-                    child: Text(
+                    child: const Text(
                       'See All',
                       style: TextStyle(
                         color: Colors.black38,
@@ -219,6 +217,7 @@ class AdventureHomePage extends StatelessWidget {
               ReviewSection(
                   reviews:
                       List<Map<String, dynamic>>.from(provider['reviews'])),
+              SizedBox(height: 20),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
               //   children: [
@@ -241,7 +240,7 @@ class AdventureHomePage extends StatelessWidget {
 class VideoThumbnail extends StatefulWidget {
   final String videoUrl;
 
-  VideoThumbnail({required this.videoUrl});
+  const VideoThumbnail({super.key, required this.videoUrl});
 
   @override
   _VideoThumbnailState createState() => _VideoThumbnailState();
@@ -274,7 +273,7 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
   @override
   Widget build(BuildContext context) {
     return _initialized
-        ? Container(
+        ? SizedBox(
             height: 230,
             width: 162,
             child: AspectRatio(
@@ -286,7 +285,7 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
             height: 230,
             width: 162,
             color: Colors.white,
-            child: Center(
+            child: const Center(
               child: CircularProgressIndicator(color: Colors.green),
             ),
           );
@@ -296,7 +295,7 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
 class VideoPlayerScreen extends StatefulWidget {
   final String videoUrl;
 
-  VideoPlayerScreen({required this.videoUrl});
+  const VideoPlayerScreen({super.key, required this.videoUrl});
 
   @override
   _VideoPlayerScreenState createState() => _VideoPlayerScreenState();
@@ -335,7 +334,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     aspectRatio: _controller.value.aspectRatio,
                     child: VideoPlayer(_controller),
                   )
-                : CircularProgressIndicator(color: Colors.green),
+                : const CircularProgressIndicator(color: Colors.green),
           ),
           Positioned(
             top: 40,
@@ -344,7 +343,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: Icon(
+              child: const Icon(
                 Icons.close,
                 size: 30,
                 color: Colors.black,
@@ -365,7 +364,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               },
               child: Icon(
                 _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                color: Color(0xFF009DE1),
+                color: const Color(0xFF009DE1),
               ),
             ),
           )
@@ -396,7 +395,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 class ReviewSection extends StatelessWidget {
   final List<dynamic> reviews;
 
-  ReviewSection({required this.reviews});
+  const ReviewSection({super.key, required this.reviews});
 
   @override
   Widget build(BuildContext context) {
@@ -434,7 +433,7 @@ class ReviewSection extends StatelessWidget {
                   ),
                 );
               },
-              child: Text(
+              child: const Text(
                 'See All Reviews',
                 style: TextStyle(
                   color: Colors.black38,
@@ -454,7 +453,8 @@ class ReviewTile extends StatelessWidget {
   final String review;
   final String imageUrl;
 
-  ReviewTile({
+  const ReviewTile({
+    super.key,
     required this.name,
     required this.date,
     required this.rating,
@@ -467,7 +467,7 @@ class ReviewTile extends StatelessWidget {
     return Container(
       width: 250, // Fixed width for each review tile
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey[500]!),
+        border: Border.all(color: ColorPalette.grey1!),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
@@ -480,14 +480,14 @@ class ReviewTile extends StatelessWidget {
                 CircleAvatar(
                   backgroundImage: NetworkImage(imageUrl),
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         name,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -505,7 +505,7 @@ class ReviewTile extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: Color(0xFF2A966C),
+                    color: const Color(0xFF2A966C),
                     borderRadius: BorderRadius.circular(14),
                   ),
                   child: Padding(
@@ -513,11 +513,11 @@ class ReviewTile extends StatelessWidget {
                         horizontal: 8.0, vertical: 4.0),
                     child: Row(
                       children: [
-                        Icon(Icons.star, color: Colors.amber, size: 16),
-                        SizedBox(width: 4),
+                        const Icon(Icons.star, color: Colors.amber, size: 16),
+                        const SizedBox(width: 4),
                         Text(
                           rating,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -529,7 +529,7 @@ class ReviewTile extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               review,
               maxLines: 3, // Limit the number of lines for the review text
@@ -545,13 +545,13 @@ class ReviewTile extends StatelessWidget {
 class AllReviewsScreen extends StatelessWidget {
   final List<dynamic> reviews;
 
-  AllReviewsScreen({required this.reviews});
+  const AllReviewsScreen({super.key, required this.reviews});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('All Reviews'),
+        title: const Text('All Reviews'),
       ),
       body: ListView.builder(
         itemCount: reviews.length,
@@ -580,7 +580,7 @@ _setDetailsDialog(BuildContext context, Map<String, dynamic> provider) {
   TextEditingController nameController = TextEditingController();
   TextEditingController dateController = TextEditingController();
 
-  File? _image;
+  File? image;
 
   showDialog(
     context: context,
@@ -588,32 +588,32 @@ _setDetailsDialog(BuildContext context, Map<String, dynamic> provider) {
       return StatefulBuilder(
         builder: (context, setState) {
           return AlertDialog(
-            title: Text('Add Review'),
+            title: const Text('Add Review'),
             content: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   TextField(
                     controller: nameController,
-                    decoration: InputDecoration(labelText: 'Name'),
+                    decoration: const InputDecoration(labelText: 'Name'),
                   ),
                   TextField(
                     controller: dateController,
-                    decoration: InputDecoration(labelText: 'Date'),
+                    decoration: const InputDecoration(labelText: 'Date'),
                   ),
                   TextField(
                     controller: ratingController,
-                    decoration: InputDecoration(labelText: 'Rating'),
+                    decoration: const InputDecoration(labelText: 'Rating'),
                   ),
                   TextField(
                     controller: reviewController,
-                    decoration: InputDecoration(labelText: 'Review'),
+                    decoration: const InputDecoration(labelText: 'Review'),
                   ),
-                  SizedBox(height: 20),
-                  _image == null
-                      ? Text('No image selected.')
-                      : Image.file(_image!),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
+                  image == null
+                      ? const Text('No image selected.')
+                      : Image.file(image!),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () async {
                       final XFile? pickedFile = await ImagePicker()
@@ -621,13 +621,13 @@ _setDetailsDialog(BuildContext context, Map<String, dynamic> provider) {
 
                       setState(() {
                         if (pickedFile != null) {
-                          _image = File(pickedFile.path);
+                          image = File(pickedFile.path);
                         } else {
                           print('No image selected.');
                         }
                       });
                     },
-                    child: Text('Pick Image'),
+                    child: const Text('Pick Image'),
                   ),
                 ],
               ),
@@ -645,9 +645,9 @@ _setDetailsDialog(BuildContext context, Map<String, dynamic> provider) {
                     'name': name,
                     'rating': rating,
                     'review': review,
-                    'imageUrl': _image != null
+                    'imageUrl': image != null
                         ? await uploadImageAndReturnUrl(
-                            _image!, provider['name'], context)
+                            image!, provider['name'], context)
                         : null,
                   };
 
@@ -663,13 +663,13 @@ _setDetailsDialog(BuildContext context, Map<String, dynamic> provider) {
 
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text('Save'),
+                child: const Text('Save'),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the dialog
                 },
-                child: Text('Cancel'),
+                child: const Text('Cancel'),
               ),
             ],
           );
@@ -693,14 +693,14 @@ Future<String> uploadImageAndReturnUrl(
 
     print('Uploaded image URL: $downloadUrl');
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Image uploaded successfully!')),
+      const SnackBar(content: Text('Image uploaded successfully!')),
     );
 
     return downloadUrl;
   } catch (e) {
     print('Failed to upload image: $e');
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Failed to upload image.')),
+      const SnackBar(content: Text('Failed to upload image.')),
     );
     return ''; // Handle error case
   }

@@ -27,11 +27,9 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   final PageController _pageController = PageController(initialPage: 0);
-  int _currentIndex = 0;
 
   void _onPageChanged(int index) {
     setState(() {
-      _currentIndex = index;
     });
   }
 

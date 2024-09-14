@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:localize_sl/colorpalate.dart';
 import 'package:localize_sl/guide_pages/contact_page.dart';
 import 'package:localize_sl/guide_pages/vacation_detail_page.dart';
 import 'package:localize_sl/screens/guides/guidereel.dart';
@@ -9,7 +10,7 @@ import 'guide_model.dart';
 class GuideDetailPage extends StatefulWidget {
   final String userId;
 
-  GuideDetailPage({required this.userId});
+  const GuideDetailPage({super.key, required this.userId});
 
   @override
   _GuideDetailPageState createState() => _GuideDetailPageState();
@@ -79,9 +80,9 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
     if (isLoading) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Guide Profile'),
+          title: const Text('Guide Profile'),
         ),
-        body: Center(
+        body: const Center(
           child: CircularProgressIndicator(
             color: Colors.green,
           ),
@@ -92,9 +93,9 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
     if (guide == null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Guide Profile'),
+          title: const Text('Guide Profile'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('Guide not found.'),
         ),
       );
@@ -102,7 +103,8 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        backgroundColor: Colors.white,
+        title: const Text(
           'Profile',
           style: TextStyle(fontSize: 20),
         ),
@@ -116,8 +118,8 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
         // ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
+        child: Container(
+          color: Colors.white,
           child: Column(
             children: [
               CircleAvatar(
@@ -125,49 +127,64 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                 backgroundImage: guide!.profileImageUrl.isNotEmpty
                     ? NetworkImage(guide!.profileImageUrl)
                         as ImageProvider // Cast to ImageProvider
-                    : AssetImage(
+                    : const AssetImage(
                         'assets/placeholder.jpg'), // Placeholder image asset path
               ),
 
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Text(
                 guide!.username,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               Text(
                 'LOCALIZE ${guide!.user_role.toUpperCase()}',
-                style: TextStyle(
-                    fontSize: 16, color: const Color.fromARGB(137, 22, 1, 1)),
+                style: const TextStyle(
+                    fontSize: 16, color: Color.fromARGB(137, 22, 1, 1)),
               ),
-              SizedBox(height: 8.0),
-              Text(
-                guide!.bio,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Colors.grey),
+              const SizedBox(height: 8.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Text(
+                  guide!.bio,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
                     children: [
-                      Icon(Icons.star),
-                      Text('${guide!.reviews} reviews'),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(guide!.rating.toString(),
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 14)),
+                        ],
+                      ),
+                      Text('(${guide!.reviews} reviews)'),
                     ],
                   ),
                   Column(
                     children: [
                       Row(
-                        children: [Text("${guide!.Average_hourly_rate}")],
+                        children: [Text(guide!.Average_hourly_rate)],
                       ),
-                      Text(
-                          '  Average Hourly rate'), // Example, adjust as per your structure
+                      const Text(
+                          'Average Hourly rate'), // Example, adjust as per your structure
                     ],
                   ),
                 ],
               ),
-              SizedBox(height: 16.0),
-              Divider(),
+              const SizedBox(height: 16.0),
+              const Divider(),
               // Navigation Bar
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -178,27 +195,28 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                   _buildNavItem(Icons.contact_mail, 'Contact Me', 3),
                 ],
               ),
-              Divider(),
-              SizedBox(height: 16.0),
+              const Divider(),
+              const SizedBox(height: 16.0),
               // Content based on selected index
               if (_selectedIndex == 0) ...[
-                Text(
+                const Text(
                   'Available Packages',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 CarouselSlider.builder(
                   options: CarouselOptions(
-                    height: 300.0,
+                    height: 250.0,
                     enlargeCenterPage: true,
                     enableInfiniteScroll: true,
                     autoPlay: true,
                     viewportFraction: 0.5,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayInterval: const Duration(seconds: 3),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
                   ),
                   itemCount: guide!.packages.length,
                   itemBuilder: (context, index, realIdx) {
@@ -208,7 +226,7 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => VacationDetailPage(),
+                            builder: (context) => VacationDetailPage(guide: guide!),
                           ),
                         );
                       },
@@ -219,34 +237,36 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                     );
                   },
                 ),
-                SizedBox(height: 16.0),
-                Text(
-                  'Experiences',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: 8.0),
-                CarouselSlider.builder(
-                  options: CarouselOptions(
-                    height: 200.0,
-                    enlargeCenterPage: true,
-                    enableInfiniteScroll: true,
-                    autoPlay: true,
-                    viewportFraction: 0.8,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  ),
-                  itemCount: guide!.experiences.length,
-                  itemBuilder: (context, index, realIdx) {
-                    var experience = guide!.experiences[index];
-                    return ExperienceThumbnail(
-                      imageRef: experience['image'],
-                      description: experience['description'],
-                    );
-                  },
-                ),
+
+                // const SizedBox(height: 16.0),
+                // const Text(
+                //   'Experiences',
+                //   style: TextStyle(
+                //     fontSize: 20.0,
+                //     fontWeight: FontWeight.bold,
+                //   ),
+                // ),
+                // const SizedBox(height: 8.0),
+                // CarouselSlider.builder(
+                //   options: CarouselOptions(
+                //     height: 200.0,
+                //     enlargeCenterPage: true,
+                //     enableInfiniteScroll: true,
+                //     autoPlay: true,
+                //     viewportFraction: 0.8,
+                //     autoPlayInterval: const Duration(seconds: 3),
+                //     autoPlayAnimationDuration:
+                //         const Duration(milliseconds: 800),
+                //   ),
+                //   itemCount: guide!.experiences.length,
+                //   itemBuilder: (context, index, realIdx) {
+                //     var experience = guide!.experiences[index];
+                //     return ExperienceThumbnail(
+                //       imageRef: experience['image'],
+                //       description: experience['description'],
+                //     );
+                //   },
+                // ),
               ] else if (_selectedIndex == 1) ...[
                 SizedBox(
                   height: 250.0, // Adjust height as needed
@@ -272,9 +292,9 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                 //     fontWeight: FontWeight.bold,
                 //   ),
                 // ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 if (memories.isEmpty)
-                  Center(
+                  const Center(
                       child: CircularProgressIndicator(
                     color: Colors.green,
                   ))
@@ -292,7 +312,7 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
               ] else if (_selectedIndex == 3) ...[
                 ContactPage(guide: guide!),
               ],
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               // ElevatedButton(
               //   onPressed: () {
               //     // Handle book mentoring
@@ -314,12 +334,12 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
         children: [
           Icon(
             icon,
-            color: _selectedIndex == index ? Colors.green : Colors.grey,
+            color: _selectedIndex == index ? ColorPalette.green : Colors.grey,
           ),
           Text(
             label,
             style: TextStyle(
-              color: _selectedIndex == index ? Colors.green : Colors.grey,
+              color: _selectedIndex == index ? ColorPalette.green : Colors.grey,
             ),
           ),
         ],
@@ -335,13 +355,13 @@ class ShortVideoThumbnail extends StatelessWidget {
   const ShortVideoThumbnail({
     required this.imageRef,
     required this.description,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         image: DecorationImage(
@@ -352,7 +372,7 @@ class ShortVideoThumbnail extends StatelessWidget {
       child: Center(
         child: Text(
           description,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
             backgroundColor: Colors.black54,
@@ -370,13 +390,13 @@ class ExperienceThumbnail extends StatelessWidget {
   const ExperienceThumbnail({
     required this.imageRef,
     required this.description,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(5.0),
+      margin: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         image: DecorationImage(
@@ -387,7 +407,7 @@ class ExperienceThumbnail extends StatelessWidget {
       child: Center(
         child: Text(
           description,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
             backgroundColor: Colors.black54,
@@ -413,37 +433,48 @@ class ServiceCard extends StatelessWidget {
     required this.description,
     required this.attendees,
     required this.imageRef,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.network(
-            imageRef,
-            width: double.infinity,
-            height: 100.0,
-            fit: BoxFit.cover,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10.0),
+                child: Image.network(
+                  imageRef,
+                  width: double.infinity,
+                  height: 100.0,
+                  fit: BoxFit.cover,
                 ),
-                Text('$day, $time'),
-                Text(description),
-                Text('Attendees: $attendees'),
-              ],
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding:
+                  const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                        fontSize: 18.0, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(description),
+                  Text('Attendees: $attendees'),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -456,8 +487,8 @@ class MemoryGridItem extends StatelessWidget {
   const MemoryGridItem({
     required this.imageRef,
     required this.description,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -475,7 +506,7 @@ class MemoryGridItem extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               description,
-              style: TextStyle(fontSize: 16.0),
+              style: const TextStyle(fontSize: 16.0),
             ),
           ),
         ],

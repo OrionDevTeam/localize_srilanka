@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:localize_sl/colorpalate.dart';
 import 'guide_model.dart';
 import 'contact_card.dart';
 import 'package:localize_sl/screens/users/chats/chatselection.dart';
 
+import 'widgets/contact_me.dart';
+
 class ContactPage extends StatefulWidget {
   final Guide guide;
 
-  ContactPage({required this.guide});
+  const ContactPage({super.key, required this.guide});
 
   @override
   _ContactPageState createState() => _ContactPageState();
@@ -56,11 +60,11 @@ class _ContactPageState extends State<ContactPage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Chat Not Allowed'),
-            content: Text('A Guide or Business cannot initiate a chat.'),
+            title: const Text('Chat Not Allowed'),
+            content: const Text('A Guide or Business cannot initiate a chat.'),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -86,7 +90,7 @@ class _ContactPageState extends State<ContactPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ChatSelectionPage(
+            builder: (context) => const ChatSelectionPage(
               showBackButton: true, // Show back button on ChatSelectionPage
             ),
           ),
@@ -104,7 +108,7 @@ class _ContactPageState extends State<ContactPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatSelectionPage(
+              builder: (context) => const ChatSelectionPage(
                 showBackButton: true, // Show back button on ChatSelectionPage
               ),
             ),
@@ -119,103 +123,149 @@ class _ContactPageState extends State<ContactPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 16.0),
-        Text(
-          'Contact Me',
-          style: TextStyle(
-            fontSize: 24.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 8.0),
-        Text(
-          'Don\'t hesitate to contact me for \nbookings and if you have any \nsuggestions on how I \ncan improve my service',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16.0),
-        ),
-        SizedBox(height: 16.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Container(
+      color: ColorPalette.grey1,
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
           children: [
-            ContactCard(
-              icon: Icons.phone,
-              title: 'Call me',
-              subtitle: 'For booking inquiries',
-              onTap: () async {
-                // Handle phone call
-              },
-            ),
-            ContactCard(
-              icon: Icons.email,
-              title: 'Email me',
-              subtitle: 'For all your queries',
-              onTap: () async {
-                // Handle email
-              },
-            ),
-          ],
-        ),
-        SizedBox(height: 16.0),
-        SizedBox(
-          width: double.infinity, // Full width
-          child: ElevatedButton(
-            onPressed: _handleChat,
-            child: Text(
-              'Chat',
+            const SizedBox(height: 16.0),
+            const Text(
+              'Contact Me',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
+                fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFF2A966C),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12), // Set border radius
+            const SizedBox(height: 8.0),
+            const Text(
+              'Don\'t hesitate to contact me for \nbookings and if you have any \nsuggestions on how I \ncan improve my service',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16.0),
+            ),
+            const SizedBox(height: 16.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ContactCard(
+                  icon: Icons.phone,
+                  title: 'Call me',
+                  subtitle: 'For booking inquiries',
+                  onTap: () async {
+                    // Handle phone call
+                  },
+                ),
+                ContactCard(
+                  icon: Icons.email,
+                  title: 'Email me',
+                  subtitle: 'For all your queries',
+                  onTap: () async {
+                    // Handle email
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SizedBox(
+                width: double.infinity, // Full width
+                child: ElevatedButton(
+                  onPressed: _handleChat,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2A966C),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12), // Set border radius
+                    ),
+                  ),
+                  child: const Text(
+                    'Chat',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
+            const SizedBox(height: 16.0),
+            const Text(
+              'Contact me in Social Media',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            ClickableContainer(
+              title: 'Facebook',
+              subtitle: widget.guide.facebookUrl,
+              icon: Icons.facebook,
+              iconColor: Colors.blue,
+              onTap: () async {
+                // Handle Facebook URL
+              },
+            ),
+            ClickableContainer(
+              title: 'Instagram',
+              subtitle: widget.guide.instagramUrl,
+              icon: Iconsax.instagram,
+              iconColor: Colors.pink,
+              onTap: () async {
+                // Handle Facebook URL
+              },
+            ),
+            ClickableContainer(
+              title: 'Telegram',
+              subtitle: widget.guide.instagramUrl,
+              icon: Icons.send,
+              iconColor: Colors.blueAccent,
+              onTap: () async {
+                // Handle Facebook URL
+              },
+            ),
+            ClickableContainer(
+              title: 'Whatsapp',
+              subtitle: widget.guide.whatsappUrl,
+              icon: Icons.chat,
+              iconColor: Colors.green,
+              onTap: () async {
+                // Handle Facebook URL
+              },
+            ),
+            // ContactSocialMediaCard(
+            //   icon: Iconsax.messages,
+            //   platform: 'Instagram',
+            //   followers: 'vimoshtheguide',
+            //   posts: '',
+            //   url: widget.guide.instagramUrl,
+            // ),
+            // ContactSocialMediaCard(
+            //   icon: Icons.send,
+            //   platform: 'Telegram',
+            //   followers: 'vimoshtele',
+            //   posts: '',
+            //   url: widget.guide.telegramUrl,
+            // ),
+            // ContactSocialMediaCard(
+            //   icon: Icons.facebook,
+            //   platform: 'Facebook',
+            //   followers: 'Vimosh Vasanthakumar',
+            //   posts: '',
+            //   url: widget.guide.facebookUrl,
+            // ),
+            // ContactSocialMediaCard(
+            //   icon: Icons.chat,
+            //   platform: 'WhatsUp',
+            //   followers: 'Hello there! I use Whatsapp as well',
+            //   posts: '',
+            //   url: widget.guide.whatsappUrl,
+            // ),
+          ],
         ),
-        SizedBox(height: 16.0),
-        Text(
-          'Contact me in Social Media',
-          style: TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 16.0),
-        ContactSocialMediaCard(
-          icon: Icons.camera_alt,
-          platform: 'Instagram',
-          followers: 'vimoshtheguide',
-          posts: '',
-          url: widget.guide.instagramUrl,
-        ),
-        ContactSocialMediaCard(
-          icon: Icons.send,
-          platform: 'Telegram',
-          followers: 'vimoshtele',
-          posts: '',
-          url: widget.guide.telegramUrl,
-        ),
-        ContactSocialMediaCard(
-          icon: Icons.facebook,
-          platform: 'Facebook',
-          followers: 'Vimosh Vasanthakumar',
-          posts: '',
-          url: widget.guide.facebookUrl,
-        ),
-        ContactSocialMediaCard(
-          icon: Icons.chat,
-          platform: 'WhatsUp',
-          followers: 'Hello there! I use Whatsapp as well',
-          posts: '',
-          url: widget.guide.whatsappUrl,
-        ),
-      ],
+      ),
     );
   }
 }

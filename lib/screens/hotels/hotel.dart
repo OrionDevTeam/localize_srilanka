@@ -9,6 +9,7 @@ class HotelPage extends StatelessWidget {
 
   const HotelPage({super.key, required this.hotelId, required this.place});
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
@@ -24,14 +25,14 @@ class HotelPage extends StatelessWidget {
                 .get(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                     child: CircularProgressIndicator(color: Colors.green));
               }
               if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               }
               if (!snapshot.hasData || !snapshot.data!.exists) {
-                return Center(child: Text('No data available'));
+                return const Center(child: Text('No data available'));
               }
               var data = snapshot.data!.data() as Map<String, dynamic>;
               return Column(
@@ -40,7 +41,7 @@ class HotelPage extends StatelessWidget {
                   Stack(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(18)),
+                        borderRadius: const BorderRadius.all(Radius.circular(18)),
                         child: Image.network(
                           data['imageUrl'] ??
                               'https://firebasestorage.googleapis.com/v0/b/localize-sri-lanka.appspot.com/o/Map%20images%2FSouth%2Fmirrisa%20beach.jpg?alt=media&token=096fea5a-ee3b-408a-912b-a8114fed42d3',
@@ -54,7 +55,7 @@ class HotelPage extends StatelessWidget {
                         top: 10,
                         child: IconButton(
                           icon:
-                              Icon(Icons.favorite_border, color: Colors.white),
+                              const Icon(Icons.favorite_border, color: Colors.white),
                           onPressed: () {},
                         ),
                       ),
@@ -64,12 +65,12 @@ class HotelPage extends StatelessWidget {
                         child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF2A966C),
+                            backgroundColor: const Color(0xFF2A966C),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12.0),
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Book Now',
                             style: TextStyle(
                                 color: Colors.white,
@@ -87,16 +88,16 @@ class HotelPage extends StatelessWidget {
                       children: [
                         Text(
                           data['name'] ?? 'Secret View Homestay Ella',
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Row(
                           children: [
-                            Icon(Icons.location_on, color: Colors.green),
-                            SizedBox(width: 8),
+                            const Icon(Icons.location_on, color: Colors.green),
+                            const SizedBox(width: 8),
                             Text(
                               data['location'] ?? 'Wellawaya-Ella Highway',
                               style: TextStyle(
@@ -105,15 +106,15 @@ class HotelPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 16),
-                        Text(
+                        const SizedBox(height: 16),
+                        const Text(
                           'Description',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Text(
                           data['description'] ?? 'No description available',
                           style: TextStyle(
@@ -121,37 +122,37 @@ class HotelPage extends StatelessWidget {
                             color: Colors.grey[700],
                           ),
                         ),
-                        SizedBox(height: 16),
-                        Text(
+                        const SizedBox(height: 16),
+                        const Text(
                           'Facilities',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8),
-                        FacilitiesSection(),
-                        SizedBox(height: 16),
-                        Text(
+                        const SizedBox(height: 8),
+                        const FacilitiesSection(),
+                        const SizedBox(height: 16),
+                        const Text(
                           'Reviews',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         Row(
                           children: [
-                            Icon(Icons.star, color: Colors.amber),
-                            SizedBox(width: 4),
+                            const Icon(Icons.star, color: Colors.amber),
+                            const SizedBox(width: 4),
                             Text(
                               '${data['rating'] ?? 'No rating available'}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            SizedBox(width: 6),
+                            const SizedBox(width: 6),
                             Text(
                               '[${data['noRating'] ?? 0} reviews]',
                               style: TextStyle(
@@ -159,15 +160,15 @@ class HotelPage extends StatelessWidget {
                                 color: Colors.grey[700],
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             TextButton(
                               onPressed: () {},
-                              child: Text('See all'),
+                              child: const Text('See all'),
                             ),
                           ],
                         ),
-                        SizedBox(height: 16),
-                        ReviewSection(),
+                        const SizedBox(height: 16),
+                        const ReviewSection(),
                       ],
                     ),
                   ),
@@ -182,6 +183,8 @@ class HotelPage extends StatelessWidget {
 }
 
 class FacilitiesSection extends StatelessWidget {
+  const FacilitiesSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -197,7 +200,7 @@ class FacilitiesSection extends StatelessWidget {
                     width: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         image: AssetImage('assets/vimosh/h3.jpg'),
                         fit: BoxFit.cover,
                       ),
@@ -208,7 +211,7 @@ class FacilitiesSection extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(8),
                         bottomRight: Radius.circular(8),
                       ),
@@ -216,9 +219,9 @@ class FacilitiesSection extends StatelessWidget {
                         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                         child: Container(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           color: Colors.black.withOpacity(0.4),
-                          child: Column(children: [
+                          child: const Column(children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -241,7 +244,7 @@ class FacilitiesSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
@@ -253,7 +256,7 @@ class FacilitiesSection extends StatelessWidget {
                     width: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         image: AssetImage('assets/vimosh/gym.jpg'),
                         fit: BoxFit.cover,
                       ),
@@ -264,7 +267,7 @@ class FacilitiesSection extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(8),
                         bottomRight: Radius.circular(8),
                       ),
@@ -272,9 +275,9 @@ class FacilitiesSection extends StatelessWidget {
                         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                         child: Container(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           color: Colors.black.withOpacity(0.4),
-                          child: Column(children: [
+                          child: const Column(children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -295,7 +298,7 @@ class FacilitiesSection extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Stack(
                 children: [
                   Container(
@@ -303,7 +306,7 @@ class FacilitiesSection extends StatelessWidget {
                     width: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         image: AssetImage('assets/vimosh/pool.jpg'),
                         fit: BoxFit.cover,
                       ),
@@ -314,7 +317,7 @@ class FacilitiesSection extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(8),
                         bottomRight: Radius.circular(8),
                       ),
@@ -322,9 +325,9 @@ class FacilitiesSection extends StatelessWidget {
                         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                         child: Container(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           color: Colors.black.withOpacity(0.4),
-                          child: Column(children: [
+                          child: const Column(children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -347,7 +350,7 @@ class FacilitiesSection extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
@@ -359,7 +362,7 @@ class FacilitiesSection extends StatelessWidget {
                     width: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         image: AssetImage('assets/vimosh/c4.jpg'),
                         fit: BoxFit.cover,
                       ),
@@ -370,7 +373,7 @@ class FacilitiesSection extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(8),
                         bottomRight: Radius.circular(8),
                       ),
@@ -378,9 +381,9 @@ class FacilitiesSection extends StatelessWidget {
                         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                         child: Container(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           color: Colors.black.withOpacity(0.4),
-                          child: Column(children: [
+                          child: const Column(children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -401,7 +404,7 @@ class FacilitiesSection extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Stack(
                 children: [
                   Container(
@@ -409,7 +412,7 @@ class FacilitiesSection extends StatelessWidget {
                     width: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
+                      image: const DecorationImage(
                         image: AssetImage('assets/vimosh/bar.jpg'),
                         fit: BoxFit.cover,
                       ),
@@ -420,7 +423,7 @@ class FacilitiesSection extends StatelessWidget {
                     left: 0,
                     right: 0,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(8),
                         bottomRight: Radius.circular(8),
                       ),
@@ -428,9 +431,9 @@ class FacilitiesSection extends StatelessWidget {
                         filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                         child: Container(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           color: Colors.black.withOpacity(0.4),
-                          child: Column(children: [
+                          child: const Column(children: [
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -463,7 +466,7 @@ class FacilityTile extends StatelessWidget {
   final String imageUrl;
   final String title;
 
-  FacilityTile({required this.imageUrl, required this.title});
+  const FacilityTile({super.key, required this.imageUrl, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -478,7 +481,7 @@ class FacilityTile extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(title),
       ],
     );
@@ -486,6 +489,8 @@ class FacilityTile extends StatelessWidget {
 }
 
 class ReviewSection extends StatelessWidget {
+  const ReviewSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<DocumentSnapshot>(
@@ -497,13 +502,13 @@ class ReviewSection extends StatelessWidget {
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator(color: Colors.green));
+          return const Center(child: CircularProgressIndicator(color: Colors.green));
         }
         if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
         }
         if (!snapshot.hasData || !snapshot.data!.exists) {
-          return Text('No reviews available');
+          return const Text('No reviews available');
         }
         var reviewsData = snapshot.data!.data() as Map<String, dynamic>;
         var reviews = reviewsData.entries.map((entry) {
@@ -530,7 +535,7 @@ class ReviewTile extends StatelessWidget {
   final String review;
   final String imageUrl;
 
-  ReviewTile({
+  const ReviewTile({super.key, 
     required this.name,
     required this.date,
     required this.rating,
@@ -555,7 +560,7 @@ class ReviewTile extends StatelessWidget {
               CircleAvatar(
                 backgroundImage: NetworkImage(imageUrl),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -564,15 +569,15 @@ class ReviewTile extends StatelessWidget {
                       children: [
                         Text(
                           name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Container(
                           decoration: BoxDecoration(
-                            color: Color(0xFF2A966C),
+                            color: const Color(0xFF2A966C),
                             borderRadius: BorderRadius.circular(14),
                           ),
                           child: Padding(
@@ -580,11 +585,11 @@ class ReviewTile extends StatelessWidget {
                                 horizontal: 8.0, vertical: 4.0),
                             child: Row(
                               children: [
-                                Icon(Icons.star, color: Colors.amber, size: 16),
-                                SizedBox(width: 4),
+                                const Icon(Icons.star, color: Colors.amber, size: 16),
+                                const SizedBox(width: 4),
                                 Text(
                                   rating.toString(),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -606,7 +611,7 @@ class ReviewTile extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(review),
                   ],
                 ),

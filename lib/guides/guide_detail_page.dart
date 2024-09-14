@@ -70,27 +70,27 @@ List<Map<String, String>> thumbnailDescription = [
 class GuideDetailPage extends StatelessWidget {
   final String guideId;
 
-  GuideDetailPage({required this.guideId});
+  const GuideDetailPage({super.key, required this.guideId});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Guide Details'),
+        title: const Text('Guide Details'),
       ),
       body: FutureBuilder<DocumentSnapshot<Map<String, dynamic>>>(
         future:
             FirebaseFirestore.instance.collection('guides').doc(guideId).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
                 child: CircularProgressIndicator(
               color: Colors.green,
             ));
           }
 
           if (!snapshot.hasData || snapshot.data == null) {
-            return Center(child: Text('No data available'));
+            return const Center(child: Text('No data available'));
           }
 
           Guide guide = Guide.fromFirestore(snapshot.data!);
@@ -110,18 +110,18 @@ class GuideDetailPage extends StatelessWidget {
                         backgroundImage: NetworkImage(guide.profilePictureUrl),
                       ),
                     ),
-                    SizedBox(width: 20.0),
+                    const SizedBox(width: 20.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           guide.name,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 2.0),
+                        const SizedBox(height: 2.0),
                         Text(
                           'Age: ${guide.age}',
                           style: TextStyle(
@@ -138,8 +138,8 @@ class GuideDetailPage extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Icon(Icons.star, color: Colors.amber, size: 20.0),
-                            SizedBox(width: 2.0),
+                            const Icon(Icons.star, color: Colors.amber, size: 20.0),
+                            const SizedBox(width: 2.0),
                             Text(
                               '${guide.rating}',
                               style: TextStyle(
@@ -147,7 +147,7 @@ class GuideDetailPage extends StatelessWidget {
                                 color: Colors.grey[600],
                               ),
                             ),
-                            SizedBox(width: 4.0),
+                            const SizedBox(width: 4.0),
                             Text(
                               '(${guide.reviews} Reviews)',
                               style: TextStyle(
@@ -161,39 +161,15 @@ class GuideDetailPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 6.0),
+                const SizedBox(height: 6.0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ToggleButtons(
                       borderRadius: BorderRadius.circular(8.0),
                       selectedColor: Colors.white,
-                      fillColor: Color.fromARGB(255, 22, 156, 140),
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5.0, vertical: 2.0),
-                          child: Text(
-                            'Contact me',
-                            style: TextStyle(
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 2.0, vertical: 2.0),
-                          child: Text(
-                            'Chat',
-                            style: TextStyle(
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                      isSelected: [false, false],
+                      fillColor: const Color.fromARGB(255, 22, 156, 140),
+                      isSelected: const [false, false],
                       onPressed: (int index) {
                         if (index == 0) {
                           Navigator.push(
@@ -211,18 +187,42 @@ class GuideDetailPage extends StatelessWidget {
                           // );
                         }
                       },
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 5.0, vertical: 2.0),
+                          child: Text(
+                            'Contact me',
+                            style: TextStyle(
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 2.0, vertical: 2.0),
+                          child: Text(
+                            'Chat',
+                            style: TextStyle(
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   'About',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 Text(
                   guide.about,
                   style: TextStyle(
@@ -230,15 +230,15 @@ class GuideDetailPage extends StatelessWidget {
                     color: Colors.grey[600],
                   ),
                 ),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   'Available Packages',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 CarouselSlider.builder(
                   options: CarouselOptions(
                     height: 300.0,
@@ -246,8 +246,8 @@ class GuideDetailPage extends StatelessWidget {
                     enableInfiniteScroll: true,
                     autoPlay: true,
                     viewportFraction: 0.5,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayInterval: const Duration(seconds: 3),
+                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
                   ),
                   itemCount: guide.packages.length,
                   itemBuilder: (context, index, realIdx) {
@@ -258,15 +258,15 @@ class GuideDetailPage extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   'Experiences',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 CarouselSlider.builder(
                   options: CarouselOptions(
                     height: 200.0,
@@ -274,19 +274,19 @@ class GuideDetailPage extends StatelessWidget {
                     enableInfiniteScroll: true,
                     autoPlay: true,
                     viewportFraction: 0.5,
-                    autoPlayInterval: Duration(seconds: 3),
-                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    autoPlayInterval: const Duration(seconds: 3),
+                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
                   ),
                   itemCount: guide.experiences.length,
                   itemBuilder: (context, index, realIdx) {
                     var experience = guide.experiences[index];
                     return Container(
                       width: 160.0, // Adjust the width as needed
-                      margin: EdgeInsets.only(right: 16.0),
+                      margin: const EdgeInsets.only(right: 16.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12.0),
                         color: Colors.white,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.black12,
                             offset: Offset(0, 4),
@@ -298,7 +298,7 @@ class GuideDetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.vertical(
+                            borderRadius: const BorderRadius.vertical(
                                 top: Radius.circular(12.0)),
                             child: Image.network(
                               'https://example.com/image.jpg', // Replace with your image URL
@@ -314,7 +314,7 @@ class GuideDetailPage extends StatelessWidget {
                               children: [
                                 Text(
                                   experience,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -327,15 +327,15 @@ class GuideDetailPage extends StatelessWidget {
                     );
                   },
                 ),
-                SizedBox(height: 16.0),
-                Text(
+                const SizedBox(height: 16.0),
+                const Text(
                   'Memories',
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 // Fetch and display images from Firebase
                 StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                   stream: FirebaseFirestore.instance
@@ -345,22 +345,22 @@ class GuideDetailPage extends StatelessWidget {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
+                      return const Center(
                           child: CircularProgressIndicator(
                         color: Colors.green,
                       ));
                     }
 
                     if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                      return Center(child: Text('No memories available'));
+                      return const Center(child: Text('No memories available'));
                     }
 
                     var memories = snapshot.data!.docs;
 
                     return GridView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         crossAxisSpacing: 8.0,
                         mainAxisSpacing: 8.0,
@@ -398,11 +398,13 @@ class VacationDetailPage extends StatelessWidget {
     'assets/biru/image_3.jpg',
   ];
 
+  VacationDetailPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -421,7 +423,7 @@ class VacationDetailPage extends StatelessWidget {
                   top: 16.0,
                   left: 16.0,
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -429,19 +431,19 @@ class VacationDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Camping',
               style: TextStyle(
                 fontSize: 28.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Row(
               children: [
                 Icon(Icons.location_on, color: Colors.grey[600]),
-                SizedBox(width: 4.0),
+                const SizedBox(width: 4.0),
                 Text(
                   'Mountain Resort',
                   style: TextStyle(
@@ -451,7 +453,7 @@ class VacationDetailPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text(
               'Enjoy your camping with warmth and amazing sightseeing on the mountains. Enjoy the best experience with us!',
               style: TextStyle(
@@ -459,15 +461,15 @@ class VacationDetailPage extends StatelessWidget {
                 color: Colors.grey[600],
               ),
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Preview',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             CarouselSlider(
               options: CarouselOptions(
                 height: 200.0,
@@ -484,7 +486,7 @@ class VacationDetailPage extends StatelessWidget {
                       ))
                   .toList(),
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -493,26 +495,26 @@ class VacationDetailPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ReservationScreen(),
+                        builder: (context) => const ReservationScreen(),
                       ),
                     );
                   },
-                  child: Text("Reserve",
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 22, 156, 140),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                  ),
+                  child: const Text("Reserve",
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       )),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 22, 156, 140),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                  ),
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
           ],
         ),
       ),

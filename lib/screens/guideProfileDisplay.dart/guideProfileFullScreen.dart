@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/floating_chat.dart';
 import 'package:localize_sl/screens/guides/guideProfile.dart';
 import 'package:video_player/video_player.dart';
@@ -13,7 +12,7 @@ import 'guideProfileReel.dart';
 class FullScreenPostDialogReel extends StatefulWidget {
   final Postreel postreel;
 
-  FullScreenPostDialogReel({required this.postreel});
+  const FullScreenPostDialogReel({super.key, required this.postreel});
 
   @override
   _FullScreenPostDialogState createState() => _FullScreenPostDialogState();
@@ -77,12 +76,12 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
     }
   }
 
-  Offset _fabPosition = Offset(0, 180); // Initial position
+// Initial position
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.all(0),
+      insetPadding: const EdgeInsets.all(0),
       backgroundColor: Colors.black,
       child: VisibilityDetector(
         key: Key(widget.postreel.downloadURL),
@@ -124,20 +123,20 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                             child: FittedBox(
                               fit: BoxFit.cover,
                               child: SizedBox(
-                                width: _controller.value.size?.width ?? 0,
-                                height: _controller.value.size?.height ?? 0,
+                                width: _controller.value.size.width,
+                                height: _controller.value.size.height,
                                 child: VideoPlayer(_controller),
                               ),
                             ),
                           ),
                           if (!_controller.value.isPlaying)
-                            Icon(Icons.play_arrow,
+                            const Icon(Icons.play_arrow,
                                 size: 40.0, color: Colors.white),
                         ],
                       ),
                     );
                   } else {
-                    return Center(
+                    return const Center(
                         child: CircularProgressIndicator(color: Colors.green));
                   }
                 },
@@ -190,7 +189,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                     Navigator.pop(context);
                   },
                   child: Container(
-                    child: Icon(
+                    child: const Icon(
                       Icons.close,
                       color: Colors.white,
                       size: 32,
@@ -215,12 +214,12 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                 right: 5,
                 child: Container(
                   padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     borderRadius:
                         BorderRadius.vertical(bottom: Radius.circular(10.0)),
                   ),
                   child: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.more_vert,
                       size: 30,
                     ),
@@ -237,11 +236,11 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
                                 ListTile(
-                                  leading: Icon(
+                                  leading: const Icon(
                                     Icons.edit,
                                     color: Color(0xFF2A966C),
                                   ),
-                                  title: Text(
+                                  title: const Text(
                                     'Edit',
                                     style: TextStyle(
                                       color: Color(0xFF2A966C),
@@ -255,11 +254,11 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                                   },
                                 ),
                                 ListTile(
-                                  leading: Icon(
+                                  leading: const Icon(
                                     Icons.delete,
                                     color: Color(0xFF2A966C),
                                   ),
-                                  title: Text(
+                                  title: const Text(
                                     'Delete',
                                     style: TextStyle(
                                       color: Color(0xFF2A966C),
@@ -296,7 +295,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                               return GuideProfilePage(
                                   userId: widget.postreel.userId);
                             },
-                            transitionDuration: Duration(milliseconds: 500),
+                            transitionDuration: const Duration(milliseconds: 500),
                             transitionsBuilder: (context, animation,
                                 secondaryAnimation, child) {
                               const begin =
@@ -319,7 +318,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                             NetworkImage(widget.postreel.profileUrl),
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -333,7 +332,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                                   return GuideProfilePage(
                                       userId: widget.postreel.userId);
                                 },
-                                transitionDuration: Duration(milliseconds: 500),
+                                transitionDuration: const Duration(milliseconds: 500),
                                 transitionsBuilder: (context, animation,
                                     secondaryAnimation, child) {
                                   const begin = Offset(
@@ -353,7 +352,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                           },
                           child: Text(
                             widget.postreel.username,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                             ),
@@ -361,7 +360,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                         ),
                         Text(
                           widget.postreel.type,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white70,
                           ),
                         ),
@@ -385,10 +384,10 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                             widget.postreel.isLiked ? Colors.red : Colors.white,
                       ),
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Text(
                       '${widget.postreel.like_count}',
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
@@ -402,7 +401,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialogReel> {
                   widget.postreel.caption,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -427,8 +426,8 @@ void _confirmDelete(BuildContext context, String memoryId) {
       actions: <Widget>[
         TextButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Color(0xFF2A966C)),
-            foregroundColor: MaterialStateProperty.all(Colors.white),
+            backgroundColor: WidgetStateProperty.all(const Color(0xFF2A966C)),
+            foregroundColor: WidgetStateProperty.all(Colors.white),
           ),
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog
@@ -460,7 +459,7 @@ void _confirmDelete(BuildContext context, String memoryId) {
           },
           style: TextButton.styleFrom(
               backgroundColor: Colors.white,
-              foregroundColor: Color(0xFF2A966C)),
+              foregroundColor: const Color(0xFF2A966C)),
           child: const Text("Delete"),
         ),
       ],

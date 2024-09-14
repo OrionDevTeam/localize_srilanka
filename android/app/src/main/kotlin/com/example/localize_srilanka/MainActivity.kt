@@ -1,4 +1,4 @@
-package com.example.localize_srilanka
+package com.orion.localize_srilanka
 
 import io.flutter.embedding.android.FlutterActivity
 

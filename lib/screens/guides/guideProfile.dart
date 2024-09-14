@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/guide_pages/guide_detail_page.dart';
-import 'package:localize_sl/screens/users/chats/chat.dart';
 import 'package:localize_sl/screens/users/chats/chatselection.dart';
 
 import 'guidereel.dart';
@@ -10,7 +9,7 @@ import 'guidereel.dart';
 class GuideProfilePage extends StatefulWidget {
   final String userId;
 
-  const GuideProfilePage({required this.userId, Key? key}) : super(key: key);
+  const GuideProfilePage({required this.userId, super.key});
 
   @override
   State<GuideProfilePage> createState() => _GuideProfilePageState();
@@ -44,8 +43,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
           userEmail = data['email'] ?? '';
           userBio = data['bio'] ?? '';
           profileImageUrl = data['profileImageUrl'] ?? '';
-          rating = data['rating'].toString() ?? '0';
-          reviews = data['reviews'].toString() ?? '10';
+          rating = data['rating'].toString();
+          reviews = data['reviews'].toString();
           location = data['location'] ?? '';
         });
       } else {
@@ -88,11 +87,11 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Chat Not Allowed'),
-            content: Text('A Guide or Business cannot initiate a chat.'),
+            title: const Text('Chat Not Allowed'),
+            content: const Text('A Guide or Business cannot initiate a chat.'),
             actions: [
               TextButton(
-                child: Text('OK'),
+                child: const Text('OK'),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -118,7 +117,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ChatSelectionPage(
+            builder: (context) => const ChatSelectionPage(
               showBackButton: true, // Show back button on ChatSelectionPage
             ),
           ),
@@ -136,7 +135,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatSelectionPage(
+              builder: (context) => const ChatSelectionPage(
                 showBackButton: true, // Show back button on ChatSelectionPage
               ),
             ),
@@ -185,40 +184,40 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                                 : const AssetImage('assets/placeholder.jpg'),
                           ),
                         ),
-                        SizedBox(width: 16),
+                        const SizedBox(width: 16),
                         Expanded(
                           flex: 3,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${userName}' ?? "Unknown",
-                                style: TextStyle(
+                                userName,
+                                style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 2),
+                              const SizedBox(height: 2),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.location_on,
                                     color: Colors.grey,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 4,
                                   ),
                                   Text(
-                                    '${location}',
-                                    style: TextStyle(color: Colors.grey),
+                                    location,
+                                    style: const TextStyle(color: Colors.grey),
                                     textAlign: TextAlign.start,
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 2),
+                              const SizedBox(height: 2),
                               Row(
                                 children: [
-                                  Icon(Icons.star, color: Colors.orange),
+                                  const Icon(Icons.star, color: Colors.orange),
                                   Text('$rating ($reviews Reviews)',
-                                      style: TextStyle(color: Colors.black)),
+                                      style: const TextStyle(color: Colors.black)),
                                 ],
                               ),
                             ],
@@ -230,8 +229,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                     Container(
                       height: 0.5,
                       width: double.infinity,
-                      decoration: BoxDecoration(
-                          color: const Color.fromARGB(122, 0, 0, 0)),
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(122, 0, 0, 0)),
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -246,7 +245,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               SizedBox(
                 width: double.infinity, // Full width
                 child: ElevatedButton(
@@ -259,7 +258,14 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                       ),
                     );
                   },
-                  child: Text(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF2A966C),
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12), // Set border radius
+                    ),
+                  ),
+                  child: const Text(
                     'View Full profile',
                     style: TextStyle(
                       color: Colors.white,
@@ -267,21 +273,22 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity, // Full width
+                child: ElevatedButton(
+                  onPressed: _handleChat,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFF2A966C),
+                    backgroundColor:
+                        const Color(0xFF2A966C), // Customize button color as needed
                     shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.circular(12), // Set border radius
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity, // Full width
-                child: ElevatedButton(
-                  onPressed: _handleChat,
-                  child: Text(
+                  child: const Text(
                     'Chat',
                     style: TextStyle(
                       color: Colors.white,
@@ -289,17 +296,9 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Color(0xFF2A966C), // Customize button color as needed
-                    shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(12), // Set border radius
-                    ),
-                  ),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Container(
                 height: 1200,
                 decoration: BoxDecoration(

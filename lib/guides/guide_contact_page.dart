@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ContactPage extends StatefulWidget {
   final Guide guide;
 
-  ContactPage({required this.guide});
+  const ContactPage({super.key, required this.guide});
 
   @override
   _ContactPageState createState() => _ContactPageState();
@@ -18,7 +18,7 @@ class _ContactPageState extends State<ContactPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
+        title: const Center(
           child: Text(
             'Contact Me',
             style: TextStyle(
@@ -32,13 +32,11 @@ class _ContactPageState extends State<ContactPage> {
         padding: const EdgeInsets.all(16.0),
         children: [
           GestureDetector(
-            onTap: () async {
-              
-            },
+            onTap: () async {},
             child: Card(
               child: ListTile(
-                leading: Icon(Icons.phone),
-                title: Text('Contact Number'),
+                leading: const Icon(Icons.phone),
+                title: const Text('Contact Number'),
                 subtitle: Text(widget.guide.contactNumber),
               ),
             ),
@@ -50,7 +48,7 @@ class _ContactPageState extends State<ContactPage> {
               });
             },
             child: AnimatedContainer(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
               child: Card(
                 child: _isEmailFormExpanded
@@ -58,100 +56,103 @@ class _ContactPageState extends State<ContactPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
-                            
-                            TextField(
+                            const TextField(
                               style: TextStyle(
                                 color: Colors.black,
                               ),
                               decoration: InputDecoration(
-                                labelText: 'First name*',
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:Colors.grey,
-                                  ) ,
+                                  labelText: 'First name*',
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
-                              ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
                             ),
-                            SizedBox(height: 8.0),
-                            TextField(
+                            const SizedBox(height: 8.0),
+                            const TextField(
                               style: TextStyle(
                                 color: Colors.black,
                               ),
                               decoration: InputDecoration(
-                                labelText: 'Last name*',
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:Colors.grey,
-                                  ) ,
+                                  labelText: 'Last name*',
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
-                              ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
                             ),
-                            SizedBox(height: 8.0),
-                            TextField(
+                            const SizedBox(height: 8.0),
+                            const TextField(
                               style: TextStyle(
                                 color: Colors.black,
                               ),
                               decoration: InputDecoration(
-                                labelText: 'E-mail*',
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:Colors.grey,
-                                  ) ,
+                                  labelText: 'E-mail*',
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
-                              ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
                             ),
-                            SizedBox(height: 8.0),
-                            TextField(
+                            const SizedBox(height: 8.0),
+                            const TextField(
                               maxLines: null,
                               style: TextStyle(
                                 color: Colors.black,
                               ),
                               decoration: InputDecoration(
-                                labelText: 'Drop a message*',
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:Colors.grey,
-                                  ) ,
+                                  labelText: 'Drop a message*',
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
-                              ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
                             ),
-                            SizedBox(height: 8.0),
+                            const SizedBox(height: 8.0),
                             ElevatedButton(
                               onPressed: () {
                                 // Handle form submission
                               },
-                              child: Text('Submit',
-                              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight:FontWeight.bold,
-                color: Colors.white,
-              )),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color.fromARGB(255, 22, 156, 140)
-                              ),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 22, 156, 140)),
+                              child: const Text('Submit',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  )),
                             ),
                           ],
                         ),
                       )
                     : ListTile(
-                        leading: Icon(Icons.email),
-                        title: Text('Contact Email'),
+                        leading: const Icon(Icons.email),
+                        title: const Text('Contact Email'),
                         subtitle: Text(widget.guide.contactEmail),
                         trailing: Icon(
                           _isEmailFormExpanded
@@ -162,25 +163,23 @@ class _ContactPageState extends State<ContactPage> {
               ),
             ),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           GestureDetector(
-            onTap: () async {
-              
-            },
+            onTap: () async {},
             child: Card(
               child: ListTile(
-                leading: Icon(Icons.chat),
-                title: Text('Chat'),
+                leading: const Icon(Icons.chat),
+                title: const Text('Chat'),
                 subtitle: Text(widget.guide.contactNumber),
               ),
             ),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               IconButton(
-                icon: Icon(Icons.facebook, color: Colors.blue),
+                icon: const Icon(Icons.facebook, color: Colors.blue),
                 onPressed: () async {
                   if (await canLaunch(widget.guide.facebookUrl)) {
                     await launch(widget.guide.facebookUrl);
@@ -188,7 +187,7 @@ class _ContactPageState extends State<ContactPage> {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.camera_alt, color: Colors.pink),
+                icon: const Icon(Icons.camera_alt, color: Colors.pink),
                 onPressed: () async {
                   if (await canLaunch(widget.guide.instagramUrl)) {
                     await launch(widget.guide.instagramUrl);
@@ -196,7 +195,7 @@ class _ContactPageState extends State<ContactPage> {
                 },
               ),
               IconButton(
-                icon: Icon(Icons.play_circle_fill, color: Colors.red),
+                icon: const Icon(Icons.play_circle_fill, color: Colors.red),
                 onPressed: () async {
                   if (await canLaunch(widget.guide.youtubeUrl)) {
                     await launch(widget.guide.youtubeUrl);

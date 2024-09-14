@@ -11,16 +11,17 @@ import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ChatPage extends StatefulWidget {
   final String chatId;
   final Map<String, dynamic> guideData;
 
   const ChatPage({
-    Key? key,
+    super.key,
     required this.chatId,
     required this.guideData,
-  }) : super(key: key);
+  });
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -28,10 +29,10 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   late types.User _currentUser;
-  late types.User _otherUser;
   String _guideProfileImageUrl = '';
   String _guideUserRole = '';
-  List<types.Message> _messages = [];
+  // ignore: unused_field
+  final List<types.Message> _messages = [];
 
   @override
   void initState() {
@@ -48,13 +49,7 @@ class _ChatPageState extends State<ChatPage> {
     final guideId = widget.guideData['id'];
 
     if (guideId != null && guideId is String) {
-      _otherUser = types.User(
-        id: guideId,
-      );
     } else {
-      _otherUser = types.User(
-        id: 'default_user_id',
-      );
     }
   }
 
@@ -63,8 +58,6 @@ class _ChatPageState extends State<ChatPage> {
       _guideProfileImageUrl = widget.guideData['profileImageUrl'] ?? '';
       _guideUserRole = widget.guideData['user_role'] ?? '';
     });
-    print('Profile Image URL: $_guideProfileImageUrl');
-    print('User Role: $_guideUserRole');
   }
 
   void _addMessage(types.Message message) async {
@@ -73,7 +66,7 @@ class _ChatPageState extends State<ChatPage> {
 
     // Upload image or video to Firebase Storage
     if (message is types.ImageMessage) {
-      final imageMessage = message as types.ImageMessage;
+      final imageMessage = message;
       final file = File(imageMessage.uri);
 
       // Create reference to storage path
@@ -92,7 +85,7 @@ class _ChatPageState extends State<ChatPage> {
       // Update message JSON with download URL
       messageJson['uri'] = downloadUrl.toString();
     } else if (message is types.VideoMessage) {
-      final videoMessage = message as types.VideoMessage;
+      final videoMessage = message;
       final file = File(videoMessage.uri);
 
       // Create reference to storage path
@@ -137,24 +130,24 @@ class _ChatPageState extends State<ChatPage> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Photo'),
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Photo'),
               onTap: () {
                 Navigator.pop(context);
                 _handleImageSelection(ImageSource.gallery);
               },
             ),
             ListTile(
-              leading: Icon(Icons.videocam),
-              title: Text('Video'),
+              leading: const Icon(Icons.videocam),
+              title: const Text('Video'),
               onTap: () {
                 Navigator.pop(context);
                 _handleVideoSelection();
               },
             ),
             ListTile(
-              leading: Icon(Icons.cancel),
-              title: Text('Cancel'),
+              leading: const Icon(Icons.cancel),
+              title: const Text('Cancel'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -165,51 +158,74 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  void _handleImageSelection(ImageSource source) async {
-    final result = await ImagePicker().pickImage(
-      source: source,
-      imageQuality: 70,
-      maxWidth: 1440,
-    );
-
-    if (result != null) {
-      final bytes = await result.readAsBytes();
-      final image = await decodeImageFromList(bytes);
-
-      final message = types.ImageMessage(
-        author: _currentUser,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: path.basename(result.path),
-        size: bytes.length,
-        uri: result.path,
-        height: image.height.toDouble(),
-        width: image.width.toDouble(),
+  Future<void> _handleImageSelection(ImageSource source) async {
+    if (await _requestPhotoPermission()) {
+      final result = await ImagePicker().pickImage(
+        source: source,
+        imageQuality: 70,
+        maxWidth: 1440,
       );
 
-      _addMessage(message);
+      if (result != null) {
+        final bytes = await result.readAsBytes();
+        final image = await decodeImageFromList(bytes);
+
+        final message = types.ImageMessage(
+          author: _currentUser,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          name: path.basename(result.path),
+          size: bytes.length,
+          uri: result.path,
+          height: image.height.toDouble(),
+          width: image.width.toDouble(),
+        );
+
+        _addMessage(message);
+      }
+    } else {
+      // Optionally show a message to the user about why the permission is needed
     }
   }
 
-  void _handleVideoSelection() async {
-    final result = await ImagePicker().pickVideo(
-      source: ImageSource.gallery,
-    );
-
-    if (result != null) {
-      final videoFile = File(result.path!);
-
-      final message = types.VideoMessage(
-        author: _currentUser,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: path.basename(result.path!),
-        size: videoFile.lengthSync(),
-        uri: result.path!,
+  Future<void> _handleVideoSelection() async {
+    if (await _requestVideoPermission()) {
+      final result = await ImagePicker().pickVideo(
+        source: ImageSource.gallery,
       );
 
-      _addMessage(message);
+      if (result != null) {
+        final videoFile = File(result.path);
+
+        final message = types.VideoMessage(
+          author: _currentUser,
+          createdAt: DateTime.now().millisecondsSinceEpoch,
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          name: path.basename(result.path),
+          size: videoFile.lengthSync(),
+          uri: result.path,
+        );
+
+        _addMessage(message);
+      }
+    } else {
     }
+  }
+
+  Future<bool> _requestPhotoPermission() async {
+    var status = await Permission.photos.status;
+    if (status.isDenied) {
+      status = await Permission.photos.request();
+    }
+    return status.isGranted;
+  }
+
+  Future<bool> _requestVideoPermission() async {
+    var status = await Permission.photos.status;
+    if (status.isDenied) {
+      status = await Permission.photos.request();
+    }
+    return status.isGranted;
   }
 
   Stream<List<types.Message>> _messagesStream() {
@@ -231,7 +247,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -240,11 +255,11 @@ class _ChatPageState extends State<ChatPage> {
             CircleAvatar(
               backgroundImage: _guideProfileImageUrl.isNotEmpty
                   ? NetworkImage(_guideProfileImageUrl)
-                  : AssetImage('assets/default_profile_image.jpg')
+                  : const AssetImage('assets/default_profile_image.jpg')
                       as ImageProvider,
               radius: 20,
             ),
-            SizedBox(width: 14),
+            const SizedBox(width: 14),
             GestureDetector(
               onTap: () {
                 if (_guideUserRole == "Guide") {
@@ -265,9 +280,8 @@ class _ChatPageState extends State<ChatPage> {
                   Text('${widget.guideData['username']}'),
                   Text(
                     'LOCALIZE ${_guideUserRole.toUpperCase()}',
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: const Color.fromARGB(137, 22, 1, 1)),
+                    style: const TextStyle(
+                        fontSize: 12, color: Color.fromARGB(137, 22, 1, 1)),
                   ),
                 ],
               ),
@@ -285,79 +299,34 @@ class _ChatPageState extends State<ChatPage> {
         stream: _messagesStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error loading messages'));
+            return const Center(child: CircularProgressIndicator());
           }
 
-          _messages = snapshot.data ?? [];
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('No messages'));
+          }
 
           return chat_ui.Chat(
-            messages: _messages,
-            onAttachmentPressed: _handleAttachmentPressed,
-            onMessageTap: (context, message) {
-              print('Message tapped: ${message.id}');
-            },
-            onSendPressed: (message) {
-              if (message is types.PartialText) {
-                final textMessage = types.TextMessage(
-                  author: _currentUser,
-                  createdAt: DateTime.now().millisecondsSinceEpoch,
-                  id: DateTime.now().millisecondsSinceEpoch.toString(),
-                  text: message.text,
-                );
-                _addMessage(textMessage);
-              }
+            messages: snapshot.data!,
+            onSendPressed: (partialTextMessage) {
+              final textMessage = types.TextMessage(
+                author: _currentUser,
+                createdAt: DateTime.now().millisecondsSinceEpoch,
+                id: DateTime.now().millisecondsSinceEpoch.toString(),
+                text: partialTextMessage.text,
+              );
+
+              _addMessage(textMessage);
             },
             user: _currentUser,
+            onAttachmentPressed: _handleAttachmentPressed,
           );
         },
       ),
     );
-  }
-}
-
-extension on types.Message {
-  Map<String, dynamic> toJson() {
-    if (this is types.TextMessage) {
-      return {
-        'type': 'text',
-        'author': (this as types.TextMessage).author.toJson(),
-        'createdAt': (this as types.TextMessage).createdAt,
-        'id': (this as types.TextMessage).id,
-        'text': (this as types.TextMessage).text,
-      };
-    } else if (this is types.ImageMessage) {
-      return {
-        'type': 'image',
-        'author': (this as types.ImageMessage).author.toJson(),
-        'createdAt': (this as types.ImageMessage).createdAt,
-        'id': (this as types.ImageMessage).id,
-        'name': (this as types.ImageMessage).name,
-        'size': (this as types.ImageMessage).size,
-        'uri': (this as types.ImageMessage).uri,
-        'height': (this as types.ImageMessage).height,
-        'width': (this as types.ImageMessage).width,
-      };
-    } else if (this is types.VideoMessage) {
-      return {
-        'type': 'video',
-        'author': (this as types.VideoMessage).author.toJson(),
-        'createdAt': (this as types.VideoMessage).createdAt,
-        'id': (this as types.VideoMessage).id,
-        'name': (this as types.VideoMessage).name,
-        'size': (this as types.VideoMessage).size,
-        'uri': (this as types.VideoMessage).uri,
-      };
-    }
-    return {};
-  }
-}
-
-extension on types.User {
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-    };
   }
 }

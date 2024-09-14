@@ -51,8 +51,8 @@ class VisaHomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ApplyForVisaPage(
-                                  color: const Color(0xFF2A966C),
+                            builder: (context) => const ApplyForVisaPage(
+                                  color: Color(0xFF2A966C),
                                   cost: "30\$",
                                   imagePath: 'assets/visa/girl.png',
                                 )),
@@ -77,15 +77,15 @@ class VisaHomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ApplyForVisaPage(
+                            builder: (context) => const ApplyForVisaPage(
                                   color: Color.fromARGB(255, 29, 168, 232),
                                   cost: "150\$",
                                   imagePath: 'assets/visa/g2.png',
                                 )),
                       );
                     },
-                    backgroundColor: Color.fromARGB(255, 29, 168, 232),
-                    buttonColor: Color.fromARGB(255, 29, 168, 232),
+                    backgroundColor: const Color.fromARGB(255, 29, 168, 232),
+                    buttonColor: const Color.fromARGB(255, 29, 168, 232),
                   ),
                   const SizedBox(width: 10),
                   VisaCard(
@@ -102,9 +102,9 @@ class VisaHomePage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ApplyForVisaPage(
+                            builder: (context) => const ApplyForVisaPage(
                                   color:
-                                      const Color.fromARGB(255, 222, 170, 38),
+                                      Color.fromARGB(255, 222, 170, 38),
                                   cost: "50\$",
                                   imagePath: 'assets/visa/g1.png',
                                 )),
@@ -126,7 +126,7 @@ class VisaHomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ApplicationsScreen()),
+                  MaterialPageRoute(builder: (context) => const ApplicationsScreen()),
                 );
               },
             ),
@@ -152,7 +152,7 @@ class VisaHomePage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => VisaDocumentsChecklist()),
+                      builder: (context) => const VisaDocumentsChecklist()),
                 );
               },
             ),
@@ -164,7 +164,7 @@ class VisaHomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EligibilityChecker()),
+                  MaterialPageRoute(builder: (context) => const EligibilityChecker()),
                 );
               },
             ),
@@ -176,7 +176,7 @@ class VisaHomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LearnMorePage()),
+                  MaterialPageRoute(builder: (context) => const LearnMorePage()),
                 );
               },
             ),
@@ -201,6 +201,8 @@ class ProgressCheckPage extends StatelessWidget {
 }
 
 class LearnMorePage extends StatelessWidget {
+  const LearnMorePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -211,6 +213,8 @@ class LearnMorePage extends StatelessWidget {
 }
 
 class EligibilityCheckerPage extends StatelessWidget {
+  const EligibilityCheckerPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -221,6 +225,8 @@ class EligibilityCheckerPage extends StatelessWidget {
 }
 
 class DocumentChecklistPage extends StatelessWidget {
+  const DocumentChecklistPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

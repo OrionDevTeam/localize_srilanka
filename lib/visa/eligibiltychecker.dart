@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class EligibilityChecker extends StatefulWidget {
+  const EligibilityChecker({super.key});
+
   @override
   _EligibilityCheckerState createState() => _EligibilityCheckerState();
 }
@@ -76,7 +78,7 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Center(
+          title: const Center(
             child: Text('Eligibility Status'),
           ),
           content: Text(
@@ -88,7 +90,6 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK', style: TextStyle(color: Colors.white)),
               style: ElevatedButton.styleFrom(
                 backgroundColor: buttonColor,
                 padding:
@@ -98,6 +99,7 @@ class _EligibilityCheckerState extends State<EligibilityChecker> {
                       BorderRadius.circular(12), // Set the border radius here
                 ),
               ),
+              child: const Text('OK', style: TextStyle(color: Colors.white)),
             )
             // TextButton(
             //   child: Text(

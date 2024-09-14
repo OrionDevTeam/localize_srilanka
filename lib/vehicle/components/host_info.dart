@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
 class HostInfoSection extends StatelessWidget {
+  const HostInfoSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(0xFF2A966C),
+          color: const Color(0xFF2A966C),
           width: 1.0,
         ),
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      child: const Padding(
+        padding: EdgeInsets.all(8.0),
         child: Row(
           children: [
             CircleAvatar(

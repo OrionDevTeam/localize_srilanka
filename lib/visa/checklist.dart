@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class VisaDocumentsChecklist extends StatefulWidget {
+  const VisaDocumentsChecklist({super.key});
+
   @override
   _VisaDocumentsChecklistState createState() => _VisaDocumentsChecklistState();
 }
@@ -35,7 +37,7 @@ class _VisaDocumentsChecklistState extends State<VisaDocumentsChecklist> {
                 color: Color(0xFF2A966C),
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             const Text(
               "Make sure you have these documents when going for the Visa appointment",
               style: TextStyle(
@@ -44,7 +46,7 @@ class _VisaDocumentsChecklistState extends State<VisaDocumentsChecklist> {
                 color: Color(0xFF2A966C),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: documents.length,
@@ -62,14 +64,14 @@ class _VisaDocumentsChecklistState extends State<VisaDocumentsChecklist> {
                           documents[index]["isChecked"] = value!;
                         });
                       },
-                      activeColor: Color(0xFF2A966C),
+                      activeColor: const Color(0xFF2A966C),
                       checkColor: Colors.white,
                     ),
                   );
                 },
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Submit Button
             // Center(
             //   child: ElevatedButton(
@@ -101,17 +103,17 @@ class _VisaDocumentsChecklistState extends State<VisaDocumentsChecklist> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text("Checklist Status"),
-          content: Text("Visa document checklist submitted successfully."),
+          title: const Text("Checklist Status"),
+          content: const Text("Visa document checklist submitted successfully."),
           actions: [
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF2A966C),
+                backgroundColor: const Color(0xFF2A966C),
               ),
-              child: Text(
+              child: const Text(
                 "OK",
                 style: TextStyle(color: Colors.white),
               ),

@@ -8,13 +8,13 @@ class ClickableContainer extends StatelessWidget {
   final VoidCallback onTap;
 
   const ClickableContainer({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
     required this.onTap,
     this.iconColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,8 @@ class ClickableContainer extends StatelessWidget {
         child: MouseRegion(
           cursor: SystemMouseCursors.click,
           child: Container(
-            padding: EdgeInsets.all(16),
-            margin: EdgeInsets.symmetric(
+            padding: const EdgeInsets.all(16),
+            margin: const EdgeInsets.symmetric(
               horizontal: 10,
               vertical: 4,
             ),
@@ -45,7 +45,7 @@ class ClickableContainer extends StatelessWidget {
               children: [
                 // Leading Icon
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: iconColor?.withOpacity(0.3) ??
                         Colors.blue.withOpacity(0.3),
@@ -56,7 +56,7 @@ class ClickableContainer extends StatelessWidget {
                     color: iconColor ?? Colors.blue[700],
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 // Title and Subtitle
                 Expanded(
                   child: Column(
@@ -64,7 +64,7 @@ class ClickableContainer extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -76,7 +76,7 @@ class ClickableContainer extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(
+                const Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.grey,
                 ),

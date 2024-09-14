@@ -6,7 +6,7 @@ class PackageOptionButton extends StatelessWidget {
   final String label;
   final bool isSelected;
 
-  const PackageOptionButton({
+  const PackageOptionButton({super.key, 
     required this.label,
     required this.isSelected,
   });

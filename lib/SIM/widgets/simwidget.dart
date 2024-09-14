@@ -12,7 +12,7 @@ class SimCardWidget extends StatelessWidget {
   final VoidCallback onTap;
 
   // Constructor to accept data dynamically
-  SimCardWidget({
+  const SimCardWidget({super.key, 
     required this.title,
     required this.reviews,
     required this.duration,

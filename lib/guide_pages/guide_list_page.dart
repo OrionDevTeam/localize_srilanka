@@ -3,10 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:localize_sl/guide_pages/guide_detail_page.dart';
 import 'package:localize_sl/guide_pages/guide_model.dart';
 
-class GuideListPage extends StatelessWidget {
+class GuideListPage extends StatefulWidget {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   GuideListPage({super.key});
+
+  @override
+  _GuideListPageState createState() => _GuideListPageState();
+}
+
+class _GuideListPageState extends State<GuideListPage> {
+  String _searchQuery = ''; // To store the search query
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +30,8 @@ class GuideListPage extends StatelessWidget {
         ),
         centerTitle: true,
         title: const Text(
-          'Search',
-          style: TextStyle(
-              // fontWeight: FontWeight.bold,
-              ),
+          'Localizers',
+          style: TextStyle(),
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(kToolbarHeight),
@@ -36,8 +41,13 @@ class GuideListPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: TextField(
+                    onChanged: (value) {
+                      setState(() {
+                        _searchQuery = value.trim().toLowerCase(); // Update search query
+                      });
+                    },
                     decoration: InputDecoration(
-                      hintText: 'Search',
+                      hintText: 'Search by username',
                       prefixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25.0),
@@ -62,7 +72,7 @@ class GuideListPage extends StatelessWidget {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _firestore
+        stream: widget._firestore
             .collection('users')
             .where('user_role', whereIn: ["Guide", "Business"]).snapshots(),
         builder: (context, snapshot) {
@@ -86,10 +96,19 @@ class GuideListPage extends StatelessWidget {
             );
           }
 
+          // Filter guides based on the search query
           var guides = snapshot.data!.docs
               .map((doc) => Guide.fromFirestore(
                   doc as DocumentSnapshot<Map<String, dynamic>>))
+              .where((guide) =>
+                  guide.username.toLowerCase().contains(_searchQuery)) // Filter by username
               .toList();
+
+          if (guides.isEmpty) {
+            return const Center(
+              child: Text('No guides found matching the search'),
+            );
+          }
 
           return ListView.builder(
             itemCount: guides.length,

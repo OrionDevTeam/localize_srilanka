@@ -43,8 +43,8 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
           userEmail = data['email'] ?? '';
           userBio = data['bio'] ?? '';
           profileImageUrl = data['profileImageUrl'] ?? '';
-          rating = data['rating'].toString() ?? '0';
-          reviews = data['reviews'].toString() ?? '10';
+          rating = data['rating'].toString();
+          reviews = data['reviews'].toString();
           location = data['location'] ?? '';
         });
       } else {
@@ -191,7 +191,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                userName ?? "Unknown",
+                                userName,
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),

@@ -5,6 +5,8 @@ import 'screens/simcard_detail.dart';
 import 'widgets/simwidget.dart';
 
 class SimCardsPage extends StatelessWidget {
+  const SimCardsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -10,7 +10,7 @@ class VehicleItem extends StatelessWidget {
   final String imageUrl;
   final String rating;
 
-  VehicleItem({
+  const VehicleItem({super.key, 
     required this.name,
     required this.availableDate,
     required this.seats,
@@ -38,7 +38,7 @@ class VehicleItem extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Container(
+        child: SizedBox(
           width: 200,
           height: 300,
           child: Card(
@@ -51,7 +51,7 @@ class VehicleItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
                   child: Image.asset(
                     imageUrl,
                     height: 100,
@@ -65,20 +65,20 @@ class VehicleItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(name,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
                       Text(availableDate),
                       Text(seats,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                           )),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             price,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Color(0xFF2A966C),
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),

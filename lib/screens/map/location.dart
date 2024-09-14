@@ -79,7 +79,7 @@ class _LocationState extends State<Location>
     super.dispose();
   }
 
-  final Offset _fabPosition = const Offset(0, 180); // Initial position
+// Initial position
 
   @override
   Widget build(BuildContext context) {

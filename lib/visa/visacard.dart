@@ -13,7 +13,7 @@ class VisaCard extends StatelessWidget {
   final Color buttonColor;
 
   const VisaCard({
-    Key? key,
+    super.key,
     required this.backgroundImagePath,
     required this.foregroundImagePath,
     required this.visaType,
@@ -22,7 +22,7 @@ class VisaCard extends StatelessWidget {
     required this.onApply,
     this.backgroundColor = const Color(0xFF2A966C), // Default background color
     this.buttonColor = const Color(0xFF2A966C), // Default button color
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class VisaCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20), // Rounded corners
       ),
       elevation: 5,
-      child: Container(
+      child: SizedBox(
         width: 250, // Set your desired card width
         height: 300, // Set your desired card height
         child: Stack(
@@ -111,9 +111,9 @@ class VisaCard extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                 ),
-                child: Text(
+                child: const Text(
                   "Apply Now",
                   style: TextStyle(fontSize: 16, color: Colors.white),
                 ),

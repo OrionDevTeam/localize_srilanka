@@ -5,7 +5,7 @@ class CategorySection extends StatelessWidget {
   final String title;
   final List<VehicleItem> vehicleItems;
 
-  CategorySection({required this.title, required this.vehicleItems});
+  const CategorySection({super.key, required this.title, required this.vehicleItems});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,10 @@ class CategorySection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(title,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               TextButton(
                 onPressed: () {},
-                child: Text('View All',
+                child: const Text('View All',
                     style: TextStyle(
                       color: Color(0xFF2A966C),
                     )),

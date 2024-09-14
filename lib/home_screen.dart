@@ -1,8 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/panaroma/panaroma.dart';
+import 'package:localize_sl/guide_pages/guide_list_page.dart';
+import 'package:localize_sl/visa/visahome.dart';
 
 import '../screens/map/map_home.dart';
 
@@ -110,7 +113,7 @@ class HomeScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => VehicleScreen()),
+                                      builder: (context) => const VehicleScreen()),
                                 );
                               },
                               child: Column(
@@ -123,6 +126,7 @@ class HomeScreen extends StatelessWidget {
                                       fit: BoxFit.contain,
                                     ),
                                   ),
+                                  const SizedBox(height: 8),
                                   const Text(
                                     'Rentals',
                                     style: TextStyle(
@@ -140,19 +144,20 @@ class HomeScreen extends StatelessWidget {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SimCardsPage()),
+                                      builder: (context) => const SimCardsPage()),
                                 );
                               },
                               child: Column(
                                 children: [
                                   SizedBox(
-                                    height: 40, // Set the height for the image
-                                    width: 40, // Set the width for the image
+                                    height: 50, // Set the height for the image
+                                    width: 50, // Set the width for the image
                                     child: SvgPicture.asset(
                                       'assets/features/sim.svg',
                                       fit: BoxFit.contain,
                                     ),
                                   ),
+                                  const SizedBox(height: 8),
                                   const Text(
                                     'Networks',
                                     style: TextStyle(
@@ -174,6 +179,7 @@ class HomeScreen extends StatelessWidget {
                                     fit: BoxFit.contain,
                                   ),
                                 ),
+                                const SizedBox(height: 8),
                                 const Text(
                                   'Shopping',
                                   style: TextStyle(
@@ -253,32 +259,27 @@ class HomeScreen extends StatelessWidget {
                     text:
                         'Get Your Sri Lankan Tourist Visa Hassle-Free with Us!',
                     imagePath: 'assets/visa/girl.png',
+                    buttonText: 'Apply Now',
+                    destinationPage: VisaHomePage(),
                   ),
-                  // Container with an SVG Image
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //           builder: (context) => const VisaHomePage()),
-                  //     );
-                  //   },
-                  //   child: Container(
-                  //     width: double.infinity,
-                  //     height: 150,
-                  //     margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(12),
-                  //     ),
-                  //     child: ClipRRect(
-                  //       borderRadius: BorderRadius.circular(12),
-                  //       child: SvgPicture.asset(
-                  //         'assets/features/visaprocess.svg',
-                  //         fit: BoxFit.fill,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Emergency SOS',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  const VisaBanner(
+                    backgroundColor: Color.fromARGB(255, 30, 108, 78),
+                    buttonColor: Color.fromARGB(255, 55, 147, 110),
+                    textColor: Colors.white,
+                    text:
+                        'You stuck anywhere in Sri Lanka? We are here to help you!',
+                    imagePath: 'assets/visa/girl.png',
+                    buttonText: 'Click here!',
+                    destinationPage: VisaHomePage(),
+                  ),
+                  
 
                   const SizedBox(height: 20),
                   const Text(
@@ -329,7 +330,7 @@ class HomeScreen extends StatelessWidget {
                                     height:
                                         10), // Add spacing between the image and text
                                 const Text(
-                                  'Chatbot',
+                                  'Vidara',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -386,7 +387,7 @@ class HomeScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CardFormPage(),
+                                builder: (context) => GuideListPage(),
                               ),
                             );
                           },
@@ -409,7 +410,7 @@ class HomeScreen extends StatelessWidget {
                                     height:
                                         10), // Add spacing between the image and text
                                 const Text(
-                                  'Localize Guides',
+                                  'Localizers',
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -424,150 +425,181 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 20),
 
-                  // const Text(
-                  //   'Carousel Slider',
-                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  // ),
-                  // const SizedBox(height: 20),
+                  const Text(
+                    'Experineces in Srilanka',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
 
-                  // // Vertical Carousel Slider with SVG Images
-                  // CarouselSlider(
-                  //   options: CarouselOptions(
-                  //     height: 200.0,
-                  //     enableInfiniteScroll: false,
-                  //     enlargeCenterPage: true,
-                  //     viewportFraction: 0.8,
-                  //   ),
-                  //   items: [
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: SvgPicture.asset('assets/features/train.svg'),
-                  //       ),
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: SvgPicture.asset('assets/features/ticket.svg'),
-                  //       ),
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: ClipRRect(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           child: SvgPicture.asset(
-                  //             'assets/features/train.svg',
-                  //             fit: BoxFit.cover,
-                  //           ),
-                  //         ),
-                  //       )
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: ClipRRect(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           child: SvgPicture.asset(
-                  //             'assets/features/train.svg',
-                  //             fit: BoxFit.cover,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(builder: (context) => const AnotherPage()),
-                  //         );
-                  //       },
-                  //       child: Container(
-                  //         width: MediaQuery.of(context).size.width,
-                  //         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(12),
-                  //           boxShadow: const [
-                  //             BoxShadow(
-                  //               color: Colors.black12,
-                  //               blurRadius: 6,
-                  //               offset: Offset(0, 3),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //         child: SvgPicture.asset('assets/features/sim.svg'),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+                  CarouselSlider(
+                  options: CarouselOptions(
+                    height: 180.0,
+                    enableInfiniteScroll: false,
+                    enlargeCenterPage: true,
+                    viewportFraction: 0.8,
+                  ),
+                  items: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 6,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/experiences/Surfing.jpg',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 110,
+                            child: Text(
+                              "Surfing",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    offset: const Offset(0, 1),
+                                    blurRadius: 5.0,
+                                    color: Colors.black.withOpacity(0.5),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 6,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/experiences/camping.jpg',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 100,
+                            child: Text(
+                              "Camping",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    offset: const Offset(0, 1),
+                                    blurRadius: 5.0,
+                                    color: Colors.black.withOpacity(0.5),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 6,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/experiences/ele_safari.jpg',
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 10,
+                            left: 80,
+                            child: Text(
+                              "Elephant Safari",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  Shadow(
+                                    offset: const Offset(0, 1),
+                                    blurRadius: 5.0,
+                                    color: Colors.black.withOpacity(0.5),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
                   const SizedBox(height: 120),
                 ],
               ),

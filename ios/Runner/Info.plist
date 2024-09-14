@@ -57,5 +57,20 @@
 	<string>We need permission to save photos to your library.</string>
 	<key>NSContactsUsageDescription</key>
     <string>This app requires access to display the contacts list. This will be used to import contacts automatically if necessary to the app contacts list.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<!-- Replace YOUR_REVERSED_CLIENT_ID with the reversed client ID from the GoogleService-Info.plist -->
+				<string>com.googleusercontent.apps.93648632910-kqemfjffbl8up5tkec3dlr61m9dl1t4s</string>
+			</array>
+		</dict>
+	</array>
+
+	<key>GIDClientID</key>
+	<string>93648632910-kqemfjffbl8up5tkec3dlr61m9dl1t4s.apps.googleusercontent.com</string>
+	<key>GoogleAppID</key>
+	<string>1:93648632910:ios:558db264ed995d6422171f</string>
 </dict>
 </plist>

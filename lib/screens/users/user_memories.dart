@@ -27,6 +27,7 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
   final ImagePicker _picker = ImagePicker();
 
   String? _thumbnailPath;
+  // ignore: unused_field
   String? _mediaType;
 
   Future<Map<String, dynamic>?> _getMemoryDetails(
@@ -52,7 +53,6 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
       );
 
       if (pickedFile == null) {
-        print('No image selected');
         return;
       }
 
@@ -67,7 +67,6 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
 
       await _uploadFile(pickedFile, 'image', memoryDetails);
     } catch (e) {
-      print('Error picking or uploading image: $e');
     }
   }
 
@@ -80,7 +79,6 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
       );
 
       if (pickedVideo == null) {
-        print('No video selected');
         return;
       }
 
@@ -95,7 +93,6 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
 
       await _uploadFile(pickedVideo, 'video', memoryDetails);
     } catch (e) {
-      print('Error picking or uploading video: $e');
     }
   }
 
@@ -105,7 +102,6 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
       File file = File(pickedFile.path);
       User? user = _auth.currentUser;
       if (user == null) {
-        print('No user logged in');
         return;
       }
 
@@ -128,14 +124,12 @@ class _MemoriesUploaderState extends State<MemoriesUploader> {
         'isLiked': false
       });
 
-      print('Memory uploaded successfully');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Memory uploaded successfully'),
         ),
       );
     } catch (e) {
-      print('Error uploading file: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to upload memory'),
@@ -373,7 +367,6 @@ class MemoriesDisplay extends StatelessWidget {
                 );
                 Navigator.of(context).pop(); // Close the dialog
               } catch (e) {
-                print("Error deleting memory: $e");
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text("Failed to delete memory"),
@@ -466,7 +459,6 @@ class MemoriesDisplay extends StatelessWidget {
       var snapshot = await memoryRef.get();
 
       if (!snapshot.exists) {
-        print('Document does not exist');
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Memory not found'),
@@ -570,7 +562,6 @@ class MemoriesDisplay extends StatelessWidget {
                     );
                     Navigator.of(context).pop(); // Close the dialog
                   } catch (e) {
-                    print("Error updating memory: $e");
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Failed to update memory'),
@@ -585,7 +576,6 @@ class MemoriesDisplay extends StatelessWidget {
         },
       );
     } catch (e) {
-      print('Error editing memory details: $e');
     }
   }
 }
@@ -626,7 +616,6 @@ class _VideoThumbnailWidgetState extends State<VideoThumbnailWidget> {
         });
       }
     } catch (e) {
-      print('Error generating thumbnail: $e');
     }
   }
 

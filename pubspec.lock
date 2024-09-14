@@ -536,6 +536,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.7.0"
+  glossy:
+    dependency: "direct main"
+    description:
+      name: glossy
+      sha256: e57a20a9883eecbb134a2495d602c75ed99f0bdf010ab09b6d56d680a6af8616
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   google_identity_services_web:
     dependency: transitive
     description:
@@ -1040,6 +1048,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  simple_gesture_detector:
+    dependency: transitive
+    description:
+      name: simple_gesture_detector
+      sha256: ba2cd5af24ff20a0b8d609cec3f40e5b0744d2a71804a2616ae086b9c19d19a3
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1117,6 +1133,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0+1"
+  table_calendar:
+    dependency: "direct main"
+    description:
+      name: table_calendar
+      sha256: "4ca32b2fc919452c9974abd4c6ea611a63e33b9e4f0b8c38dba3ac1f4a6549d1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.2"
   term_glyph:
     dependency: transitive
     description:

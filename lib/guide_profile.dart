@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -44,15 +46,13 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
           userEmail = data['email'] ?? '';
           userBio = data['bio'] ?? '';
           profileImageUrl = data['profileImageUrl'] ?? '';
-          rating = data['rating'].toString() ?? '0';
-          reviews = data['reviews'].toString() ?? '10';
+          rating = data['rating'].toString();
+          reviews = data['reviews'].toString();
           location = data['location'] ?? '';
         });
       } else {
-        print('User role not found in snapshot data');
       }
     } catch (e) {
-      print('Error fetching user role: $e');
     }
   }
 
@@ -155,7 +155,7 @@ class _GuideProfilePageState extends State<GuideProfilePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      userName ?? "Unknown",
+                                      userName,
                                       style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold),
@@ -520,10 +520,8 @@ class _SettingsPageState extends State<SettingsPage> {
           profileImageUrl = data['profileImageUrl'] ?? '';
         });
       } else {
-        print('User role not found in snapshot data');
       }
     } catch (e) {
-      print('Error fetching user role: $e');
     }
   }
 

@@ -56,7 +56,7 @@ class ApplicationDetailsScreen extends StatelessWidget {
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/visa/immigration.jpg'), // Replace with your image asset
+                image: const AssetImage('assets/visa/immigration.jpg'), // Replace with your image asset
                 fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                   Colors.white.withOpacity(0.6), // Adjust opacity as needed

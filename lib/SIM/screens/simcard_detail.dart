@@ -11,7 +11,7 @@ class SimCardDetailWidget extends StatelessWidget {
   final String price;
   final String imagePath;
 
-  SimCardDetailWidget({
+  const SimCardDetailWidget({super.key, 
     required this.title,
     required this.reviews,
     required this.duration,

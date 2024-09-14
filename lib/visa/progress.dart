@@ -93,16 +93,16 @@ class _VisaApplicationScreenState extends State<VisaApplicationScreen1> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Visa Application'),
+        title: const Text('Visa Application'),
       ),
       body: _complete
-          ? SelectVisaType()
+          ? const SelectVisaType()
           : Theme(
               data: ThemeData(
                 primaryColor: const Color(0xFF2A966C), // Set primary color
                 hintColor: const Color(0xFF2A966C), // Set accent color
-                colorScheme: ColorScheme.light(
-                    primary: const Color(
+                colorScheme: const ColorScheme.light(
+                    primary: Color(
                         0xFF2A966C)), // Set color scheme for stepper indicators
               ),
               child: Stepper(

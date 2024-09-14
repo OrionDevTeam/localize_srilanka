@@ -8,12 +8,11 @@ class ApplyForVisaPage extends StatefulWidget {
   final Color color;
   final String cost;
   final String imagePath;
-  ApplyForVisaPage(
-      {Key? key,
+  const ApplyForVisaPage(
+      {super.key,
       required this.color,
       required this.cost,
-      required this.imagePath})
-      : super(key: key);
+      required this.imagePath});
   @override
   _VisaScreenState createState() => _VisaScreenState();
 }
@@ -163,7 +162,7 @@ class _VisaScreenState extends State<ApplyForVisaPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Container(
+                SizedBox(
                   width: 200,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(

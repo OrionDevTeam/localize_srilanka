@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'visa_application1.dart';
 
 class SelectVisaType extends StatefulWidget {
+  const SelectVisaType({super.key});
+
   @override
   _VisaScreenState createState() => _VisaScreenState();
 }
@@ -145,7 +147,7 @@ class _VisaScreenState extends State<SelectVisaType> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Container(
+                SizedBox(
                   width: 200,
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -160,7 +162,7 @@ class _VisaScreenState extends State<SelectVisaType> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => VisaApplicationFormPage()),
+                              builder: (context) => const VisaApplicationFormPage()),
                         );
                       },
                       child: const Text(

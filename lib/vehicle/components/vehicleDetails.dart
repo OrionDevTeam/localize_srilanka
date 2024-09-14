@@ -14,12 +14,11 @@ class VehicleDetailPage extends StatelessWidget {
   final String rating;
 
   const VehicleDetailPage(
-      {Key? key,
+      {super.key,
       required this.vehicleName,
       required this.pricePerHour,
       required this.imageUrl,
-      required this.rating})
-      : super(key: key);
+      required this.rating});
 
   @override
   Widget build(BuildContext context) {
@@ -39,19 +38,19 @@ class VehicleDetailPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 child: Image.asset(imageUrl), // Placeholder for vehicle image
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               VehicleInfoSection(
                   vehicleName: vehicleName,
                   pricePerHour: pricePerHour,
                   rating: rating),
-              SizedBox(height: 16),
-              HostInfoSection(),
-              SizedBox(height: 16),
-              TripDatesSection(),
-              Divider(),
-              PickupReturnSection(),
-              SizedBox(height: 16),
-              DescriptionSection(),
+              const SizedBox(height: 16),
+              const HostInfoSection(),
+              const SizedBox(height: 16),
+              const TripDatesSection(),
+              const Divider(),
+              const PickupReturnSection(),
+              const SizedBox(height: 16),
+              const DescriptionSection(),
             ],
           ),
         ),

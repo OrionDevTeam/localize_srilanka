@@ -208,7 +208,7 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => VacationDetailPage(),
+                            builder: (context) => VacationDetailPage(guide: guide!),
                           ),
                         );
                       },

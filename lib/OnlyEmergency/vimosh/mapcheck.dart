@@ -61,6 +61,7 @@ class _MapScreenState extends State<MapScreen> {
       Completer<GoogleMapController>();
   final TextEditingController _searchController = TextEditingController();
 
+  // ignore: unused_field
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(5.937675, 80.465649),
     zoom: 14.58,

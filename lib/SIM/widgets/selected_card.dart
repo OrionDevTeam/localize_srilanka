@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:localize_sl/colorpalate.dart';
 
 class PackageOptionsScreen extends StatelessWidget {
+  const PackageOptionsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:
           Colors.grey[100], // Background color similar to the design
       appBar: AppBar(
-        title: Text("Package options"),
+        title: const Text("Package options"),
         backgroundColor: Colors.teal, // Customize the AppBar color
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0), // Padding around the content
+      body: const Padding(
+        padding: EdgeInsets.all(16.0), // Padding around the content
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -21,7 +23,7 @@ class PackageOptionsScreen extends StatelessWidget {
               'Package type',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             // hi hello
             Row(
               children: [
@@ -32,7 +34,7 @@ class PackageOptionsScreen extends StatelessWidget {
                     isSelected: true, // Selected state
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 // Data per day button
                 Expanded(
                   child: PackageOptionButton(
@@ -42,13 +44,13 @@ class PackageOptionsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: 30),
             // SIM Card Validity section
             Text(
               'SIM card validity',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             Wrap(
               spacing: 10, // Space between buttons
               runSpacing: 10, // Space between rows of buttons
@@ -71,7 +73,7 @@ class PackageOptionButton extends StatelessWidget {
   final String label;
   final bool isSelected;
 
-  const PackageOptionButton({
+  const PackageOptionButton({super.key, 
     required this.label,
     required this.isSelected,
   });
@@ -112,7 +114,7 @@ class ValidityOptionButton extends StatelessWidget {
   final String label;
   final bool isSelected;
 
-  const ValidityOptionButton({
+  const ValidityOptionButton({super.key, 
     required this.label,
     required this.isSelected,
   });

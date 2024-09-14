@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class DescriptionSection extends StatelessWidget {
+  const DescriptionSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Description', style: TextStyle(fontWeight: FontWeight.bold)),
-        SizedBox(height: 8),
-        Text(
+        const Text('Description', style: TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
+        const Text(
           'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
           'Lorem ipsum has been the industry standard dummy text.',
           maxLines: 4,
@@ -18,7 +20,7 @@ class DescriptionSection extends StatelessWidget {
           onPressed: () {
             // Expand to show full description
           },
-          child: Text('Read More'),
+          child: const Text('Read More'),
         ),
       ],
     );

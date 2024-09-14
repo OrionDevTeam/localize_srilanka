@@ -85,7 +85,7 @@ class AdventureHomePage extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Surf with ${provider['name']}' ?? "Unknown",
+                    'Surf with ${provider['name']}',
                     style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ],

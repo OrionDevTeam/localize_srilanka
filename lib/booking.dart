@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:localize_sl/guide_pages/guide_model.dart'; // Import Firestore for username
 // import '../payment.dart';
 import 'package:localize_sl/payment.dart';
+import 'package:localize_sl/payment/payment.dart';
 
 class BookingPage extends StatelessWidget {
   final DateTime date;
@@ -239,6 +240,7 @@ class BookingPage extends StatelessWidget {
                           imageURL: imageURL,
                           guide: guide,
                         ),
+                        // builder: (context) => CardFormPage()
                       ),
                     );
                   },

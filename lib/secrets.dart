@@ -9,6 +9,8 @@ Users can chat with guides you can recommend the user to chat with the guides fo
 Each guides has published their memories and experiences in the explore part of the application you can guide the user to explore that page to learn about the experiences the guide can offer 
 
 User Details:
+
+
 - Location: Mirissa, Sri Lanka
 - Interests: Hiking, Waterfalls, Camping by the beach 
 - Duration: 5 days

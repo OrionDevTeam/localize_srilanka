@@ -263,22 +263,22 @@ class HomeScreen extends StatelessWidget {
                     destinationPage: VisaHomePage(),
                   ),
 
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Emergency SOS',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  const VisaBanner(
-                    backgroundColor: Color.fromARGB(255, 30, 108, 78),
-                    buttonColor: Color.fromARGB(255, 55, 147, 110),
-                    textColor: Colors.white,
-                    text:
-                        'You stuck anywhere in Sri Lanka? We are here to help you!',
-                    imagePath: 'assets/visa/girl.png',
-                    buttonText: 'Click here!',
-                    destinationPage: VisaHomePage(),
-                  ),
+                  // const SizedBox(height: 20),
+                  // const Text(
+                  //   'Emergency SOS',
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  // ),
+                  // const SizedBox(height: 10),
+                  // const VisaBanner(
+                  //   backgroundColor: Color.fromARGB(255, 30, 108, 78),
+                  //   buttonColor: Color.fromARGB(255, 55, 147, 110),
+                  //   textColor: Colors.white,
+                  //   text:
+                  //       'You stuck anywhere in Sri Lanka? We are here to help you!',
+                  //   imagePath: 'assets/visa/girl.png',
+                  //   buttonText: 'Click here!',
+                  //   destinationPage: VisaHomePage(),
+                  // ),
                   
 
                   const SizedBox(height: 20),

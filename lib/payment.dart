@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:localize_sl/guide_pages/guide_model.dart';
+import 'package:localize_sl/payment/payment.dart';
 import 'package:localize_sl/screens/users/user_main.dart';
-// Import UserMainPage
 
 class PaymentPage extends StatelessWidget {
   final DateTime date;
@@ -10,8 +10,8 @@ class PaymentPage extends StatelessWidget {
   final String imageURL;
   final Guide guide;
 
-  // Constructor
-  const PaymentPage({super.key, 
+  const PaymentPage({
+    super.key,
     required this.date,
     required this.time,
     required this.packageName,
@@ -25,28 +25,36 @@ class PaymentPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Payment'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            // Handle submit action and navigate to UserMainPage
-            print('Payment Submitted');
-
-            // Navigate to UserMainPage after clicking submit
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const UserPage(), // Replace with actual page
-              ),
-              (Route<dynamic> route) => false, // Removes all previous routes
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
-            backgroundColor: const Color(0xFF2A966C),
-            textStyle: const TextStyle(fontSize: 18),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Custom form widget
+          CardFormPage(), // Reuse the card form page
+      
+          const SizedBox(height: 20),
+      
+          ElevatedButton(
+            onPressed: () {
+              // Handle submit action and navigate to UserMainPage
+              print('Payment Submitted');
+      
+              // Navigate to UserMainPage after clicking submit
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const UserPage(), // Replace with actual page
+                ),
+                (Route<dynamic> route) => false, // Removes all previous routes
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 32.0),
+              backgroundColor: const Color(0xFF2A966C),
+              textStyle: const TextStyle(fontSize: 18),
+            ),
+            child: const Text('Submit', style: TextStyle(color: Colors.white)),
           ),
-          child: const Text('Submit', style: TextStyle(color: Colors.white)),
-        ),
+        ],
       ),
     );
   }

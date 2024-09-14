@@ -138,6 +138,15 @@ class userProfilePage extends StatelessWidget {
             },
             onTap2: () {},
           ),
+                    ClickableContainer(
+            icon: Iconsax.info_circle,
+            iconColor: Colors.red,
+            title: 'Emergency SOS',
+            subtitle: 'Customize your SOS settings',
+            onTap: () {
+              print('Wireless & Network tapped');
+            },
+          ),
           ClickableContainer(
             icon: Iconsax.notification,
             iconColor: Colors.blue[700],

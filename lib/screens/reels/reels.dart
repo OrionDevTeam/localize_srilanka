@@ -86,8 +86,7 @@ class SocialMediaFeed extends StatefulWidget {
 }
 
 class _SocialMediaFeedState extends State<SocialMediaFeed> {
-  final TextEditingController _searchController = TextEditingController();
-  final Offset _fabPosition = const Offset(0, 180); // Initial position
+// Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -648,8 +647,8 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
                   child: FittedBox(
                     fit: BoxFit.cover,
                     child: SizedBox(
-                      width: _controller.value.size.width ?? 0,
-                      height: _controller.value.size.height ?? 0,
+                      width: _controller.value.size.width,
+                      height: _controller.value.size.height,
                       child: VideoPlayer(_controller),
                     ),
                   ),

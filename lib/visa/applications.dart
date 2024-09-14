@@ -98,6 +98,7 @@ class _ApplicationsListState extends State<ApplicationsList> {
               onTap: () async {
                 if (status == 'Ongoing') {
                   final visaDoc = await visaRef.get();
+                  // ignore: unused_local_variable
                   final visaData =
                       visaDoc.data() as Map<String, dynamic>? ?? {};
                   // Navigate to the Visa Application Form page if status is "Ongoing"

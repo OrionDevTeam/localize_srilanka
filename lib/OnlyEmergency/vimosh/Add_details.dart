@@ -63,10 +63,6 @@ class _MapScreenState extends State<MapScreen> {
       Completer<GoogleMapController>();
   final TextEditingController _searchController = TextEditingController();
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(5.937675, 80.465649),
-    zoom: 14.58,
-  );
 
   final Set<Marker> _markers = {};
   final LatLng _center = const LatLng(5.937675, 80.465649);
@@ -186,9 +182,6 @@ class _MapScreenState extends State<MapScreen> {
       );
     });
 
-    print("-------------------------------------------");
-    print('Marker added: $placeName ---- $latLng');
-    print("-------------------------------------------");
   }
 
   Future<void> _goToPlace(LatLng latLng) async {
@@ -232,9 +225,6 @@ class _MapScreenState extends State<MapScreen> {
           ),
         );
       } else {
-        print("-------------------------------------------");
-        print('Document ${doc.id} is missing expected fields.');
-        print("-------------------------------------------");
       }
     }
 
@@ -243,7 +233,6 @@ class _MapScreenState extends State<MapScreen> {
 }
 
 _setDetailsDialog(BuildContext context, String markerId, LatLng latLng) {
-  TextEditingController titleController = TextEditingController();
   TextEditingController ratingController = TextEditingController();
   TextEditingController locationController = TextEditingController();
   TextEditingController nController = TextEditingController();
@@ -301,7 +290,6 @@ _setDetailsDialog(BuildContext context, String markerId, LatLng latLng) {
                         if (pickedFile != null) {
                           image = File(pickedFile.path);
                         } else {
-                          print('No image selected.');
                         }
                       });
                     },
@@ -373,14 +361,12 @@ Future<String> uploadImageAndReturnUrl(
     final snapshot = await uploadTask.whenComplete(() => {});
     final downloadUrl = await snapshot.ref.getDownloadURL();
 
-    print('Uploaded image URL: $downloadUrl');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Image uploaded successfully!')),
     );
 
     return downloadUrl;
   } catch (e) {
-    print('Failed to upload image: $e');
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Failed to upload image.')),
     );

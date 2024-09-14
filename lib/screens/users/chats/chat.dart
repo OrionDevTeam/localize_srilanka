@@ -29,9 +29,9 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   late types.User _currentUser;
-  late types.User _otherUser;
   String _guideProfileImageUrl = '';
   String _guideUserRole = '';
+  // ignore: unused_field
   final List<types.Message> _messages = [];
 
   @override
@@ -49,13 +49,7 @@ class _ChatPageState extends State<ChatPage> {
     final guideId = widget.guideData['id'];
 
     if (guideId != null && guideId is String) {
-      _otherUser = types.User(
-        id: guideId,
-      );
     } else {
-      _otherUser = const types.User(
-        id: 'default_user_id',
-      );
     }
   }
 
@@ -64,8 +58,6 @@ class _ChatPageState extends State<ChatPage> {
       _guideProfileImageUrl = widget.guideData['profileImageUrl'] ?? '';
       _guideUserRole = widget.guideData['user_role'] ?? '';
     });
-    print('Profile Image URL: $_guideProfileImageUrl');
-    print('User Role: $_guideUserRole');
   }
 
   void _addMessage(types.Message message) async {
@@ -192,7 +184,6 @@ class _ChatPageState extends State<ChatPage> {
         _addMessage(message);
       }
     } else {
-      print('Permission denied.');
       // Optionally show a message to the user about why the permission is needed
     }
   }
@@ -218,7 +209,6 @@ class _ChatPageState extends State<ChatPage> {
         _addMessage(message);
       }
     } else {
-      print('Permission denied.');
     }
   }
 

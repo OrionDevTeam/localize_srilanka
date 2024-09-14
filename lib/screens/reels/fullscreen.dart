@@ -73,7 +73,7 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
     }
   }
 
-  final Offset _fabPosition = const Offset(0, 180); // Initial position
+// Initial position
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +120,8 @@ class _FullScreenPostDialogState extends State<FullScreenPostDialog> {
                             child: FittedBox(
                               fit: BoxFit.cover,
                               child: SizedBox(
-                                width: _controller.value.size.width ?? 0,
-                                height: _controller.value.size.height ?? 0,
+                                width: _controller.value.size.width,
+                                height: _controller.value.size.height,
                                 child: VideoPlayer(_controller),
                               ),
                             ),

@@ -44,7 +44,7 @@ class _MapScreenState extends State<MapScreen> {
   );
 
   final Set<Marker> _markers = {};
-  final Offset _fabPosition = const Offset(0, 180); // Initial position
+// Initial position
 
   @override
   void initState() {

@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,7 +46,6 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
         _fetchChats();
         await printAllUserDocumentIds(); // Call the method here
       } catch (e) {
-        print('Error fetching current user: $e');
       }
     }
   }
@@ -55,14 +56,12 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
           await FirebaseFirestore.instance.collection('chats').get();
       final List<Map<String, dynamic>> chats = [];
 
-      print('Chats snapshot size: ${chatsSnapshot.size}');
 
       for (var chatDoc in chatsSnapshot.docs) {
         final chatData = chatDoc.data();
         String? otherUserId;
         String? userRole;
 
-        print('_currentUserRole: $_currentUserRole');
 
         if (_currentUserRole == 'Guide') {
           if (chatData['GuideID'] == _currentUser.uid) {
@@ -77,10 +76,8 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
         }
 
         if (otherUserId != null && userRole != null) {
-          print('Fetching user data for userID: $otherUserId');
           final otherUserData = await fetchUserData(otherUserId);
           if (otherUserData != null) {
-            print("Adding chat");
             chats.add({
               'chatID': chatDoc.id,
               'otherUserData': otherUserData,
@@ -94,27 +91,21 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
         _chats = chats;
       });
 
-      print('Fetched ${_chats.length} chats');
     } catch (e) {
-      print('Error fetching chats: $e');
     }
   }
 
   Future<Map<String, dynamic>?> fetchUserData(String userId) async {
     try {
-      print("userid: $userId");
       final userSnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
           .get();
 
-      print('Attempting to fetch user data for userID: $userId');
-      print('Document exists: ${userSnapshot.exists}');
-      print('Fetched document ID: ${userSnapshot.id}'); // Debug statement
+      // Debug statement
 
       if (userSnapshot.exists) {
         // Exclude 'bio' and 'email' fields from the data
-        print("hi");
         Map<String, dynamic> userData = userSnapshot.data()!;
         userData.remove('bio');
         userData.remove('email');
@@ -122,13 +113,10 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
         // Add the document id to the userData map
         userData['id'] = userSnapshot.id;
 
-        print('User data: $userData');
         return userData;
       } else {
-        print('User document does not exist for userID: $userId');
       }
     } catch (e) {
-      print('Error fetching user data for userID: $userId, error: $e');
     }
 
     return null;
@@ -139,12 +127,10 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
       final usersSnapshot =
           await FirebaseFirestore.instance.collection('users').get();
 
-      print('All document IDs in the users collection:');
+      // ignore: unused_local_variable
       for (var doc in usersSnapshot.docs) {
-        print(doc.id);
       }
     } catch (e) {
-      print('Error fetching user document IDs: $e');
     }
   }
 
@@ -323,7 +309,7 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
                               ),
                             ),
                             subtitle: Text(
-                              'LOCALIZE '+chat['userRole'] ?? '',
+                              'LOCALIZE '+chat['userRole'],
                               style: const TextStyle(
                                 fontSize: 14.0, // Adjust the font size for the subtitle
                                 color: Colors.grey, // Set the subtitle color

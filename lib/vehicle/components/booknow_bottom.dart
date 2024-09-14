@@ -31,7 +31,8 @@ class BookNowBar extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white, // Set the button color
-                  foregroundColor: const Color(0xFF2A966C), // Set the text color
+                  foregroundColor:
+                      const Color(0xFF2A966C), // Set the text color
                   shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(12), // Set the border radius

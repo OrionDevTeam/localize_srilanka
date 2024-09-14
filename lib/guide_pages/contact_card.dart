@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-
 class ContactCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
 
-  const ContactCard({super.key, 
+  const ContactCard({
+    super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
@@ -19,6 +19,7 @@ class ContactCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        color: Colors.white,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -53,7 +54,8 @@ class ContactSocialMediaCard extends StatelessWidget {
   final String posts;
   final String url;
 
-  const ContactSocialMediaCard({super.key, 
+  const ContactSocialMediaCard({
+    super.key,
     required this.icon,
     required this.platform,
     required this.followers,

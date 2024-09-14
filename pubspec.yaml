@@ -72,8 +72,10 @@ dependencies:
   intl: any
   font_awesome_flutter: ^10.7.0
   panorama_viewer: ^1.0.5
+  flutter_credit_card: ^4.0.1
   table_calendar: ^3.1.2
   glossy: ^0.0.4
+
 
 dev_dependencies:
   flutter_test:

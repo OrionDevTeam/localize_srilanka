@@ -32,9 +32,7 @@ class _ContactPageState extends State<ContactPage> {
         padding: const EdgeInsets.all(16.0),
         children: [
           GestureDetector(
-            onTap: () async {
-              
-            },
+            onTap: () async {},
             child: Card(
               child: ListTile(
                 leading: const Icon(Icons.phone),
@@ -58,23 +56,23 @@ class _ContactPageState extends State<ContactPage> {
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
                           children: [
-                            
                             const TextField(
                               style: TextStyle(
                                 color: Colors.black,
                               ),
                               decoration: InputDecoration(
-                                labelText: 'First name*',
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:Colors.grey,
-                                  ) ,
+                                  labelText: 'First name*',
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
-                              ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
                             ),
                             const SizedBox(height: 8.0),
                             const TextField(
@@ -82,17 +80,18 @@ class _ContactPageState extends State<ContactPage> {
                                 color: Colors.black,
                               ),
                               decoration: InputDecoration(
-                                labelText: 'Last name*',
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:Colors.grey,
-                                  ) ,
+                                  labelText: 'Last name*',
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
-                              ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
                             ),
                             const SizedBox(height: 8.0),
                             const TextField(
@@ -100,17 +99,18 @@ class _ContactPageState extends State<ContactPage> {
                                 color: Colors.black,
                               ),
                               decoration: InputDecoration(
-                                labelText: 'E-mail*',
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:Colors.grey,
-                                  ) ,
+                                  labelText: 'E-mail*',
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
-                              ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
                             ),
                             const SizedBox(height: 8.0),
                             const TextField(
@@ -119,17 +119,18 @@ class _ContactPageState extends State<ContactPage> {
                                 color: Colors.black,
                               ),
                               decoration: InputDecoration(
-                                labelText: 'Drop a message*',
-                                labelStyle: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color:Colors.grey,
-                                  ) ,
+                                  labelText: 'Drop a message*',
+                                  labelStyle: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black))
-                              ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black))),
                             ),
                             const SizedBox(height: 8.0),
                             ElevatedButton(
@@ -137,14 +138,14 @@ class _ContactPageState extends State<ContactPage> {
                                 // Handle form submission
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color.fromARGB(255, 22, 156, 140)
-                              ),
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 22, 156, 140)),
                               child: const Text('Submit',
-                              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight:FontWeight.bold,
-                color: Colors.white,
-              )),
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  )),
                             ),
                           ],
                         ),
@@ -164,9 +165,7 @@ class _ContactPageState extends State<ContactPage> {
           ),
           const SizedBox(height: 16.0),
           GestureDetector(
-            onTap: () async {
-              
-            },
+            onTap: () async {},
             child: Card(
               child: ListTile(
                 leading: const Icon(Icons.chat),

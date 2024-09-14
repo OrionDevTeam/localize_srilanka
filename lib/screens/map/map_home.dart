@@ -37,7 +37,7 @@ class _MapScreenState extends State<MapScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   static const LatLng _center =
-      LatLng(5.958809599999999, 80.40584129999999);
+      LatLng(5.9392353, 80.46824199999999);
   static const CameraPosition _initialCameraPosition = CameraPosition(
     target: _center,
     zoom: 13.0,
@@ -140,6 +140,7 @@ class _MapScreenState extends State<MapScreen> {
       if (data['candidates'] != null && data['candidates'].isNotEmpty) {
         final location = data['candidates'][0]['geometry']['location'];
         final latLng = LatLng(location['lat'], location['lng']);
+
 
         _addMarker(latLng, query);
         _goToPlace(latLng);

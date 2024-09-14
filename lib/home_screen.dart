@@ -233,7 +233,7 @@ class HomeScreen extends StatelessWidget {
                                       .center, // Center the content
                                   children: [
                                     Text(
-                                      'All Categories',
+                                      'Go to map',
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 15),
                                     ),
@@ -441,10 +441,10 @@ class HomeScreen extends StatelessWidget {
                   items: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const AnotherPage()),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        // );
                       },
                       child: Stack(
                         children: [
@@ -494,10 +494,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const AnotherPage()),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(builder: (context) => const AnotherPage()),
+                        // );
                       },
                       child: Stack(
                         children: [

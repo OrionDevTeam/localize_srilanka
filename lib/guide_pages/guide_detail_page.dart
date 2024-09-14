@@ -199,44 +199,48 @@ class _GuideDetailPageState extends State<GuideDetailPage> {
               const SizedBox(height: 16.0),
               // Content based on selected index
               if (_selectedIndex == 0) ...[
-                const Text(
-                  'Available Packages',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                CarouselSlider.builder(
-                  options: CarouselOptions(
-                    height: 250.0,
-                    enlargeCenterPage: true,
-                    enableInfiniteScroll: true,
-                    autoPlay: true,
-                    viewportFraction: 0.5,
-                    autoPlayInterval: const Duration(seconds: 3),
-                    autoPlayAnimationDuration:
-                        const Duration(milliseconds: 800),
-                  ),
-                  itemCount: guide!.packages.length,
-                  itemBuilder: (context, index, realIdx) {
-                    var package = guide!.packages[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VacationDetailPage(guide: guide!),
-                          ),
-                        );
-                      },
-                      child: ShortVideoThumbnail(
-                        imageRef: package['image'],
-                        description: package['price'],
+                const Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Available Packages',
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    );
-                  },
+                    ),
+                  ],
                 ),
+
+SingleChildScrollView(
+  scrollDirection: Axis.horizontal, // Enable horizontal scrolling
+  child: Row(
+    children: List.generate(guide!.packages.length, (index) {
+      var package = guide!.packages[index];
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => VacationDetailPage(guide: guide!),
+            ),
+          );
+        },
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 4.0),
+          width: 200.0,
+          height: 280, // Width of each item (adjust as needed)
+          child: ShortVideoThumbnail(
+            imageRef: package['image'],
+            description: package['price'],
+          ),
+        ),
+      );
+    }),
+  ),
+)
 
                 // const SizedBox(height: 16.0),
                 // const Text(
@@ -360,25 +364,40 @@ class ShortVideoThumbnail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(5.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        image: DecorationImage(
-          image: NetworkImage(imageRef),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Center(
-        child: Text(
-          description,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            backgroundColor: Colors.black54,
+    return Column(
+      children: [
+        Container(
+          height: 200,
+          width: 200,
+          margin: const EdgeInsets.all(5.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            image: DecorationImage(
+              image: NetworkImage(imageRef),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: const Center(
+            child: Text(
+              '',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                // backgroundColor: Colors.black54,
+              ),
+            ),
           ),
         ),
-      ),
+        const SizedBox(height: 10.0),
+        Text(
+              description,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+                // backgroundColor: Colors.black54,
+              ),
+            ),
+      ],
     );
   }
 }
@@ -410,7 +429,7 @@ class ExperienceThumbnail extends StatelessWidget {
           style: const TextStyle(
             color: Colors.white,
             fontSize: 20,
-            backgroundColor: Colors.black54,
+            // backgroundColor: Colors.black54,
           ),
         ),
       ),

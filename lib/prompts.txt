@@ -1,0 +1,60 @@
+1.	Understand User’s Time Constraints
+The model should extract information about how many days the user has and plan accordingly. For instance, if the user has “2 days,” the system should recommend nearby destinations and minimize travel time between locations to ensure a smooth and enjoyable experience.
+	2.	Tailor Recommendations Based on Location
+The model should have access to a database or API with key attractions in Sri Lanka, including regions such as Colombo, Kandy, Galle, Sigiriya, and Mirissa. It should prioritize popular tourist destinations based on the number of days available, seasonality, and user preferences (e.g., beaches, nature, history, culture).
+
+Example:
+
+	•	Day 1:
+	•	Morning: Arrive at Thalpe Beach for a relaxing start. Enjoy swimming or sunbathing.
+	•	Evening: Head to Mirissa Beach for its lively atmosphere and beautiful sunset.
+	•	Day 2:
+	•	Morning: Visit Secret Beach, a quieter spot known for its tranquility.
+	•	Evening: Explore Galle Fort, a historic site with charming streets and great night views.
+
+	3.	Trip Flow and Logistics
+The system should suggest a logical flow of destinations, considering travel time, accommodation, and key activities at each location.
+
+Example:
+
+	•	Day 1: Start the day at Thalpe Beach in the morning, then travel to Mirissa Beach for the evening. Stay overnight in a Mirissa hotel.
+	•	Day 2: Begin with a visit to Secret Beach in the morning and travel to Galle Fort in the evening. You could opt for a late-night return or stay nearby if preferred.
+
+	4.	Personalized Preferences
+The AI should inquire about or assume user preferences, such as types of activities (e.g., cultural tours, wildlife safaris, or beach relaxation). The system can tailor responses by including both major attractions and niche experiences (e.g., tea plantations, wildlife parks).
+
+Example:
+
+	•	For beach lovers: The itinerary focuses on beaches and coastal activities.
+	•	For history enthusiasts: Include more detailed exploration of Galle Fort and its historical significance.
+
+	5.	Flexible Outputs
+Provide optional activities so users can have choices based on their energy levels or interests. Include meal or restaurant recommendations.
+
+Example:
+
+	•	Day 1:
+	•	Optional Activity: Try a boat tour from Mirissa or visit a local café.
+	•	Day 2:
+	•	Optional Activity: Visit a local market or enjoy a seafood dinner in Galle.
+
+	6.	Weather and Seasonality Awareness
+The AI should consider Sri Lankan weather patterns, guiding users to areas with favorable conditions during their stay.
+
+Example:
+
+	•	Check Weather: Ensure that the beach locations are favorable and avoid monsoon-affected areas.
+	•	Adjust Plan: If it’s rainy, suggest indoor activities or museums in Galle.
+
+	7.	Budget & Transport Options
+Include estimated costs for transportation, accommodations, and transport methods (e.g., train, bus, private taxi).
+
+Example:
+
+	•	Transport: Consider renting a scooter or hiring a taxi for convenient travel between locations.
+	•	Budget Estimate: Include approximate costs for accommodation, dining, and activities.
+
+	8.	Dynamic Interaction
+The chatbot could ask clarifying questions like “Do you prefer cultural sites or beaches?” to further tailor the trip plan.
+	9.	Language Support
+Since it’s a tourism app, provide support for multiple languages, especially if the app targets international users.

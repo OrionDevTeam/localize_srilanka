@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:localize_sl/guide_pages/guide_model.dart';
-import 'guide_reserve_page.dart';
 import 'package:localize_sl/calendar.dart';
 
 class VacationDetailPage extends StatelessWidget {
@@ -113,7 +112,7 @@ class VacationDetailPage extends StatelessWidget {
                         builder: (context) => CalendarPage(
                           packageName: 'Camping',
                           imageURL : 'assets/biru/image_13.jpg',
-                          guide: guide!,
+                          guide: guide,
                         ),
                       ),
                     );

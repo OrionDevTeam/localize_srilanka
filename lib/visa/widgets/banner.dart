@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../visahome.dart';
 
 class VisaBanner extends StatelessWidget {
   final Color backgroundColor;
@@ -8,6 +7,8 @@ class VisaBanner extends StatelessWidget {
   final Color textColor;
   final String text;
   final String imagePath;
+  final String buttonText;
+  final Widget destinationPage; // Added parameter
 
   const VisaBanner({
     super.key,
@@ -16,6 +17,8 @@ class VisaBanner extends StatelessWidget {
     required this.textColor,
     required this.text,
     required this.imagePath,
+    required this.buttonText,
+    required this.destinationPage,
   });
 
   @override
@@ -25,7 +28,7 @@ class VisaBanner extends StatelessWidget {
         // Navigate to the Visa Home screen on tap
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const VisaHomePage()),
+          MaterialPageRoute(builder: (context) => destinationPage),
         );
       },
       child: Container(
@@ -56,7 +59,10 @@ class VisaBanner extends StatelessWidget {
                       width: 100, // Set width
                       child: ElevatedButton(
                         onPressed: () {
-                          // Add the logic for the button here
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => destinationPage),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: buttonColor,
@@ -67,9 +73,9 @@ class VisaBanner extends StatelessWidget {
                                 BorderRadius.circular(8), // Set border radius
                           ),
                         ),
-                        child: const Text(
-                          'Apply Now',
-                          style: TextStyle(
+                        child: Text(
+                          buttonText,
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,
                           ),

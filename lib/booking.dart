@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:localize_sl/experience/guide_details.dart';
 import 'package:localize_sl/guide_pages/guide_model.dart'; // Import Firestore for username
 // import '../payment.dart';
 import 'package:localize_sl/payment.dart';
@@ -15,7 +14,7 @@ class BookingPage extends StatelessWidget {
   final Guide guide;
 
   // Constructor
-  BookingPage({
+  const BookingPage({super.key, 
     required this.date,
     required this.time,
     required this.packageName,
@@ -88,10 +87,10 @@ class BookingPage extends StatelessWidget {
               width: double.infinity,
               padding: const EdgeInsets.all(8.0),
               decoration: BoxDecoration(
-                color: Color(0xFF2A966C).withOpacity(0.3), // Background color
+                color: const Color(0xFF2A966C).withOpacity(0.3), // Background color
                 border: Border.all(
                   // Add the border
-                  color: Color(0xFF2A966C).withOpacity(0.1), // Border color
+                  color: const Color(0xFF2A966C).withOpacity(0.1), // Border color
                   width: 2.0, // Border width
                 ),
                 borderRadius: BorderRadius.circular(12.0), // Rounded corners
@@ -126,7 +125,7 @@ class BookingPage extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                    color: Color(0xFF2A966C).withOpacity(0.3), width: 2.0),
+                    color: const Color(0xFF2A966C).withOpacity(0.3), width: 2.0),
                 borderRadius: BorderRadius.circular(15.0),
               ),
               padding: const EdgeInsets.all(12.0),
@@ -188,7 +187,7 @@ class BookingPage extends StatelessWidget {
                                   color: Color(0xFF2A966C)),
                               const SizedBox(width: 8),
                               Text(
-                                '${date.toLocal().toShortDateString()}',
+                                date.toLocal().toShortDateString(),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -209,7 +208,7 @@ class BookingPage extends StatelessWidget {
                                   color: Color(0xFF2A966C)),
                               const SizedBox(width: 8),
                               Text(
-                                '${time.format(context)}',
+                                time.format(context),
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],
@@ -245,7 +244,7 @@ class BookingPage extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    backgroundColor: Color(0xFF2A966C),
+                    backgroundColor: const Color(0xFF2A966C),
                     textStyle: const TextStyle(fontSize: 18),
                   ),
                   child: const Text('Pay and Confirm',
@@ -266,6 +265,6 @@ class BookingPage extends StatelessWidget {
 // Extension for formatting the Date
 extension DateTimeExtensions on DateTime {
   String toShortDateString() {
-    return '${this.day}/${this.month}/${this.year}';
+    return '$day/$month/$year';
   }
 }

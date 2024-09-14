@@ -266,19 +266,19 @@ class _ChatSelectionPageState extends State<ChatSelectionPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top:2, left: 16, right: 16),
+            padding: const EdgeInsets.only(top:2, left: 16, right: 16),
             child: Row(
               children: [
-                Text(
+                const Text(
                   'Chats',
                   style: TextStyle(
                     fontSize: 14.0, // Adjust the font size
                     fontWeight: FontWeight.bold, // Make the text bold
                   ),
                 ),
-                Spacer(), // Pushes the refresh button to the right
+                const Spacer(), // Pushes the refresh button to the right
                 IconButton(
-                  icon: Icon(Icons.refresh),
+                  icon: const Icon(Icons.refresh),
                   onPressed: () {
                     _fetchChats(); // Refresh chats when button is pressed
                   },

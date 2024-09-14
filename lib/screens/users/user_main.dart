@@ -73,13 +73,13 @@ class _UserPageState extends State<UserPage> {
                 strengthX: 50, // Horizontal blur strength
                 strengthY: 50, // Vertical blur strength
                 border: Border.all(
-                  color: Color(0xFF2A966C).withOpacity(0.8),
+                  color: const Color(0xFF2A966C).withOpacity(0.8),
                   width: 1.5,
                 ),
                 color: Colors.white.withOpacity(0.2),
                 boxShadow: [
                   BoxShadow(
-                    color: Color(0xFF2A966C).withOpacity(0.7),
+                    color: const Color(0xFF2A966C).withOpacity(0.7),
                     blurRadius: 10,
                     // spreadRadius: 2,
                     offset: const Offset(0, 5),

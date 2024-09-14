@@ -35,7 +35,6 @@ class _LocationState extends State<Location>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late Future<List<Map<String, dynamic>>> _hotelDetails;
-  late Future<List<Map<String, dynamic>>> _adventureDetails;
 
   @override
   void initState() {

@@ -32,7 +32,7 @@ class _ChatPageState extends State<ChatPage> {
   late types.User _otherUser;
   String _guideProfileImageUrl = '';
   String _guideUserRole = '';
-  List<types.Message> _messages = [];
+  final List<types.Message> _messages = [];
 
   @override
   void initState() {
@@ -309,7 +309,7 @@ class _ChatPageState extends State<ChatPage> {
         stream: _messagesStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -317,7 +317,7 @@ class _ChatPageState extends State<ChatPage> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No messages'));
+            return const Center(child: Text('No messages'));
           }
 
           return chat_ui.Chat(

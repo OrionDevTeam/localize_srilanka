@@ -9,7 +9,7 @@ class CalendarPage extends StatefulWidget {
   final String imageURL;
   final Guide guide;
 
-  CalendarPage({
+  const CalendarPage({super.key, 
     required this.packageName,
     required this.imageURL,
     required this.guide,
@@ -65,52 +65,51 @@ class _CalendarPageState extends State<CalendarPage> {
               onDaySelected: _onDaySelected,
               selectedDayPredicate: (day) => _isSameDay(day),
             ),
-            SizedBox(height: 16.0),
-            if (_selectedDate != null)
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4,
-                    childAspectRatio: 2,
-                  ),
-                  itemCount: 13,
-                  itemBuilder: (context, index) {
-                    final hour = 8 + index;
-                    final time = TimeOfDay(hour: hour, minute: 0);
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _selectedTime = time;
-                        });
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Colors.grey
-                                  .withOpacity(0.8),
-                              width: 0.5),
-                          borderRadius:
-                              BorderRadius.circular(12.0),
+            const SizedBox(height: 16.0),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  childAspectRatio: 2,
+                ),
+                itemCount: 13,
+                itemBuilder: (context, index) {
+                  final hour = 8 + index;
+                  final time = TimeOfDay(hour: hour, minute: 0);
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedTime = time;
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            color: Colors.grey
+                                .withOpacity(0.8),
+                            width: 0.5),
+                        borderRadius:
+                            BorderRadius.circular(12.0),
+                        color: _selectedTime == time
+                            ? const Color(0xFF2A966C)
+                            : Colors.grey[300],
+                        
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        time.format(context),
+                        style: TextStyle(
                           color: _selectedTime == time
-                              ? Color(0xFF2A966C)
-                              : Colors.grey[300],
-                          
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          time.format(context),
-                          style: TextStyle(
-                            color: _selectedTime == time
-                                ? Colors.white
-                                : Colors.black,
-                          ),
+                              ? Colors.white
+                              : Colors.black,
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
+            ),
             if (_selectedTime != null)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
@@ -122,7 +121,7 @@ class _CalendarPageState extends State<CalendarPage> {
                     child: ElevatedButton(
                     
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: Color(0xFF2A966C), // Change text color
+                        foregroundColor: Colors.white, backgroundColor: const Color(0xFF2A966C), // Change text color
                         padding: const EdgeInsets.symmetric(vertical: 16.0), // Increase button height
                         textStyle: const TextStyle(fontSize: 18), // Increase text size
                       ),

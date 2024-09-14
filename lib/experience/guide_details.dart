@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:localize_sl/guide_pages/guide_model.dart';
 
 class GuideDetailsPage extends StatelessWidget {
   final String title;

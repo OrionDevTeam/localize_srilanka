@@ -11,7 +11,7 @@ class PaymentPage extends StatelessWidget {
   final Guide guide;
 
   // Constructor
-  PaymentPage({
+  const PaymentPage({super.key, 
     required this.date,
     required this.time,
     required this.packageName,
@@ -35,7 +35,7 @@ class PaymentPage extends StatelessWidget {
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => UserPage(), // Replace with actual page
+                builder: (context) => const UserPage(), // Replace with actual page
               ),
               (Route<dynamic> route) => false, // Removes all previous routes
             );

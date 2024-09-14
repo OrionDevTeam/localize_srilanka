@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:localize_sl/chat.dart';
 import 'package:localize_sl/guide_pages/guide_list_page.dart';
+import 'package:localize_sl/visa/visahome.dart';
 
 import '../screens/map/map_home.dart';
 
@@ -255,6 +256,25 @@ class HomeScreen extends StatelessWidget {
                     text:
                         'Get Your Sri Lankan Tourist Visa Hassle-Free with Us!',
                     imagePath: 'assets/visa/girl.png',
+                    buttonText: 'Apply Now',
+                    destinationPage: VisaHomePage(),
+                  ),
+
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Emergency SOS',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 10),
+                  const VisaBanner(
+                    backgroundColor: Color.fromARGB(255, 30, 108, 78),
+                    buttonColor: Color.fromARGB(255, 55, 147, 110),
+                    textColor: Colors.white,
+                    text:
+                        'You stuck anywhere in Sri Lanka? We are here to help you!',
+                    imagePath: 'assets/visa/girl.png',
+                    buttonText: 'Click here!',
+                    destinationPage: VisaHomePage(),
                   ),
                   
 
@@ -458,7 +478,7 @@ class HomeScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 shadows: [
                                   Shadow(
-                                    offset: Offset(0, 1),
+                                    offset: const Offset(0, 1),
                                     blurRadius: 5.0,
                                     color: Colors.black.withOpacity(0.5),
                                   ),
@@ -511,7 +531,7 @@ class HomeScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 shadows: [
                                   Shadow(
-                                    offset: Offset(0, 1),
+                                    offset: const Offset(0, 1),
                                     blurRadius: 5.0,
                                     color: Colors.black.withOpacity(0.5),
                                   ),
@@ -564,7 +584,7 @@ class HomeScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 shadows: [
                                   Shadow(
-                                    offset: Offset(0, 1),
+                                    offset: const Offset(0, 1),
                                     blurRadius: 5.0,
                                     color: Colors.black.withOpacity(0.5),
                                   ),

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:localize_sl/emergency/emergency_screen.dart';
 import 'package:localize_sl/screens/users/user_help.dart';
 import 'package:localize_sl/screens/users/user_settings.dart';
 import 'package:localize_sl/screens/users/user_wallet.dart';
@@ -144,7 +145,11 @@ class userProfilePage extends StatelessWidget {
             title: 'Emergency SOS',
             subtitle: 'Customize your SOS settings',
             onTap: () {
-              print('Wireless & Network tapped');
+              // print('Wireless & Network tapped');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const EmergencyScreen()),
+              );
             },
           ),
           ClickableContainer(

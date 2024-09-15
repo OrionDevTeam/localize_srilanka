@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:dart_openai/dart_openai.dart';
 import 'package:localize_sl/secrets.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class ChatBotPage extends StatefulWidget {
   const ChatBotPage({super.key});
@@ -19,6 +23,8 @@ class _ChatBotPageState extends State<ChatBotPage> {
   late final FocusNode _focusNode;
   late final ScrollController _scrollController;
   bool _isLoading = false;
+  late FlutterTts flutterTts;
+  bool ttsStopped = true;
 
   @override
   void initState() {
@@ -35,7 +41,63 @@ class _ChatBotPageState extends State<ChatBotPage> {
         role: OpenAIChatMessageRole.system,
       ),
     );
+    initTts();
     super.initState();
+  }
+
+  initTts() async {
+    flutterTts = FlutterTts();
+
+    await flutterTts.awaitSpeakCompletion(true);
+    await flutterTts.setSharedInstance(true);
+
+    if (!kIsWeb && Platform.isAndroid) {
+      _getDefaultEngine();
+      _getDefaultVoice();
+    }
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        ttsStopped = true;
+      });
+    });
+
+    flutterTts.setCancelHandler(() {
+      setState(() {
+        ttsStopped = true;
+      });
+    });
+  }
+
+  Future<void> _getDefaultEngine() async {
+    await flutterTts.getDefaultEngine;
+  }
+
+  Future<void> _getDefaultVoice() async {
+    await flutterTts.getDefaultVoice;
+  }
+
+  Future<void> _speak(String text) async {
+    // await flutterTts.setVolume(volume);
+    // await flutterTts.setSpeechRate(rate);
+    // await flutterTts.setPitch(pitch);
+
+    if (text.isNotEmpty) {
+      setState(() {
+        ttsStopped = false;
+      });
+      await flutterTts.speak(text);
+    }
+  }
+
+  Future<void> _stop() async {
+    var result = await flutterTts.stop();
+    // if (result == 1) setState(() => ttsState = TtsState.stopped);
+    if (result == 1) {
+      setState(() {
+        ttsStopped = true;
+      });
+    }
   }
 
   @override
@@ -43,6 +105,7 @@ class _ChatBotPageState extends State<ChatBotPage> {
     _textController.dispose();
     _scrollController.dispose();
     _focusNode.dispose();
+    flutterTts.stop();
     super.dispose();
   }
 
@@ -180,49 +243,64 @@ class _ChatBotPageState extends State<ChatBotPage> {
                         },
                       ),
               ),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors
-                                .white, // Set input field background to white
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(
-                                color: Colors.green), // Adjust border color
-                          ),
-                          child: TextField(
-                            controller: _textController,
-                            focusNode: _focusNode,
-                            autofocus: true,
-                            readOnly: _isLoading,
-                            decoration: const InputDecoration(
-                              hintText: 'Ask me anything!',
-                              border: InputBorder.none, // Remove default border
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 20),
+              SafeArea(
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors
+                                  .white, // Set input field background to white
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(
+                                  color: Colors.green), // Adjust border color
                             ),
-                            onSubmitted: (_) => _onSubmitted(),
+                            child: TextField(
+                              controller: _textController,
+                              focusNode: _focusNode,
+                              autofocus: true,
+                              readOnly: _isLoading,
+                              decoration: const InputDecoration(
+                                hintText: 'Ask me anything!',
+                                border: InputBorder.none, // Remove default border
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 20),
+                              ),
+                              onSubmitted: (_) => _onSubmitted(),
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Container(
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(
-                              0xFF2A966C), // Set send button color to green
+                        const SizedBox(width: 10),
+                        Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(
+                                0xFF2A966C), // Set send button color to green
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.mic),
+                            color: Colors.white,
+                            onPressed: _isLoading ? null : _onSubmitted,
+                          ),
                         ),
-                        child: IconButton(
-                          icon: const Icon(Icons.send),
-                          color: Colors.white,
-                          onPressed: _isLoading ? null : _onSubmitted,
+                        const SizedBox(width: 10),
+                        Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(
+                                0xFF2A966C), // Set send button color to green
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.send),
+                            color: Colors.white,
+                            onPressed: _isLoading ? null : _onSubmitted,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -238,12 +316,29 @@ class _ChatBotPageState extends State<ChatBotPage> {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const CircleAvatar(
-          backgroundColor: Color(0xFFE8E8EE),
-          child: Icon(
-            Icons.support_agent,
-            color: Colors.black,
-          ),
+        Column(
+          children: [
+            const CircleAvatar(
+              backgroundColor: Color(0xFFE8E8EE),
+              child: Icon(
+                Icons.support_agent,
+                color: Colors.black,
+              ),
+            ),
+            if (!ttsStopped)
+              IconButton(
+                icon: const Icon(Icons.stop),
+                onPressed: () async {
+                  await _stop();
+                },
+              )
+            else IconButton(
+              icon: const Icon(Icons.volume_up),
+              onPressed: () async {
+                await _speak(text);
+              },
+            ),
+          ],
         ),
         Expanded(
           child: BubbleSpecialOne(

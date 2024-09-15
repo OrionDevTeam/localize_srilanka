@@ -1,4 +1,4 @@
-const openaiApiKey = "sk-proj-dk0OUSPhuk1v5BbY333IT3BlbkFJ6GaEjo4WQocEVdNdyXz0";
+const openaiApiKey = "";
 const systemPrompt = """
 You are a helpful chatbot of "Localize Sri Lanka" travel application.
 You would impersonate a human expert travel guide from Sri Lanka.

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:glossy/glossy.dart'; // Import glossy package
 import 'package:localize_sl/colorpalate.dart';
 import 'chats/chatselection.dart';
 import 'package:localize_sl/user_profile.dart';
@@ -15,10 +14,10 @@ class UserPage extends StatefulWidget {
   const UserPage({super.key});
 
   @override
-  _UserPageState createState() => _UserPageState();
+  UserPageState createState() => UserPageState();
 }
 
-class _UserPageState extends State<UserPage> {
+class UserPageState extends State<UserPage> {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   int _selectedIndex = 0; // Add selected index for navigation
   User? currentUser; // Variable to hold the logged-in user
@@ -65,8 +64,9 @@ class _UserPageState extends State<UserPage> {
             left: 10,
             right: 10,
             bottom: 10,
-            child: SafeArea( // Wrap in SafeArea to prevent overflow
-              child: Container(
+            child: SafeArea(
+              // Wrap in SafeArea to prevent overflow
+              child: SizedBox(
                 width: double.infinity,
                 height: 68,
                 // borderRadius: BorderRadius.circular(24),
@@ -116,9 +116,9 @@ class _UserPageState extends State<UserPage> {
                       ],
                       currentIndex: _selectedIndex,
                       selectedItemColor: Colors.white,
-                      unselectedItemColor:
-                          Colors.white.withOpacity(0.45),
-                      backgroundColor: Colors.transparent, // Transparent to show glossy effect
+                      unselectedItemColor: Colors.white.withOpacity(0.45),
+                      backgroundColor: Colors
+                          .transparent, // Transparent to show glossy effect
                       selectedIconTheme: const IconThemeData(size: 32),
                       unselectedIconTheme: const IconThemeData(size: 28),
                       showUnselectedLabels: false,
